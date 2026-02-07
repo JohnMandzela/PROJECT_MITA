@@ -1,0 +1,230 @@
+[gd_scene load_steps=18 format=4 uid="uid://bgjc0imd2365r"]
+
+[ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
+[ext_resource type="Texture2D" uid="uid://cy1cigkh8pc62" path="res://images/scene/Mike's_Goshivon.png" id="1_tk4w4"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_wnxb4"]
+[ext_resource type="Texture2D" uid="uid://bj7gn1t6ff36n" path="res://images/scene/Goshivon_Shadow.png" id="2_xuh38"]
+[ext_resource type="Texture2D" uid="uid://cheboonvvuebb" path="res://images/tilesets/scenes/Goshivon_Furniture.png" id="3_pl8tl"]
+[ext_resource type="Script" uid="uid://cnldbfyr42jog" path="res://scripts/shower.gd" id="5_sw8qw"]
+[ext_resource type="AudioStream" uid="uid://8kdn3iafaa1f" path="res://audio/sounds/things-toilet-1.mp3" id="6_sw8qw"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="7_glapv"]
+[ext_resource type="Script" uid="uid://dyjl1lpi8xtee" path="res://scripts/bed.gd" id="8_glapv"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="9_glapv"]
+[ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="10_qkv8r"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uicif"]
+texture = ExtResource("3_pl8tl")
+texture_region_size = Vector2i(48, 48)
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_xuh38"]
+tile_size = Vector2i(48, 48)
+sources/0 = SubResource("TileSetAtlasSource_uicif")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pl8tl"]
+size = Vector2(48, 70)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uicif"]
+size = Vector2(48, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_glapv"]
+size = Vector2(11.75, 50.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vn4g"]
+size = Vector2(46, 20.5)
+
+[node name="Mike_Room" type="Node2D"]
+script = ExtResource("1_wnxb4")
+player_scene = ExtResource("1_pd4ny")
+default_spawn_point = "Spawn_Mike_Room"
+
+[node name="TileSet" type="TileMapLayer" parent="."]
+
+[node name="TileSet_Back" type="TileMapLayer" parent="TileSet"]
+z_index = 1
+position = Vector2(24, 48)
+tile_map_data = PackedByteArray("AAAAAPv/AAAAAAEAAAAAAPz/AAAAAAIAAAD///z/AAACAAEAAAD///3/AAACAAIAAAD///v/AAACAAAAAAD+//v/AAADAAAAAAD+//z/AAADAAEAAAD+//3/AAADAAIAAAD+//7/AAAAAAMAAAD+/wAAAAAFAAIAAAA=")
+tile_set = SubResource("TileSet_xuh38")
+
+[node name="TileSet_Main" type="TileMapLayer" parent="TileSet"]
+z_index = 2
+position = Vector2(24, 48)
+tile_map_data = PackedByteArray("AAAAAPz/AAABAAAAAAAAAP3/AAABAAEAAAAAAP7/AAABAAIAAAD+////AAAFAAEAAAAAAAAAAAAGAAEAAAA=")
+tile_set = SubResource("TileSet_xuh38")
+
+[node name="TileSet_Front" type="TileMapLayer" parent="TileSet"]
+z_index = 4
+position = Vector2(24, 48)
+tile_map_data = PackedByteArray("AAD+//7/AAAFAAAAAAD+/wAAAAACAAMAAAD+/wEAAAACAAQAAAAAAAAAAAADAAMAAAAAAAEAAAADAAQAAAAAAP//AAAGAAAAAAA=")
+tile_set = SubResource("TileSet_xuh38")
+
+[node name="Mike_Room" type="Sprite2D" parent="."]
+
+[node name="Mike_Room_Texture" type="Sprite2D" parent="Mike_Room"]
+texture = ExtResource("1_tk4w4")
+
+[node name="Mike_Room_Shadow" type="Sprite2D" parent="Mike_Room"]
+z_index = 10
+texture = ExtResource("2_xuh38")
+
+[node name="Collisions" type="Node2D" parent="."]
+
+[node name="Furniture_Collisions" type="Node2D" parent="Collisions"]
+
+[node name="Bed_Collision" type="StaticBody2D" parent="Collisions/Furniture_Collisions"]
+
+[node name="Bed_CollisionShape2D" type="CollisionShape2D" parent="Collisions/Furniture_Collisions/Bed_Collision"]
+position = Vector2(48.1, -60)
+shape = SubResource("RectangleShape2D_pl8tl")
+
+[node name="Commode_Collision" type="StaticBody2D" parent="Collisions/Furniture_Collisions"]
+
+[node name="Commode_CollisionShape2D" type="CollisionShape2D" parent="Collisions/Furniture_Collisions/Commode_Collision"]
+position = Vector2(0.099998474, -87.5)
+shape = SubResource("RectangleShape2D_uicif")
+
+[node name="Shower_Collision" type="StaticBody2D" parent="Collisions/Furniture_Collisions"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions/Furniture_Collisions/Shower_Collision"]
+position = Vector2(-119.9, -240)
+polygon = PackedVector2Array(104, 144, 104, 169, 103, 178, 100, 186, 98, 189, 96, 191, 94, 192, 48, 192, 48, 144)
+
+[node name="Table_Collision" type="StaticBody2D" parent="Collisions/Furniture_Collisions"]
+
+[node name="Table_CollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions/Furniture_Collisions/Table_Collision"]
+position = Vector2(-119.9, -240)
+polygon = PackedVector2Array(48, 315, 78, 315, 83, 314, 88, 312, 91, 310, 95, 307, 99, 304, 102, 300, 104, 294, 105, 285, 105, 274, 105, 267, 104, 258, 102, 252, 97, 247, 90, 243, 85, 241, 76, 240, 48, 240)
+
+[node name="Washmashine_Collision" type="StaticBody2D" parent="Collisions/Furniture_Collisions"]
+
+[node name="Washmashine_CollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions/Furniture_Collisions/Washmashine_Collision"]
+position = Vector2(-119.9, -240)
+polygon = PackedVector2Array(48, 336, 76, 336, 80, 336, 84, 337, 88, 339, 91, 341, 93, 344, 95, 349, 97, 355, 100, 366, 102, 374, 103, 379, 104, 384, 48, 384)
+
+[node name="Kitchen_Collision" type="StaticBody2D" parent="Collisions/Furniture_Collisions"]
+
+[node name="Kitchen_CollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions/Furniture_Collisions/Kitchen_Collision"]
+position = Vector2(-113.9, -240)
+polygon = PackedVector2Array(186, 288, 153, 288, 148, 290, 143, 293, 140, 296, 138, 300, 136, 306, 133, 319, 131, 338, 130, 384, 186, 384)
+
+[node name="Wall_Collisions" type="Node2D" parent="Collisions"]
+
+[node name="Wall_Collision" type="StaticBody2D" parent="Collisions/Wall_Collisions"]
+
+[node name="Wall" type="CollisionPolygon2D" parent="Collisions/Wall_Collisions/Wall_Collision"]
+build_mode = 1
+polygon = PackedVector2Array(-24, 144, -72, 144, -72, -96, 72, -96, 72, 144, 24, 144, 16, 144, 16, 170, 24, 170, 24, 192, -24, 192, -24, 170, -16, 170, -16, 144)
+
+[node name="Ivents" type="Node2D" parent="."]
+
+[node name="Shower" type="Area2D" parent="Ivents"]
+light_mask = 4
+script = ExtResource("5_sw8qw")
+
+[node name="Label" type="Label" parent="Ivents/Shower"]
+offset_left = -165.0
+offset_top = -134.0
+offset_right = -92.0
+offset_bottom = -111.0
+text = "Душевая"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Shower"]
+polygon = PackedVector2Array(-72, -47, -28, -47, -28, -43, -30, -36, -37, -25, -41, -22, -72, -22)
+
+[node name="Toilet_Sound" type="AudioStreamPlayer" parent="Ivents/Shower"]
+stream = ExtResource("6_sw8qw")
+volume_db = -15.0
+
+[node name="Bed" type="Area2D" parent="Ivents"]
+script = ExtResource("8_glapv")
+required_direction = 3
+
+[node name="Label" type="Label" parent="Ivents/Bed"]
+offset_left = 83.0
+offset_top = -109.0
+offset_right = 150.0
+offset_bottom = -86.0
+text = "Кровать"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Bed"]
+position = Vector2(17.875, -53.25)
+shape = SubResource("RectangleShape2D_glapv")
+
+[node name="Next_Scene" parent="Ivents" instance=ExtResource("7_glapv")]
+required_direction = 1
+target_scene = "Goshivon"
+target_spawn_point = "Spawn_in_Corridor"
+
+[node name="Label" type="Label" parent="Ivents/Next_Scene"]
+offset_left = -26.0
+offset_top = 189.0
+offset_right = 27.0
+offset_bottom = 212.0
+text = "Выход"
+
+[node name="Exit_Mike_Room" type="CollisionShape2D" parent="Ivents/Next_Scene"]
+position = Vector2(0, 180.75)
+shape = SubResource("RectangleShape2D_6vn4g")
+
+[node name="Audio" type="AudioStreamPlayer" parent="Ivents/Next_Scene"]
+stream = ExtResource("10_qkv8r")
+volume_db = -15.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.4, 1.4)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("9_glapv")]
+
+[node name="Spawn_from_Corridor" type="Marker2D" parent="."]
+position = Vector2(0, 144)
+
+[node name="Spawn_Mike_Room" type="Marker2D" parent="."]
+position = Vector2(0, -48)
+
+[connection signal="body_entered" from="Ivents/Shower" to="Ivents/Shower" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Shower" to="Ivents/Shower" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Bed" to="Ivents/Bed" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Bed" to="Ivents/Bed" method="_on_body_exited"]

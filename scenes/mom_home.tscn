@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://d2ue4khhqq6ys"]
+
+[ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_uym5w"]
+[ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="2_ql3yr"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_uym5w"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="5_uym5w"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="5_wby07"]
+[ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jacmr"]
+size = Vector2(48, 15)
+
+[node name="Mom_Home" type="Node2D"]
+script = ExtResource("1_uym5w")
+player_scene = ExtResource("2_uym5w")
+default_spawn_point = "Spawn_Base"
+
+[node name="Mom_Home" type="Sprite2D" parent="."]
+texture = ExtResource("1_jacmr")
+
+[node name="Mom_Home_Texture" type="Sprite2D" parent="Mom_Home"]
+
+[node name="Mom_Home_Shadow" type="Sprite2D" parent="Mom_Home"]
+z_index = 10
+texture = ExtResource("2_ql3yr")
+
+[node name="Collisions" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Collisions"]
+
+[node name="Walls" type="CollisionPolygon2D" parent="Collisions/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -70, -72, -75, -110, -69, -135, -53, -156, -22, -168, 120, -168, 120, 216, 72, 216, 72, 264, 24, 264)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("5_wby07")]
+
+[node name="Exit_Mom_Home" parent="." instance=ExtResource("5_uym5w")]
+required_direction = 1
+target_scene = "Mike_Room"
+target_spawn_point = "Spawn_Mike_Room"
+
+[node name="Exit_Mom_Home" type="CollisionShape2D" parent="Exit_Mom_Home"]
+position = Vector2(48, 256.5)
+shape = SubResource("RectangleShape2D_jacmr")
+
+[node name="Label" type="Label" parent="Exit_Mom_Home"]
+z_index = 10
+offset_left = 22.0
+offset_top = 268.0
+offset_right = 75.0
+offset_bottom = 291.0
+text = "Выход"
+
+[node name="Audio" type="AudioStreamPlayer" parent="Exit_Mom_Home"]
+stream = ExtResource("7_mgikj")
+volume_db = -15.0
+
+[node name="Spawn_Base" type="Marker2D" parent="."]
+position = Vector2(70, -68)

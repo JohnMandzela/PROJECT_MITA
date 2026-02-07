@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://b7tjfu7r6up7y"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_iwjpk"]
+[ext_resource type="Texture2D" uid="uid://bpuchk46yp222" path="res://images/scene/corridor1floor.png" id="2_tec0y"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_yxuxe"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_iqv8y"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_iqv8y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30krv"]
+size = Vector2(46, 43)
+
+[node name="Goshivon" type="Node2D"]
+script = ExtResource("1_iwjpk")
+player_scene = ExtResource("2_yxuxe")
+default_spawn_point = "Spawn_on_Stairs"
+
+[node name="Goshivon_Texture" type="Sprite2D" parent="."]
+texture = ExtResource("2_tec0y")
+
+[node name="Walls_Collision" type="StaticBody2D" parent="."]
+
+[node name="Walls_Collision" type="CollisionPolygon2D" parent="Walls_Collision"]
+position = Vector2(0, -144)
+build_mode = 1
+polygon = PackedVector2Array(-648, 134, -648, 168, -600, 168, -600, 182, -552, 182, -552, 168, -408, 168, -408, 182, -360, 182, -360, 168, -216, 168, -216, 182, -168, 182, -168, 168, -73, 168, -72, 408, -24, 408, -24, 456, 24, 456, 24, 408, 72, 408, 72, 264, 120, 264, 120, 216, 72, 216, 72, 168, 360, 168, 360, 182, 408, 182, 408, 168, 552, 168, 552, 182, 600, 182, 600, 168, 648, 168, 648, 134, 600, 134, 600, 120, 552, 120, 552, 134, 408, 134, 408, 120, 360, 120, 360, 134, 216, 134, 216, 120, 168, 120, 168, 134, 72, 134, 72, -120, 24, -120, 24, 124, -24, 124, -24, -21, -72, -21, -72, 134, -168, 134, -168, 120, -216, 120, -216, 134, -360, 134, -360, 120, -408, 120, -408, 134, -552, 134, -552, 120, -600, 120, -600, 134)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_iqv8y")]
+
+[node name="Spawn_on_Stairs" type="Marker2D" parent="."]
+position = Vector2(47, -16)
+
+[node name="Enter_Corridor" type="Area2D" parent="."]
+script = ExtResource("5_iqv8y")
+target_scene = "Goshivon"
+target_spawn_point = "Spawn_on_Stairs"
+
+[node name="Label" type="Label" parent="Enter_Corridor"]
+offset_left = 83.0
+offset_top = -290.0
+offset_right = 135.0
+offset_bottom = -267.0
+text = "2-й этаж"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Corridor"]
+position = Vector2(48, -241.5)
+shape = SubResource("RectangleShape2D_30krv")
+
+[connection signal="body_entered" from="Enter_Corridor" to="Enter_Corridor" method="_on_body_entered"]
+[connection signal="body_exited" from="Enter_Corridor" to="Enter_Corridor" method="_on_body_exited"]

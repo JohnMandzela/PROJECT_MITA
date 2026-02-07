@@ -1,0 +1,64 @@
+extends Area2D
+
+#---------------------------------------------------------------------------------------------------
+# Варианты направления взгляда
+enum LookDirection {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+}
+# Выпадающая строка для выбора направления взгляда (в инспекторе справа)
+@export var required_direction: LookDirection = LookDirection.UP
+# Связываем с уведомлением + звук + задаем переменную player
+@onready var audio := $Toilet_Sound
+@onready var label := $Label
+var player: CharacterBody2D = null
+
+
+#---------------------------------------------------------------------------------------------------
+func _ready() -> void:
+	label.visible = false
+
+# Игрок вошел в ивент-зону
+func _on_body_entered(body: CharacterBody2D) -> void:
+	player = body
+# Игрок вышел из ивент-зоны
+func _on_body_exited(body: CharacterBody2D) -> void:
+	if body == player:
+		player = null
+		label.visible = false
+#---------------------------------------------------------------------------------------------------
+
+
+# Проверка направления взгляда
+func _is_correct_direction() -> bool:
+	match required_direction:
+		LookDirection.UP:
+			return player.last_direction == "up"
+		LookDirection.DOWN:
+			return player.last_direction == "down"
+		LookDirection.LEFT:
+			return player.last_direction == "left"
+		LookDirection.RIGHT:
+			return player.last_direction == "right"
+	return false
+
+
+#---------------------------------------------------------------------------------------------------
+# Когда игрок находится внутри ивент-зоны
+func _process(_delta: float) -> void:
+	if player == null:
+		return
+	
+	if _is_correct_direction():
+		label.visible = true
+		if Input.is_action_just_pressed("interact"):
+			_play_interact_sound()
+	else:
+		label.visible = false
+
+#Функция воспроизведения звука
+func _play_interact_sound() -> void:
+	if not audio.playing:
+		audio.play()
