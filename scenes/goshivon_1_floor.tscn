@@ -29,12 +29,13 @@ polygon = PackedVector2Array(-648, 134, -648, 168, -600, 168, -600, 182, -552, 1
 [node name="Spawn_on_Stairs" type="Marker2D" parent="."]
 position = Vector2(47, -16)
 
-[node name="Enter_Corridor" type="Area2D" parent="."]
+[node name="Enter_2_floor" type="Area2D" parent="."]
 script = ExtResource("5_iqv8y")
+exit_direction = "down"
 target_scene = "Goshivon"
 target_spawn_point = "Spawn_on_Stairs"
 
-[node name="Label" type="Label" parent="Enter_Corridor"]
+[node name="Label" type="Label" parent="Enter_2_floor"]
 offset_left = 83.0
 offset_top = -290.0
 offset_right = 135.0
@@ -44,9 +45,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Corridor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_2_floor"]
 position = Vector2(48, -241.5)
 shape = SubResource("RectangleShape2D_30krv")
 
-[connection signal="body_entered" from="Enter_Corridor" to="Enter_Corridor" method="_on_body_entered"]
-[connection signal="body_exited" from="Enter_Corridor" to="Enter_Corridor" method="_on_body_exited"]
+[connection signal="body_entered" from="Enter_2_floor" to="Enter_2_floor" method="_on_body_entered"]
+[connection signal="body_exited" from="Enter_2_floor" to="Enter_2_floor" method="_on_body_exited"]

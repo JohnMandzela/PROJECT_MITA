@@ -37,6 +37,7 @@ polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -70, 
 
 [node name="Exit_Mom_Home" parent="." instance=ExtResource("5_uym5w")]
 required_direction = 1
+exit_direction = "down"
 target_scene = "Mike_Room"
 target_spawn_point = "Spawn_Mike_Room"
 

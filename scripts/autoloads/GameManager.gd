@@ -6,10 +6,11 @@ var pending_spawn_point: String = ""
 
 var screen_fader
 var _pending_scene: String
+var saved_direction
 
 func _ready() -> void:
 	screen_fader = preload("res://scenes/system/screen_fader.tscn").instantiate()   # подзагружаем анимацию перехода
-	add_child(screen_fader)
+	add_child(screen_fader)                                                         # добавляем ее в сцену
 
 	screen_fader.fade_finished.connect(_on_fade_finished)
 
@@ -17,9 +18,9 @@ func _ready() -> void:
 func start_scene_transition(scene_path: String, spawn_point: String) -> void:
 	_pending_scene = scene_path
 	pending_spawn_point = spawn_point
-	screen_fader.fade_out()                                                     # затемняем экран
+	screen_fader.fade_out()                                                         # затемняем экран
 
 # Меняем локацию после затемнения экрана
 func _on_fade_finished() -> void:
-	get_tree().change_scene_to_file("res://scenes/" + _pending_scene + ".tscn")
-	screen_fader.fade_in()                                                      # осветляем экран
+	get_tree().change_scene_to_file("res://scenes/" + _pending_scene + ".tscn")     # смена локации
+	screen_fader.fade_in()                                                          # осветляем экран

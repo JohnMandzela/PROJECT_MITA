@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=22 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
 [ext_resource type="Texture2D" uid="uid://cy1cigkh8pc62" path="res://images/scene/Mike's_Goshivon.png" id="1_tk4w4"]
@@ -9,7 +9,9 @@
 [ext_resource type="AudioStream" uid="uid://8kdn3iafaa1f" path="res://audio/sounds/things-toilet-1.mp3" id="6_sw8qw"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="7_glapv"]
 [ext_resource type="Script" uid="uid://dyjl1lpi8xtee" path="res://scripts/bed.gd" id="8_glapv"]
+[ext_resource type="Script" uid="uid://daok3uyt8ffsd" path="res://scenes/bedside_table.gd" id="9_dxssy"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="9_glapv"]
+[ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scenes/laptop.gd" id="10_7co0a"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="10_qkv8r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uicif"]
@@ -71,7 +73,13 @@ size = Vector2(48, 70)
 size = Vector2(48, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_glapv"]
-size = Vector2(11.75, 50.5)
+size = Vector2(11, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qkv8r"]
+size = Vector2(47, 13)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7co0a"]
+size = Vector2(38, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vn4g"]
 size = Vector2(46, 20.5)
@@ -165,10 +173,11 @@ light_mask = 4
 script = ExtResource("5_sw8qw")
 
 [node name="Label" type="Label" parent="Ivents/Shower"]
-offset_left = -165.0
-offset_top = -134.0
-offset_right = -92.0
-offset_bottom = -111.0
+z_index = 10
+offset_left = -156.0
+offset_top = -142.0
+offset_right = -83.0
+offset_bottom = -119.0
 text = "Душевая"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Shower"]
@@ -178,38 +187,85 @@ polygon = PackedVector2Array(-72, -47, -28, -47, -28, -43, -30, -36, -37, -25, -
 stream = ExtResource("6_sw8qw")
 volume_db = -15.0
 
-[node name="Bed" type="Area2D" parent="Ivents"]
+[node name="Bed_Left" type="Area2D" parent="Ivents"]
 script = ExtResource("8_glapv")
 required_direction = 3
 
-[node name="Label" type="Label" parent="Ivents/Bed"]
+[node name="Label" type="Label" parent="Ivents/Bed_Left"]
+z_index = 10
 offset_left = 83.0
 offset_top = -109.0
 offset_right = 150.0
 offset_bottom = -86.0
 text = "Кровать"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Bed"]
-position = Vector2(17.875, -53.25)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Bed_Left"]
+position = Vector2(17.5, -53)
 shape = SubResource("RectangleShape2D_glapv")
 
-[node name="Next_Scene" parent="Ivents" instance=ExtResource("7_glapv")]
+[node name="Bed_Down" type="Area2D" parent="Ivents"]
+script = ExtResource("8_glapv")
+
+[node name="Label" type="Label" parent="Ivents/Bed_Down"]
+z_index = 10
+offset_left = 83.0
+offset_top = -109.0
+offset_right = 150.0
+offset_bottom = -86.0
+text = "Кровать"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Bed_Down"]
+position = Vector2(47.5, -17.5)
+shape = SubResource("RectangleShape2D_qkv8r")
+
+[node name="Bedside_Table" type="Area2D" parent="Ivents"]
+script = ExtResource("9_dxssy")
+
+[node name="Label" type="Label" parent="Ivents/Bedside_Table"]
+z_index = 10
+offset_left = 80.0
+offset_top = -176.0
+offset_right = 147.0
+offset_bottom = -153.0
+text = "Тумбочка"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Bedside_Table"]
+position = Vector2(4, -72.5)
+shape = SubResource("RectangleShape2D_7co0a")
+
+[node name="Laptop" type="Area2D" parent="Ivents"]
+script = ExtResource("10_7co0a")
+required_direction = 2
+
+[node name="Label" type="Label" parent="Ivents/Laptop"]
+z_index = 10
+offset_left = -150.0
+offset_top = -29.0
+offset_right = -78.0
+offset_bottom = -6.0
+text = "Ноутбук"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Laptop"]
+polygon = PackedVector2Array(-11, 11, -18, 8, -16, 13, -14, 27, -15, 55, -19, 64, -11, 61, -6, 54, -6, 17)
+
+[node name="Exit_Mike_Room" parent="Ivents" instance=ExtResource("7_glapv")]
 required_direction = 1
+exit_direction = "down"
 target_scene = "Goshivon"
 target_spawn_point = "Spawn_in_Corridor"
 
-[node name="Label" type="Label" parent="Ivents/Next_Scene"]
+[node name="Label" type="Label" parent="Ivents/Exit_Mike_Room"]
 offset_left = -26.0
 offset_top = 189.0
 offset_right = 27.0
 offset_bottom = 212.0
 text = "Выход"
 
-[node name="Exit_Mike_Room" type="CollisionShape2D" parent="Ivents/Next_Scene"]
+[node name="Exit_Mike_Room" type="CollisionShape2D" parent="Ivents/Exit_Mike_Room"]
 position = Vector2(0, 180.75)
 shape = SubResource("RectangleShape2D_6vn4g")
 
-[node name="Audio" type="AudioStreamPlayer" parent="Ivents/Next_Scene"]
+[node name="Audio" type="AudioStreamPlayer" parent="Ivents/Exit_Mike_Room"]
 stream = ExtResource("10_qkv8r")
 volume_db = -15.0
 
@@ -226,5 +282,11 @@ position = Vector2(0, -48)
 
 [connection signal="body_entered" from="Ivents/Shower" to="Ivents/Shower" method="_on_body_entered"]
 [connection signal="body_exited" from="Ivents/Shower" to="Ivents/Shower" method="_on_body_exited"]
-[connection signal="body_entered" from="Ivents/Bed" to="Ivents/Bed" method="_on_body_entered"]
-[connection signal="body_exited" from="Ivents/Bed" to="Ivents/Bed" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Bed_Left" to="Ivents/Bed_Left" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Bed_Left" to="Ivents/Bed_Left" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Bed_Down" to="Ivents/Bed_Down" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Bed_Down" to="Ivents/Bed_Down" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Bedside_Table" to="Ivents/Bedside_Table" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Bedside_Table" to="Ivents/Bedside_Table" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Laptop" to="Ivents/Laptop" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Laptop" to="Ivents/Laptop" method="_on_body_exited"]

@@ -6,16 +6,34 @@
 resource_name = "Player_RPG_Move"
 script/source = "extends CharacterBody2D
 
-const SPEED := 120.0
+var speed = 120.0
+var run_speed = 240.0
+var steals_speed = 70.0
+var current_speed = speed
 var last_direction := \"down\"
 var direction_vector := Vector2.ZERO
 
-func _physics_process(_delta: float) -> void:
-	# движение
-	direction_vector = Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
-	velocity = direction_vector * SPEED
+func _ready():
+	# Добавляем последнее направление взгляда
+	if GameManager.saved_direction != null:
+		last_direction = GameManager.saved_direction
+		GameManager.saved_direction = null
 
-	# направление взгляда (определяем по вводу)
+func _physics_process(_delta: float) -> void:
+	# Проверка нажатия кнопки бега (например, \"shift\")
+	if Input.is_action_pressed(\"run\"):
+		current_speed = run_speed
+	# Проверка нажатия кнопки бега (например, \"c\")
+	elif Input.is_action_pressed(\"steals\"):
+		current_speed = steals_speed
+	else:
+		current_speed = speed
+	
+	# Движение
+	direction_vector = Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
+	velocity = direction_vector * current_speed
+
+	# Направление взгляда (определяем по вводу)
 	if direction_vector.y > 0:
 		last_direction = \"down\"
 	elif direction_vector.y < 0:
@@ -26,15 +44,15 @@ func _physics_process(_delta: float) -> void:
 	elif direction_vector.x < 0:
 		last_direction = \"left\"
 
-	# определяем тип анимации
+	# Определяем тип анимации
 	var anim_type := \"idle_\"
 	if velocity.length() > 0:
 		anim_type = \"walk_\"
 
-	# проигрываем анимацию
+	# Проигрываем анимацию
 	%Player_Tileset.play(anim_type + last_direction)
 
-	# передвижение
+	# Передвижение
 	move_and_slide()
 "
 
