@@ -1,54 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://ct4wb5bpg8y5t"]
 
-[ext_resource type="Script" uid="uid://c7lnwl3foh5fg" path="res://scripts/pause_menu.gd" id="1_0tfpa"]
+[ext_resource type="PackedScene" uid="uid://jsdoohi5px74" path="res://scenes/system/pause_menu_animation.tscn" id="1_0tfpa"]
 
 [node name="Pause_Menu" type="CanvasLayer"]
 process_mode = 3
 layer = 100
 
-[node name="Pause_Menu" type="Control" parent="."]
-process_mode = 3
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_0tfpa")
-
-[node name="ColorRect" type="ColorRect" parent="Pause_Menu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.39215687)
-
-[node name="Menu_Panel" type="VBoxContainer" parent="Pause_Menu"]
-process_mode = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Continue" type="Button" parent="Pause_Menu/Menu_Panel"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 34
-text = "Продолжить"
-
-[node name="Exit_to_Main_Menu" type="Button" parent="Pause_Menu/Menu_Panel"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 34
-text = "Выйти в меню"
-
-[connection signal="pressed" from="Pause_Menu/Menu_Panel/Continue" to="Pause_Menu" method="_on_continue_pressed"]
-[connection signal="pressed" from="Pause_Menu/Menu_Panel/Exit_to_Main_Menu" to="Pause_Menu" method="_on_exit_to_main_menu_pressed"]
+[node name="pause_menu" parent="." instance=ExtResource("1_0tfpa")]

@@ -33,8 +33,6 @@ texture = ExtResource("2_ql3yr")
 build_mode = 1
 polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -70, -72, -75, -110, -69, -135, -53, -156, -22, -168, 120, -168, 120, 216, 72, 216, 72, 264, 24, 264)
 
-[node name="Pause_Menu" parent="." instance=ExtResource("5_wby07")]
-
 [node name="Exit_Mom_Home" parent="." instance=ExtResource("5_uym5w")]
 required_direction = 1
 exit_direction = "down"
@@ -59,3 +57,5 @@ volume_db = -15.0
 
 [node name="Spawn_Base" type="Marker2D" parent="."]
 position = Vector2(70, -68)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("5_wby07")]
