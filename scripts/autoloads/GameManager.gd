@@ -1,14 +1,59 @@
 extends Node
 
+
+#---------------------------------------------------------------------------------------------------------------
+# Константы для масштаба экрана в игре
+const SETTINGS_PATH := "res://scripts/autoloads/settings.cfg"
+
+# Переменные для СПАВНА игрока в сцене
 var player_scene: PackedScene = preload("res://scenes/player.tscn")
 var player: CharacterBody2D
 var pending_spawn_point: String = ""
 
+# Переменные для анимации ПЕРЕХОДА и сохранения взгляда
 var screen_fader
 var _pending_scene: String
 var saved_direction
+#---------------------------------------------------------------------------------------------------------------
 
+
+
+#---------------------------------------------------------------------------------------------------------------
+# Загружаем данные настроек
+func load_settings():
+	var config = ConfigFile.new()
+	var err = config.load(SETTINGS_PATH)
+
+	if err != OK:
+		return # если файла нет — запускаем с дефолтными
+
+	var fullscreen = config.get_value("video", "fullscreen", false)
+	var music_vol = config.get_value("audio", "music_volume", 100)
+	var sounds_vol = config.get_value("audio", "sounds_volume", 100)
+
+	# Применяем fullscreen
+	DisplayServer.window_set_mode(
+		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen 
+		else DisplayServer.WINDOW_MODE_WINDOWED
+	)
+
+	# Применяем звук
+	#AudioServer.set_bus_volume_db(
+		#AudioServer.get_bus_index("Music"), 
+		#linear_to_db(music_vol / 100.0)
+	#)
+
+	#AudioServer.set_bus_volume_db(
+		#AudioServer.get_bus_index("Sounds"), 
+		#linear_to_db(sounds_vol / 100.0)
+	#)
+#---------------------------------------------------------------------------------------------------------------
+
+
+
+#---------------------------------------------------------------------------------------------------------------
 func _ready() -> void:
+	load_settings()
 	screen_fader = preload("res://scenes/system/screen_fader.tscn").instantiate()   # подзагружаем анимацию перехода
 	add_child(screen_fader)                                                         # добавляем ее в сцену
 
@@ -24,3 +69,4 @@ func start_scene_transition(scene_path: String, spawn_point: String) -> void:
 func _on_fade_finished() -> void:
 	get_tree().change_scene_to_file("res://scenes/" + _pending_scene + ".tscn")     # смена локации
 	screen_fader.fade_in()                                                          # осветляем экран
+#---------------------------------------------------------------------------------------------------------------

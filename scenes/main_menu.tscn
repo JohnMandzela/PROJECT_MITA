@@ -99,6 +99,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 34
 text = "Новая игра"
 
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Настройки"
+
 [node name="Exit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
@@ -121,4 +126,5 @@ libraries = {
 autoplay = "main_menu_animation"
 
 [connection signal="pressed" from="VBoxContainer/New_Game" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

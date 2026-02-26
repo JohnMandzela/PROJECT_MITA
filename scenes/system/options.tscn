@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlnfdyp5s70vs"]
+
+[ext_resource type="Script" uid="uid://crjghc73tfbu3" path="res://scripts/options.gd" id="1_saqej"]
+
+[node name="Options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_saqej")
+
+[node name="Options_Menu" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -250.0
+offset_right = 400.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Options_Menu_VBox" type="VBoxContainer" parent="Options_Menu"]
+layout_mode = 2
+alignment = 1
+
+[node name="Settings_Text" type="Label" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Настройки"
+horizontal_alignment = 1
+
+[node name="Sounds" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+
+[node name="Sounds_Text" type="Label" parent="Options_Menu/Options_Menu_VBox/Sounds"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Звук"
+horizontal_alignment = 1
+
+[node name="sounds_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Sounds"]
+layout_mode = 2
+
+[node name="Music" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+
+[node name="Music_Text" type="Label" parent="Options_Menu/Options_Menu_VBox/Music"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Музыка"
+horizontal_alignment = 1
+
+[node name="music_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Music"]
+layout_mode = 2
+
+[node name="Mouse_Sensivity" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+
+[node name="Mouse_Text" type="Label" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensivity"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Чувствительность мыши"
+horizontal_alignment = 1
+
+[node name="mouse_sensitivity_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensivity"]
+layout_mode = 2
+
+[node name="Fullscreen_CheckBox" type="CheckBox" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Полноэкранный режим"
+
+[node name="Exit_to_MainMenu" type="Button" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Назад"
+
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Sounds/sounds_slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Music/music_slider" to="." method="_on_music_value_changed"]
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Mouse_Sensivity/mouse_sensitivity_slider" to="." method="_on_mouse_sensitivity_value_changed"]
+[connection signal="toggled" from="Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Options_Menu/Options_Menu_VBox/Exit_to_MainMenu" to="." method="_on_back_pressed"]

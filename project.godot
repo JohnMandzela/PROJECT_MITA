@@ -22,6 +22,11 @@ config/icon="uid://bqsxrcdk5hfja"
 
 GameManager="*res://scripts/autoloads/GameManager.gd"
 
+[display]
+
+window/size/mode=3
+window/stretch/mode="canvas_items"
+
 [input]
 
 ui_left={

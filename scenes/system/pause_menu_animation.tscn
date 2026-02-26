@@ -4,22 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://y0mm0pljq1fd" path="res://images/phone.png" id="1_n87rw"]
 [ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="3_kukqi"]
 
-[sub_resource type="Animation" id="Animation_v4r4p"]
-resource_name = "on_phone"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("..:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(441, 700), Vector2(441, 48)]
-}
-
 [sub_resource type="Animation" id="Animation_1s2dm"]
 length = 0.001
 tracks/0/type = "value"
@@ -51,6 +35,22 @@ tracks/0/keys = {
 "values": [Vector2(441, 48), Vector2(441, 700)]
 }
 
+[sub_resource type="Animation" id="Animation_v4r4p"]
+resource_name = "on_phone"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(441, 700), Vector2(441, 48)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_knqa7"]
 _data = {
 &"RESET": SubResource("Animation_1s2dm"),
@@ -79,22 +79,6 @@ bg_color = Color(0.74509805, 0.09019608, 0, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kukqi"]
 shader = ExtResource("3_kukqi")
 shader_parameter/blur_amount = 0.0
-
-[sub_resource type="Animation" id="Animation_knqa7"]
-resource_name = "blur_on"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/blur_amount")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 2.000000095]
-}
 
 [sub_resource type="Animation" id="Animation_71k7c"]
 length = 0.001
@@ -127,39 +111,27 @@ tracks/0/keys = {
 "values": [2.000000095, 0.0]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ofnjo"]
-_data = {
-&"RESET": SubResource("Animation_71k7c"),
-&"blur_off": SubResource("Animation_cmnsq"),
-&"blur_on": SubResource("Animation_knqa7")
-}
-
-[sub_resource type="Animation" id="Animation_myx47"]
-resource_name = "open_pause_menu"
+[sub_resource type="Animation" id="Animation_knqa7"]
+resource_name = "blur_on"
 length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
+tracks/0/path = NodePath(".:material:shader_parameter/blur_amount")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.7058824)]
+"values": [0.0, 2.000000095]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:z_index")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [20]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ofnjo"]
+_data = {
+&"RESET": SubResource("Animation_71k7c"),
+&"blur_off": SubResource("Animation_cmnsq"),
+&"blur_on": SubResource("Animation_knqa7")
 }
 
 [sub_resource type="Animation" id="Animation_kukqi"]
@@ -230,6 +202,34 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_myx47"]
+resource_name = "open_pause_menu"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.7058824)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:z_index")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v4r4p"]
