@@ -59,16 +59,16 @@ _data = {
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwcfo"]
-bg_color = Color(0.07450981, 0.62352943, 0, 1)
+bg_color = Color(0.55092597, 0.40609777, 0.2676155, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05uyy"]
-bg_color = Color(0.18431373, 0.8235294, 0, 1)
+bg_color = Color(0.39875236, 0.28974146, 0.18017918, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p81d2"]
-bg_color = Color(0, 0.79607844, 0, 1)
+bg_color = Color(0.61693394, 0.4633661, 0.31037748, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2nc7s"]
-bg_color = Color(0.75686276, 0, 0.1254902, 1)
+bg_color = Color(0.58303016, 0, 0.0868346, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3xb4"]
 bg_color = Color(0.58431375, 0.15294118, 0, 1)
@@ -300,6 +300,22 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
 text = "Продолжить"
+
+[node name="Options" type="Button" parent="Panel/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+text = "Настройки"
+
+[node name="Inventory" type="Button" parent="Panel/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+text = "Инвентарь"
 
 [node name="Exit_to_Main_Menu" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
