@@ -1,17 +1,21 @@
 extends Control
 
+
+# Переменные к путям данных настроек
+@onready var fullscren_checkbox_path: CheckBox = $Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox
+@onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider
+@onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/sounds_slider/sounds_slider
+@onready var mouse_sensitivity_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Mouse_Sensitivity/Mouse_slider/mouse_sensitivity_slider
+
+
 # Сохраняем данные настроек
 func save_settings():
 	var config = ConfigFile.new()
 
-	config.set_value("video", "fullscreen", 
-		$Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox.button_pressed)
-
-	config.set_value("audio", "music_volume", 
-		$Options_Menu/Options_Menu_VBox/Music/music_slider.value)
-
-	config.set_value("audio", "sounds_volume", 
-		$Options_Menu/Options_Menu_VBox/Sounds/sounds_slider.value)
+	config.set_value("video", "fullscreen", fullscren_checkbox_path.button_pressed)
+	config.set_value("audio", "music_volume", music_value_path.value)
+	config.set_value("audio", "sounds_volume", sounds_value_path.value)
+	config.set_value("mouse", "mouse_sensitivity_value", mouse_sensitivity_value_path.value)
 
 	config.save(GameManager.SETTINGS_PATH)
 
@@ -22,13 +26,16 @@ func _ready():
 	var is_full = (mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
 		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN)
 
-	$Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox.button_pressed = is_full
+	fullscren_checkbox_path.button_pressed = is_full
 
 	# Загружаем сохранённые значения громкости
 	if ProjectSettings.has_setting("game/music_volume"):
-		$Options_Menu/Options_Menu_VBox/Music/music_slider.value = ProjectSettings.get_setting("game/music_volume")
+		music_value_path.value = ProjectSettings.get_setting("game/music_volume")
 	if ProjectSettings.has_setting("game/sounds_volume"):
-		$Options_Menu/Options_Menu_VBox/Sounds/sounds_slider.value = ProjectSettings.get_setting("game/sounds_volume")
+		sounds_value_path.value = ProjectSettings.get_setting("game/sounds_volume")
+	# Загружаем сохранённые значения чувствительности мыши
+	if ProjectSettings.has_setting("game/mouse_sensitivity_value"):
+		mouse_sensitivity_value_path.value = ProjectSettings.get_setting("game/mouse_sensitivity_value")
 
 	# Применяем всё c задержкой одного кадра
 	await get_tree().process_frame
@@ -60,10 +67,10 @@ func _on_fullscreen_toggled(pressed):
 
 # Применение всех настроек при запуске сцены
 func _apply_settings():
-	_on_fullscreen_toggled($Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox.button_pressed)
-	_on_music_value_changed($Options_Menu/Options_Menu_VBox/Music/music_slider.value)
-	_on_sounds_value_changed($Options_Menu/Options_Menu_VBox/Sounds/sounds_slider.value)
-	_on_mouse_sensitivity_value_changed($Options_Menu/Options_Menu_VBox/Mouse_Sensivity/mouse_sensitivity_slider.value)
+	_on_fullscreen_toggled(fullscren_checkbox_path.button_pressed)
+	_on_music_value_changed(music_value_path.value)
+	_on_sounds_value_changed(sounds_value_path.value)
+	_on_mouse_sensitivity_value_changed(mouse_sensitivity_value_path.value)
 
 # Кнопка "Назад"
 func _on_back_pressed():

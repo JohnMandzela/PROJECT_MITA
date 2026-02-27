@@ -1,6 +1,7 @@
-[gd_scene load_steps=25 format=3 uid="uid://ca3jte36vrtpx"]
+[gd_scene load_steps=26 format=3 uid="uid://ca3jte36vrtpx"]
 
 [ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="1_0s3u6"]
+[ext_resource type="Texture2D" uid="uid://db0tilyuioce8" path="res://images/Phone_Flashlight.png" id="2_g2els"]
 
 [sub_resource type="GDScript" id="GDScript_0s3u6"]
 resource_name = "Player_RPG_Move"
@@ -13,7 +14,11 @@ var current_speed = speed
 var last_direction := \"down\"
 var direction_vector := Vector2.ZERO
 
+@onready var flashlight = $Phone_Flashlight
+var is_flashlight_on := false
+
 func _ready():
+	flashlight.enabled = false
 	# Добавляем последнее направление взгляда
 	if GameManager.saved_direction != null:
 		last_direction = GameManager.saved_direction
@@ -49,11 +54,28 @@ func _physics_process(_delta: float) -> void:
 	if velocity.length() > 0:
 		anim_type = \"walk_\"
 
+	# Поворачиваем фонарик в сторону взгляда
+	match last_direction:
+		\"right\":
+			flashlight.rotation = 0.0
+		\"left\":
+			flashlight.rotation = PI        # 180°
+		\"up\":
+			flashlight.rotation = -PI/2      # -90°
+		\"down\":
+			flashlight.rotation = PI/2       # 90°
+
 	# Проигрываем анимацию
 	%Player_Tileset.play(anim_type + last_direction)
 
 	# Передвижение
 	move_and_slide()
+
+func _process(_delta: float) -> void:
+	# Включение/выключение фонарика по клавише F
+	if Input.is_action_just_pressed(\"flashlight\"):
+		is_flashlight_on = not is_flashlight_on
+		flashlight.enabled = is_flashlight_on
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0s3u6"]
@@ -260,5 +282,8 @@ position = Vector2(-24, -86)
 sprite_frames = SubResource("SpriteFrames_sle8g")
 animation = &"idle_down"
 autoplay = "idle_down"
-frame_progress = 0.6752905
 centered = false
+
+[node name="Phone_Flashlight" type="PointLight2D" parent="."]
+z_index = 100
+texture = ExtResource("2_g2els")
