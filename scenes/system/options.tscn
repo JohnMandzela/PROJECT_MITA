@@ -35,41 +35,65 @@ theme_override_font_sizes/font_size = 32
 text = "Настройки"
 horizontal_alignment = 1
 
-[node name="Sounds" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
+[node name="Sounds" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 
-[node name="Sounds_Text" type="Label" parent="Options_Menu/Options_Menu_VBox/Sounds"]
+[node name="Sounds_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
+layout_mode = 2
+
+[node name="Sounds_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Sounds/Sounds_Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Звук"
 horizontal_alignment = 1
 
-[node name="sounds_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Sounds"]
+[node name="sounds_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
 layout_mode = 2
 
-[node name="Music" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
+[node name="sounds_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Sounds/sounds_slider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Music" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 
-[node name="Music_Text" type="Label" parent="Options_Menu/Options_Menu_VBox/Music"]
+[node name="Music_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
+layout_mode = 2
+
+[node name="Music_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Music/Music_Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Музыка"
 horizontal_alignment = 1
 
-[node name="music_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Music"]
+[node name="Music_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
 layout_mode = 2
 
-[node name="Mouse_Sensivity" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
+[node name="music_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Music/Music_slider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Mouse_Sensitivity" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 
-[node name="Mouse_Text" type="Label" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensivity"]
+[node name="Mouse_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensitivity"]
+layout_mode = 2
+
+[node name="Mouse_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensitivity/Mouse_Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Чувствительность мыши"
 horizontal_alignment = 1
 
-[node name="mouse_sensitivity_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensivity"]
+[node name="Mouse_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensitivity"]
 layout_mode = 2
+
+[node name="mouse_sensitivity_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensitivity/Mouse_slider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 
 [node name="Fullscreen_CheckBox" type="CheckBox" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
@@ -81,8 +105,5 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Назад"
 
-[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Sounds/sounds_slider" to="." method="_on_sounds_value_changed"]
-[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Music/music_slider" to="." method="_on_music_value_changed"]
-[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Mouse_Sensivity/mouse_sensitivity_slider" to="." method="_on_mouse_sensitivity_value_changed"]
 [connection signal="toggled" from="Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="Options_Menu/Options_Menu_VBox/Exit_to_MainMenu" to="." method="_on_back_pressed"]
