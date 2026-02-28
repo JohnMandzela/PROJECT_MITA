@@ -186,6 +186,8 @@ polygon = PackedVector2Array(-72, -47, -28, -47, -28, -43, -30, -36, -37, -25, -
 [node name="Toilet_Sound" type="AudioStreamPlayer" parent="Ivents/Shower"]
 stream = ExtResource("6_sw8qw")
 volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
 
 [node name="Bed_Left" type="Area2D" parent="Ivents"]
 script = ExtResource("8_glapv")
@@ -268,6 +270,7 @@ shape = SubResource("RectangleShape2D_6vn4g")
 [node name="Audio" type="AudioStreamPlayer" parent="Ivents/Exit_Mike_Room"]
 stream = ExtResource("10_qkv8r")
 volume_db = -15.0
+bus = &"Sounds"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.4, 1.4)

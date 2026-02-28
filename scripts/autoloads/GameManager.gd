@@ -3,7 +3,7 @@ extends Node
 
 #---------------------------------------------------------------------------------------------------------------
 # Константы для масштаба экрана в игре
-const SETTINGS_PATH := "res://scripts/autoloads/settings.cfg"
+var SETTINGS_PATH := "res://scripts/autoloads/settings.cfg"
 
 # Переменные для СПАВНА игрока в сцене
 var player_scene: PackedScene = preload("res://scenes/player.tscn")
@@ -38,15 +38,15 @@ func load_settings():
 	)
 
 	# Применяем звук
-	#AudioServer.set_bus_volume_db(
-		#AudioServer.get_bus_index("Music"), 
-		#linear_to_db(music_vol / 100.0)
-	#)
+	AudioServer.set_bus_volume_db(
+		AudioServer.get_bus_index("Music"), 
+		linear_to_db(music_vol / 100.0)
+	)
 
-	#AudioServer.set_bus_volume_db(
-		#AudioServer.get_bus_index("Sounds"), 
-		#linear_to_db(sounds_vol / 100.0)
-	#)
+	AudioServer.set_bus_volume_db(
+		AudioServer.get_bus_index("Sounds"), 
+		linear_to_db(sounds_vol / 100.0)
+	)
 #---------------------------------------------------------------------------------------------------------------
 
 

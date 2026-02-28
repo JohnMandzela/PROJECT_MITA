@@ -20,7 +20,7 @@ func save_settings():
 	config.save(GameManager.SETTINGS_PATH)
 
 
-func _ready():
+func _ready():	
 	# Ставим галочку на Fullscreen
 	var mode = DisplayServer.window_get_mode()
 	var is_full = (mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
@@ -28,9 +28,17 @@ func _ready():
 
 	fullscren_checkbox_path.button_pressed = is_full
 
-	# Загружаем сохранённые значения громкости
-	if ProjectSettings.has_setting("game/music_volume"):
-		music_value_path.value = ProjectSettings.get_setting("game/music_volume")
+	var config = ConfigFile.new()
+	var err = config.load(GameManager.SETTINGS_PATH)
+
+	if err == OK:
+		var music : float = config.get_value("audio", "music_volume", 0.0)
+		music_value_path.value = music
+
+	# Загружаем сохранённые значения громкости музыки
+	#if ProjectSettings.has_setting("game/music_volume"):
+		#music_value_path.value = ProjectSettings.get_setting("game/music_volume")
+	# Загружаем сохранённые значения громкости звуков
 	if ProjectSettings.has_setting("game/sounds_volume"):
 		sounds_value_path.value = ProjectSettings.get_setting("game/sounds_volume")
 	# Загружаем сохранённые значения чувствительности мыши
@@ -44,15 +52,13 @@ func _ready():
 
 # Сигнал слайдера эффектов
 func _on_sounds_value_changed(value):
-	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), linear_to_db(value / 100.0))
-	#ProjectSettings.set_setting("game/sounds_volume", value)
-	pass
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), value)
+	save_settings()
 
 # Сигнал слайдера музыки
 func _on_music_value_changed(value):
-	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value / 100.0))
-	#ProjectSettings.set_setting("game/music_volume", value)
-	pass
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), value)
+	save_settings()
 
 func _on_mouse_sensitivity_value_changed(value):
 	pass

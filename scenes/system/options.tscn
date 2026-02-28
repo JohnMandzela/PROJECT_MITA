@@ -54,6 +54,8 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+min_value = -20.0
+max_value = 0.0
 
 [node name="Music" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
@@ -74,6 +76,8 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+min_value = -20.0
+max_value = 0.0
 
 [node name="Mouse_Sensitivity" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
@@ -94,6 +98,8 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+min_value = -20.0
+max_value = 0.0
 
 [node name="Fullscreen_CheckBox" type="CheckBox" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
@@ -105,5 +111,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Назад"
 
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Sounds/sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
 [connection signal="toggled" from="Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="Options_Menu/Options_Menu_VBox/Exit_to_MainMenu" to="." method="_on_back_pressed"]

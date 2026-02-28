@@ -18,6 +18,10 @@ boot_splash/fullsize=false
 boot_splash/image="uid://0tfcbp2bqbm4"
 config/icon="uid://bqsxrcdk5hfja"
 
+[audio]
+
+buses/default_bus_layout="res://audio/default_bus_layout.tres"
+
 [autoload]
 
 GameManager="*res://scripts/autoloads/GameManager.gd"

@@ -1,8 +1,9 @@
 extends Control
 
+@onready var audio : AudioStreamPlayer = get_node_or_null("Menu_Theme")
 
 func _ready() -> void:
-	pass
+	_play_interact_sound()
 
 func _process(_delta: float) -> void:
 	pass
@@ -17,3 +18,7 @@ func _on_options_button_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
+
+func _play_interact_sound() -> void:
+	if not audio.playing:
+		audio.play()
