@@ -19,6 +19,8 @@ var is_flashlight_on := false
 
 func _ready():
 	flashlight.enabled = false
+	flashlight.shadow_enabled = false   # Отключаем тени для фонарика
+	flashlight.light_mask = 1            # Включаем световой маскировки, чтобы свет игнорировал другие тени
 	# Добавляем последнее направление взгляда
 	if GameManager.saved_direction != null:
 		last_direction = GameManager.saved_direction

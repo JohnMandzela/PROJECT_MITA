@@ -4,6 +4,13 @@
 
 [node name="PlayerWithCamera" instance=ExtResource("1_uahj1")]
 
+[node name="Player_Tileset" parent="." index="1"]
+light_mask = 2
+visibility_layer = 2
+
 [node name="Camera2D" type="Camera2D" parent="." index="2"]
 position = Vector2(0, -45)
 zoom = Vector2(1.7, 1.7)
+
+[node name="Phone_Flashlight" parent="." index="3"]
+shadow_enabled = true
