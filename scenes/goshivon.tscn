@@ -167,7 +167,6 @@ frame_progress = 1.0
 [node name="Audio" type="AudioStreamPlayer" parent="Door_Mike_Room/Enter_Mike_Room"]
 stream = ExtResource("8_y5ma7")
 volume_db = -15.0
-bus = &"Sounds"
 
 [connection signal="body_entered" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_entered"]
 [connection signal="body_exited" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_exited"]

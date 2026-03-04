@@ -14,10 +14,20 @@ enum LookDirection {
 @onready var label := $Label
 var player: CharacterBody2D = null
 
+@export var dialogue: DialogueResource
+var is_dialogue_running := false
 
 #---------------------------------------------------------------------------------------------------
 func _ready() -> void:
 	label.visible = false
+	if not Engine.is_embedded_in_editor:
+		var window: Window = get_viewport()
+		var screen_index: int = DisplayServer.get_primary_screen()
+		window.position = Vector2(DisplayServer.screen_get_position(screen_index)) + (DisplayServer.screen_get_size(screen_index) - window.size) * 0.5
+		window.mode = Window.MODE_WINDOWED
+
+	var dialogue_manager = Engine.get_singleton("DialogueManager")
+	dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
 
 # Игрок вошел в ивент-зону
 func _on_body_entered(body: CharacterBody2D) -> void:
@@ -28,7 +38,6 @@ func _on_body_exited(body: CharacterBody2D) -> void:
 		player = null
 		label.visible = false
 #---------------------------------------------------------------------------------------------------
-
 
 # Проверка направления взгляда
 func _is_correct_direction() -> bool:
@@ -52,7 +61,15 @@ func _process(_delta: float) -> void:
 	
 	if _is_correct_direction():
 		label.visible = true
-		if Input.is_action_just_pressed("interact"):
-			print('Взаимодействие с объектом')
+		if Input.is_action_just_pressed("interact") and is_dialogue_running == false:
+			is_dialogue_running = true
+			var dialogue_manager = Engine.get_singleton("DialogueManager")
+			dialogue_manager.show_dialogue_balloon(dialogue)
 	else:
 		label.visible = false
+
+#region Signals 
+func _on_dialogue_ended(_resource: DialogueResource): 
+	await get_tree().create_timer(0.1).timeout
+	is_dialogue_running = false
+#endregion

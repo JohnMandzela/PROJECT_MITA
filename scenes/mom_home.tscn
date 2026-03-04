@@ -1,29 +1,36 @@
-[gd_scene load_steps=9 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=12 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_uym5w"]
-[ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="2_ql3yr"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_uym5w"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="5_uym5w"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="5_wby07"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
+[ext_resource type="Script" uid="uid://cry7nlc0ddq8d" path="res://scenes/dialogue_test.gd" id="8_pd21m"]
+[ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="9_mv7xs"]
+[ext_resource type="Resource" uid="uid://vreb14xfkllx" path="res://dialogues/test.dialogue" id="9_pjgex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jacmr"]
 size = Vector2(48, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pjgex"]
+size = Vector2(147, 56)
 
 [node name="Mom_Home" type="Node2D"]
 script = ExtResource("1_uym5w")
 player_scene = ExtResource("2_uym5w")
 default_spawn_point = "Spawn_Base"
 
-[node name="Mom_Home" type="Sprite2D" parent="."]
+[node name="Mom_Home_Parallax" type="Parallax2D" parent="."]
+
+[node name="Mom_Home_Texture" type="Sprite2D" parent="Mom_Home_Parallax"]
 texture = ExtResource("1_jacmr")
 
-[node name="Mom_Home_Texture" type="Sprite2D" parent="Mom_Home"]
-
-[node name="Mom_Home_Shadow" type="Sprite2D" parent="Mom_Home"]
-z_index = 10
-texture = ExtResource("2_ql3yr")
+[node name="Shadow" type="PointLight2D" parent="Mom_Home_Parallax"]
+blend_mode = 2
+range_z_max = 3
+shadow_enabled = true
+texture = ExtResource("9_mv7xs")
 
 [node name="Collisions" type="Node2D" parent="."]
 
@@ -54,9 +61,18 @@ text = "Выход"
 [node name="Audio" type="AudioStreamPlayer" parent="Exit_Mom_Home"]
 stream = ExtResource("7_mgikj")
 volume_db = -15.0
-bus = &"Sounds"
 
 [node name="Spawn_Base" type="Marker2D" parent="."]
 position = Vector2(70, -68)
 
 [node name="Pause_Menu" parent="." instance=ExtResource("5_wby07")]
+
+[node name="DialogueTest" type="Area2D" parent="."]
+script = ExtResource("8_pd21m")
+dialogue = ExtResource("9_pjgex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DialogueTest"]
+position = Vector2(-2.5, -141)
+shape = SubResource("RectangleShape2D_pjgex")
+
+[connection signal="body_entered" from="DialogueTest" to="DialogueTest" method="_on_body_entered"]

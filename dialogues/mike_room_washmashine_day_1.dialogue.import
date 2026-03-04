@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://cj4habhql37v7"
+path="res://.godot/imported/mike_room_washmashine_day_1.dialogue-1696959bb2569e86c9fdfaa54ddd1bbf.tres"
+
+[deps]
+
+source_file="res://dialogues/mike_room_washmashine_day_1.dialogue"
+dest_files=["res://.godot/imported/mike_room_washmashine_day_1.dialogue-1696959bb2569e86c9fdfaa54ddd1bbf.tres"]
+
+[params]
+
+defaults=true

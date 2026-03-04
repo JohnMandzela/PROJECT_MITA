@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://bhjvw8gdubary"
+path="res://.godot/imported/mike_room_fridge_day_1.dialogue-1649044e8a283b5592c854d326f71a01.tres"
+
+[deps]
+
+source_file="res://dialogues/mike_room_fridge_day_1.dialogue"
+dest_files=["res://.godot/imported/mike_room_fridge_day_1.dialogue-1649044e8a283b5592c854d326f71a01.tres"]
+
+[params]
+
+defaults=true

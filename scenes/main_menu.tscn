@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dbg1xkfmi17eg"]
 
 [ext_resource type="Script" uid="uid://kkb06l5r6ctm" path="res://scripts/main_menu.gd" id="1_l6cm7"]
-[ext_resource type="AudioStream" uid="uid://bk6al3gxa2up6" path="res://audio/Darkness Music.mp3" id="2_ekxnf"]
+[ext_resource type="FontFile" uid="uid://d2qut3oc24aa" path="res://Sanek's files/Impact.otf" id="2_ekxnf"]
 
 [sub_resource type="Animation" id="Animation_ekxnf"]
 length = 0.001
@@ -81,6 +81,19 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l6cm7")
 
+[node name="TitleLabel" type="Label" parent="."]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 0
+offset_left = 447.0
+offset_top = 69.0
+offset_right = 698.0
+offset_bottom = 147.0
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 31
+text = "PROJECT_MITA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -97,16 +110,19 @@ grow_vertical = 2
 
 [node name="New_Game" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 34
 text = "Новая игра"
 
 [node name="Options" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 34
 text = "Настройки"
 
 [node name="Exit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 34
 text = "Выход"
 
@@ -125,11 +141,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_bqqt6")
 }
 autoplay = "main_menu_animation"
-
-[node name="Menu_Theme" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_ekxnf")
-bus = &"Music"
-playback_type = 1
 
 [connection signal="pressed" from="VBoxContainer/New_Game" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_button_pressed"]
