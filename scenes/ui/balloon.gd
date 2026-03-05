@@ -1,7 +1,6 @@
 extends CanvasLayer
 ## A basic dialogue balloon for use with Dialogue Manager.
 
-
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource
 
@@ -65,6 +64,9 @@ var mutation_cooldown: Timer = Timer.new()
 ## The menu of responses
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
 
+@onready var left_portrait: CharacterPortrait = %LeftPortrait
+@onready var right_portrait: CharacterPortrait = %RightPortrait
+
 ## Indicator to show that player can progress dialogue.
 @onready var progress: Polygon2D = %Progress
 
@@ -127,8 +129,18 @@ func apply_dialogue_line() -> void:
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
 
-	character_label.visible = not dialogue_line.character.is_empty()
-	character_label.text = tr(dialogue_line.character, "dialogue")
+	var character := dialogue_line.character
+	character_label.visible = not character.is_empty()
+	character_label.text = tr(character, "dialogue")
+	
+	# временный хардкод
+	# TODO: сделать нормально
+	if character == 'Майк':
+		left_portrait.set_active()
+		right_portrait.set_inactive()
+	elif not character.is_empty():
+		left_portrait.set_inactive()
+		right_portrait.set_active()
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
@@ -145,23 +157,30 @@ func apply_dialogue_line() -> void:
 		dialogue_label.type_out()
 		await dialogue_label.finished_typing
 
-	# Wait for next line
+	# TODO: а будет ли озвучка? если нет, можно это убрать
 	if dialogue_line.has_tag("voice"):
 		audio_stream_player.stream = load(dialogue_line.get_tag_value("voice"))
 		audio_stream_player.play()
 		await audio_stream_player.finished
 		next(dialogue_line.next_id)
-	elif dialogue_line.responses.size() > 0:
+		return
+	
+	# Отображаем варианты ответа
+	if dialogue_line.responses:
 		balloon.focus_mode = Control.FOCUS_NONE
 		responses_menu.show()
-	elif dialogue_line.time != "":
+		return
+	
+	if dialogue_line.time != "":
 		var time: float = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
 		await get_tree().create_timer(time).timeout
 		next(dialogue_line.next_id)
-	else:
-		is_waiting_for_input = true
-		balloon.focus_mode = Control.FOCUS_ALL
-		balloon.grab_focus()
+		return
+	
+	# Иначе захватываем фокус и ждём ввода игрока
+	is_waiting_for_input = true
+	balloon.focus_mode = Control.FOCUS_ALL
+	balloon.grab_focus()
 
 
 ## Go to the next line

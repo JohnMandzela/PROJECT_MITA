@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca26smv8k04hh"]
+
+[ext_resource type="Script" uid="uid://dtxtjaav08262" path="res://scenes/ui/character_portrait.gd" id="1_gt2jc"]
+
+[node name="CharacterPortrait" type="TextureRect"]
+offset_right = 384.0
+offset_bottom = 532.0
+expand_mode = 1
+script = ExtResource("1_gt2jc")
