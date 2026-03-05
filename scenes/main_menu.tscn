@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbg1xkfmi17eg"]
+[gd_scene load_steps=7 format=3 uid="uid://dbg1xkfmi17eg"]
 
 [ext_resource type="Script" uid="uid://kkb06l5r6ctm" path="res://scripts/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="AudioStream" uid="uid://bk6al3gxa2up6" path="res://audio/Darkness Music.mp3" id="2_bqqt6"]
 [ext_resource type="FontFile" uid="uid://d2qut3oc24aa" path="res://Sanek's files/Impact.otf" id="2_ekxnf"]
 
 [sub_resource type="Animation" id="Animation_ekxnf"]
@@ -80,6 +81,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l6cm7")
+menu_theme = ExtResource("2_bqqt6")
 
 [node name="TitleLabel" type="Label" parent="."]
 modulate = Color(1, 1, 0, 1)
@@ -94,7 +96,7 @@ text = "PROJECT_MITA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Buttons_VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -108,23 +110,99 @@ offset_bottom = 27.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="New_Game" type="Button" parent="VBoxContainer"]
+[node name="New_Game" type="Button" parent="Buttons_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 34
 text = "Новая игра"
 
-[node name="Options" type="Button" parent="VBoxContainer"]
+[node name="Options" type="Button" parent="Buttons_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 34
 text = "Настройки"
 
-[node name="Exit" type="Button" parent="VBoxContainer"]
+[node name="Exit" type="Button" parent="Buttons_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 34
 text = "Выход"
+
+[node name="Options_Menu" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -250.0
+offset_right = 400.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Options_Menu_VBox" type="VBoxContainer" parent="Options_Menu"]
+layout_mode = 2
+alignment = 1
+
+[node name="Settings_Text" type="Label" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Настройки"
+horizontal_alignment = 1
+
+[node name="Sounds" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+
+[node name="Sounds_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
+layout_mode = 2
+
+[node name="Sounds_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Sounds/Sounds_Text"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Звук"
+horizontal_alignment = 1
+
+[node name="Sounds_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
+layout_mode = 2
+
+[node name="sounds_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+
+[node name="Music" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+
+[node name="Music_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
+layout_mode = 2
+
+[node name="Music_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Music/Music_Text"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Музыка"
+horizontal_alignment = 1
+
+[node name="Music_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
+layout_mode = 2
+
+[node name="music_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Music/Music_slider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+
+[node name="Fullscreen_CheckBox" type="CheckBox" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Полноэкранный режим"
+
+[node name="Exit_to_MainMenu" type="Button" parent="Options_Menu/Options_Menu_VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Назад"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -142,6 +220,10 @@ libraries = {
 }
 autoplay = "main_menu_animation"
 
-[connection signal="pressed" from="VBoxContainer/New_Game" to="." method="_on_new_game_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="Buttons_VBox/New_Game" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="Buttons_VBox/Options" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="Buttons_VBox/Exit" to="." method="_on_exit_pressed"]
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
+[connection signal="toggled" from="Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Options_Menu/Options_Menu_VBox/Exit_to_MainMenu" to="." method="_on_back_pressed"]

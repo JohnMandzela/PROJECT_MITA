@@ -404,6 +404,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+step = 5.0
 
 [node name="Music" type="VBoxContainer" parent="Panel/VBoxOptions"]
 layout_mode = 2
@@ -424,26 +425,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-
-[node name="Mouse_Sensivity" type="VBoxContainer" parent="Panel/VBoxOptions"]
-layout_mode = 2
-
-[node name="Mouse_Text" type="HBoxContainer" parent="Panel/VBoxOptions/Mouse_Sensivity"]
-layout_mode = 2
-
-[node name="Mouse_Label" type="Label" parent="Panel/VBoxOptions/Mouse_Sensivity/Mouse_Text"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Чувствительность мыши"
-horizontal_alignment = 1
-
-[node name="Mouse_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Mouse_Sensivity"]
-layout_mode = 2
-
-[node name="mouse_sensitivity_slider" type="HSlider" parent="Panel/VBoxOptions/Mouse_Sensivity/Mouse_slider"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
+step = 5.0
 
 [node name="Fullscreen_CheckBox" type="CheckBox" parent="Panel/VBoxOptions"]
 layout_mode = 2
@@ -519,5 +501,7 @@ libraries = {
 [connection signal="pressed" from="Panel/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
 [connection signal="toggled" from="Panel/VBoxOptions/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="Panel/VBoxOptions/Back_to_Pause_Menu" to="." method="_on_back_to_pause_menu_pressed"]

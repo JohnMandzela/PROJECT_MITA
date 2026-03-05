@@ -61,6 +61,8 @@ text = "Выход"
 [node name="Audio" type="AudioStreamPlayer" parent="Exit_Mom_Home"]
 stream = ExtResource("7_mgikj")
 volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
 
 [node name="Spawn_Base" type="Marker2D" parent="."]
 position = Vector2(70, -68)

@@ -9,18 +9,18 @@
 [ext_resource type="AudioStream" uid="uid://8kdn3iafaa1f" path="res://audio/sounds/things-toilet-1.mp3" id="6_sw8qw"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="7_glapv"]
 [ext_resource type="Script" uid="uid://dyjl1lpi8xtee" path="res://scripts/bed.gd" id="8_glapv"]
-[ext_resource type="Script" uid="uid://daok3uyt8ffsd" path="res://scenes/bedside_table.gd" id="9_dxssy"]
+[ext_resource type="Script" uid="uid://daok3uyt8ffsd" path="res://scripts/bedside_table.gd" id="9_dxssy"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="9_glapv"]
 [ext_resource type="Resource" uid="uid://igbqwnik8w8l" path="res://dialogues/mike_room_bed_day_1.dialogue" id="9_mln6f"]
-[ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scenes/laptop.gd" id="10_7co0a"]
+[ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scripts/laptop.gd" id="10_7co0a"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="10_qkv8r"]
 [ext_resource type="Resource" uid="uid://d3cll1ve50fou" path="res://dialogues/mike_room_bedside_table_day_1.dialogue" id="11_u5pas"]
 [ext_resource type="Resource" uid="uid://bawo48rrdm7cy" path="res://dialogues/mike_room_laptop_day_1.dialogue" id="13_ni8v6"]
 [ext_resource type="Resource" uid="uid://cj4habhql37v7" path="res://dialogues/mike_room_washmashine_day_1.dialogue" id="14_citmd"]
-[ext_resource type="Script" uid="uid://blmybw3fqfnj1" path="res://scenes/fridge.gd" id="14_mmqfk"]
+[ext_resource type="Script" uid="uid://blmybw3fqfnj1" path="res://scripts/fridge.gd" id="14_mmqfk"]
 [ext_resource type="Resource" uid="uid://bhjvw8gdubary" path="res://dialogues/mike_room_fridge_day_1.dialogue" id="15_nlhcy"]
-[ext_resource type="Script" uid="uid://swu7t1ijfn5k" path="res://scenes/washmashine.gd" id="16_ii5wq"]
-[ext_resource type="Script" uid="uid://dq2ri7i2q6d7r" path="res://scenes/sink.gd" id="18_ii5wq"]
+[ext_resource type="Script" uid="uid://swu7t1ijfn5k" path="res://scripts/washmashine.gd" id="16_ii5wq"]
+[ext_resource type="Script" uid="uid://dq2ri7i2q6d7r" path="res://scripts/sink.gd" id="18_ii5wq"]
 [ext_resource type="Resource" uid="uid://dx10ur2ojuy7i" path="res://dialogues/mike_room_sink_day_1.dialogue" id="19_u6sxl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uicif"]
@@ -198,6 +198,8 @@ polygon = PackedVector2Array(-72, -47, -28, -47, -28, -43, -30, -36, -37, -25, -
 [node name="Toilet_Sound" type="AudioStreamPlayer" parent="Ivents/Shower"]
 stream = ExtResource("6_sw8qw")
 volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
 
 [node name="Bed_Left" type="Area2D" parent="Ivents"]
 script = ExtResource("8_glapv")
@@ -333,6 +335,8 @@ shape = SubResource("RectangleShape2D_6vn4g")
 [node name="Audio" type="AudioStreamPlayer" parent="Ivents/Exit_Mike_Room"]
 stream = ExtResource("10_qkv8r")
 volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.4, 1.4)
