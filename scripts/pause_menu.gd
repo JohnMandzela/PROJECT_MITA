@@ -5,11 +5,11 @@ extends Control
 @onready var fullscren_checkbox_path: CheckBox = $Panel/VBoxOptions/Fullscreen_CheckBox
 @onready var music_value_path: HSlider = $Panel/VBoxOptions/Music/Music_slider/music_slider
 @onready var sounds_value_path: HSlider = $Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider
-@onready var mouse_sensitivity_value_path: HSlider = $Panel/VBoxOptions/Mouse_Sensivity/Mouse_slider/mouse_sensitivity_slider
 
 @onready var pause_menu_ui: VBoxContainer = $Panel/VBoxContainer
 @onready var menu_options: VBoxContainer = $Panel/VBoxOptions
 var menu_open = 0
+var loading_settings := true
 
 @onready var anim_on_off: AnimationPlayer = $Screen_Fader_Animation/OnOff_Screen_Fader/AnimationPlayer
 @onready var anim_exit: AnimationPlayer = $Screen_Fader_Animation/Exit_Screen_Fader/AnimationPlayer
@@ -27,7 +27,6 @@ func save_settings():
 	config.set_value("video", "fullscreen", fullscren_checkbox_path.button_pressed)
 	config.set_value("audio", "music_volume", music_value_path.value)
 	config.set_value("audio", "sounds_volume", sounds_value_path.value)
-	config.set_value("mouse", "mouse_sensitivity_value", mouse_sensitivity_value_path.value)
 
 	config.save(GameManager.SETTINGS_PATH)
 
@@ -45,6 +44,21 @@ func _ready():
 	menu_options.visible = false
 	pause_label.visible = false
 	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	var config = ConfigFile.new()
+	var err = config.load(GameManager.SETTINGS_PATH)
+
+	if err == OK:
+		var music : float = config.get_value("audio", "music_volume", 100.0)
+		var sound : float = config.get_value("audio", "sounds_volume", 100.0)
+		music_value_path.value = music
+		sounds_value_path.value = sound
+
+	# Применяем всё c задержкой одного кадра
+	await get_tree().process_frame
+	_apply_settings()
+	loading_settings = false
+
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -64,6 +78,7 @@ func toggle() -> void:
 	var new_state := !get_tree().paused
 	get_tree().paused = new_state
 	visible = new_state
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 func _on_continue_pressed() -> void:
 	if menu_open == 1:
@@ -75,12 +90,42 @@ func _on_options_pressed() -> void:
 	pause_label.visible = false
 	menu_options.visible = true
 
+# Сигнал слайдера эффектов
+func _on_sounds_value_changed(value):
+	var db
+	if value == 0:
+		db = -80
+	else:
+		db = linear_to_db(value / 100.0)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), db)
+	if loading_settings == false:
+		save_settings()
+
+# Сигнал слайдера музыки
+func _on_music_value_changed(value):
+	var db
+	if value == 0:
+		db = -80
+	else:
+		db = linear_to_db(value / 100.0)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), db)
+	if loading_settings == false:
+		save_settings()
+
+# Сигнал checkbox
 func _on_fullscreen_toggled(pressed):
 	DisplayServer.window_set_mode(
 		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed 
 		else DisplayServer.WINDOW_MODE_WINDOWED
 	)
-	save_settings()
+	if loading_settings == false:
+		save_settings()
+
+# Применение всех настроек при запуске сцены
+func _apply_settings():
+	_on_fullscreen_toggled(fullscren_checkbox_path.button_pressed)
+	_on_music_value_changed(music_value_path.value)
+	_on_sounds_value_changed(sounds_value_path.value)
 
 func _on_back_to_pause_menu_pressed() -> void:
 	pause_menu_ui.visible = true
@@ -88,6 +133,7 @@ func _on_back_to_pause_menu_pressed() -> void:
 	menu_options.visible = false
 
 func close_pause_menu() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	anim_blur.play("blur_off")
 	anim_phone.play("off_phone")
 	anim_on_off.play("close_pause_menu")

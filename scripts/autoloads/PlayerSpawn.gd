@@ -4,6 +4,7 @@ extends Node2D
 @export var default_spawn_point: String
 
 func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# Если игрока нет — создаём НУЖНУЮ модель
 	if GameManager.player == null:
 		GameManager.player = player_scene.instantiate()

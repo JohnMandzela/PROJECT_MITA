@@ -1,29 +1,251 @@
-[gd_scene load_steps=9 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=44 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_uym5w"]
-[ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="2_ql3yr"]
-[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_uym5w"]
+[ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="2_01ivo"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="5_uym5w"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="5_wby07"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
+[ext_resource type="Script" uid="uid://cry7nlc0ddq8d" path="res://scenes/dialogue_test.gd" id="8_pd21m"]
+[ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="9_mv7xs"]
+[ext_resource type="Resource" uid="uid://vreb14xfkllx" path="res://dialogues/test.dialogue" id="9_pjgex"]
+[ext_resource type="Script" uid="uid://x3lul8lxsod2" path="res://scripts/1_mom_home/mike_npc.gd" id="10_01ivo"]
+[ext_resource type="Script" uid="uid://b43v0n8hepw2c" path="res://scripts/1_mom_home/test_ivent.gd" id="10_fovv4"]
+[ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="10_mv7xs"]
+[ext_resource type="Resource" uid="uid://but1myuxismw1" path="res://dialogues/sleep_flashback.dialogue" id="11_sm1ot"]
+[ext_resource type="Script" uid="uid://cqfjj73x6lml4" path="res://scripts/1_mom_home/mom_npc.gd" id="13_d8v55"]
+[ext_resource type="Texture2D" uid="uid://cii171lcyvvi8" path="res://images/tilesets/characters/$Mom.png" id="14_sm1ot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jacmr"]
 size = Vector2(48, 15)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pjgex"]
+size = Vector2(147, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_01ivo"]
+size = Vector2(48, 21.5)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fovv4"]
+radius = 6.0
+height = 24.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qm0ti"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhbv5"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqap4"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2c7ny"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jhex"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38am0"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfidv"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(96, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxd4c"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8o0x"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(0, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pev8"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fytk8"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(96, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_clacw"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jj7ip"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(0, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ripyi"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahudb"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(96, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c160a"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pfnn"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(0, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttksc"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_earxd"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(96, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g721l"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fovv4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qm0ti")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhbv5")
+}],
+"loop": true,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqap4")
+}],
+"loop": true,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2c7ny")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jhex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38am0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfidv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxd4c")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8o0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pev8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fytk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_clacw")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jj7ip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ripyi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahudb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c160a")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pfnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttksc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_earxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g721l")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n7hji"]
+radius = 6.0
+height = 24.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yqmt"]
+atlas = ExtResource("14_sm1ot")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7tks0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5yqmt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Mom_Home" type="Node2D"]
 script = ExtResource("1_uym5w")
-player_scene = ExtResource("2_uym5w")
+player_scene = ExtResource("2_01ivo")
 default_spawn_point = "Spawn_Base"
 
-[node name="Mom_Home" type="Sprite2D" parent="."]
+[node name="Mom_Home_Parallax" type="Parallax2D" parent="."]
+
+[node name="Mom_Home_Texture" type="Sprite2D" parent="Mom_Home_Parallax"]
 texture = ExtResource("1_jacmr")
 
-[node name="Mom_Home_Texture" type="Sprite2D" parent="Mom_Home"]
-
-[node name="Mom_Home_Shadow" type="Sprite2D" parent="Mom_Home"]
-z_index = 10
-texture = ExtResource("2_ql3yr")
+[node name="Shadow" type="PointLight2D" parent="Mom_Home_Parallax"]
+blend_mode = 2
+range_z_max = 3
+shadow_enabled = true
+texture = ExtResource("9_mv7xs")
 
 [node name="Collisions" type="Node2D" parent="."]
 
@@ -54,8 +276,66 @@ text = "Выход"
 [node name="Audio" type="AudioStreamPlayer" parent="Exit_Mom_Home"]
 stream = ExtResource("7_mgikj")
 volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
 
 [node name="Spawn_Base" type="Marker2D" parent="."]
-position = Vector2(70, -68)
+position = Vector2(69.891464, -85.15071)
 
 [node name="Pause_Menu" parent="." instance=ExtResource("5_wby07")]
+
+[node name="DialogueTest" type="Area2D" parent="."]
+script = ExtResource("8_pd21m")
+dialogue = ExtResource("9_pjgex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DialogueTest"]
+position = Vector2(-2.5, -141)
+shape = SubResource("RectangleShape2D_pjgex")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(69, 101)
+zoom = Vector2(2, 2)
+
+[node name="Sleep_Flashback" type="Node2D" parent="."]
+script = ExtResource("10_fovv4")
+dialogue = ExtResource("11_sm1ot")
+
+[node name="Test_Ivent" type="Area2D" parent="Sleep_Flashback"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sleep_Flashback/Test_Ivent"]
+position = Vector2(27.542915, -81.22652)
+shape = SubResource("RectangleShape2D_01ivo")
+
+[node name="Mike_NPC" type="CharacterBody2D" parent="Sleep_Flashback"]
+position = Vector2(69.047035, 110.66194)
+script = ExtResource("10_01ivo")
+
+[node name="Mike_Collision" type="CollisionShape2D" parent="Sleep_Flashback/Mike_NPC"]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_fovv4")
+
+[node name="Mike_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/Mike_NPC"]
+unique_name_in_owner = true
+position = Vector2(-24, -86)
+sprite_frames = SubResource("SpriteFrames_fovv4")
+animation = &"idle_down"
+autoplay = "idle_down"
+centered = false
+
+[node name="Timer" type="Timer" parent="Sleep_Flashback/Mike_NPC"]
+
+[node name="Mom_NPC" type="CharacterBody2D" parent="Sleep_Flashback"]
+position = Vector2(97, -66)
+script = ExtResource("13_d8v55")
+
+[node name="Mom_Collision" type="CollisionShape2D" parent="Sleep_Flashback/Mom_NPC"]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_n7hji")
+
+[node name="Mom_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/Mom_NPC"]
+position = Vector2(0, -36)
+sprite_frames = SubResource("SpriteFrames_7tks0")
+
+[connection signal="body_entered" from="DialogueTest" to="DialogueTest" method="_on_body_entered"]
+[connection signal="body_entered" from="Sleep_Flashback/Test_Ivent" to="Sleep_Flashback" method="_on_test_ivent_body_entered"]
+[connection signal="timeout" from="Sleep_Flashback/Mike_NPC/Timer" to="Sleep_Flashback/Mike_NPC" method="_on_timer_timeout"]

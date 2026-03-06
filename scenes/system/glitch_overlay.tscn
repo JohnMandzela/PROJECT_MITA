@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2mhhhh52afdn"]
+
+[ext_resource type="Material" uid="uid://kset0hvp3paw" path="res://materials/glitch.tres" id="1_j8nh6"]
+
+[node name="GlitchOverlay" type="ColorRect"]
+material = ExtResource("1_j8nh6")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

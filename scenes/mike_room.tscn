@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=31 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
 [ext_resource type="Texture2D" uid="uid://cy1cigkh8pc62" path="res://images/scene/Mike's_Goshivon.png" id="1_tk4w4"]
@@ -9,10 +9,19 @@
 [ext_resource type="AudioStream" uid="uid://8kdn3iafaa1f" path="res://audio/sounds/things-toilet-1.mp3" id="6_sw8qw"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="7_glapv"]
 [ext_resource type="Script" uid="uid://dyjl1lpi8xtee" path="res://scripts/bed.gd" id="8_glapv"]
-[ext_resource type="Script" uid="uid://daok3uyt8ffsd" path="res://scenes/bedside_table.gd" id="9_dxssy"]
+[ext_resource type="Script" uid="uid://daok3uyt8ffsd" path="res://scripts/bedside_table.gd" id="9_dxssy"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="9_glapv"]
-[ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scenes/laptop.gd" id="10_7co0a"]
+[ext_resource type="Resource" uid="uid://igbqwnik8w8l" path="res://dialogues/mike_room_bed_day_1.dialogue" id="9_mln6f"]
+[ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scripts/laptop.gd" id="10_7co0a"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="10_qkv8r"]
+[ext_resource type="Resource" uid="uid://d3cll1ve50fou" path="res://dialogues/mike_room_bedside_table_day_1.dialogue" id="11_u5pas"]
+[ext_resource type="Resource" uid="uid://bawo48rrdm7cy" path="res://dialogues/mike_room_laptop_day_1.dialogue" id="13_ni8v6"]
+[ext_resource type="Resource" uid="uid://cj4habhql37v7" path="res://dialogues/mike_room_washmashine_day_1.dialogue" id="14_citmd"]
+[ext_resource type="Script" uid="uid://blmybw3fqfnj1" path="res://scripts/fridge.gd" id="14_mmqfk"]
+[ext_resource type="Resource" uid="uid://bhjvw8gdubary" path="res://dialogues/mike_room_fridge_day_1.dialogue" id="15_nlhcy"]
+[ext_resource type="Script" uid="uid://swu7t1ijfn5k" path="res://scripts/washmashine.gd" id="16_ii5wq"]
+[ext_resource type="Script" uid="uid://dq2ri7i2q6d7r" path="res://scripts/sink.gd" id="18_ii5wq"]
+[ext_resource type="Resource" uid="uid://dx10ur2ojuy7i" path="res://dialogues/mike_room_sink_day_1.dialogue" id="19_u6sxl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uicif"]
 texture = ExtResource("3_pl8tl")
@@ -89,6 +98,18 @@ script = ExtResource("1_wnxb4")
 player_scene = ExtResource("1_pd4ny")
 default_spawn_point = "Spawn_Mike_Room"
 
+[node name="Mike_Room_Parallax" type="Parallax2D" parent="."]
+
+[node name="Mike_Room_Texture" type="Sprite2D" parent="Mike_Room_Parallax"]
+texture = ExtResource("1_tk4w4")
+
+[node name="Shadow" type="PointLight2D" parent="Mike_Room_Parallax"]
+blend_mode = 2
+range_z_max = 4
+range_layer_max = 10
+shadow_enabled = true
+texture = ExtResource("2_xuh38")
+
 [node name="TileSet" type="TileMapLayer" parent="."]
 
 [node name="TileSet_Back" type="TileMapLayer" parent="TileSet"]
@@ -108,15 +129,6 @@ z_index = 4
 position = Vector2(24, 48)
 tile_map_data = PackedByteArray("AAD+//7/AAAFAAAAAAD+/wAAAAACAAMAAAD+/wEAAAACAAQAAAAAAAAAAAADAAMAAAAAAAEAAAADAAQAAAAAAP//AAAGAAAAAAA=")
 tile_set = SubResource("TileSet_xuh38")
-
-[node name="Mike_Room" type="Sprite2D" parent="."]
-
-[node name="Mike_Room_Texture" type="Sprite2D" parent="Mike_Room"]
-texture = ExtResource("1_tk4w4")
-
-[node name="Mike_Room_Shadow" type="Sprite2D" parent="Mike_Room"]
-z_index = 10
-texture = ExtResource("2_xuh38")
 
 [node name="Collisions" type="Node2D" parent="."]
 
@@ -186,10 +198,13 @@ polygon = PackedVector2Array(-72, -47, -28, -47, -28, -43, -30, -36, -37, -25, -
 [node name="Toilet_Sound" type="AudioStreamPlayer" parent="Ivents/Shower"]
 stream = ExtResource("6_sw8qw")
 volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
 
 [node name="Bed_Left" type="Area2D" parent="Ivents"]
 script = ExtResource("8_glapv")
 required_direction = 3
+dialogue = ExtResource("9_mln6f")
 
 [node name="Label" type="Label" parent="Ivents/Bed_Left"]
 z_index = 10
@@ -205,6 +220,7 @@ shape = SubResource("RectangleShape2D_glapv")
 
 [node name="Bed_Down" type="Area2D" parent="Ivents"]
 script = ExtResource("8_glapv")
+dialogue = ExtResource("9_mln6f")
 
 [node name="Label" type="Label" parent="Ivents/Bed_Down"]
 z_index = 10
@@ -220,6 +236,7 @@ shape = SubResource("RectangleShape2D_qkv8r")
 
 [node name="Bedside_Table" type="Area2D" parent="Ivents"]
 script = ExtResource("9_dxssy")
+dialogue = ExtResource("11_u5pas")
 
 [node name="Label" type="Label" parent="Ivents/Bedside_Table"]
 z_index = 10
@@ -236,6 +253,7 @@ shape = SubResource("RectangleShape2D_7co0a")
 [node name="Laptop" type="Area2D" parent="Ivents"]
 script = ExtResource("10_7co0a")
 required_direction = 2
+dialogue = ExtResource("13_ni8v6")
 
 [node name="Label" type="Label" parent="Ivents/Laptop"]
 z_index = 10
@@ -247,6 +265,55 @@ text = "Ноутбук"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Laptop"]
 polygon = PackedVector2Array(-11, 11, -18, 8, -16, 13, -14, 27, -15, 55, -19, 64, -11, 61, -6, 54, -6, 17)
+
+[node name="Fridge" type="Area2D" parent="Ivents"]
+script = ExtResource("14_mmqfk")
+required_direction = 3
+dialogue = ExtResource("15_nlhcy")
+
+[node name="Label" type="Label" parent="Ivents/Fridge"]
+z_index = 10
+offset_left = 83.0
+offset_top = 88.0
+offset_right = 193.0
+offset_bottom = 111.0
+text = "Холодильник"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Fridge"]
+polygon = PackedVector2Array(0, 111, 0, 144, 15, 144, 16, 102, 10, 103, 4, 107)
+
+[node name="Sink" type="Area2D" parent="Ivents"]
+script = ExtResource("18_ii5wq")
+required_direction = 3
+dialogue = ExtResource("19_u6sxl")
+
+[node name="Label" type="Label" parent="Ivents/Sink"]
+z_index = 10
+offset_left = 84.0
+offset_top = 15.0
+offset_right = 161.0
+offset_bottom = 38.0
+text = "Раковина"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Sink"]
+polygon = PackedVector2Array(14, 62, 6, 67, 5, 81, 5, 93, 16, 97, 18, 76, 22, 62)
+
+[node name="Washmashine" type="Area2D" parent="Ivents"]
+script = ExtResource("16_ii5wq")
+required_direction = 2
+dialogue = ExtResource("14_citmd")
+
+[node name="Label" type="Label" parent="Ivents/Washmashine"]
+z_index = 10
+offset_left = -161.0
+offset_top = 113.0
+offset_right = -84.0
+offset_bottom = 136.0
+text = "Стиралка"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Washmashine"]
+position = Vector2(-26, 90)
+polygon = PackedVector2Array(3, 24, 8, 42, 11, 54, 26, 54, 26, 21, 11, 21)
 
 [node name="Exit_Mike_Room" parent="Ivents" instance=ExtResource("7_glapv")]
 required_direction = 1
@@ -268,6 +335,8 @@ shape = SubResource("RectangleShape2D_6vn4g")
 [node name="Audio" type="AudioStreamPlayer" parent="Ivents/Exit_Mike_Room"]
 stream = ExtResource("10_qkv8r")
 volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.4, 1.4)
@@ -290,3 +359,9 @@ position = Vector2(0, -48)
 [connection signal="body_exited" from="Ivents/Bedside_Table" to="Ivents/Bedside_Table" method="_on_body_exited"]
 [connection signal="body_entered" from="Ivents/Laptop" to="Ivents/Laptop" method="_on_body_entered"]
 [connection signal="body_exited" from="Ivents/Laptop" to="Ivents/Laptop" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Fridge" to="Ivents/Fridge" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Fridge" to="Ivents/Fridge" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Sink" to="Ivents/Sink" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Sink" to="Ivents/Sink" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Washmashine" to="Ivents/Washmashine" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Washmashine" to="Ivents/Washmashine" method="_on_body_exited"]
