@@ -10,6 +10,8 @@ extends Control
 @onready var menu_options: MarginContainer = $Options_Menu
 @export var menu_theme : AudioStream
 
+var loading_settings := true
+
 func _process(_delta: float) -> void:
 	pass
 
@@ -40,7 +42,6 @@ func _play_interact_sound() -> void:
 @onready var fullscren_checkbox_path: CheckBox = $Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox
 @onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider
 @onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/sounds_slider
-
 
 # Сохраняем данные настроек
 func save_settings():
@@ -82,21 +83,15 @@ func _ready():
 	var err = config.load(GameManager.SETTINGS_PATH)
 
 	if err == OK:
-		var music : float = config.get_value("audio", "music_volume", 0.0)
-		var sound : float = config.get_value("audio", "sounds_volume", 0.0)
+		var music : float = config.get_value("audio", "music_volume", 100.0)
+		var sound : float = config.get_value("audio", "sounds_volume", 100.0)
 		music_value_path.value = music
 		sounds_value_path.value = sound
-
-	# Загружаем сохранённые значения громкости музыки
-	if ProjectSettings.has_setting("game/music_volume"):
-		music_value_path.value = ProjectSettings.get_setting("game/music_volume")
-	# Загружаем сохранённые значения громкости звуков
-	if ProjectSettings.has_setting("game/sounds_volume"):
-		sounds_value_path.value = ProjectSettings.get_setting("game/sounds_volume")
 
 	# Применяем всё c задержкой одного кадра
 	await get_tree().process_frame
 	_apply_settings()
+	loading_settings = false
 
 
 # Сигнал слайдера эффектов
@@ -107,7 +102,8 @@ func _on_sounds_value_changed(value):
 	else:
 		db = linear_to_db(value / 100.0)
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), db)
-	save_settings()
+	if loading_settings == false:
+		save_settings()
 
 # Сигнал слайдера музыки
 func _on_music_value_changed(value):
@@ -117,7 +113,8 @@ func _on_music_value_changed(value):
 	else:
 		db = linear_to_db(value / 100.0)
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), db)
-	save_settings()
+	if loading_settings == false:
+		save_settings()
 
 # Сигнал checkbox
 func _on_fullscreen_toggled(pressed):
@@ -125,7 +122,8 @@ func _on_fullscreen_toggled(pressed):
 		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed 
 		else DisplayServer.WINDOW_MODE_WINDOWED
 	)
-	save_settings()
+	if loading_settings == false:
+		save_settings()
 
 # Применение всех настроек при запуске сцены
 func _apply_settings():
