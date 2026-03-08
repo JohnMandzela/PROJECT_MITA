@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b34v6i2rdnh7t"
+path="res://.godot/imported/sound_radio.mp3-06054b3f2fc6c50a4ad05d652f9082c8.mp3str"
+
+[deps]
+
+source_file="res://Sanek's files/Sanek's shaders/godot-glitch-intro-2e4174d28788a3f4b68cbf57b09b01fd22a6a8ed/addons/glitch_intro/assets/sound_radio.mp3"
+dest_files=["res://.godot/imported/sound_radio.mp3-06054b3f2fc6c50a4ad05d652f9082c8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

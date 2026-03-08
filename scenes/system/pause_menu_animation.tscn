@@ -1,8 +1,12 @@
-[gd_scene load_steps=24 format=3 uid="uid://jsdoohi5px74"]
+[gd_scene load_steps=28 format=3 uid="uid://jsdoohi5px74"]
 
 [ext_resource type="Script" uid="uid://c7lnwl3foh5fg" path="res://scripts/pause_menu.gd" id="1_myx47"]
 [ext_resource type="Texture2D" uid="uid://y0mm0pljq1fd" path="res://images/phone.png" id="1_n87rw"]
 [ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="3_kukqi"]
+[ext_resource type="Texture2D" uid="uid://ocwn2npqb3yx" path="res://images/tilesets/31312.jpg" id="3_mrruf"]
+[ext_resource type="Texture2D" uid="uid://blbelkkqbfq2d" path="res://images/tilesets/4343433.jpg" id="4_78550"]
+[ext_resource type="Texture2D" uid="uid://dxon1hookl4t0" path="res://images/tilesets/432425555.jpg" id="5_h5v6u"]
+[ext_resource type="Texture2D" uid="uid://bypi1st6pt3od" path="res://images/tilesets/5554545454.png" id="6_2yjx4"]
 
 [sub_resource type="Animation" id="Animation_1s2dm"]
 length = 0.001
@@ -315,7 +319,6 @@ text = "Пауза"
 horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-visible = false
 z_index = 21
 layout_mode = 1
 anchors_preset = 8
@@ -337,6 +340,36 @@ layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Continue"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -126.50067
+offset_right = 38.0
+offset_bottom = -86.50067
+
+[node name="Continue" type="Button" parent="Panel/VBoxContainer/Continue/AspectRatioContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("3_mrruf")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Continue/AspectRatioContainer/Continue"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -126.50067
+offset_right = 38.0
+offset_bottom = -86.50067
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Continue/AspectRatioContainer/Continue"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 41.0
+offset_right = 43.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 7
 text = "Продолжить"
 
 [node name="Options" type="Button" parent="Panel/VBoxContainer"]
@@ -345,6 +378,36 @@ layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Options"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = -129.50067
+offset_right = 100.0
+offset_bottom = -89.50067
+
+[node name="Options" type="Button" parent="Panel/VBoxContainer/Options/AspectRatioContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("4_78550")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Options/AspectRatioContainer/Options"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = -129.50067
+offset_right = 100.0
+offset_bottom = -89.50067
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Options/AspectRatioContainer/Options"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 40.0
+offset_right = 42.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 8
 text = "Настройки"
 
 [node name="Inventory" type="Button" parent="Panel/VBoxContainer"]
@@ -353,6 +416,36 @@ layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Inventory"]
+layout_mode = 0
+offset_left = 124.0
+offset_top = -133.50067
+offset_right = 164.0
+offset_bottom = -93.50067
+
+[node name="Inventory" type="Button" parent="Panel/VBoxContainer/Inventory/AspectRatioContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("5_h5v6u")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Inventory/AspectRatioContainer/Inventory"]
+layout_mode = 0
+offset_left = 124.0
+offset_top = -133.50067
+offset_right = 164.0
+offset_bottom = -93.50067
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Inventory/AspectRatioContainer/Inventory"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 40.0
+offset_right = 43.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 8
 text = "Инвентарь"
 
 [node name="Exit_to_Main_Menu" type="Button" parent="Panel/VBoxContainer"]
@@ -361,9 +454,38 @@ layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_2nc7s")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_d3xb4")
 theme_override_styles/hover = SubResource("StyleBoxFlat_mxa3g")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Exit_to_Main_Menu"]
+layout_mode = 0
+offset_left = 182.0
+offset_top = -137.50067
+offset_right = 222.0
+offset_bottom = -97.50067
+
+[node name="Exit_to_Main_Menu" type="Button" parent="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2nc7s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_d3xb4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mxa3g")
+icon = ExtResource("6_2yjx4")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer/Exit_to_Main_Menu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer/Exit_to_Main_Menu"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 40.0
+offset_right = 36.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 9
 text = "Выйти"
 
 [node name="VBoxOptions" type="VBoxContainer" parent="Panel"]
+visible = false
 z_index = 21
 layout_mode = 1
 anchors_preset = 8
@@ -404,7 +526,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-step = 5.0
 
 [node name="Music" type="VBoxContainer" parent="Panel/VBoxOptions"]
 layout_mode = 2
@@ -425,7 +546,26 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-step = 5.0
+
+[node name="Mouse_Sensivity" type="VBoxContainer" parent="Panel/VBoxOptions"]
+layout_mode = 2
+
+[node name="Mouse_Text" type="HBoxContainer" parent="Panel/VBoxOptions/Mouse_Sensivity"]
+layout_mode = 2
+
+[node name="Mouse_Label" type="Label" parent="Panel/VBoxOptions/Mouse_Sensivity/Mouse_Text"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Чувствительность мыши"
+horizontal_alignment = 1
+
+[node name="Mouse_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Mouse_Sensivity"]
+layout_mode = 2
+
+[node name="mouse_sensitivity_slider" type="HSlider" parent="Panel/VBoxOptions/Mouse_Sensivity/Mouse_slider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 
 [node name="Fullscreen_CheckBox" type="CheckBox" parent="Panel/VBoxOptions"]
 layout_mode = 2
@@ -499,9 +639,11 @@ libraries = {
 }
 
 [connection signal="pressed" from="Panel/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Continue/AspectRatioContainer/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Options/AspectRatioContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Inventory/AspectRatioContainer/Inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
-[connection signal="value_changed" from="Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
-[connection signal="value_changed" from="Panel/VBoxOptions/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
 [connection signal="toggled" from="Panel/VBoxOptions/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="Panel/VBoxOptions/Back_to_Pause_Menu" to="." method="_on_back_to_pause_menu_pressed"]

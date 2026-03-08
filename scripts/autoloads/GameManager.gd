@@ -34,8 +34,8 @@ func load_settings():
 		return # если файла нет — запускаем с дефолтными
 
 	var fullscreen = config.get_value("video", "fullscreen", false)
-	var music_vol = config.get_value("audio", "music_volume", 100)
-	var sounds_vol = config.get_value("audio", "sounds_volume", 100)
+	var music_vol = config.get_value("audio", "music_volume", 100.0)
+	var sounds_vol = config.get_value("audio", "sounds_volume", 100.0)
 
 	# Применяем fullscreen
 	DisplayServer.window_set_mode(
