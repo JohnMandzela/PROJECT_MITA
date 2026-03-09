@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8l7h3iqfix4l"]
+
+[ext_resource type="Script" uid="uid://ckkfm1llknml1" path="res://pivo.gd" id="1_jcg7k"]
+[ext_resource type="Texture2D" uid="uid://c0vt1x8hjuajn" path="res://images/tilesets/phone_white_screen.png" id="2_a1bib"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5gcy"]
+bg_color = Color(0.74978, 0.74978, 0.7497799, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hksts"]
+bg_color = Color(0.17283267, 0.17283267, 0.17283258, 1)
+
+[node name="Pivo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jcg7k")
+
+[node name="PhoneWhiteScreen" type="Sprite2D" parent="."]
+position = Vector2(582.5, 327.25003)
+scale = Vector2(0.5755814, 0.59619147)
+texture = ExtResource("2_a1bib")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+offset_left = 456.0
+offset_top = 94.0
+offset_right = 709.0
+offset_bottom = 562.0
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 15.0
+offset_right = 195.0
+offset_bottom = 130.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_m5gcy")
+text = "Ходить стрелками
+Фонарик F
+Взаимодействовать E
+Меню-пауза ESC"
+
+[node name="Label2" type="Label" parent="Panel"]
+layout_mode = 0
+offset_top = 428.0
+offset_right = 254.0
+offset_bottom = 468.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_hksts")
+text = "Написать сообщение..."
+
+[node name="Back to messenger" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 428.0
+offset_right = 254.0
+offset_bottom = 468.0
+text = "🔙"
+
+[connection signal="pressed" from="Panel/Back to messenger" to="." method="_on_back_to_messenger_pressed"]

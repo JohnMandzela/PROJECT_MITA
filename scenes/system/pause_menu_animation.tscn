@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://jsdoohi5px74"]
+[gd_scene load_steps=32 format=3 uid="uid://jsdoohi5px74"]
 
 [ext_resource type="Script" uid="uid://c7lnwl3foh5fg" path="res://scripts/pause_menu.gd" id="1_myx47"]
 [ext_resource type="Texture2D" uid="uid://y0mm0pljq1fd" path="res://images/phone.png" id="1_n87rw"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://blbelkkqbfq2d" path="res://images/tilesets/4343433.jpg" id="4_78550"]
 [ext_resource type="Texture2D" uid="uid://dxon1hookl4t0" path="res://images/tilesets/432425555.jpg" id="5_h5v6u"]
 [ext_resource type="Texture2D" uid="uid://bypi1st6pt3od" path="res://images/tilesets/5554545454.png" id="6_2yjx4"]
+[ext_resource type="Texture2D" uid="uid://bfa7un6ymab0a" path="res://images/tilesets/434.jpg" id="7_78550"]
+[ext_resource type="Texture2D" uid="uid://eou3q6pmmkjb" path="res://images/tilesets/435123.jpg" id="8_h5v6u"]
 
 [sub_resource type="Animation" id="Animation_1s2dm"]
 length = 0.001
@@ -79,6 +81,12 @@ bg_color = Color(0.58431375, 0.15294118, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxa3g"]
 bg_color = Color(0.74509805, 0.09019608, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5gcy"]
+bg_color = Color(0.74978, 0.74978, 0.7497799, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hksts"]
+bg_color = Color(0.17283267, 0.17283267, 0.17283258, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kukqi"]
 shader = ExtResource("3_kukqi")
@@ -484,6 +492,37 @@ offset_bottom = 53.0
 theme_override_font_sizes/font_size = 9
 text = "Выйти"
 
+[node name="Messenger" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+flat = true
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Messenger"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -74.50067
+offset_right = 46.0
+offset_bottom = -26.500671
+
+[node name="Messenger" type="Button" parent="Panel/VBoxContainer/Messenger/AspectRatioContainer"]
+layout_mode = 2
+icon = ExtResource("7_78550")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Messenger/AspectRatioContainer/Messenger"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -74.50067
+offset_right = 38.0
+offset_bottom = -34.50067
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Messenger/AspectRatioContainer/Messenger"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 45.0
+offset_right = 47.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 7
+text = "Мессенджер"
+
 [node name="VBoxOptions" type="VBoxContainer" parent="Panel"]
 visible = false
 z_index = 21
@@ -580,6 +619,93 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
 text = "Назад"
 
+[node name="Control" type="Control" parent="Panel"]
+visible = false
+z_index = 21
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Messenger" type="Control" parent="Panel/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Panel/Control/Messenger"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 263.0
+offset_bottom = 504.0
+
+[node name="Tutorial" type="Button" parent="Panel/Control/Messenger/Panel"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 22.0
+offset_right = 245.0
+offset_bottom = 54.0
+text = "Туториал"
+
+[node name="Back to menu pause" type="Button" parent="Panel/Control/Messenger/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 391.0
+offset_right = 71.0
+offset_bottom = 465.0
+icon = ExtResource("8_h5v6u")
+
+[node name="Pivo" type="Control" parent="Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Panel/Pivo"]
+z_index = 21
+layout_mode = 1
+offset_left = 10.0
+offset_top = 35.0
+offset_right = 263.0
+offset_bottom = 503.0
+
+[node name="Label" type="Label" parent="Panel/Pivo/Panel"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 15.0
+offset_right = 195.0
+offset_bottom = 130.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_m5gcy")
+text = "Ходить стрелками
+Фонарик F
+Взаимодействовать E
+Меню-пауза ESC"
+
+[node name="Label2" type="Label" parent="Panel/Pivo/Panel"]
+layout_mode = 0
+offset_top = 428.0
+offset_right = 254.0
+offset_bottom = 468.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_hksts")
+text = "Написать сообщение..."
+
+[node name="Back to messenger" type="Button" parent="Panel/Pivo/Panel"]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 428.0
+offset_right = 254.0
+offset_bottom = 468.0
+text = "🔙"
+
 [node name="Screen_Fader_Animation" type="Control" parent="."]
 z_index = 21
 layout_mode = 1
@@ -645,5 +771,9 @@ libraries = {
 [connection signal="pressed" from="Panel/VBoxContainer/Inventory/AspectRatioContainer/Inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Messenger/AspectRatioContainer/Messenger" to="." method="_on_messenger_pressed"]
 [connection signal="toggled" from="Panel/VBoxOptions/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="Panel/VBoxOptions/Back_to_Pause_Menu" to="." method="_on_back_to_pause_menu_pressed"]
+[connection signal="pressed" from="Panel/Control/Messenger/Panel/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="Panel/Control/Messenger/Panel/Back to menu pause" to="." method="_on_back_to_pause_menu_pressed_2"]
+[connection signal="pressed" from="Panel/Pivo/Panel/Back to messenger" to="." method="_on_back_to_messenger_pressed_3"]

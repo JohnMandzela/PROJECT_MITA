@@ -18,7 +18,8 @@ var loading_settings := true
 
 @onready var fullscreen_check: CheckBox = $Panel/VBoxOptions/Fullscreen_CheckBox
 @onready var pause_label:= $Panel/Pause_Label
-
+@onready var messenger: Control = $Panel/Control
+@onready var pivo: Control = $Panel/Pivo
 
 # Сохраняем данные настроек
 func save_settings():
@@ -43,6 +44,7 @@ func _ready():
 	pause_menu_ui.visible = false
 	menu_options.visible = false
 	pause_label.visible = false
+	messenger.visible = false
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 	var config = ConfigFile.new()
@@ -132,6 +134,11 @@ func _on_back_to_pause_menu_pressed() -> void:
 	pause_label.visible = true
 	menu_options.visible = false
 
+func _on_back_to_pause_menu_pressed_2() -> void:
+	pause_menu_ui.visible = true
+	pause_label.visible = true
+	messenger.visible = false
+
 func close_pause_menu() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	anim_blur.play("blur_off")
@@ -151,3 +158,22 @@ func _on_exit_to_main_menu_pressed() -> void:
 
 func _on_inventory_pressed() -> void:
 	pass # Replace with function body.
+
+
+func _on_messenger_pressed() -> void:
+	pause_menu_ui.visible = false
+	menu_options.visible = false
+	pause_label.visible = false
+	messenger.visible = true
+
+
+func _on_tutorial_pressed() -> void:
+	pause_menu_ui.visible = false
+	pivo.visible = true
+	messenger.visible = false
+	pause_label.visible = false
+
+func _on_back_to_messenger_pressed_3() -> void:
+	pivo.visible = false
+	messenger.visible = true
+	
