@@ -1,0 +1,206 @@
+# LANGUAGE translation for PROJECT_MITA for the following files:
+# res://dialogues/test.dialogue
+# res://dialogues/mike_room_bed_day_1.dialogue
+# res://dialogues/mike_room_bedside_table_day_1.dialogue
+# res://dialogues/mike_room_laptop_day_1.dialogue
+# res://dialogues/mike_room_washmashine_day_1.dialogue
+# res://dialogues/mike_room_fridge_day_1.dialogue
+# res://dialogues/mike_room_sink_day_1.dialogue
+# res://dialogues/sleep_flashback.dialogue
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT_MITA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#. TRANSLATORS: Character name
+#: dialogues/test.dialogue
+#: dialogues/mike_room_bed_day_1.dialogue
+#: dialogues/mike_room_laptop_day_1.dialogue
+#: dialogues/mike_room_fridge_day_1.dialogue
+#: dialogues/mike_room_sink_day_1.dialogue
+#: dialogues/sleep_flashback.dialogue
+msgctxt "dialogue"
+msgid "Майк"
+msgstr ""
+
+#. TRANSLATORS: Character name
+#: dialogues/test.dialogue
+msgctxt "dialogue"
+msgid "Мита"
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Привет, это демо диалоговой системы."
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Выбери вариант ответа."
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Это рандомный ответ."
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Ещё один рандомный ответ."
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Третий рандомный ответ."
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Покажи рандомные ответы"
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Начать сначала"
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Пока что ни разу."
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Ты начинал сначала {{locals.num_resets}} раз."
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Сколько раз я начинал сначала?"
+msgstr ""
+
+#: dialogues/test.dialogue
+msgid "Выход"
+msgstr ""
+
+#: dialogues/mike_room_bed_day_1.dialogue
+msgid "Надо бы постель заправить…"
+msgstr ""
+
+#: dialogues/mike_room_bed_day_1.dialogue
+msgid "Хотя не стоит. Все равно нет смысла."
+msgstr ""
+
+#: dialogues/mike_room_bed_day_1.dialogue
+msgid "Я же один живу. Кого будет волновать, что я не заправляю постель?"
+msgstr ""
+
+#: dialogues/mike_room_bedside_table_day_1.dialogue
+msgid "На комоде стоят настольное зеркало, различные крема и картина с деревом."
+msgstr ""
+
+#: dialogues/mike_room_bedside_table_day_1.dialogue
+msgid "Справа лежат разные документы, в том числе счета за аренду и коммунальные услуги."
+msgstr ""
+
+#: dialogues/mike_room_bedside_table_day_1.dialogue
+msgid "Все как обычно."
+msgstr ""
+
+#: dialogues/mike_room_laptop_day_1.dialogue
+msgid "У меня сейчас нет времени работать за ноутбуком."
+msgstr ""
+
+#: dialogues/mike_room_washmashine_day_1.dialogue
+msgid "Стиралка заполнена бельем и полотенцами."
+msgstr ""
+
+#: dialogues/mike_room_washmashine_day_1.dialogue
+msgid "Но стиральный порошок закончился, поэтому стирать тебе нечем."
+msgstr ""
+
+#: dialogues/mike_room_fridge_day_1.dialogue
+msgid "В холодильнике ничего, кроме пары дошираков и газировки, не осталось."
+msgstr ""
+
+#: dialogues/mike_room_fridge_day_1.dialogue
+msgid "Да и в микроволновке сверху ничего нет."
+msgstr ""
+
+#: dialogues/mike_room_fridge_day_1.dialogue
+msgid "Боже, до чего я дожил... питаюсь одними полуфабрикатами."
+msgstr ""
+
+#: dialogues/mike_room_fridge_day_1.dialogue
+msgid "По крайней мере, денег хватает хотя бы на это."
+msgstr ""
+
+#: dialogues/mike_room_sink_day_1.dialogue
+msgid "В раковине лежат грязные тарелки, кружка и столовые приборы."
+msgstr ""
+
+#: dialogues/mike_room_sink_day_1.dialogue
+msgid "Твоя раковина никогда не бывает пуста просто потому, что тебе лень мыть всю эту жирную гору посуды."
+msgstr ""
+
+#: dialogues/mike_room_sink_day_1.dialogue
+msgid "Ладно, потом помою, как вернусь с работы."
+msgstr ""
+
+#: dialogues/mike_room_sink_day_1.dialogue
+msgid "Посуду, конечно, никто так и не помыл…"
+msgstr ""
+
+#. TRANSLATORS: Character name
+#: dialogues/sleep_flashback.dialogue
+msgctxt "dialogue"
+msgid "Мама"
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Так, зубная щетка, полотенце, мыло. Сменная одежда? Да, всё на месте."
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Ох, сколько места занимает…"
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Так, а документы? Вот, файл тоже здесь…"
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Бумажник? Куда я положил бумажник?!"
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Ты начал лихорадочно вскрывать багаж."
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Открыл сумку с ноутбуком - провода, мышь, повербанк, вот сам ноутбук - бумажника не обнаружено."
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "В боковых отделах рюкзака ничего не обнаружилось."
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Наконец, ты проверяешь карманы брюк."
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Ах, нашел, слава богу…"
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Ты успокаиваешься, протерев лицо руками."
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Спокойнее, Майк, ты уже все проверил. Тебе просто нужно будет сесть на автобус, уехать в город, поселиться рядом с работой - обо всем уже договорились. Простой алгоритм действий."
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Майк, ты уже всё проверил? А то ты так опоздаешь."
+msgstr ""
+
+#: dialogues/sleep_flashback.dialogue
+msgid "Да! В-всё на месте! Сейчас я закрою обратно сумки."
+msgstr ""
