@@ -25,16 +25,25 @@ func _ready():
 	if GameManager.saved_direction != null:
 		last_direction = GameManager.saved_direction
 		GameManager.saved_direction = null
+		
+	update_flashlight()
 
 func _input(event: InputEvent) -> void:
 	# Проверка нажатия кнопки бега (например, \"shift\")
 	if event.is_action_pressed(\"run\"):
 		current_speed = run_speed
 	# Проверка нажатия кнопки бега (например, \"c\")
-	elif Input.is_action_pressed(\"steals\"):
+	elif event.is_action_pressed(\"steals\"):
 		current_speed = steals_speed
 	else:
 		current_speed = speed
+		
+	# Сохранение и загрузка
+	# TODO: перенести в меню
+	if event.is_action_pressed(\"save\"):
+		SaveSystem.save_game()
+	elif event.is_action_pressed(\"load\"):
+		SaveSystem.load_game()
 
 func _physics_process(_delta: float) -> void:
 	# Движение
@@ -59,6 +68,15 @@ func _physics_process(_delta: float) -> void:
 	if velocity.length() > 0:
 		anim_type = \"walk_\"
 
+	# Проигрываем анимацию
+	%Player_Tileset.play(anim_type + last_direction)
+
+	update_flashlight()
+
+	# Передвижение
+	move_and_slide()
+
+func update_flashlight() -> void:
 	# Поворачиваем фонарик в сторону взгляда
 	match last_direction:
 		\"right\":
@@ -69,12 +87,6 @@ func _physics_process(_delta: float) -> void:
 			flashlight.rotation = -PI/2      # -90°
 		\"down\":
 			flashlight.rotation = PI/2       # 90°
-
-	# Проигрываем анимацию
-	%Player_Tileset.play(anim_type + last_direction)
-
-	# Передвижение
-	move_and_slide()
 
 func _process(_delta: float) -> void:
 	# Включение/выключение фонарика по клавише F
