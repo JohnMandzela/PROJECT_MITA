@@ -105,6 +105,7 @@ func _is_correct_direction() -> bool:
 
 func interact():
 	GameManager.saved_direction = exit_direction
+	GameManager.saved_flashlight_state = player.is_flashlight_on
 	GameManager.start_scene_transition(target_scene, target_spawn_point)
 
 func entrance_animation():

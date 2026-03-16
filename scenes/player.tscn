@@ -15,18 +15,24 @@ var last_direction := \"down\"
 var direction_vector := Vector2.ZERO
 
 @onready var flashlight = $Phone_Flashlight
-var is_flashlight_on := false
+
+var is_flashlight_on := false:
+	set(value):
+		flashlight.enabled = value
+		is_flashlight_on = value
 
 func _ready():
-	flashlight.enabled = false
-	flashlight.shadow_enabled = false   # Отключаем тени для фонарика
-	flashlight.light_mask = 1            # Включаем световой маскировки, чтобы свет игнорировал другие тени
 	# Добавляем последнее направление взгляда
 	if GameManager.saved_direction != null:
 		last_direction = GameManager.saved_direction
 		GameManager.saved_direction = null
 		
+	if GameManager.saved_flashlight_state != null:
+		is_flashlight_on = GameManager.saved_flashlight_state
+		GameManager.saved_flashlight_state = is_flashlight_on
+		
 	update_flashlight()
+
 
 func _input(event: InputEvent) -> void:
 	# Проверка нажатия кнопки бега (например, \"shift\")
@@ -76,7 +82,7 @@ func _physics_process(_delta: float) -> void:
 	# Передвижение
 	move_and_slide()
 
-func update_flashlight() -> void:
+func update_flashlight() -> void:	
 	# Поворачиваем фонарик в сторону взгляда
 	match last_direction:
 		\"right\":
@@ -92,7 +98,6 @@ func _process(_delta: float) -> void:
 	# Включение/выключение фонарика по клавише F
 	if Input.is_action_just_pressed(\"flashlight\"):
 		is_flashlight_on = not is_flashlight_on
-		flashlight.enabled = is_flashlight_on
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0s3u6"]
@@ -303,8 +308,8 @@ autoplay = "idle_down"
 centered = false
 
 [node name="Phone_Flashlight" type="PointLight2D" parent="."]
-light_mask = 2
 visibility_layer = 2
+enabled = false
 energy = 1.2
 blend_mode = 2
 texture = ExtResource("2_g2els")

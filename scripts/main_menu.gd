@@ -103,10 +103,19 @@ func _on_button_mouse_entered(element: Control):
 func _on_button_mouse_exited(element: Control):
 	pass  # можно добавить эффект при уходе, если нужно
 
+
+
 # --- Обработчики кнопок (твои старые функции) ---
 func _on_new_game_button_pressed() -> void:
-	var mom_home_scene = load("res://scenes/mom_home.tscn")
+	var mom_home_scene: PackedScene = load("res://scenes/mom_home.tscn")
 	get_tree().change_scene_to_packed(mom_home_scene)
+
+func _on_load_button_tree_entered() -> void:
+	var load_button := $VBoxContainer/Load
+	load_button.visible = SaveSystem.save_exists()
+
+func _on_load_button_pressed() -> void:
+	SaveSystem.load_game()
 
 func _on_options_button_pressed() -> void:
 	var options_scene = load("res://scenes/system/options.tscn")

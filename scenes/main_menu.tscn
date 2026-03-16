@@ -114,6 +114,12 @@ theme_override_fonts/font = ExtResource("2_ekxnf")
 theme_override_font_sizes/font_size = 34
 text = "Новая игра"
 
+[node name="Load" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ekxnf")
+theme_override_font_sizes/font_size = 34
+text = " Загрузить игру "
+
 [node name="Options" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ekxnf")
@@ -127,6 +133,7 @@ theme_override_font_sizes/font_size = 34
 text = "Выход"
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -143,5 +150,7 @@ libraries = {
 autoplay = "main_menu_animation"
 
 [connection signal="pressed" from="VBoxContainer/New_Game" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Load" to="." method="_on_load_button_pressed"]
+[connection signal="tree_entered" from="VBoxContainer/Load" to="." method="_on_load_button_tree_entered"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

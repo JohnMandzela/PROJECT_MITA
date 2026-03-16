@@ -13,7 +13,8 @@ var pending_spawn_point: String = ""
 # Переменные для анимации ПЕРЕХОДА и сохранения взгляда
 var screen_fader
 var _pending_scene: String
-var saved_direction
+var saved_direction = null
+var saved_flashlight_state = null
 
 # Переменная для музыки (чтобы громкость постоянно обновлялась)
 @onready var music_player: AudioStreamPlayer = AudioStreamPlayer.new()

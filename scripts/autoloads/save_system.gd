@@ -2,11 +2,11 @@ extends Node
 
 const SAVE_PATH := "user://save.bin"
 
-# TODO: перенести в меню
+# Сохранение игры
 func save_game() -> void:
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	
-	var player = GameManager.player
+	var player := GameManager.player
 	if not player:
 		print("Узел игрока не найден")
 		return
@@ -15,7 +15,7 @@ func save_game() -> void:
 		"current_scene" = get_tree().current_scene.name, # TODO
 		"player_position" = player.position,
 		"player_direction" = player.last_direction,
-		"flashlight_enabled" = player.flashlight.enabled
+		"flashlight_enabled" = player.is_flashlight_on
 	}
 	
 	file.store_var(save_data)
@@ -23,22 +23,28 @@ func save_game() -> void:
 	
 	print("Игра сохранена")
 
-func load_game() -> void:
+# Загрузка сохранённой игры
+func load_game() -> void:	
 	var player = GameManager.player
 	if not player:
 		print("Узел игрока не найден")
 		return
-		
+
 	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
-	if not file:
+	if not save_exists():
 		print("Файл с сохранением не найден")
 		return
-	
+		
 	var save_data: Dictionary = file.get_var()
 	file.close()
 	
 	player.position = save_data["player_position"]
 	player.last_direction = save_data["player_direction"]
-	player.flashlight.enabled = save_data["flashlight_enabled"]
+	player.is_flashlight_on = save_data["flashlight_enabled"]
 	
 	print("Игра загружена")
+
+
+# Проверка, что сохранение существует
+func save_exists() -> bool:
+	return FileAccess.file_exists(SAVE_PATH)
