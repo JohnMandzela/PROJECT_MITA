@@ -1,14 +1,14 @@
-[gd_scene load_steps=32 format=3 uid="uid://jsdoohi5px74"]
+[gd_scene load_steps=35 format=3 uid="uid://jsdoohi5px74"]
 
 [ext_resource type="Script" uid="uid://c7lnwl3foh5fg" path="res://scripts/pause_menu.gd" id="1_myx47"]
-[ext_resource type="Texture2D" uid="uid://y0mm0pljq1fd" path="res://images/phone.png" id="1_n87rw"]
+[ext_resource type="Texture2D" uid="uid://y0mm0pljq1fd" path="res://images/phone/phone.png" id="1_n87rw"]
+[ext_resource type="Texture2D" uid="uid://ocwn2npqb3yx" path="res://images/phone/31312.jpg" id="3_h5v6u"]
 [ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="3_kukqi"]
-[ext_resource type="Texture2D" uid="uid://ocwn2npqb3yx" path="res://images/tilesets/31312.jpg" id="3_mrruf"]
-[ext_resource type="Texture2D" uid="uid://blbelkkqbfq2d" path="res://images/tilesets/4343433.jpg" id="4_78550"]
-[ext_resource type="Texture2D" uid="uid://dxon1hookl4t0" path="res://images/tilesets/432425555.jpg" id="5_h5v6u"]
-[ext_resource type="Texture2D" uid="uid://bypi1st6pt3od" path="res://images/tilesets/5554545454.png" id="6_2yjx4"]
-[ext_resource type="Texture2D" uid="uid://bfa7un6ymab0a" path="res://images/tilesets/434.jpg" id="7_78550"]
-[ext_resource type="Texture2D" uid="uid://eou3q6pmmkjb" path="res://images/tilesets/435123.jpg" id="8_h5v6u"]
+[ext_resource type="Texture2D" uid="uid://blbelkkqbfq2d" path="res://images/phone/4343433.jpg" id="4_2yjx4"]
+[ext_resource type="Texture2D" uid="uid://dxon1hookl4t0" path="res://images/phone/432425555.jpg" id="5_1tr3n"]
+[ext_resource type="Texture2D" uid="uid://bypi1st6pt3od" path="res://images/phone/5554545454.png" id="6_18ave"]
+[ext_resource type="Texture2D" uid="uid://bfa7un6ymab0a" path="res://images/phone/434.jpg" id="7_yimwq"]
+[ext_resource type="Texture2D" uid="uid://eou3q6pmmkjb" path="res://images/phone/435123.jpg" id="8_a57rx"]
 
 [sub_resource type="Animation" id="Animation_1s2dm"]
 length = 0.001
@@ -81,6 +81,15 @@ bg_color = Color(0.58431375, 0.15294118, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxa3g"]
 bg_color = Color(0.74509805, 0.09019608, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ccjd"]
+bg_color = Color(0.55092597, 0.40609777, 0.2676155, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wr72m"]
+bg_color = Color(0.39875236, 0.28974146, 0.18017918, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hvlvj"]
+bg_color = Color(0.61693394, 0.4633661, 0.31037748, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5gcy"]
 bg_color = Color(0.74978, 0.74978, 0.7497799, 1)
@@ -326,7 +335,7 @@ theme_override_font_sizes/font_size = 24
 text = "Пауза"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxStart" type="VBoxContainer" parent="Panel"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 8
@@ -335,43 +344,30 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -109.0
-offset_top = -213.5
+offset_top = -176.00067
 offset_right = 109.0
 offset_bottom = 213.5
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
 
-[node name="Continue" type="Button" parent="Panel/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="Panel/VBoxStart"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+columns = 4
+
+[node name="Continue_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Continue" type="Button" parent="Panel/VBoxStart/GridContainer/Continue_Container"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("3_h5v6u")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Continue"]
-layout_mode = 0
-offset_left = -2.0
-offset_top = -126.50067
-offset_right = 38.0
-offset_bottom = -86.50067
-
-[node name="Continue" type="Button" parent="Panel/VBoxContainer/Continue/AspectRatioContainer"]
-process_mode = 3
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
-theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
-icon = ExtResource("3_mrruf")
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Continue/AspectRatioContainer/Continue"]
-layout_mode = 0
-offset_left = -2.0
-offset_top = -126.50067
-offset_right = 38.0
-offset_bottom = -86.50067
-
-[node name="Label" type="Label" parent="Panel/VBoxContainer/Continue/AspectRatioContainer/Continue"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Continue_Container/Continue"]
 layout_mode = 0
 offset_left = -3.0
 offset_top = 41.0
@@ -380,36 +376,18 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 7
 text = "Продолжить"
 
-[node name="Options" type="Button" parent="Panel/VBoxContainer"]
+[node name="Options_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Options" type="Button" parent="Panel/VBoxStart/GridContainer/Options_Container"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("4_2yjx4")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Options"]
-layout_mode = 0
-offset_left = 60.0
-offset_top = -129.50067
-offset_right = 100.0
-offset_bottom = -89.50067
-
-[node name="Options" type="Button" parent="Panel/VBoxContainer/Options/AspectRatioContainer"]
-process_mode = 3
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
-theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
-icon = ExtResource("4_78550")
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Options/AspectRatioContainer/Options"]
-layout_mode = 0
-offset_left = 60.0
-offset_top = -129.50067
-offset_right = 100.0
-offset_bottom = -89.50067
-
-[node name="Label" type="Label" parent="Panel/VBoxContainer/Options/AspectRatioContainer/Options"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Options_Container/Options"]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 40.0
@@ -418,36 +396,18 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 8
 text = "Настройки"
 
-[node name="Inventory" type="Button" parent="Panel/VBoxContainer"]
+[node name="Inventory_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Inventory" type="Button" parent="Panel/VBoxStart/GridContainer/Inventory_Container"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("5_1tr3n")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Inventory"]
-layout_mode = 0
-offset_left = 124.0
-offset_top = -133.50067
-offset_right = 164.0
-offset_bottom = -93.50067
-
-[node name="Inventory" type="Button" parent="Panel/VBoxContainer/Inventory/AspectRatioContainer"]
-process_mode = 3
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
-theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
-icon = ExtResource("5_h5v6u")
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Inventory/AspectRatioContainer/Inventory"]
-layout_mode = 0
-offset_left = 124.0
-offset_top = -133.50067
-offset_right = 164.0
-offset_bottom = -93.50067
-
-[node name="Label" type="Label" parent="Panel/VBoxContainer/Inventory/AspectRatioContainer/Inventory"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Inventory_Container/Inventory"]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 40.0
@@ -456,34 +416,18 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 8
 text = "Инвентарь"
 
-[node name="Exit_to_Main_Menu" type="Button" parent="Panel/VBoxContainer"]
+[node name="Exit_to_Main_Menu_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Exit_to_Main_Menu" type="Button" parent="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_2nc7s")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_d3xb4")
 theme_override_styles/hover = SubResource("StyleBoxFlat_mxa3g")
+icon = ExtResource("6_18ave")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Exit_to_Main_Menu"]
-layout_mode = 0
-offset_left = 182.0
-offset_top = -137.50067
-offset_right = 222.0
-offset_bottom = -97.50067
-
-[node name="Exit_to_Main_Menu" type="Button" parent="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer"]
-process_mode = 3
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_2nc7s")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_d3xb4")
-theme_override_styles/hover = SubResource("StyleBoxFlat_mxa3g")
-icon = ExtResource("6_2yjx4")
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer/Exit_to_Main_Menu"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Label" type="Label" parent="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer/Exit_to_Main_Menu"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container/Exit_to_Main_Menu"]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 40.0
@@ -492,29 +436,14 @@ offset_bottom = 53.0
 theme_override_font_sizes/font_size = 9
 text = "Выйти"
 
-[node name="Messenger" type="Button" parent="Panel/VBoxContainer"]
+[node name="Messenger_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
 layout_mode = 2
-flat = true
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Messenger"]
-layout_mode = 0
-offset_left = -2.0
-offset_top = -74.50067
-offset_right = 46.0
-offset_bottom = -26.500671
-
-[node name="Messenger" type="Button" parent="Panel/VBoxContainer/Messenger/AspectRatioContainer"]
+[node name="Messenger" type="Button" parent="Panel/VBoxStart/GridContainer/Messenger_Container"]
 layout_mode = 2
-icon = ExtResource("7_78550")
+icon = ExtResource("7_yimwq")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer/Messenger/AspectRatioContainer/Messenger"]
-layout_mode = 0
-offset_left = -2.0
-offset_top = -74.50067
-offset_right = 38.0
-offset_bottom = -34.50067
-
-[node name="Label" type="Label" parent="Panel/VBoxContainer/Messenger/AspectRatioContainer/Messenger"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Messenger_Container/Messenger"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 45.0
@@ -565,6 +494,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+step = 5.0
 
 [node name="Music" type="VBoxContainer" parent="Panel/VBoxOptions"]
 layout_mode = 2
@@ -585,66 +515,31 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-
-[node name="Mouse_Sensivity" type="VBoxContainer" parent="Panel/VBoxOptions"]
-layout_mode = 2
-
-[node name="Mouse_Text" type="HBoxContainer" parent="Panel/VBoxOptions/Mouse_Sensivity"]
-layout_mode = 2
-
-[node name="Mouse_Label" type="Label" parent="Panel/VBoxOptions/Mouse_Sensivity/Mouse_Text"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Чувствительность мыши"
-horizontal_alignment = 1
-
-[node name="Mouse_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Mouse_Sensivity"]
-layout_mode = 2
-
-[node name="mouse_sensitivity_slider" type="HSlider" parent="Panel/VBoxOptions/Mouse_Sensivity/Mouse_slider"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
+step = 5.0
 
 [node name="Fullscreen_CheckBox" type="CheckBox" parent="Panel/VBoxOptions"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Полноэкранный режим"
 
-[node name="Back_to_Pause_Menu" type="Button" parent="Panel/VBoxOptions"]
+[node name="Back_from_Options" type="Button" parent="Panel/VBoxOptions"]
 process_mode = 3
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
-theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+theme_override_styles/normal = SubResource("StyleBoxFlat_3ccjd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wr72m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hvlvj")
 text = "Назад"
 
-[node name="Control" type="Control" parent="Panel"]
+[node name="Messenger" type="Panel" parent="Panel"]
 visible = false
 z_index = 21
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Messenger" type="Control" parent="Panel/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="Panel" parent="Panel/Control/Messenger"]
 layout_mode = 1
 offset_left = 10.0
 offset_top = 36.0
 offset_right = 263.0
 offset_bottom = 504.0
 
-[node name="Tutorial" type="Button" parent="Panel/Control/Messenger/Panel"]
+[node name="Tutorial" type="Button" parent="Panel/Messenger"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 22.0
@@ -652,24 +547,16 @@ offset_right = 245.0
 offset_bottom = 54.0
 text = "Туториал"
 
-[node name="Back to menu pause" type="Button" parent="Panel/Control/Messenger/Panel"]
+[node name="Back_from_Messenger" type="Button" parent="Panel/Messenger"]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 391.0
 offset_right = 71.0
 offset_bottom = 465.0
-icon = ExtResource("8_h5v6u")
+icon = ExtResource("8_a57rx")
 
-[node name="Pivo" type="Control" parent="Panel"]
+[node name="Tutorial" type="Panel" parent="Panel"]
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="Panel" parent="Panel/Pivo"]
 z_index = 21
 layout_mode = 1
 offset_left = 10.0
@@ -677,7 +564,7 @@ offset_top = 35.0
 offset_right = 263.0
 offset_bottom = 503.0
 
-[node name="Label" type="Label" parent="Panel/Pivo/Panel"]
+[node name="Tutorial_Text" type="Label" parent="Panel/Tutorial"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 15.0
@@ -690,7 +577,7 @@ text = "Ходить стрелками
 Взаимодействовать E
 Меню-пауза ESC"
 
-[node name="Label2" type="Label" parent="Panel/Pivo/Panel"]
+[node name="Write_Messenger" type="Label" parent="Panel/Tutorial"]
 layout_mode = 0
 offset_top = 428.0
 offset_right = 254.0
@@ -698,7 +585,7 @@ offset_bottom = 468.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_hksts")
 text = "Написать сообщение..."
 
-[node name="Back to messenger" type="Button" parent="Panel/Pivo/Panel"]
+[node name="Back_from_Tutorial" type="Button" parent="Panel/Tutorial"]
 layout_mode = 0
 offset_left = 213.0
 offset_top = 428.0
@@ -764,16 +651,14 @@ libraries = {
 &"": SubResource("AnimationLibrary_v4r4p")
 }
 
-[connection signal="pressed" from="Panel/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Continue/AspectRatioContainer/Continue" to="." method="_on_continue_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Options/AspectRatioContainer/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Inventory/AspectRatioContainer/Inventory" to="." method="_on_inventory_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Exit_to_Main_Menu/AspectRatioContainer/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Messenger/AspectRatioContainer/Messenger" to="." method="_on_messenger_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Continue_Container/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Options_Container/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Messenger_Container/Messenger" to="." method="_on_messenger_pressed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
 [connection signal="toggled" from="Panel/VBoxOptions/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
-[connection signal="pressed" from="Panel/VBoxOptions/Back_to_Pause_Menu" to="." method="_on_back_to_pause_menu_pressed"]
-[connection signal="pressed" from="Panel/Control/Messenger/Panel/Tutorial" to="." method="_on_tutorial_pressed"]
-[connection signal="pressed" from="Panel/Control/Messenger/Panel/Back to menu pause" to="." method="_on_back_to_pause_menu_pressed_2"]
-[connection signal="pressed" from="Panel/Pivo/Panel/Back to messenger" to="." method="_on_back_to_messenger_pressed_3"]
+[connection signal="pressed" from="Panel/VBoxOptions/Back_from_Options" to="." method="_on_back_from_options_pressed"]
+[connection signal="pressed" from="Panel/Messenger/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="Panel/Messenger/Back_from_Messenger" to="." method="_on_back_from_messenger_pressed"]
+[connection signal="pressed" from="Panel/Tutorial/Back_from_Tutorial" to="." method="_on_back_from_tutorial_pressed"]

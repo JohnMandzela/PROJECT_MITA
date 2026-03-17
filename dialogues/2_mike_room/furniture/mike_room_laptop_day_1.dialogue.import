@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://bawo48rrdm7cy"
+path="res://.godot/imported/mike_room_laptop_day_1.dialogue-d69ee4d4dd4ade4b8f13a241429d5297.tres"
+
+[deps]
+
+source_file="res://dialogues/2_mike_room/furniture/mike_room_laptop_day_1.dialogue"
+dest_files=["res://.godot/imported/mike_room_laptop_day_1.dialogue-d69ee4d4dd4ade4b8f13a241429d5297.tres"]
+
+[params]
+
+defaults=true

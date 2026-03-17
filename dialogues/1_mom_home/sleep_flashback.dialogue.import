@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://but1myuxismw1"
+path="res://.godot/imported/sleep_flashback.dialogue-bca354fef59234411df63101ba808190.tres"
+
+[deps]
+
+source_file="res://dialogues/1_mom_home/sleep_flashback.dialogue"
+dest_files=["res://.godot/imported/sleep_flashback.dialogue-bca354fef59234411df63101ba808190.tres"]
+
+[params]
+
+defaults=true

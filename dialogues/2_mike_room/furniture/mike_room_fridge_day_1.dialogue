@@ -1,0 +1,22 @@
+~ start
+set locals.cola_in_inventory = GameManager.items_inventory["buttle_cola"]
+set locals.cola_quest = GameManager.game_flags["3_cola_in_fridge"]
+if locals.cola_quest == false:
+	В холодильнике ничего, кроме пары дошираков, не осталось.
+	Да и в микроволновке сверху ничего нет.
+	if locals.cola_in_inventory == 1:
+		Ты держишь в руках бутылку колы.
+		- Положить газировку
+			do drop_item("buttle_cola")
+			do cola_in_fridge("3_cola_in_fridge")
+			Ты положил БУТЫЛКУ КОЛЫ
+			Майк: За день успеет охладиться.
+			Майк: Надо будет выпить после работы.
+		- Уйти => END
+	if locals.cola_in_inventory == 0:
+		Майк: Боже, до чего я дожил... питаюсь одними полуфабрикатами.
+		Майк: По крайней мере, денег хватает хотя бы на это.
+if locals.cola_quest == true:
+	Бутылка колы стоит и охлаждается в холодильнике.
+	Она ждет своего часа...
+=> END
