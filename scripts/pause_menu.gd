@@ -1,23 +1,31 @@
 extends Control
 
 
+#---------------------------------------------------------------------------------------------------------------
+# Переменные к путям главных окон
+@onready var pause_label:= $Panel/Pause_Label                                   # Заголовок "Пауза"
+@onready var pause_menu_ui: Panel = $Panel/Start_Display                        # Стартовое окно
+@onready var menu_options: VBoxContainer = $Panel/VBoxOptions                   # Настройки
+
 # Переменные к путям данных настроек
 @onready var fullscren_checkbox_path: CheckBox = $Panel/VBoxOptions/Fullscreen_CheckBox
 @onready var music_value_path: HSlider = $Panel/VBoxOptions/Music/Music_slider/music_slider
 @onready var sounds_value_path: HSlider = $Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider
 
-@onready var pause_menu_ui: VBoxContainer = $Panel/VBoxContainer
-@onready var menu_options: VBoxContainer = $Panel/VBoxOptions
-var menu_open = 0
-var loading_settings := true
+# Флажки на события
+var menu_open = 0                                      # Открыто меню или нет
+var loading_settings := true                           # Загрузка настроек
 
+# Переменные с анимацией
 @onready var anim_on_off: AnimationPlayer = $Screen_Fader_Animation/OnOff_Screen_Fader/AnimationPlayer
 @onready var anim_exit: AnimationPlayer = $Screen_Fader_Animation/Exit_Screen_Fader/AnimationPlayer
 @onready var anim_phone: AnimationPlayer = $Panel/AnimationPlayer
 @onready var anim_blur: AnimationPlayer = $Screen_Fader_Animation/Blur_Rect/AnimationPlayer
 
-@onready var fullscreen_check: CheckBox = $Panel/VBoxOptions/Fullscreen_CheckBox
-@onready var pause_label:= $Panel/Pause_Label
+# Переменные с путями мессенджера и туториала
+@onready var messenger: Panel = $Panel/Messenger
+@onready var tutorial: Panel = $Panel/Tutorial
+#---------------------------------------------------------------------------------------------------------------
 
 
 # Сохраняем данные настроек
@@ -43,6 +51,8 @@ func _ready():
 	pause_menu_ui.visible = false
 	menu_options.visible = false
 	pause_label.visible = false
+	messenger.visible = false
+	tutorial.visible = false
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 	var config = ConfigFile.new()
@@ -127,10 +137,6 @@ func _apply_settings():
 	_on_music_value_changed(music_value_path.value)
 	_on_sounds_value_changed(sounds_value_path.value)
 
-func _on_back_to_pause_menu_pressed() -> void:
-	pause_menu_ui.visible = true
-	pause_label.visible = true
-	menu_options.visible = false
 
 func close_pause_menu() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -139,8 +145,12 @@ func close_pause_menu() -> void:
 	anim_on_off.play("close_pause_menu")
 	await get_tree().create_timer(0.2).timeout
 	get_tree().paused = false
-	menu_options.visible = false
 	visible = false
+	pause_menu_ui.visible = false
+	menu_options.visible = false
+	pause_label.visible = false
+	messenger.visible = false
+	tutorial.visible = false
 
 func _on_exit_to_main_menu_pressed() -> void:
 	anim_exit.play("exit_to_main_menu")
@@ -151,3 +161,32 @@ func _on_exit_to_main_menu_pressed() -> void:
 
 func _on_inventory_pressed() -> void:
 	pass # Replace with function body.
+
+
+func _on_messenger_pressed() -> void:
+	pause_menu_ui.visible = false
+	menu_options.visible = false
+	pause_label.visible = false
+	messenger.visible = true
+
+
+func _on_tutorial_pressed() -> void:
+	pause_menu_ui.visible = false
+	tutorial.visible = true
+	messenger.visible = false
+	pause_label.visible = false
+
+
+func _on_back_from_options_pressed() -> void:
+	pause_menu_ui.visible = true
+	pause_label.visible = true
+	menu_options.visible = false
+
+func _on_back_from_messenger_pressed() -> void:
+	pause_menu_ui.visible = true
+	pause_label.visible = true
+	messenger.visible = false
+
+func _on_back_from_tutorial_pressed() -> void:
+	tutorial.visible = false
+	messenger.visible = true

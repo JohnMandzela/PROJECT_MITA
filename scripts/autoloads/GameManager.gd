@@ -2,7 +2,7 @@ extends Node
 
 
 #---------------------------------------------------------------------------------------------------------------
-# Константы для масштаба экрана в игре
+# Файл с данными настроек
 var SETTINGS_PATH := "user://settings.cfg"
 
 # Переменные для СПАВНА игрока в сцене
@@ -21,6 +21,52 @@ var saved_flashlight_state = null
 
 # Переменная для диалоговой системы
 var disable_movement := false
+#---------------------------------------------------------------------------------------------------------------
+
+
+
+#---------------------------------------------------------------------------------------------------------------
+var items_inventory = {
+		"buttle_cola" = 0
+	}
+
+# Проверяем, было ли событие или нет
+func item_check(item_name: String) -> int:
+	return items_inventory.get(item_name, 0)
+
+# Отмечаем событие выполненным
+func item_was_took(item_name: String):
+	items_inventory[item_name] = items_inventory[item_name] + 1
+	print(items_inventory[item_name])
+
+# Снимаем флаг события (воспроизводим заново)
+func item_was_dropped(item_name: String):
+	items_inventory[item_name] = items_inventory[item_name] - 1
+	print(items_inventory[item_name])
+#---------------------------------------------------------------------------------------------------------------
+
+
+
+#---------------------------------------------------------------------------------------------------------------
+# Хранение флажков по игровым событиям
+var game_flags = {
+		"1_morning_quest" = false,
+		"2_mike_room_bed" = false,
+		"3_cola_in_fridge" = false,
+		"4_shower_use" = false,
+	}
+
+# Проверяем, было ли событие или нет
+func is_done(flag_name: String) -> bool:
+	return game_flags.get(flag_name, false)
+
+# Отмечаем событие выполненным
+func set_done(flag_name: String) -> void:
+	game_flags[flag_name] = true
+
+# Снимаем флаг события (воспроизводим заново)
+func reload(flag_name: String) -> void:
+	game_flags[flag_name] = false
 #---------------------------------------------------------------------------------------------------------------
 
 
