@@ -15,94 +15,6 @@ var loading_settings := true
 func _process(_delta: float) -> void:
 	pass
 
-func _ready():
-	# Собираем все кнопки из VBoxContainer
-	for child in vbox.get_children():
-		if child is Button:
-			glitch_elements.append(child)
-	
-	# Добавляем заголовок, если он существует
-	if title_label:
-		glitch_elements.append(title_label)
-	
-	# Устанавливаем точку поворота в центр и сохраняем исходные значения
-	for element in glitch_elements:
-		# Ждём один кадр, чтобы размеры элемента стали известны
-		await get_tree().process_frame
-		if element is Control:
-			element.pivot_offset = element.size / 2
-		
-		original_rotations[element] = element.rotation_degrees
-		original_scales[element] = element.scale
-		original_colors[element] = element.modulate
-	
-	# Таймер для фонового глитча (можно отключить, убрав следующие строки)
-	timer = Timer.new()
-	timer.wait_time = glitch_interval
-	timer.timeout.connect(_on_glitch_timer)
-	add_child(timer)
-	timer.start()
-	
-	# Подключаем сигналы наведения для кнопок
-	for element in glitch_elements:
-		if element is Button:
-			if not element.mouse_entered.is_connected(_on_button_mouse_entered.bind(element)):
-				element.mouse_entered.connect(_on_button_mouse_entered.bind(element))
-			if not element.mouse_exited.is_connected(_on_button_mouse_exited.bind(element)):
-				element.mouse_exited.connect(_on_button_mouse_exited.bind(element))
-
-func _on_glitch_timer():
-	glitch_all()
-
-func glitch_all():
-	for element in glitch_elements:
-		glitch_element(element)
-
-func glitch_element(element: Control):
-	if not element in original_rotations:
-		return
-	
-	var glitch_tween = create_tween().set_parallel(false)
-	
-	var original_rot = original_rotations[element]
-	var original_scale = original_scales[element]
-	var original_color = original_colors[element]
-	
-	var step_time = glitch_duration / glitch_steps
-	
-	for i in range(glitch_steps):
-		# Поворот
-		var new_rot = original_rot + randf_range(-glitch_intensity_rotation, glitch_intensity_rotation)
-		
-		# Масштаб (равномерный)
-		var scale_factor = 1.0 + randf_range(-glitch_scale_intensity, glitch_scale_intensity)
-		var new_scale = original_scale * scale_factor
-		
-		# Цветовые искажения
-		var r = original_color.r * randf_range(1.0 - glitch_color_intensity, 1.0 + glitch_color_intensity)
-		var g = original_color.g * randf_range(1.0 - glitch_color_intensity, 1.0 + glitch_color_intensity)
-		var b = original_color.b * randf_range(1.0 - glitch_color_intensity, 1.0 + glitch_color_intensity)
-		var new_color = Color(r, g, b, original_color.a)
-		
-		glitch_tween.tween_property(element, "rotation_degrees", new_rot, step_time)
-		glitch_tween.parallel().tween_property(element, "scale", new_scale, step_time)
-		glitch_tween.parallel().tween_property(element, "modulate", new_color, step_time)
-	
-	# Возврат в исходное состояние
-	glitch_tween.tween_property(element, "rotation_degrees", original_rot, step_time)
-	glitch_tween.parallel().tween_property(element, "scale", original_scale, step_time)
-	glitch_tween.parallel().tween_property(element, "modulate", original_color, step_time)
-
-# Обработка наведения мыши
-func _on_button_mouse_entered(element: Control):
-	glitch_element(element)
-
-func _on_button_mouse_exited(element: Control):
-	pass  # можно добавить эффект при уходе, если нужно
-
-
-
-# --- Обработчики кнопок (твои старые функции) ---
 func _on_new_game_button_pressed() -> void:
 	GameManager.stop_music()
 	GameManager.reload("1_morning_quest")
@@ -111,7 +23,7 @@ func _on_new_game_button_pressed() -> void:
 	get_tree().change_scene_to_packed(mom_home_scene)
 
 func _on_load_button_tree_entered() -> void:
-	var load_button := $VBoxContainer/Load
+	var load_button := $Buttons_VBox/Load
 	load_button.visible = SaveSystem.save_exists()
 
 func _on_load_button_pressed() -> void:
@@ -149,12 +61,6 @@ func save_settings():
 	config.set_value("audio", "sounds_volume", sounds_value_path.value)
 
 	config.save(GameManager.SETTINGS_PATH)
-
-
-#---------------------------------------------------------------------------------------------------
-#-------------------------------------ФУНКЦИЯ-READY-------------------------------------------------
-#---------------------------------------------------------------------------------------------------
-
 
 func _ready():
 
