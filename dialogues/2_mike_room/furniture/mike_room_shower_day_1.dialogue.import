@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://xfr1x7r1n7s5"
+path="res://.godot/imported/mike_room_shower_day_1.dialogue-4f0fa8d148980baef1d13ab01ab700a5.tres"
+
+[deps]
+
+source_file="res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue"
+dest_files=["res://.godot/imported/mike_room_shower_day_1.dialogue-4f0fa8d148980baef1d13ab01ab700a5.tres"]
+
+[params]
+
+defaults=true

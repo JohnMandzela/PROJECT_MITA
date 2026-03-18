@@ -4,7 +4,7 @@ extends Control
 #---------------------------------------------------------------------------------------------------------------
 # Переменные к путям главных окон
 @onready var pause_label:= $Panel/Pause_Label                                   # Заголовок "Пауза"
-@onready var pause_menu_ui: VBoxContainer = $Panel/VBoxStart                    # Стартовое окно
+@onready var pause_menu_ui: Panel = $Panel/Start_Display                        # Стартовое окно
 @onready var menu_options: VBoxContainer = $Panel/VBoxOptions                   # Настройки
 
 # Переменные к путям данных настроек

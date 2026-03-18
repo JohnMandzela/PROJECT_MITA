@@ -51,7 +51,8 @@ func item_was_dropped(item_name: String):
 var game_flags = {
 		"1_morning_quest" = false,
 		"2_mike_room_bed" = false,
-		"3_cola_in_fridge" = false
+		"3_cola_in_fridge" = false,
+		"4_shower_use" = false,
 	}
 
 # Проверяем, было ли событие или нет
