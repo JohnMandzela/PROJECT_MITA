@@ -190,3 +190,11 @@ func _on_back_from_messenger_pressed() -> void:
 func _on_back_from_tutorial_pressed() -> void:
 	tutorial.visible = false
 	messenger.visible = true
+
+
+func _on_save_pressed() -> void:
+	SaveSystem.save_game()
+
+
+func _on_load_pressed() -> void:
+	SaveSystem.load_game()
