@@ -12,7 +12,7 @@ var pending_spawn_point: String = ""
 
 # Переменные для анимации ПЕРЕХОДА и сохранения взгляда
 var screen_fader
-var _pending_scene: String
+var _pending_scene_path: String
 var saved_direction = null
 var saved_flashlight_state = null
 
@@ -76,14 +76,14 @@ func _ready() -> void:
 
 #---------------------------------------------------------------------------------------------------------------
 # Начинаем перемещение в другую локацию
-func start_scene_transition(scene_path: String, spawn_point: String) -> void:
-	_pending_scene = scene_path
+func start_scene_transition(scene_name: String, spawn_point: String) -> void:
+	_pending_scene_path = "res://scenes/" + scene_name + ".tscn"
 	pending_spawn_point = spawn_point
 	screen_fader.fade_out()                                                         # затемняем экран
 
 # Меняем локацию после затемнения экрана
 func _on_fade_finished() -> void:
-	get_tree().change_scene_to_file("res://scenes/" + _pending_scene + ".tscn")     # смена локации
+	get_tree().change_scene_to_file(_pending_scene_path)     # смена локации
 	screen_fader.fade_in()                                                          # осветляем экран
 #---------------------------------------------------------------------------------------------------------------
 

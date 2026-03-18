@@ -6,17 +6,15 @@ extends Node2D
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# Если игрока нет — создаём НУЖНУЮ модель
-	if GameManager.player == null:
+	if not GameManager.player:
+		print("Создаём сцену игрока")
 		GameManager.player = player_scene.instantiate()
-		add_child(GameManager.player)
-	else:
-		# Если игрок есть, но его сцена ДРУГАЯ — пересоздаём
-		if GameManager.player.scene_file_path != player_scene.resource_path:
-			GameManager.player.queue_free()
-			GameManager.player = player_scene.instantiate()
-			add_child(GameManager.player)
-		else:
-			add_child(GameManager.player)
+	elif GameManager.player.scene_file_path != player_scene.resource_path:
+		print("Пересоздаём сцену игрока")
+		GameManager.player.queue_free()
+		GameManager.player = player_scene.instantiate()
+	
+	add_child(GameManager.player)
 
 	# Определяем spawn
 	var spawn_name := GameManager.pending_spawn_point
@@ -25,6 +23,7 @@ func _ready():
 
 	var spawn = get_node_or_null(spawn_name)
 	if spawn:
+		print("Передвигаем игрока на точку спавна")
 		GameManager.player.global_position = spawn.global_position
 
 	GameManager.pending_spawn_point = ""

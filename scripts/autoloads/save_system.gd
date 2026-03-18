@@ -12,8 +12,8 @@ func save_game() -> void:
 		return
 		
 	var save_data := {
-		"current_scene" = get_tree().current_scene.name, # TODO
-		"player_position" = player.position,
+		"scene_file_path" = get_tree().current_scene.scene_file_path,
+		"player_position" = player.global_position,
 		"player_direction" = player.last_direction,
 		"flashlight_enabled" = player.is_flashlight_on
 	}
@@ -38,7 +38,11 @@ func load_game() -> void:
 	var save_data: Dictionary = file.get_var()
 	file.close()
 	
-	player.position = save_data["player_position"]
+	GameManager._pending_scene_path = save_data["scene_file_path"]
+	GameManager.pending_spawn_point = "__load" # TODO: убрать этот костыль
+	GameManager.screen_fader.fade_out()
+		
+	player.global_position = save_data["player_position"]
 	player.last_direction = save_data["player_direction"]
 	player.is_flashlight_on = save_data["flashlight_enabled"]
 	
