@@ -197,4 +197,5 @@ func _on_save_pressed() -> void:
 
 
 func _on_load_pressed() -> void:
+	toggle()
 	SaveSystem.load_game()

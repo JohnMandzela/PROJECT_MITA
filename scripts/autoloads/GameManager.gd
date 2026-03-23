@@ -129,6 +129,9 @@ func start_scene_transition(scene_name: String, spawn_point: String) -> void:
 
 # Меняем локацию после затемнения экрана
 func _on_fade_finished() -> void:
+	if SaveSystem.is_loading:
+		SaveSystem.load_game_data()
+		
 	get_tree().change_scene_to_file(_pending_scene_path)     # смена локации
 	screen_fader.fade_in()                                                          # осветляем экран
 #---------------------------------------------------------------------------------------------------------------
