@@ -75,7 +75,6 @@ func load_game_data() -> void:
 	GameManager._pending_scene_path = _save_data["scene_file_path"]
 	
 	print("Загружены данные GameManager")
-	is_loading = false
 
 
 # Завершение загрузки игрока. Вызывать после загрузки сцены
