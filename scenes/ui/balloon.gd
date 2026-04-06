@@ -65,6 +65,7 @@ var mutation_cooldown: Timer = Timer.new()
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
 
 @onready var left_portrait: CharacterPortrait = %LeftPortrait
+
 @onready var right_portrait: CharacterPortrait = %RightPortrait
 
 ## Indicator to show that player can progress dialogue.
@@ -133,14 +134,26 @@ func apply_dialogue_line() -> void:
 	character_label.visible = not character.is_empty()
 	character_label.text = tr(character, "dialogue")
 	
-	# временный хардкод
-	# TODO: сделать нормально
-	if character == 'Майк':
-		left_portrait.set_active()
-		right_portrait.set_inactive()
-	elif not character.is_empty():
-		left_portrait.set_inactive()
-		right_portrait.set_active()
+	if character:
+		var emotion := &""
+		for emotion_name in DialogueGlobals.EMOTES:
+			if emotion_name in dialogue_line.tags:
+				emotion = emotion_name
+				break
+		
+		var current_portrait: CharacterPortrait
+		var other_portrait: CharacterPortrait
+		
+		if left_portrait._character == null or left_portrait._character == character:
+			current_portrait = left_portrait
+			other_portrait = right_portrait
+		else:
+			current_portrait = right_portrait
+			other_portrait = left_portrait
+		
+		current_portrait.set_character(character, emotion)
+		current_portrait.set_active()
+		other_portrait.set_inactive()
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
@@ -187,6 +200,14 @@ func apply_dialogue_line() -> void:
 func next(next_id: String) -> void:
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, temporary_game_states)
 
+
+func hide_portrait(character: String) -> void:
+	if left_portrait._character == character:
+		left_portrait.hide_character()
+	elif right_portrait._character == character:
+		right_portrait.hide_character()
+	else:
+		push_warning("Функция hide_portrait() вызвана с персонажем '%s', который не участвует в диалоге" % [character])
 
 #region Signals
 

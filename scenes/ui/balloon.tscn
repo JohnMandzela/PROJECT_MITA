@@ -1,10 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://crgoc60wxu88c"]
+[gd_scene load_steps=13 format=3 uid="uid://crgoc60wxu88c"]
 
 [ext_resource type="Script" uid="uid://dqnq8gjhv2iet" path="res://scenes/ui/balloon.gd" id="1_36de5"]
 [ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="2_a8ve6"]
-[ext_resource type="PackedScene" uid="uid://ca26smv8k04hh" path="res://scenes/ui/character_portrait.tscn" id="2_ujumt"]
+[ext_resource type="PackedScene" uid="uid://dvhw5m37qmxyq" path="res://scenes/ui/character_portrait.tscn" id="2_ujumt"]
 [ext_resource type="Script" uid="uid://bb52rsfwhkxbn" path="res://addons/dialogue_manager/dialogue_responses_menu.gd" id="3_72ixx"]
-[ext_resource type="Texture2D" uid="uid://b8deacemmhkmg" path="res://images/characters/Mike.png" id="3_c6pds"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_spyqn"]
 bg_color = Color(0, 0, 0, 1)
@@ -125,7 +124,6 @@ offset_top = -532.0
 offset_bottom = 0.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 532)
-texture = ExtResource("3_c6pds")
 
 [node name="RightPortrait" parent="Balloon" instance=ExtResource("2_ujumt")]
 unique_name_in_owner = true
@@ -142,7 +140,6 @@ offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(384, 532)
-texture = ExtResource("3_c6pds")
 flip_h = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Balloon"]
