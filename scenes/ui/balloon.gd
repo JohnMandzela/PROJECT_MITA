@@ -110,7 +110,7 @@ func _notification(what: int) -> void:
 
 ## Start some dialogue
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
-	temporary_game_states = [self] + extra_game_states
+	temporary_game_states = [ self ] + extra_game_states
 	is_waiting_for_input = false
 	GameManager.disable_movement = true
 
@@ -200,7 +200,25 @@ func apply_dialogue_line() -> void:
 func next(next_id: String) -> void:
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, temporary_game_states)
 
+#region Dialogue Functions
 
+# Затухание
+func fade_out(seconds = null) -> void:
+	GameManager.screen_fader.fade_out(seconds)
+	
+	# Если передана длительность, ставим диалог на паузу до конца плавного появления
+	# Если не передана, то продолжаем после конца затенения
+	if seconds != null:
+		await GameManager.screen_fader.fade_in_finished
+	else:
+		await GameManager.screen_fader.fade_out_finished
+
+# Плавное появление
+func fade_in() -> void:
+	GameManager.screen_fader.fade_in()
+	await GameManager.screen_fader.fade_in_finished
+
+# Скрыть портрет персонажа по имени
 func hide_portrait(character: String) -> void:
 	if left_portrait._character == character:
 		left_portrait.hide_character()
@@ -209,8 +227,8 @@ func hide_portrait(character: String) -> void:
 	else:
 		push_warning("Функция hide_portrait() вызвана с персонажем '%s', который не участвует в диалоге" % [character])
 
-#region Signals
 
+#region Signals
 
 func _on_mutation_cooldown_timeout() -> void:
 	if will_hide_balloon:

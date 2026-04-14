@@ -11,7 +11,7 @@ var player: CharacterBody2D
 var pending_spawn_point: String = ""
 
 # Переменные для анимации ПЕРЕХОДА и сохранения взгляда
-var screen_fader
+var screen_fader: ScreenFader
 var _pending_scene: String
 var saved_direction
 
@@ -114,7 +114,7 @@ func _ready() -> void:
 	screen_fader = preload("res://scenes/system/screen_fader.tscn").instantiate()   # подзагружаем анимацию перехода
 	add_child(screen_fader)                                                         # добавляем ее в сцену
 
-	screen_fader.fade_finished.connect(_on_fade_finished)
+	screen_fader.fade_out_finished.connect(_on_fade_out_finished)
 #---------------------------------------------------------------------------------------------------------------
 
 
@@ -124,12 +124,15 @@ func _ready() -> void:
 func start_scene_transition(scene_path: String, spawn_point: String) -> void:
 	_pending_scene = scene_path
 	pending_spawn_point = spawn_point
-	screen_fader.fade_out()                                                         # затемняем экран
+	screen_fader.fade_out(0.5) # затемняем экран
 
 # Меняем локацию после затемнения экрана
-func _on_fade_finished() -> void:
+func _on_fade_out_finished() -> void:
+	if not _pending_scene:
+		return
+	
 	get_tree().change_scene_to_file("res://scenes/" + _pending_scene + ".tscn")     # смена локации
-	screen_fader.fade_in()                                                          # осветляем экран
+	_pending_scene = ""
 #---------------------------------------------------------------------------------------------------------------
 
 

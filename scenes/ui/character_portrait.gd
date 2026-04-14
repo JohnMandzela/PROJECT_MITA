@@ -1,5 +1,7 @@
+@icon("res://images/editor/character_portrait.svg")
+
 class_name CharacterPortrait
-extends TextureRect
+extends Node2D
 # Портрет персонажа для диалога
 
 const ACTIVE_COLOR := Color.WHITE
@@ -8,42 +10,54 @@ const ACTIVE_SCALE := Vector2(1, 1)
 const INACTIVE_COLOR := Color(0.33, 0.33, 0.33, 1)
 const INACTIVE_SCALE := Vector2(0.9, 0.9)
 
+@onready var texture_rect: TextureRect = $TextureRect
+@onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
+
+@export var flipped := false
+
 var _character = null
-var _emotion: StringName = ""
+var _emotion := &""
 
-
-func set_active() -> void:
-	self.modulate = ACTIVE_COLOR
+func set_active() -> void:	
+	self.texture_rect.modulate = ACTIVE_COLOR
 	self.scale = ACTIVE_SCALE
 	
 func set_inactive() -> void:
-	self.modulate = INACTIVE_COLOR
+	self.texture_rect.modulate = INACTIVE_COLOR
 	self.scale = INACTIVE_SCALE
 
 
-func set_character(character: String, emotion: StringName = "") -> void:
-	if character == self._character and emotion == self._emotion:
+func set_character(character: String, emotion := &"") -> void:
+	var char_changed = character != self._character
+	
+	if char_changed and self._character != "":
+		hide_character()
+	elif not char_changed and emotion == self._emotion:
 		return
-		
+
 	self._character = character
 	self._emotion = emotion
 	
 	var prefix = DialogueGlobals.PORTRAIT_PREFIXES[character]
 	var portrait_name = (prefix + "_" + emotion) if emotion else prefix
-	self.texture = ResourceLoader.load("res://images/characters/%s.png" % [portrait_name], "Texture2D", ResourceLoader.CACHE_MODE_REUSE)
+
+	var anchor := Control.LayoutPreset.PRESET_BOTTOM_RIGHT if flipped else Control.LayoutPreset.PRESET_BOTTOM_LEFT
+	self.texture_rect.set_anchors_preset(anchor)
+	self.texture_rect.flip_h = flipped
+
+	if char_changed:
+		anim_player.play("enter_right" if flipped else "enter_left")
+
+	self.texture_rect.texture = ResourceLoader.load("res://images/characters/%s.png" % [portrait_name], "Texture2D", ResourceLoader.CACHE_MODE_REUSE)
+
+	if char_changed:
+		await anim_player.animation_finished
 
 
 func hide_character() -> void:
 	self._character = null
 	self._emotion = ""
-	self.texture = null
+	self.texture_rect.texture = null
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	anim_player.play("leave_right" if flipped else "leave_left")
+	await anim_player.animation_finished

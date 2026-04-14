@@ -116,31 +116,12 @@ theme = SubResource("Theme_qq3yp")
 
 [node name="LeftPortrait" parent="Balloon" instance=ExtResource("2_ujumt")]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -532.0
-offset_bottom = 0.0
-grow_vertical = 0
-pivot_offset = Vector2(0, 532)
+position = Vector2(0, 648)
 
 [node name="RightPortrait" parent="Balloon" instance=ExtResource("2_ujumt")]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -384.0
-offset_top = -532.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 0
-pivot_offset = Vector2(384, 532)
-flip_h = true
+position = Vector2(1152, 648)
+flipped = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Balloon"]
 layout_mode = 1
