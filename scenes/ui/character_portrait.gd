@@ -15,7 +15,7 @@ const INACTIVE_SCALE := Vector2(0.9, 0.9)
 
 @export var flipped := false
 
-var _character = null
+var _character := &""
 var _emotion := &""
 
 func set_active() -> void:	
@@ -30,9 +30,9 @@ func set_inactive() -> void:
 func set_character(character: String, emotion := &"") -> void:
 	var char_changed = character != self._character
 	
-	if char_changed and self._character != "":
+	if char_changed:
 		hide_character()
-	elif not char_changed and emotion == self._emotion:
+	elif emotion == self._emotion:
 		return
 
 	self._character = character
@@ -55,9 +55,12 @@ func set_character(character: String, emotion := &"") -> void:
 
 
 func hide_character() -> void:
-	self._character = null
-	self._emotion = ""
-	self.texture_rect.texture = null
+	if not self._character: 
+		return
 
 	anim_player.play("leave_right" if flipped else "leave_left")
 	await anim_player.animation_finished
+
+	self._character = ""
+	self._emotion = ""
+	self.texture_rect.texture = null

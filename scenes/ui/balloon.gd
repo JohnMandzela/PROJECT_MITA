@@ -144,7 +144,7 @@ func apply_dialogue_line() -> void:
 		var current_portrait: CharacterPortrait
 		var other_portrait: CharacterPortrait
 		
-		if left_portrait._character == null or left_portrait._character == character:
+		if not left_portrait._character or left_portrait._character == character:
 			current_portrait = left_portrait
 			other_portrait = right_portrait
 		else:
