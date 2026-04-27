@@ -1,6 +1,11 @@
 extends CanvasLayer
 ## A basic dialogue balloon for use with Dialogue Manager.
 
+enum PortraitSide {
+	LEFT,
+	RIGHT
+}
+
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource
 
@@ -121,6 +126,40 @@ func start(with_dialogue_resource: DialogueResource = null, title: String = "", 
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(start_from_title, temporary_game_states)
 	show()
 
+func get_portrait_side() -> PortraitSide:
+	var character := dialogue_line.character
+	assert(character, "get_portrait_side() вызвана для строки диалога без персонажа")
+
+	var current_side = null
+	if left_portrait._character == character:
+		current_side = PortraitSide.LEFT
+	elif right_portrait._character == character:
+		current_side = PortraitSide.RIGHT
+
+	var side := dialogue_line.get_tag_value("side")
+	if current_side != null and side:
+		push_warning("Персонаж '%s' уже отображается с стороны '%s', но в строке диалога '%s' присутствует тег со стороной '%s'" % [character, current_side, dialogue_line.id, side])
+
+	if current_side != null:
+		return current_side
+
+	if side == "left": 
+		print("explicitly left")
+		return PortraitSide.LEFT
+	elif side == "right": 
+		print("explicitly right")
+		return PortraitSide.RIGHT
+	elif side:
+		push_warning("Некорректная сторона '%s' для персонажа '%s' в строке диалога '%s'" % [side, character, dialogue_line.id])
+
+	if not left_portrait._character:
+		return PortraitSide.LEFT
+	elif not right_portrait._character:
+		return PortraitSide.RIGHT
+
+	push_warning("Оба портрета уже заняты, но в строке диалога '%s' нет тега со стороной для персонажа '%s'" % [dialogue_line.id, character])
+	return PortraitSide.LEFT
+
 ## Apply any changes to the balloon given a new [DialogueLine].
 func apply_dialogue_line() -> void:
 	mutation_cooldown.stop()
@@ -140,11 +179,11 @@ func apply_dialogue_line() -> void:
 			if emotion_name in dialogue_line.tags:
 				emotion = emotion_name
 				break
-		
+
 		var current_portrait: CharacterPortrait
 		var other_portrait: CharacterPortrait
 		
-		if not left_portrait._character or left_portrait._character == character:
+		if get_portrait_side() == PortraitSide.LEFT:
 			current_portrait = left_portrait
 			other_portrait = right_portrait
 		else:
