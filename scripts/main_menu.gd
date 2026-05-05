@@ -24,10 +24,21 @@ func _on_new_game_button_pressed() -> void:
 
 func _on_load_button_tree_entered() -> void:
 	var load_button := $Buttons_VBox/Load
-	load_button.visible = SaveSystem.save_exists()
+	load_button.visible = SaveSystem.get_all_save_files().size() > 0
 
 func _on_load_button_pressed() -> void:
-	SaveSystem.load_game()
+	pass # TODO: слоты сохранений
+
+
+func _on_continue_tree_entered() -> void:
+	var continue_button := $Buttons_VBox/Continue
+	continue_button.visible = SaveSystem.get_all_save_files().size() > 0
+
+
+func _on_continue_pressed() -> void:
+	var latest_save := SaveSystem.get_latest_save_path()
+	SaveSystem.load_game_from_file(latest_save)
+
 
 func _on_options_button_pressed() -> void:
 	menu_start.visible = false

@@ -28,6 +28,6 @@ func _ready():
 		if spawn:
 			GameManager.player.global_position = spawn.global_position
 	else:
-		SaveSystem.load_player_data()
+		SaveSystem.load_player_state()
 
 	GameManager.pending_spawn_point = ""

@@ -47,9 +47,9 @@ func _input(event: InputEvent) -> void:
 	# Сохранение и загрузка
 	# TODO: перенести в меню
 	if event.is_action_pressed(\"save\"):
-		SaveSystem.save_game()
+		SaveSystem.save_game(SaveSystem.Mode.QUICK)
 	elif event.is_action_pressed(\"load\"):
-		SaveSystem.load_game()
+		SaveSystem.load_game(SaveSystem.Mode.QUICK)
 
 func _physics_process(_delta: float) -> void:
 	# Движение

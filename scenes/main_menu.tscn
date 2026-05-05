@@ -119,6 +119,12 @@ offset_bottom = 146.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Continue" type="Button" parent="Buttons_VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 34
+text = "Продолжить"
+
 [node name="New_Game" type="Button" parent="Buttons_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
@@ -252,6 +258,8 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
+[connection signal="pressed" from="Buttons_VBox/Continue" to="." method="_on_continue_pressed"]
+[connection signal="tree_entered" from="Buttons_VBox/Continue" to="." method="_on_continue_tree_entered"]
 [connection signal="pressed" from="Buttons_VBox/New_Game" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="Buttons_VBox/Load" to="." method="_on_load_button_pressed"]
 [connection signal="tree_entered" from="Buttons_VBox/Load" to="." method="_on_load_button_tree_entered"]

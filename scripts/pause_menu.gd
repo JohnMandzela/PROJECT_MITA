@@ -192,10 +192,11 @@ func _on_back_from_tutorial_pressed() -> void:
 	messenger.visible = true
 
 
+# TODO: добавить диалог выбора слота сохранения в телефоне
 func _on_save_pressed() -> void:
-	SaveSystem.save_game()
+	SaveSystem.save_game(SaveSystem.Mode.QUICK)
 
 
 func _on_load_pressed() -> void:
 	toggle()
-	SaveSystem.load_game()
+	SaveSystem.load_game(SaveSystem.Mode.QUICK)
