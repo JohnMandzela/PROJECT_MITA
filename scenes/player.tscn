@@ -27,6 +27,7 @@ func _ready():
 		GameManager.saved_direction = null
 
 func _input(event: InputEvent) -> void:
+<<<<<<< Updated upstream
 	# Проверка нажатия кнопки бега (например, \"shift\")
 	if event.is_action_pressed(\"run\"):
 		current_speed = run_speed
@@ -35,8 +36,23 @@ func _input(event: InputEvent) -> void:
 		current_speed = steals_speed
 	else:
 		current_speed = speed
+=======
+	# Сохранение и загрузка
+	# TODO: перенести в меню
+	if event.is_action_pressed(\"save\"):
+		SaveSystem.save_game()
+	elif event.is_action_pressed(\"load\"):
+		SaveSystem.load_game()
+>>>>>>> Stashed changes
 
 func _physics_process(_delta: float) -> void:
+	if Input.is_action_pressed(\"run\"):
+		current_speed = run_speed
+	elif Input.is_action_pressed(\"steals\"):
+		current_speed = steals_speed
+	else:
+		current_speed = speed
+
 	# Движение
 	if not GameManager.disable_movement:
 		direction_vector = Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")

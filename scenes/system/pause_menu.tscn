@@ -319,7 +319,7 @@ _data = {
 
 [node name="Pause_Menu" type="CanvasLayer"]
 process_mode = 3
-layer = 100
+layer = 200
 
 [node name="pause_menu" type="Control" parent="."]
 process_mode = 3

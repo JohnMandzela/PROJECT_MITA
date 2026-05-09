@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://bwvq6vds4vsvu"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_4vifw"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_bmkgt"]
+[ext_resource type="Texture2D" uid="uid://b45nf8f7arg2h" path="res://images/scene/Кабинет Менеджер-макет.png" id="3_p2dgv"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_r6amo"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_bmkgt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2dgv"]
+size = Vector2(54.5, 57)
+
+[node name="Manager\'s_Cabinet" type="Node2D"]
+script = ExtResource("1_4vifw")
+player_scene = ExtResource("2_bmkgt")
+default_spawn_point = "Spawn_from_Corridors"
+
+[node name="manager\'s_Cabinet_Texture" type="Sprite2D" parent="."]
+texture = ExtResource("3_p2dgv")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-25, 313, -25, 253, -84, 253, -84, -95, 108, -95, 108, 253, 30, 253, 30, 313)
+
+[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
+position = Vector2(1, 239)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_r6amo")]
+
+[node name="Exit_to_Corridors" type="Area2D" parent="."]
+script = ExtResource("5_bmkgt")
+required_direction = 1
+exit_direction = "down"
+target_scene = "Mihyung_Offices/corridors_offices"
+target_spawn_point = "Spawn_on_Manager"
+
+[node name="Label" type="Label" parent="Exit_to_Corridors"]
+offset_left = -31.0
+offset_top = 318.0
+offset_right = 37.0
+offset_bottom = 341.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
+position = Vector2(2.75, 284.5)
+shape = SubResource("RectangleShape2D_p2dgv")
+
+[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
+[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]

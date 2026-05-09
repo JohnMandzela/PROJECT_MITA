@@ -1,13 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7tjfu7r6up7y"]
+[gd_scene load_steps=9 format=3 uid="uid://b7tjfu7r6up7y"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_iwjpk"]
 [ext_resource type="Texture2D" uid="uid://bpuchk46yp222" path="res://images/scene/corridor1floor.png" id="2_tec0y"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_yxuxe"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_iqv8y"]
 [ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_iqv8y"]
+[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/next_scene.gd" id="6_iqv8y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30krv"]
 size = Vector2(46, 43)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_apq6k"]
+size = Vector2(46, 47)
 
 [node name="Goshivon" type="Node2D"]
 script = ExtResource("1_iwjpk")
@@ -32,7 +36,7 @@ position = Vector2(47, -16)
 [node name="Enter_2_floor" type="Area2D" parent="."]
 script = ExtResource("5_iqv8y")
 exit_direction = "down"
-target_scene = "Goshivon"
+target_scene = "Goshivon/goshivon"
 target_spawn_point = "Spawn_on_Stairs"
 
 [node name="Label" type="Label" parent="Enter_2_floor"]
@@ -49,5 +53,28 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(48, -241.5)
 shape = SubResource("RectangleShape2D_30krv")
 
+[node name="Exit_to_Street" type="Area2D" parent="."]
+script = ExtResource("6_iqv8y")
+required_direction = 1
+exit_direction = "up"
+target_scene = "Mihyung_Offices/reception_hall"
+target_spawn_point = "Entrance_in_Hall"
+
+[node name="Label" type="Label" parent="Exit_to_Street"]
+offset_left = -34.0
+offset_top = 313.0
+offset_right = 34.0
+offset_bottom = 336.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Street"]
+position = Vector2(0, 287.5)
+shape = SubResource("RectangleShape2D_apq6k")
+
 [connection signal="body_entered" from="Enter_2_floor" to="Enter_2_floor" method="_on_body_entered"]
 [connection signal="body_exited" from="Enter_2_floor" to="Enter_2_floor" method="_on_body_exited"]
+[connection signal="body_entered" from="Exit_to_Street" to="Exit_to_Street" method="_on_body_entered"]
+[connection signal="body_exited" from="Exit_to_Street" to="Exit_to_Street" method="_on_body_exited"]

@@ -255,7 +255,7 @@ polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -70, 
 visible = false
 required_direction = 1
 exit_direction = "down"
-target_scene = "Mike_Room"
+target_scene = "Goshivon/mike_room"
 target_spawn_point = "Spawn_Mike_Room"
 
 [node name="Exit_Mom_Home" type="CollisionShape2D" parent="Sleep_Flashback/Exit_Mom_Home"]

@@ -189,12 +189,13 @@ size_flags_vertical = 3
 text = "Dialogue..."
 
 [node name="Control" type="Control" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 10)
+custom_minimum_size = Vector2(128, 64)
 layout_mode = 2
 size_flags_vertical = 8
 
 [node name="Progress" type="Polygon2D" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control"]
 unique_name_in_owner = true
+position = Vector2(54, 6)
 polygon = PackedVector2Array(0, 0, 10, 10, 20, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control"]
@@ -202,6 +203,17 @@ libraries = {
 &"": SubResource("AnimationLibrary_1337t")
 }
 autoplay = "progress"
+
+[node name="SkipButton" type="Button" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 56.0
+grow_horizontal = 2
+focus_mode = 0
+text = "Пропустить"
 
 [node name="ResponsesMenu" type="VBoxContainer" parent="Balloon" node_paths=PackedStringArray("response_template")]
 unique_name_in_owner = true

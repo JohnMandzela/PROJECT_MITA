@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://bii4dapc32hj3"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_sbv3r"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_esxbj"]
+[ext_resource type="Texture2D" uid="uid://c3aqkbqw2x4ku" path="res://images/scene/Конференц зал-макет.png" id="3_4kei3"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_ycwvv"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_esxbj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4kei3"]
+size = Vector2(52.25, 45)
+
+[node name="Conference_Room" type="Node2D"]
+script = ExtResource("1_sbv3r")
+player_scene = ExtResource("2_esxbj")
+default_spawn_point = "Spawn_from_Corridors"
+
+[node name="Conference_Room_Texture" type="Sprite2D" parent="."]
+texture = ExtResource("3_4kei3")
+
+[node name="Collision_Wall" type="StaticBody2D" parent="Conference_Room_Texture"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Conference_Room_Texture/Collision_Wall"]
+build_mode = 1
+polygon = PackedVector2Array(0, 441, -226, 441, -226, -273, 250, -273, 250, 441, 54, 441, 54, 488, 0, 488)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Conference_Room_Texture/Collision_Wall"]
+polygon = PackedVector2Array(-129, -116, -180, -251, -180, -262, 205, -262, 205, -250, 158, -116)
+
+[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
+position = Vector2(25, 410)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_ycwvv")]
+
+[node name="Exit_to_Corridors" type="Area2D" parent="."]
+script = ExtResource("5_esxbj")
+required_direction = 1
+exit_direction = "down"
+target_scene = "Mihyung_Offices/corridors_offices"
+target_spawn_point = "Spawn_on_Conference"
+
+[node name="Label" type="Label" parent="Exit_to_Corridors"]
+offset_left = -6.0
+offset_top = 489.0
+offset_right = 62.0
+offset_bottom = 512.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
+position = Vector2(27.125, 464.5)
+shape = SubResource("RectangleShape2D_4kei3")
+
+[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
+[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]

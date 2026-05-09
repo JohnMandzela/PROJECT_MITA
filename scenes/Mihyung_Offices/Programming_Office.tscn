@@ -1,0 +1,96 @@
+[gd_scene load_steps=10 format=3 uid="uid://ctxnt187plljn"]
+
+[ext_resource type="Script" path="res://scripts/programming_office.gd" id="1_root"]
+[ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="Texture2D" uid="uid://b0q4bb4sib57x" path="res://images/scene/Programming_Office.png" id="3_bg"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_pause"]
+[ext_resource type="Script" path="res://scripts/programming_office_puzzle_zone.gd" id="5_zone"]
+[ext_resource type="PackedScene" uid="uid://cih1v2kckb6g3" path="res://scenes/samples_puzzle.tscn" id="6_puzzle"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="7_fapqt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(32, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_td11o"]
+size = Vector2(43, 38)
+
+[node name="Programming_Office" type="Node2D"]
+script = ExtResource("1_root")
+puzzle_scene = ExtResource("6_puzzle")
+player_scene = ExtResource("2_player")
+default_spawn_point = "spawn_marker"
+
+[node name="Programming_Office_Texture" type="Sprite2D" parent="."]
+scale = Vector2(0.38085538, 0.38085544)
+texture = ExtResource("3_bg")
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]
+
+[node name="spawn_marker" type="Marker2D" parent="."]
+position = Vector2(-35, 45)
+
+[node name="Ivents" type="Node2D" parent="."]
+
+[node name="Samples_Puzzle_Zone" type="Area2D" parent="Ivents"]
+script = ExtResource("5_zone")
+
+[node name="Label" type="Label" parent="Ivents/Samples_Puzzle_Zone"]
+offset_left = -225.0
+offset_top = -65.0
+offset_right = -61.0
+offset_bottom = -42.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Взаимодействовать"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Samples_Puzzle_Zone"]
+position = Vector2(-137, 44)
+shape = SubResource("RectangleShape2D_zone")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 17)
+zoom = Vector2(1.2, 1.2)
+
+[node name="PuzzleLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="PuzzleContainer" type="Control" parent="PuzzleLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Exit_to_Corridors" type="Area2D" parent="."]
+script = ExtResource("7_fapqt")
+required_direction = 1
+exit_direction = "down"
+target_scene = "Mihyung_Offices/corridors_offices"
+target_spawn_point = "Spawn_on_Programming"
+
+[node name="Label" type="Label" parent="Exit_to_Corridors"]
+offset_left = -351.0
+offset_top = 244.0
+offset_right = -283.0
+offset_bottom = 267.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
+position = Vector2(-256.5, 261)
+shape = SubResource("RectangleShape2D_td11o")
+
+[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
+position = Vector2(-256, 231)
+
+[connection signal="body_entered" from="Ivents/Samples_Puzzle_Zone" to="Ivents/Samples_Puzzle_Zone" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Samples_Puzzle_Zone" to="Ivents/Samples_Puzzle_Zone" method="_on_body_exited"]
+[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
+[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]
