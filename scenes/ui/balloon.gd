@@ -6,6 +6,8 @@ enum PortraitSide {
 	RIGHT,
 }
 
+const SKIP_REPEAT_DELAY := 0.12
+
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource
 
@@ -51,11 +53,7 @@ var dialogue_line: DialogueLine:
 			dialogue_line = value
 			apply_dialogue_line()
 		else:
-<<<<<<< Updated upstream
-			# The dialogue has finished so close the balloon
-=======
 			_restore_dialogue_mouse_mode()
->>>>>>> Stashed changes
 			if owner == null:
 				GameManager.disable_movement = false
 				queue_free()
@@ -93,7 +91,6 @@ func _ready() -> void:
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
 
-	# If the responses menu doesn't have a next action set, use this one
 	if responses_menu.next_action.is_empty():
 		responses_menu.next_action = next_action
 
@@ -113,12 +110,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_instance_valid(dialogue_line):
-<<<<<<< Updated upstream
-		progress.visible = not dialogue_label.is_typing and dialogue_line.responses.size() == 0 and not dialogue_line.has_tag("voice")
-=======
 		_enter_dialogue_mouse_mode()
 		progress.visible = not dialogue_label.is_typing and dialogue_line.responses.is_empty() and not dialogue_line.has_tag("voice")
-		skip_button.disabled = not dialogue_line.responses.is_empty()
+		skip_button.disabled = _should_disable_skip_button()
 		if skip_button.disabled:
 			_is_skip_button_held = false
 		_handle_skip_held(delta)
@@ -132,15 +126,24 @@ func _input(event: InputEvent) -> void:
 		_set_skip_button_held(false)
 	elif event is InputEventScreenTouch and not event.pressed:
 		_set_skip_button_held(false)
->>>>>>> Stashed changes
 
 
 func _unhandled_input(_event: InputEvent) -> void:
-	get_viewport().set_input_as_handled()
+	if is_instance_valid(dialogue_line):
+		if dialogue_label.is_typing and (_event.is_action_pressed(next_action) or _event_is_skip(_event)):
+			dialogue_label.skip_typing()
+			_mark_input_handled()
+			return
+
+		if is_waiting_for_input and dialogue_line.responses.is_empty() and _event.is_action_pressed(next_action):
+			next(dialogue_line.next_id)
+			_mark_input_handled()
+			return
+
+	_mark_input_handled()
 
 
 func _notification(what: int) -> void:
-	## Detect a change of locale and update the current dialogue line to show the new language
 	if what == NOTIFICATION_TRANSLATION_CHANGED and _locale != TranslationServer.get_locale() and is_instance_valid(dialogue_label):
 		_locale = TranslationServer.get_locale()
 		var visible_ratio: float = dialogue_label.visible_ratio
@@ -167,33 +170,7 @@ func start(with_dialogue_resource: DialogueResource = null, title: String = "", 
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(start_from_title, temporary_game_states)
 	show()
 
-<<<<<<< Updated upstream
-=======
 
-func get_portrait_side(character: String) -> PortraitSide:
-	if left_portrait._character == character:
-		return PortraitSide.LEFT
-	if right_portrait._character == character:
-		return PortraitSide.RIGHT
-
-	var side := dialogue_line.get_tag_value("side")
-	if side == "left":
-		return PortraitSide.LEFT
-	if side == "right":
-		return PortraitSide.RIGHT
-	if not side.is_empty():
-		push_warning("Invalid portrait side '%s' for character '%s' in line '%s'" % [side, character, dialogue_line.id])
-
-	if left_portrait._character.is_empty():
-		return PortraitSide.LEFT
-	if right_portrait._character.is_empty():
-		return PortraitSide.RIGHT
-
-	push_warning("Both portrait slots are occupied; using left slot for '%s'" % character)
-	return PortraitSide.LEFT
-
-
->>>>>>> Stashed changes
 ## Apply any changes to the balloon given a new [DialogueLine].
 func apply_dialogue_line() -> void:
 	mutation_cooldown.stop()
@@ -207,67 +184,50 @@ func apply_dialogue_line() -> void:
 	var character := dialogue_line.character
 	character_label.visible = not character.is_empty()
 	character_label.text = tr(character, "dialogue")
-	
-	# временный хардкод
-	# TODO: сделать нормально
-	if character == 'Майк':
-		left_portrait.set_active()
-		right_portrait.set_inactive()
-	elif not character.is_empty():
-		left_portrait.set_inactive()
-		right_portrait.set_active()
+	await _update_portraits(character)
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
 
 	responses_menu.hide()
 	responses_menu.responses = dialogue_line.responses
-	skip_button.disabled = not dialogue_line.responses.is_empty()
+	skip_button.disabled = _should_disable_skip_button()
 
-	# Show our balloon
 	balloon.show()
 	will_hide_balloon = false
 
 	dialogue_label.show()
 	if not dialogue_line.text.is_empty():
 		dialogue_label.type_out()
-		if _is_skip_held():
-			dialogue_label.skip_typing()
 		if dialogue_label.is_typing:
 			await dialogue_label.finished_typing
 
-	# TODO: а будет ли озвучка? если нет, можно это убрать
 	if dialogue_line.has_tag("voice"):
 		audio_stream_player.stream = load(dialogue_line.get_tag_value("voice"))
 		audio_stream_player.play()
 		await audio_stream_player.finished
 		next(dialogue_line.next_id)
 		return
-	
-	# Отображаем варианты ответа
+
 	if dialogue_line.responses:
 		_skip_advance_after_typing = false
+		skip_button.disabled = true
+		_is_skip_button_held = false
 		balloon.focus_mode = Control.FOCUS_NONE
 		responses_menu.show()
 		return
-	
+
 	if dialogue_line.time != "":
-<<<<<<< Updated upstream
-		var time: float = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
-		await get_tree().create_timer(time).timeout
-=======
 		_skip_advance_after_typing = false
 		var line_time: float = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
 		await get_tree().create_timer(line_time).timeout
->>>>>>> Stashed changes
 		next(dialogue_line.next_id)
 		return
-	
-	# Иначе захватываем фокус и ждём ввода игрока
+
 	is_waiting_for_input = true
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
-	if (_is_skip_held() or _skip_advance_after_typing) and _advance_from_skip_hold():
+	if _skip_advance_after_typing and _advance_from_skip_request():
 		return
 
 
@@ -276,13 +236,11 @@ func next(next_id: String) -> void:
 	if _is_advancing:
 		return
 	_is_advancing = true
-	dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, temporary_game_states)
+	var next_dialogue_line: DialogueLine = await dialogue_resource.get_next_dialogue_line(next_id, temporary_game_states)
 	_is_advancing = false
+	dialogue_line = next_dialogue_line
 
 
-<<<<<<< Updated upstream
-#region Signals
-=======
 func fade_out(seconds: Variant = null) -> void:
 	GameManager.screen_fader.fade_out(seconds)
 
@@ -309,6 +267,29 @@ func hide_portrait(character: String) -> void:
 	push_warning("Tried to hide portrait for '%s', but it is not visible" % character)
 
 
+func get_portrait_side(character: String) -> PortraitSide:
+	if left_portrait._character == character:
+		return PortraitSide.LEFT
+	if right_portrait._character == character:
+		return PortraitSide.RIGHT
+
+	var side := dialogue_line.get_tag_value("side").to_lower()
+	if side == "left":
+		return PortraitSide.LEFT
+	if side == "right":
+		return PortraitSide.RIGHT
+	if not side.is_empty():
+		push_warning("Invalid portrait side '%s' for character '%s' in line '%s'" % [side, character, dialogue_line.id])
+
+	if left_portrait._character.is_empty():
+		return PortraitSide.LEFT
+	if right_portrait._character.is_empty():
+		return PortraitSide.RIGHT
+
+	push_warning("Both portrait slots are occupied; using left slot for '%s'" % character)
+	return PortraitSide.LEFT
+
+
 func _update_portraits(character: String) -> void:
 	if character.is_empty():
 		left_portrait.set_inactive()
@@ -321,11 +302,7 @@ func _update_portraits(character: String) -> void:
 		right_portrait.set_inactive()
 		return
 
-	var emotion := ""
-	for emotion_name in DialogueGlobals.EMOTES:
-		if emotion_name in dialogue_line.tags:
-			emotion = emotion_name
-			break
+	var emotion := _get_line_emotion()
 
 	var current_portrait: CharacterPortrait
 	var other_portrait: CharacterPortrait
@@ -347,7 +324,18 @@ func _update_portraits(character: String) -> void:
 		other_portrait.set_inactive()
 	else:
 		other_portrait.visible = false
->>>>>>> Stashed changes
+
+
+func _get_line_emotion() -> String:
+	var emotion := dialogue_line.get_tag_value("emotion").to_lower()
+	if emotion in DialogueGlobals.EMOTES:
+		return emotion
+
+	for emotion_name in DialogueGlobals.EMOTES:
+		if dialogue_line.has_tag(emotion_name):
+			return emotion_name
+
+	return ""
 
 
 func _on_mutation_cooldown_timeout() -> void:
@@ -356,32 +344,32 @@ func _on_mutation_cooldown_timeout() -> void:
 		balloon.hide()
 
 
-func _on_mutated(_mutation: Dictionary) -> void:
-	if not _mutation.is_inline:
+func _on_mutated(mutation: Dictionary) -> void:
+	if not mutation.is_inline:
 		is_waiting_for_input = false
 		will_hide_balloon = true
 		mutation_cooldown.start(0.1)
 
 
 func _on_balloon_gui_input(event: InputEvent) -> void:
-	# See if we need to skip typing of the dialogue
 	if dialogue_label.is_typing:
 		var mouse_was_clicked: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed()
 		var skip_button_was_pressed: bool = _event_is_skip(event)
 		if mouse_was_clicked or skip_button_was_pressed:
-			get_viewport().set_input_as_handled()
+			_mark_input_handled()
 			dialogue_label.skip_typing()
 			return
 
-	if not is_waiting_for_input: return
-	if dialogue_line.responses.size() > 0: return
+	if not is_waiting_for_input:
+		return
+	if dialogue_line.responses.size() > 0:
+		return
 
-	# When there are no response options the balloon itself is the clickable thing
-	get_viewport().set_input_as_handled()
+	_mark_input_handled()
 
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		next(dialogue_line.next_id)
-	elif event.is_action_pressed(next_action) and get_viewport().gui_get_focus_owner() == balloon:
+	elif event.is_action_pressed(next_action) and _balloon_has_focus():
 		next(dialogue_line.next_id)
 
 
@@ -389,35 +377,50 @@ func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 	next(response.next_id)
 
 
-<<<<<<< Updated upstream
-#endregion
-=======
 func _handle_skip_held(delta: float) -> void:
 	if not _is_skip_held():
 		_skip_advance_cooldown = 0.0
 		return
 
-	if dialogue_label.is_typing:
-		dialogue_label.skip_typing()
-		_skip_advance_cooldown = 0.08
-		return
-
 	_skip_advance_cooldown -= delta
 	if _skip_advance_cooldown <= 0.0:
-		_skip_advance_cooldown = 0.08
-		_advance_from_skip_hold()
+		_skip_advance_cooldown = SKIP_REPEAT_DELAY
+		_skip_current_line()
 
 
-func _advance_from_skip_hold() -> bool:
+func _skip_current_line() -> bool:
+	if not is_instance_valid(dialogue_line):
+		return false
+	if _is_advancing:
+		return false
+
+	if dialogue_label.is_typing:
+		_skip_advance_after_typing = true
+		dialogue_label.skip_typing()
+		return true
+
+	if dialogue_line.responses.size() > 0:
+		return false
+
+	if is_waiting_for_input:
+		return _advance_from_skip_request()
+
+	return false
+
+
+func _advance_from_skip_request() -> bool:
 	if not is_waiting_for_input:
 		return false
 	if dialogue_label.is_typing:
 		return false
 	if not is_instance_valid(dialogue_line):
 		return false
+	if _is_advancing:
+		return false
 	if dialogue_line.responses.size() > 0:
 		return false
 
+	is_waiting_for_input = false
 	_skip_advance_after_typing = false
 	next(dialogue_line.next_id)
 	return true
@@ -450,15 +453,17 @@ func _on_skip_button_gui_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		_mark_input_handled()
 		_set_skip_button_held(event.pressed)
-		get_viewport().set_input_as_handled()
 	elif event is InputEventScreenTouch:
+		_mark_input_handled()
 		_set_skip_button_held(event.pressed)
-		get_viewport().set_input_as_handled()
 
 
 func _set_skip_button_held(held: bool) -> void:
 	if held and skip_button.disabled:
+		return
+	if held == _is_skip_button_held:
 		return
 
 	_is_skip_button_held = held
@@ -466,12 +471,23 @@ func _set_skip_button_held(held: bool) -> void:
 		return
 
 	_enter_dialogue_mouse_mode()
-	_skip_advance_cooldown = 0.0
-	_skip_advance_after_typing = true
-	if is_instance_valid(dialogue_line) and dialogue_label.is_typing:
-		dialogue_label.skip_typing()
-	elif is_instance_valid(dialogue_line):
-		_advance_from_skip_hold()
+	_skip_advance_cooldown = SKIP_REPEAT_DELAY
+	_skip_current_line()
+
+
+func _should_disable_skip_button() -> bool:
+	return is_instance_valid(dialogue_line) and not dialogue_line.responses.is_empty() and not dialogue_label.is_typing
+
+
+func _mark_input_handled() -> void:
+	var viewport := get_viewport()
+	if viewport != null:
+		viewport.set_input_as_handled()
+
+
+func _balloon_has_focus() -> bool:
+	var viewport := get_viewport()
+	return viewport != null and viewport.gui_get_focus_owner() == balloon
 
 
 func _enter_dialogue_mouse_mode() -> void:
@@ -491,4 +507,3 @@ func _restore_dialogue_mouse_mode() -> void:
 
 	Input.set_mouse_mode(_previous_mouse_mode)
 	_has_dialogue_mouse_mode = false
->>>>>>> Stashed changes

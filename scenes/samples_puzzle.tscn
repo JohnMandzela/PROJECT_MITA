@@ -1,0 +1,401 @@
+[gd_scene load_steps=13 format=3 uid="uid://cih1v2kckb6g3"]
+
+[ext_resource type="Script" uid="uid://brs0kgbyi8r7v" path="res://scripts/samples_puzzle.gd" id="1_1si1q"]
+[ext_resource type="FontFile" uid="uid://6erdyfofurd1" path="res://fonts/Impact.otf" id="2_7t8m7"]
+[ext_resource type="Script" uid="uid://du6kcgyvoaw0x" path="res://scripts/samples_puzzle_zone_overlay.gd" id="3_0al4b"]
+[ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="4_blur"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board_frame"]
+bg_color = Color(0.25882354, 0.25882354, 0.25882354, 1)
+border_width_left = 12
+border_width_top = 12
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_track"]
+bg_color = Color(0.40392157, 0.39215687, 0.39215687, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action_normal"]
+bg_color = Color(0.25882354, 0.25882354, 0.25882354, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action_pressed"]
+bg_color = Color(0.21960784, 0.21960784, 0.21960784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action_hover"]
+bg_color = Color(0.30980393, 0.30980393, 0.30980393, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action_disabled"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_modal_blur"]
+shader = ExtResource("4_blur")
+shader_parameter/blur_amount = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_success_panel"]
+bg_color = Color(0.18039216, 0.18039216, 0.18039216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.75, 0.75, 0.75, 1)
+
+[node name="SamplesPuzzle" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1si1q")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ContentMargin" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="MainRow" type="HBoxContainer" parent="CenterContainer/ContentMargin"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="BoardColumn" type="VBoxContainer" parent="CenterContainer/ContentMargin/MainRow"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BoardFrame" type="Panel" parent="CenterContainer/ContentMargin/MainRow/BoardColumn"]
+custom_minimum_size = Vector2(560, 470)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_board_frame")
+
+[node name="BoardMargin" type="MarginContainer" parent="CenterContainer/ContentMargin/MainRow/BoardColumn/BoardFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoardGrid" type="GridContainer" parent="CenterContainer/ContentMargin/MainRow/BoardColumn/BoardFrame/BoardMargin"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 7
+
+[node name="RedZoneOverlay" type="Control" parent="CenterContainer/ContentMargin/MainRow/BoardColumn/BoardFrame/BoardMargin"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_0al4b")
+
+[node name="YellowZoneOverlay" type="Control" parent="CenterContainer/ContentMargin/MainRow/BoardColumn/BoardFrame/BoardMargin"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_0al4b")
+
+[node name="BombZoneOverlay" type="Control" parent="CenterContainer/ContentMargin/MainRow/BoardColumn/BoardFrame/BoardMargin"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_0al4b")
+
+[node name="ProgressTrack" type="Panel" parent="CenterContainer/ContentMargin/MainRow/BoardColumn"]
+clip_contents = true
+custom_minimum_size = Vector2(560, 42)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_progress_track")
+
+[node name="ProgressFill" type="ColorRect" parent="CenterContainer/ContentMargin/MainRow/BoardColumn/ProgressTrack"]
+layout_mode = 0
+anchor_bottom = 1.0
+offset_right = 16.0
+grow_vertical = 2
+color = Color(0.19607843, 0.8509804, 0.39215687, 1)
+
+[node name="ProgressPreview" type="ColorRect" parent="CenterContainer/ContentMargin/MainRow/BoardColumn/ProgressTrack"]
+layout_mode = 0
+anchor_bottom = 1.0
+grow_vertical = 2
+color = Color(0.19607843, 0.8509804, 0.39215687, 0.55)
+
+[node name="ProgressLabel" type="Label" parent="CenterContainer/ContentMargin/MainRow/BoardColumn/ProgressTrack"]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = 6.0
+offset_right = 80.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 26
+text = "+0"
+
+[node name="Sidebar" type="VBoxContainer" parent="CenterContainer/ContentMargin/MainRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="PaletteGrid" type="GridContainer" parent="CenterContainer/ContentMargin/MainRow/Sidebar"]
+custom_minimum_size = Vector2(212, 136)
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 3
+
+[node name="ActionButtons" type="VBoxContainer" parent="CenterContainer/ContentMargin/MainRow/Sidebar"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Undo" type="Button" parent="CenterContainer/ContentMargin/MainRow/Sidebar/ActionButtons"]
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_action_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_action_hover")
+text = "Назад"
+
+[node name="Clear" type="Button" parent="CenterContainer/ContentMargin/MainRow/Sidebar/ActionButtons"]
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_action_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_action_hover")
+text = "Очистить"
+
+[node name="Next" type="Button" parent="CenterContainer/ContentMargin/MainRow/Sidebar/ActionButtons"]
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_action_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_action_hover")
+text = "Следующий ход"
+
+[node name="ModalBlur" type="ColorRect" parent="."]
+visible = false
+z_index = 19
+material = SubResource("ShaderMaterial_modal_blur")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SuccessOverlay" type="Control" parent="."]
+visible = false
+z_index = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Backdrop" type="ColorRect" parent="SuccessOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.45)
+
+[node name="SuccessPanel" type="Panel" parent="SuccessOverlay"]
+custom_minimum_size = Vector2(330, 170)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -165.0
+offset_top = -85.0
+offset_right = 165.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_success_panel")
+
+[node name="SuccessMargin" type="MarginContainer" parent="SuccessOverlay/SuccessPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SuccessVBox" type="VBoxContainer" parent="SuccessOverlay/SuccessPanel/SuccessMargin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="SuccessLabel" type="Label" parent="SuccessOverlay/SuccessPanel/SuccessMargin/SuccessVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 24
+text = "叫?極筠?! ?棘畇 極?棘?筠剋 棘?剋逵畇克?. ?逵均龜 龜?極?逵勻剋筠戟?."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RestartButton" type="Button" parent="SuccessOverlay/SuccessPanel/SuccessMargin/SuccessVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_action_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_action_hover")
+text = "?逵?逵?? 鈞逵戟棘勻棘"
+
+[node name="FinishButton" type="Button" parent="SuccessOverlay/SuccessPanel/SuccessMargin/SuccessVBox"]
+visible = false
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_action_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_action_hover")
+text = "Завершить"
+
+[node name="PauseOverlay" type="Control" parent="."]
+visible = false
+z_index = 21
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="PauseBackdrop" type="ColorRect" parent="PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.45)
+
+[node name="PausePanel" type="Panel" parent="PauseOverlay"]
+custom_minimum_size = Vector2(360, 190)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -95.0
+offset_right = 180.0
+offset_bottom = 95.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_success_panel")
+
+[node name="PauseMargin" type="MarginContainer" parent="PauseOverlay/PausePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseVBox" type="VBoxContainer" parent="PauseOverlay/PausePanel/PauseMargin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="PauseLabel" type="Label" parent="PauseOverlay/PausePanel/PauseMargin/PauseVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 22
+text = "Выйти из программы? Несохраненный прогресс будет потерян"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="PauseExitButton" type="Button" parent="PauseOverlay/PausePanel/PauseMargin/PauseVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_action_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_action_hover")
+text = "Выйти"
+
+[node name="PauseContinueButton" type="Button" parent="PauseOverlay/PausePanel/PauseMargin/PauseVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7t8m7")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_action_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_action_hover")
+text = "Продолжить"

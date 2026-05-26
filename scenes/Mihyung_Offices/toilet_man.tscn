@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_oac7c"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_igi4i"]
-[ext_resource type="Texture2D" uid="uid://d4lqdro166er4" path="res://images/scene/ТуалетМ-макет.png" id="3_8ck4t"]
+[ext_resource type="Texture2D" uid="uid://bnjaciec2avpf" path="res://images/scene/corridor.png" id="3_8ck4t"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_8h0n1"]
 [ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_igi4i"]
 

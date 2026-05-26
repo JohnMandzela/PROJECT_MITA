@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_fc117"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_bcki3"]
-[ext_resource type="Texture2D" uid="uid://cgmgr5ws284dt" path="res://images/scene/Ресепшенхолл-макет.png" id="3_453ih"]
+[ext_resource type="Texture2D" uid="uid://7xlgpg06b5lr" path="res://images/scene/Reception_Hall.png" id="3_fc117"]
 [ext_resource type="Texture2D" uid="uid://b6dayudrlxvt7" path="res://images/tilesets/scenes/reception_stand.png" id="4_1usdv"]
 [ext_resource type="Texture2D" uid="uid://byc8prc04ug5b" path="res://images/tilesets/characters/jackobson.png" id="5_yb44m"]
-[ext_resource type="Script" path="res://scripts/emily_npc.gd" id="6_1uhl5"]
+[ext_resource type="Script" uid="uid://bc6xrkjssp4s" path="res://scripts/emily_npc.gd" id="6_1uhl5"]
 [ext_resource type="Texture2D" uid="uid://dc0mt4x4i7ait" path="res://images/tilesets/characters/$Emily.png" id="7_3lt05"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="8_42cvc"]
 [ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/next_scene.gd" id="9_qy5m8"]
@@ -196,20 +196,20 @@ player_scene = ExtResource("2_bcki3")
 default_spawn_point = "Entrance_in_Hall"
 
 [node name="Reception_Hall_Texture" type="Sprite2D" parent="."]
-texture = ExtResource("3_453ih")
+texture = ExtResource("3_fc117")
 
 [node name="Reception_Stand" type="Sprite2D" parent="."]
-position = Vector2(-69.51442, 287)
+position = Vector2(-69.51442, 324.00003)
 scale = Vector2(0.43269235, 0.43269232)
 texture = ExtResource("4_1usdv")
 
 [node name="Jackobson" type="Sprite2D" parent="."]
-position = Vector2(-107, 312)
+position = Vector2(-107, 363)
 scale = Vector2(0.46396396, 0.39497757)
 texture = ExtResource("5_yb44m")
 
 [node name="Emily_NPC" type="CharacterBody2D" parent="."]
-position = Vector2(-377, 266)
+position = Vector2(-380, 283)
 script = ExtResource("6_1uhl5")
 
 [node name="Emily_Collision" type="CollisionShape2D" parent="Emily_NPC"]
@@ -229,14 +229,14 @@ autoplay = "idle_down"
 position = Vector2(0.85842896, 0)
 scale = Vector2(1.001943, 1)
 build_mode = 1
-polygon = PackedVector2Array(-166, 307, -191, 330, -205, 330, -205, 60, -303, 60, -315, 58, -323, 52, -326, 42, -326, -49, -323, -60, -319, -65, -310, -68, 60, -68, 60, 328, 45, 328, 26, 307, -4.849007, 307, -4.849007, 332, -135.59497, 332, -135.59497, 307)
+polygon = PackedVector2Array(-203.4631, 336, -231.4088, 362, -247.37778, 362, -248.37584, -8, -363.1528, -8, -376.1276, -12, -383.114, -18, -385.11014, -29, -386.10822, -176, -379.12177, -188, -365.14893, -191, 55.034637, -189, 55.034637, 361, 37.069542, 361, 14.114147, 336, -3.8509467, 336, -3.8509467, 369, -136.59303, 369, -136.59303, 336)
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Collision_Wall"]
 build_mode = 1
-polygon = PackedVector2Array(-588, 485, -588, 248, -495, 248, -495, 134, -411, 134, -411, 249, -249, 249, -248, 101, -480, 101, -480, -158, -348, -158, -348, -364, -587, -364, -587, -410, -446, -410, -446, -449, -399, -449, -399, -410, -354, -410, -192, -410, -192, -363, -297, -363, -297, -157, -181, -157, -181, -298, 29, -298, 29, -157, 118, -157, 118, 100, 526, 99, 526, 144, 118, 144, 118, 309, 322, 309, 342, 304, 359, 292, 373, 272, 381, 256, 393, 243, 422, 223, 446, 218, 527, 218, 527, 320, 476, 320, 465, 327, 458, 336, 447, 385, 435, 417, 426, 435, 411, 454, 395, 467, 379, 474, 342, 485)
+polygon = PackedVector2Array(-729, 540, -703, 268, -580, 268, -580, 138, -483, 138, -483, 269, -298, 269, -298, 75, -564, 75, -564, -325, -412, -325, -412, -473, -448, -473, -448, -508, -412, -508, -412, -633, -714, -633, -714, -701, -524, -701, -524, -748, -470, -748, -470, -701, -227, -701, -227, -633, -352, -633, -351, -325, -219, -325, -219, -485, 21, -485, 21, -323, 123, -323, 123, -15, 591, -14, 591, 77, 123, 77, 122, 339, 355, 339, 377, 333, 402, 315, 425, 277, 452, 250, 478, 239, 502, 234, 590, 234, 590, 356, 527, 356, 515, 363, 510, 378, 499, 427, 486, 461, 475, 484, 459, 504, 441, 519, 426, 526, 379, 541)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision_Wall"]
-position = Vector2(-106, 341)
+position = Vector2(-106, 392)
 shape = SubResource("CapsuleShape2D_hxeso")
 
 [node name="Pause_Menu" parent="." instance=ExtResource("8_42cvc")]
@@ -251,15 +251,15 @@ target_scene = "Mihyung_Offices/elevator_office"
 target_spawn_point = "Marker2D"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Elevator"]
-position = Vector2(193.99129, -180.8086)
+position = Vector2(212.00002, -160)
 scale = Vector2(1.5376991, 1.7234842)
 polygon = PackedVector2Array(-396, 250, -396, 277.08304, -394.08963, 281.29562, -390.10175, 283, -339.06198, 283, -334.25998, 281.29562, -333, 277.08304, -333, 250)
 
 [node name="Label" type="Label" parent="Elevator"]
-offset_left = -399.0
-offset_top = 157.0
-offset_right = -331.0
-offset_bottom = 180.0
+offset_left = -381.0
+offset_top = 168.0
+offset_right = -313.0
+offset_bottom = 191.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "В лифт"
 horizontal_alignment = 1
@@ -271,10 +271,9 @@ script = ExtResource("10_xyr6m")
 dialogue = ExtResource("11_pjjs5")
 
 [node name="Label" type="Label" parent="Dialogue_Reception"]
-offset_left = -80.0
-offset_top = 215.0
-offset_right = 20.0
-offset_bottom = 238.0
+offset_left = -100.0
+offset_top = 251.0
+offset_bottom = 274.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Подслушать"
 horizontal_alignment = 1
@@ -282,7 +281,7 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dialogue_Reception"]
-position = Vector2(-70, 358.75)
+position = Vector2(-70, 396.75)
 shape = SubResource("RectangleShape2D_nqvbx")
 
 [connection signal="body_entered" from="Elevator" to="Elevator" method="_on_body_entered"]

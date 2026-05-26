@@ -4,42 +4,6 @@ extends Control
 @onready var title_label: Label = $TitleLabel
 @onready var menu_start: VBoxContainer = $Buttons_VBox
 @onready var menu_options: MarginContainer = $Options_Menu
-<<<<<<< Updated upstream
-@export var menu_theme : AudioStream
-
-var loading_settings := true
-
-func _process(_delta: float) -> void:
-	pass
-
-func _on_new_game_button_pressed() -> void:
-	GameManager.stop_music()
-	GameManager.reload("1_morning_quest")
-	GameManager.reload("2_mike_room_bed")
-	var mom_home_scene = load("res://scenes/mom_home.tscn")
-	get_tree().change_scene_to_packed(mom_home_scene)
-
-func _on_options_button_pressed() -> void:
-	menu_start.visible = false
-	title_label.visible = false
-	menu_options.visible = true
-
-func _on_exit_pressed() -> void:
-	get_tree().quit()
-
-func _play_interact_sound() -> void:
-	if not menu_theme.playing:
-		menu_theme.play()
-
-
-#---------------------------------------------------------------------------------------------------
-#---------------------------------------НАСТРОЙКИ---------------------------------------------------
-#---------------------------------------------------------------------------------------------------
-
-
-# Переменные к путям данных настроек
-=======
->>>>>>> Stashed changes
 @onready var fullscren_checkbox_path: CheckBox = $Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox
 @onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider
 @onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/sounds_slider
@@ -51,20 +15,11 @@ var save_slots_overlay: Panel
 var save_slots_list: VBoxContainer
 
 
-<<<<<<< Updated upstream
-
-#---------------------------------------------------------------------------------------------------
-#-------------------------------------ФУНКЦИЯ-READY-------------------------------------------------
-#---------------------------------------------------------------------------------------------------
-
-
-func _ready():
-=======
 func _ready() -> void:
 	_ensure_continue_button()
+	_ensure_load_button()
 	_build_save_slots_overlay()
 	_update_save_buttons_visibility()
->>>>>>> Stashed changes
 
 	title_label.visible = true
 	menu_start.visible = true
@@ -94,18 +49,41 @@ func _ready() -> void:
 func _ensure_continue_button() -> void:
 	var continue_button := menu_start.get_node_or_null("Continue") as Button
 	if continue_button == null:
-		continue_button = Button.new()
-		continue_button.name = "Continue"
-		continue_button.text = "Продолжить"
+		continue_button = _create_menu_button("Continue", "Продолжить")
 		var new_game_button := menu_start.get_node_or_null("New_Game") as Button
-		if new_game_button:
-			continue_button.add_theme_font_override("font", new_game_button.get_theme_font("font"))
-			continue_button.add_theme_font_size_override("font_size", new_game_button.get_theme_font_size("font_size"))
+		var target_index := new_game_button.get_index() + 1 if new_game_button else 0
 		menu_start.add_child(continue_button)
-		menu_start.move_child(continue_button, 1)
+		menu_start.move_child(continue_button, target_index)
 
 	if not continue_button.pressed.is_connected(_on_continue_button_pressed):
 		continue_button.pressed.connect(_on_continue_button_pressed)
+
+
+func _ensure_load_button() -> void:
+	var load_button := menu_start.get_node_or_null("Load") as Button
+	if load_button == null:
+		load_button = _create_menu_button("Load", "Загрузить")
+		var continue_button := menu_start.get_node_or_null("Continue") as Button
+		var target_index := continue_button.get_index() + 1 if continue_button else 1
+		menu_start.add_child(load_button)
+		menu_start.move_child(load_button, target_index)
+
+	if not load_button.pressed.is_connected(_on_load_button_pressed):
+		load_button.pressed.connect(_on_load_button_pressed)
+
+
+func _create_menu_button(button_name: String, button_text: String) -> Button:
+	var button := Button.new()
+	button.name = button_name
+	button.text = button_text
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+	var source_button := menu_start.get_node_or_null("New_Game") as Button
+	if source_button:
+		button.add_theme_font_override("font", source_button.get_theme_font("font"))
+		button.add_theme_font_size_override("font_size", source_button.get_theme_font_size("font_size"))
+
+	return button
 
 
 func _build_save_slots_overlay() -> void:
@@ -135,7 +113,7 @@ func _build_save_slots_overlay() -> void:
 	margin.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "Слоты сохранения"
+	title.text = "Слоты сохранений"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 28)
 	vbox.add_child(title)
@@ -178,9 +156,6 @@ func _build_slot_button_text(slot_info: Dictionary) -> String:
 
 
 func _update_save_buttons_visibility() -> void:
-	if menu_start == null:
-		return
-
 	var has_saves := SaveSystem.save_exists()
 	var continue_button := menu_start.get_node_or_null("Continue") as Button
 	var load_button := menu_start.get_node_or_null("Load") as Button
@@ -193,13 +168,17 @@ func _update_save_buttons_visibility() -> void:
 func _on_new_game_button_pressed() -> void:
 	GameManager.stop_music()
 	GameManager.reset_game_state()
-	var mom_home_scene = load("res://scenes/mom_home.tscn")
+	var mom_home_scene := load("res://scenes/mom_home.tscn")
 	get_tree().change_scene_to_packed(mom_home_scene)
 
 
 func _on_continue_button_pressed() -> void:
 	GameManager.stop_music()
 	SaveSystem.load_game()
+
+
+func _on_continue_tree_entered() -> void:
+	_update_save_buttons_visibility()
 
 
 func _on_load_button_tree_entered() -> void:

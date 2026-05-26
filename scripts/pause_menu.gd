@@ -1,138 +1,305 @@
 extends Control
 
+@onready var pause_label: Label = $Panel/Pause_Label
+@onready var pause_menu_ui: Panel = $Panel/Start_Display
+@onready var inventory_view: Panel = $Panel/InventoryView
+@onready var quest_view: Panel = $Panel/Quest_Container
+@onready var menu_options: VBoxContainer = $Panel/VBoxOptions
 
-#---------------------------------------------------------------------------------------------------------------
-# Переменные к путям главных окон
-@onready var pause_label:= $Panel/Pause_Label                                   # Заголовок "Пауза"
-@onready var pause_menu_ui: Panel = $Panel/Start_Display                        # Стартовое окно
-@onready var menu_options: VBoxContainer = $Panel/VBoxOptions                   # Настройки
+@onready var inventory_scroll: ScrollContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll
+@onready var inventory_items_list: VBoxContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList
+@onready var inventory_item_template: HBoxContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRow_Example
+@onready var inventory_description: Label = $Panel/InventoryView/InventoryVBox/ItemDescriptionPanel/ItemDescription
 
-# Переменные к путям данных настроек
+@onready var quest_vbox: VBoxContainer = $Panel/Quest_Container/QuestVBox
+@onready var quest_scroll: ScrollContainer = $Panel/Quest_Container/QuestVBox/QuestScroll
+@onready var quest_list: VBoxContainer = $Panel/Quest_Container/QuestVBox/QuestScroll/QuestList
+@onready var quest_row_template: Button = $Panel/Quest_Container/QuestVBox/QuestScroll/QuestList/QuestRow_Example
+@onready var quest_buttons: HBoxContainer = $Panel/Quest_Container/QuestVBox/QuestButtons
+@onready var quest_details: Panel = $Panel/Quest_Container/QuestDetails
+@onready var quest_details_title: Label = $Panel/Quest_Container/QuestDetails/QuestDetailsVBox/QuestDetailsTitle
+@onready var quest_details_text: Label = $Panel/Quest_Container/QuestDetails/QuestDetailsVBox/QuestDetailsText
+
 @onready var fullscren_checkbox_path: CheckBox = $Panel/VBoxOptions/Fullscreen_CheckBox
 @onready var music_value_path: HSlider = $Panel/VBoxOptions/Music/Music_slider/music_slider
 @onready var sounds_value_path: HSlider = $Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider
 
-# Флажки на события
-var menu_open = 0                                      # Открыто меню или нет
-var loading_settings := true                           # Загрузка настроек
-
-# Переменные с анимацией
 @onready var anim_on_off: AnimationPlayer = $Screen_Fader_Animation/OnOff_Screen_Fader/AnimationPlayer
 @onready var anim_exit: AnimationPlayer = $Screen_Fader_Animation/Exit_Screen_Fader/AnimationPlayer
 @onready var anim_phone: AnimationPlayer = $Panel/AnimationPlayer
 @onready var anim_blur: AnimationPlayer = $Screen_Fader_Animation/Blur_Rect/AnimationPlayer
 
-# Переменные с путями мессенджера и туториала
 @onready var messenger: Panel = $Panel/Messenger
 @onready var tutorial: Panel = $Panel/Tutorial
-#---------------------------------------------------------------------------------------------------------------
+
+var menu_open := 0
+var loading_settings := true
+var _inventory_rows := {}
+var _selected_item_id := ""
+var _active_quest_rows := {}
+var _completed_quest_rows := {}
+var _quest_details_source := "active_quests"
+var _scroll_states := {}
+var completed_quests_overlay: Panel
+var completed_quest_vbox: VBoxContainer
+var completed_quest_scroll: ScrollContainer
+var completed_quest_list: VBoxContainer
+var completed_quest_row_template: Button
+
+const VISUAL_NORMAL := Color(1, 1, 1, 1)
+const VISUAL_HOVER := Color(0.94, 0.94, 0.94, 1)
+const VISUAL_PRESSED := Color(0.82, 0.82, 0.82, 1)
+
+const SCROLL_INVENTORY := "inventory"
+const SCROLL_ACTIVE_QUESTS := "active_quests"
+const SCROLL_COMPLETED_QUESTS := "completed_quests"
+const WHEEL_SCROLL_STEP := 84.0
+const DRAG_SCROLL_MULTIPLIER := 1.0
+const SCROLL_FOLLOW_SPEED := 14.0
+const SCROLL_INERTIA_DAMP := 18.0
+const SCROLL_INERTIA_SCALE := 120.0
+const SCROLL_INERTIA_CUTOFF := 4.0
+const QUEST_DONE_PREFIX := "[x] "
+const QUEST_TODO_PREFIX := "[ ] "
+const QUEST_STATUS_DONE := "\u0421\u0442\u0430\u0442\u0443\u0441: \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043e"
+const QUEST_STATUS_TODO := "\u0421\u0442\u0430\u0442\u0443\u0441: \u043d\u0435 \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043e"
+const EMPTY_LIST_TEXT := "\u041f\u0443\u0441\u0442\u043e"
 
 
-# Сохраняем данные настроек
-func save_settings():
-	var config = ConfigFile.new()
+func _build_completed_quests_overlay() -> void:
+	completed_quests_overlay = Panel.new()
+	completed_quests_overlay.name = "CompletedQuestsOverlay"
+	completed_quests_overlay.visible = false
+	completed_quests_overlay.z_index = 22
+	completed_quests_overlay.offset_right = 255.0
+	completed_quests_overlay.offset_bottom = 469.0
+	quest_view.add_child(completed_quests_overlay)
+	quest_view.move_child(completed_quests_overlay, quest_details.get_index())
 
+	completed_quest_vbox = VBoxContainer.new()
+	completed_quest_vbox.name = "CompletedQuestVBox"
+	completed_quest_vbox.anchor_right = 1.0
+	completed_quest_vbox.anchor_bottom = 1.0
+	completed_quest_vbox.offset_left = 8.0
+	completed_quest_vbox.offset_top = 8.0
+	completed_quest_vbox.offset_right = -7.0
+	completed_quest_vbox.offset_bottom = -9.0
+	completed_quest_vbox.add_theme_constant_override("separation", 8)
+	completed_quests_overlay.add_child(completed_quest_vbox)
+
+	var title := Label.new()
+	title.name = "CompletedQuestTitle"
+	title.add_theme_font_size_override("font_size", 16)
+	title.text = "Завершенные задачи"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	completed_quest_vbox.add_child(title)
+
+	completed_quest_scroll = ScrollContainer.new()
+	completed_quest_scroll.name = "CompletedQuestScroll"
+	completed_quest_scroll.custom_minimum_size = Vector2(0, 300)
+	completed_quest_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	completed_quest_scroll.horizontal_scroll_mode = 0
+	completed_quest_vbox.add_child(completed_quest_scroll)
+
+	completed_quest_list = VBoxContainer.new()
+	completed_quest_list.name = "CompletedQuestList"
+	completed_quest_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	completed_quest_list.add_theme_constant_override("separation", 4)
+	completed_quest_scroll.add_child(completed_quest_list)
+
+	completed_quest_row_template = quest_row_template.duplicate() as Button
+	completed_quest_row_template.name = "CompletedQuestRow_Example"
+	completed_quest_row_template.text = "Quest"
+	completed_quest_list.add_child(completed_quest_row_template)
+
+	var source_back_button := quest_buttons.get_node("Back_from_Quests") as Button
+	var back_button := Button.new()
+	back_button.name = "Back_from_Completed_Quests"
+	back_button.process_mode = Node.PROCESS_MODE_ALWAYS
+	back_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	back_button.text = source_back_button.text
+	completed_quest_vbox.add_child(back_button)
+	back_button.pressed.connect(_on_back_from_completed_quests_pressed)
+
+
+func _insert_completed_quests_button() -> void:
+	var button := Button.new()
+	button.name = "Show_Completed_Quests"
+	button.process_mode = Node.PROCESS_MODE_ALWAYS
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.text = "Завершенные"
+	button.pressed.connect(_on_show_completed_quests_pressed)
+	quest_vbox.add_child(button)
+	quest_vbox.move_child(button, quest_buttons.get_index())
+
+
+func save_settings() -> void:
+	var config := ConfigFile.new()
 	config.set_value("video", "fullscreen", fullscren_checkbox_path.button_pressed)
 	config.set_value("audio", "music_volume", music_value_path.value)
 	config.set_value("audio", "sounds_volume", sounds_value_path.value)
-
 	config.save(GameManager.SETTINGS_PATH)
 
 
-func _ready():
-	# Ставим галочку на Fullscreen
-	var mode = DisplayServer.window_get_mode()
-	var is_full = (mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
-		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN)
-
+func _ready() -> void:
+	var mode := DisplayServer.window_get_mode()
+	var is_full := mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN \
+		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscren_checkbox_path.button_pressed = is_full
-	
+
 	visible = false
 	pause_menu_ui.visible = false
+	inventory_view.visible = false
+	quest_vbox.visible = false
+	quest_view.visible = false
 	menu_options.visible = false
 	pause_label.visible = false
 	messenger.visible = false
 	tutorial.visible = false
+	quest_details.visible = false
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
-	var config = ConfigFile.new()
-	var err = config.load(GameManager.SETTINGS_PATH)
+	_build_completed_quests_overlay()
+	_insert_completed_quests_button()
 
+	inventory_item_template.visible = false
+	inventory_description.visible = false
+	quest_row_template.visible = false
+	completed_quest_row_template.visible = false
+
+	_register_scroll_area(SCROLL_INVENTORY, inventory_scroll)
+	_register_scroll_area(SCROLL_ACTIVE_QUESTS, quest_scroll)
+	_register_scroll_area(SCROLL_COMPLETED_QUESTS, completed_quest_scroll)
+
+	if not Items.inventory_changed.is_connected(_on_items_inventory_changed):
+		Items.inventory_changed.connect(_on_items_inventory_changed)
+
+	var config := ConfigFile.new()
+	var err := config.load(GameManager.SETTINGS_PATH)
 	if err == OK:
-		var music : float = config.get_value("audio", "music_volume", 100.0)
-		var sound : float = config.get_value("audio", "sounds_volume", 100.0)
+		var music: float = config.get_value("audio", "music_volume", 100.0)
+		var sound: float = config.get_value("audio", "sounds_volume", 100.0)
 		music_value_path.value = music
 		sounds_value_path.value = sound
 
-	# Применяем всё c задержкой одного кадра
 	await get_tree().process_frame
+	_refresh_inventory_ui()
+	_refresh_quests_ui()
 	_apply_settings()
 	loading_settings = false
 
 
+func _process(delta: float) -> void:
+	_update_scroll(SCROLL_INVENTORY, delta)
+	_update_scroll(SCROLL_ACTIVE_QUESTS, delta)
+	_update_scroll(SCROLL_COMPLETED_QUESTS, delta)
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
+		if GameManager.is_minigame_active:
+			if GameManager.minigame_pause_target and GameManager.minigame_pause_target.has_method("toggle_pause_overlay_from_pause_menu"):
+				GameManager.minigame_pause_target.call("toggle_pause_overlay_from_pause_menu")
+				get_viewport().set_input_as_handled()
+			return
 		if menu_open == 0:
-			menu_open = menu_open + 1
+			menu_open += 1
 			toggle()
 		else:
-			menu_open = menu_open - 1
+			menu_open -= 1
 			close_pause_menu()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not inventory_view.visible:
+		return
+
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			if not _is_position_over_inventory_widget(event.global_position):
+				_clear_inventory_selection()
+	elif event is InputEventScreenTouch:
+		if event.pressed and not _is_position_over_inventory_widget(event.position):
+			_clear_inventory_selection()
+
 
 func toggle() -> void:
 	pause_menu_ui.visible = true
+	inventory_view.visible = false
+	quest_view.visible = false
+	menu_options.visible = false
+	messenger.visible = false
+	tutorial.visible = false
 	pause_label.visible = true
+
 	anim_blur.play("blur_on")
 	anim_phone.play("on_phone")
 	anim_on_off.play("open_pause_menu")
+
 	var new_state := !get_tree().paused
 	get_tree().paused = new_state
 	visible = new_state
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	
+
+
 func _on_continue_pressed() -> void:
 	if menu_open == 1:
-		menu_open = menu_open - 1
+		menu_open -= 1
 	close_pause_menu()
+
 
 func _on_options_pressed() -> void:
 	pause_menu_ui.visible = false
+	inventory_view.visible = false
+	quest_view.visible = false
 	pause_label.visible = false
 	menu_options.visible = true
 
-# Сигнал слайдера эффектов
-func _on_sounds_value_changed(value):
-	var db
+
+func _on_quests_pressed() -> void:
+	_refresh_quests_ui()
+	pause_menu_ui.visible = false
+	inventory_view.visible = false
+	menu_options.visible = false
+	messenger.visible = false
+	tutorial.visible = false
+	pause_label.visible = false
+	quest_view.visible = true
+	_show_active_quests_page()
+
+
+func _on_sounds_value_changed(value: float) -> void:
+	var db: float
 	if value == 0:
 		db = -80
 	else:
 		db = linear_to_db(value / 100.0)
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), db)
-	if loading_settings == false:
+	if not loading_settings:
 		save_settings()
 
-# Сигнал слайдера музыки
-func _on_music_value_changed(value):
-	var db
+
+func _on_music_value_changed(value: float) -> void:
+	var db: float
 	if value == 0:
 		db = -80
 	else:
 		db = linear_to_db(value / 100.0)
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), db)
-	if loading_settings == false:
+	if not loading_settings:
 		save_settings()
 
-# Сигнал checkbox
-func _on_fullscreen_toggled(pressed):
+
+func _on_fullscreen_toggled(pressed: bool) -> void:
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed 
+		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed
 		else DisplayServer.WINDOW_MODE_WINDOWED
 	)
-	if loading_settings == false:
+	if not loading_settings:
 		save_settings()
 
-# Применение всех настроек при запуске сцены
-func _apply_settings():
+
+func _apply_settings() -> void:
 	_on_fullscreen_toggled(fullscren_checkbox_path.button_pressed)
 	_on_music_value_changed(music_value_path.value)
 	_on_sounds_value_changed(sounds_value_path.value)
@@ -144,13 +311,21 @@ func close_pause_menu() -> void:
 	anim_phone.play("off_phone")
 	anim_on_off.play("close_pause_menu")
 	await get_tree().create_timer(0.2).timeout
+
 	get_tree().paused = false
 	visible = false
 	pause_menu_ui.visible = false
+	inventory_view.visible = false
+	quest_view.visible = false
 	menu_options.visible = false
 	pause_label.visible = false
 	messenger.visible = false
 	tutorial.visible = false
+	completed_quests_overlay.visible = false
+	quest_details.visible = false
+	_cancel_scroll_drag()
+	_clear_inventory_selection()
+
 
 func _on_exit_to_main_menu_pressed() -> void:
 	anim_exit.play("exit_to_main_menu")
@@ -160,11 +335,49 @@ func _on_exit_to_main_menu_pressed() -> void:
 
 
 func _on_inventory_pressed() -> void:
-	pass # Replace with function body.
+	_refresh_inventory_ui()
+	pause_menu_ui.visible = false
+	quest_view.visible = false
+	menu_options.visible = false
+	messenger.visible = false
+	tutorial.visible = false
+	pause_label.visible = false
+	inventory_view.visible = true
+
+
+func _on_back_from_inventory_pressed() -> void:
+	inventory_view.visible = false
+	pause_menu_ui.visible = true
+	pause_label.visible = true
+	_clear_inventory_selection()
+
+
+func _on_back_from_quests_pressed() -> void:
+	_show_active_quests_page()
+	quest_view.visible = false
+	pause_menu_ui.visible = true
+	pause_label.visible = true
+
+
+func _on_back_from_quest_details_pressed() -> void:
+	if _quest_details_source == SCROLL_COMPLETED_QUESTS:
+		_show_completed_quests_page()
+	else:
+		_show_active_quests_page()
+
+
+func _on_show_completed_quests_pressed() -> void:
+	_show_completed_quests_page()
+
+
+func _on_back_from_completed_quests_pressed() -> void:
+	_show_active_quests_page()
 
 
 func _on_messenger_pressed() -> void:
 	pause_menu_ui.visible = false
+	inventory_view.visible = false
+	quest_view.visible = false
 	menu_options.visible = false
 	pause_label.visible = false
 	messenger.visible = true
@@ -172,6 +385,8 @@ func _on_messenger_pressed() -> void:
 
 func _on_tutorial_pressed() -> void:
 	pause_menu_ui.visible = false
+	inventory_view.visible = false
+	quest_view.visible = false
 	tutorial.visible = true
 	messenger.visible = false
 	pause_label.visible = false
@@ -179,24 +394,27 @@ func _on_tutorial_pressed() -> void:
 
 func _on_back_from_options_pressed() -> void:
 	pause_menu_ui.visible = true
+	inventory_view.visible = false
+	quest_view.visible = false
 	pause_label.visible = true
 	menu_options.visible = false
 
+
 func _on_back_from_messenger_pressed() -> void:
 	pause_menu_ui.visible = true
+	inventory_view.visible = false
+	quest_view.visible = false
 	pause_label.visible = true
 	messenger.visible = false
+
 
 func _on_back_from_tutorial_pressed() -> void:
 	tutorial.visible = false
 	messenger.visible = true
-<<<<<<< Updated upstream
-=======
 
 
 func _on_save_pressed() -> void:
 	SaveSystem.save_game()
-	SaveSystem.save_game_to_next_manual_slot()
 
 
 func _on_load_pressed() -> void:
@@ -595,4 +813,3 @@ func _clamp_scroll_target(scroll_id: String, value: float) -> float:
 	var scrollbar := scroll.get_v_scroll_bar()
 	var max_scroll := maxf(0.0, scrollbar.max_value - scrollbar.page)
 	return clampf(value, 0.0, max_scroll)
->>>>>>> Stashed changes
