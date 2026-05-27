@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://gfsycjpp6yj2"]
+[gd_scene load_steps=8 format=3 uid="uid://by0bw4duasqol"]
 
-[ext_resource type="Script" path="res://scripts/reseption_holl_main_script.gd" id="2_main"]
+[ext_resource type="Script" uid="uid://bmx4ji8k40kdg" path="res://scripts/reseption_holl_main_script.gd" id="2_main"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="3_player"]
 [ext_resource type="Texture2D" uid="uid://7xlgpg06b5lr" path="res://images/scene/Reception_Hall.png" id="3_tts0j"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_pause"]

@@ -1,11 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dtcpain5ajg7r"]
+[gd_scene load_steps=12 format=3 uid="uid://ceut2psdc106a"]
 
-[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_w585l"]
-[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_3mhh6"]
-[ext_resource type="Texture2D" uid="uid://bgmeuks7pq83y" path="res://images/scene/Коридоры офисов-полный вариант.png" id="3_ddor0"]
-[ext_resource type="Texture2D" uid="uid://kkonv1y4bjln" path="res://images/scene/Комната Отдыха-итог.png" id="4_k2up7"]
-[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_xtt1d"]
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/next_scene.gd" id="5_3mhh6"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_7v31m"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_7aali"]
+[ext_resource type="Texture2D" uid="uid://bgmeuks7pq83y" path="res://images/scene/Коридоры офисов-полный вариант.png" id="3_a2e6w"]
+[ext_resource type="Texture2D" uid="uid://kkonv1y4bjln" path="res://images/scene/Комната Отдыха-итог.png" id="4_uqea1"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="5_yoxe6"]
+[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/next_scene.gd" id="6_phvgr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0stv2"]
 size = Vector2(36.5, 20.5)
@@ -23,12 +23,12 @@ size = Vector2(37, 20)
 size = Vector2(33, 44)
 
 [node name="Corridors_Offices" type="Node2D"]
-script = ExtResource("1_w585l")
-player_scene = ExtResource("2_3mhh6")
+script = ExtResource("1_7v31m")
+player_scene = ExtResource("2_7aali")
 default_spawn_point = "spawn_marker"
 
 [node name="Corridors_Oficces_Texture" type="Sprite2D" parent="."]
-texture = ExtResource("3_ddor0")
+texture = ExtResource("3_a2e6w")
 
 [node name="Collision_Wall" type="StaticBody2D" parent="Corridors_Oficces_Texture"]
 
@@ -38,7 +38,7 @@ polygon = PackedVector2Array(-822.31757, -136.88062, -845.21936, -50.93232, -391
 
 [node name="КомнатаОтдыхаИтог" type="Sprite2D" parent="Corridors_Oficces_Texture/Collision_Wall/CollisionPolygon2D2"]
 position = Vector2(258.44, 343)
-texture = ExtResource("4_k2up7")
+texture = ExtResource("4_uqea1")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Corridors_Oficces_Texture/Collision_Wall/CollisionPolygon2D2/КомнатаОтдыхаИтог"]
 
@@ -49,7 +49,7 @@ polygon = PackedVector2Array(-260.20166, 38.39775, -260.20166, 74.484535, -225.1
 [node name="spawn_marker" type="Marker2D" parent="."]
 position = Vector2(-210, 343)
 
-[node name="Pause_Menu" parent="." instance=ExtResource("4_xtt1d")]
+[node name="Pause_Menu" parent="." instance=ExtResource("5_yoxe6")]
 
 [node name="Spawn_on_Left_Elevator" type="Marker2D" parent="."]
 position = Vector2(-442, 152)
@@ -70,7 +70,7 @@ position = Vector2(386, 166)
 position = Vector2(-78, -277)
 
 [node name="Enter_Programming_Office" type="Area2D" parent="."]
-script = ExtResource("5_3mhh6")
+script = ExtResource("6_phvgr")
 exit_direction = "up"
 target_scene = "Mihyung_Offices/Programming_Office"
 target_spawn_point = "Spawn_from_Corridors"
@@ -91,7 +91,7 @@ position = Vector2(-748, -126)
 shape = SubResource("RectangleShape2D_0stv2")
 
 [node name="Enter_Manager_Cabinet" type="Area2D" parent="."]
-script = ExtResource("5_3mhh6")
+script = ExtResource("6_phvgr")
 exit_direction = "up"
 target_scene = "Mihyung_Offices/manager's_cabinet"
 target_spawn_point = "Spawn_from_Corridors"
@@ -112,7 +112,7 @@ position = Vector2(-402, -124.5)
 shape = SubResource("RectangleShape2D_3mhh6")
 
 [node name="Enter_Conference_Room" type="Area2D" parent="."]
-script = ExtResource("5_3mhh6")
+script = ExtResource("6_phvgr")
 exit_direction = "up"
 target_scene = "Mihyung_Offices/conference_room"
 target_spawn_point = "Spawn_from_Corridors"
@@ -133,7 +133,7 @@ position = Vector2(-200, 217)
 shape = SubResource("RectangleShape2D_xtt1d")
 
 [node name="Enter_Toilet" type="Area2D" parent="."]
-script = ExtResource("5_3mhh6")
+script = ExtResource("6_phvgr")
 exit_direction = "up"
 target_scene = "Mihyung_Offices/toilet_man"
 target_spawn_point = "Spawn_from_Corridors"
@@ -154,7 +154,7 @@ position = Vector2(384.5, 162)
 shape = SubResource("RectangleShape2D_wx7r7")
 
 [node name="Enter_Utility_Room" type="Area2D" parent="."]
-script = ExtResource("5_3mhh6")
+script = ExtResource("6_phvgr")
 required_direction = 2
 exit_direction = "left"
 target_scene = "Mihyung_Offices/utility_room"
