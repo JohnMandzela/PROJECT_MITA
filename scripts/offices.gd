@@ -16,6 +16,7 @@ func _center_player_camera_on_overlay_window() -> void:
 		return
 
 	var camera := GameManager.player.get_node_or_null("Camera2D") as Camera2D
+	
 	if camera == null:
 		return
 

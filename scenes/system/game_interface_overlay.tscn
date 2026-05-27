@@ -5,3 +5,4 @@
 [node name="Game_Interface_Overlay" type="CanvasLayer"]
 layer = 20
 script = ExtResource("1_overlay")
+

@@ -4,20 +4,32 @@ signal inventory_changed
 
 const DATA_PATH := "user://items_data.cfg"
 const FALLBACK_ICON_PATH := "res://images/items/cola.png"
+const ITEM_CLASS_REAL := "real"
+const ITEM_CLASS_VIRTUAL := "virtual"
+const DEFAULT_REAL_ITEMS_INVENTORY := {
+	"buttle_cola": 0,
+	"coffee_cup": 0,
+}
+const DEFAULT_VIRTUAL_ITEMS_INVENTORY := {
+	"teddy_bear": 0,
+}
 const DEFAULT_ITEMS_INVENTORY := {
 	"buttle_cola": 0,
 	"coffee_cup": 0,
+	"teddy_bear": 0,
 }
 
 var items_inventory := DEFAULT_ITEMS_INVENTORY.duplicate(true)
 
-var item_catalog := {
+var real_item_catalog := {
 	"buttle_cola": {
+		"item_class": ITEM_CLASS_REAL,
 		"display_name": "Бутылка колы",
 		"description": "Освежающий напиток. Восстанавливает силы.",
 		"icon_path": "res://images/items/cola.png",
 	},
 	"coffee_cup": {
+		"item_class": ITEM_CLASS_REAL,
 		"display_name": "Стакан кофе",
 		"description": "Бумажный стакан горячего кофе.",
 		"use_text": "Выпить кофе",
@@ -29,7 +41,26 @@ var item_catalog := {
 	},
 }
 
+var virtual_item_catalog := {
+	"teddy_bear": {
+		"item_class": ITEM_CLASS_VIRTUAL,
+		"is_virtual": true,
+		"quest_item": true,
+		"display_name": "Плюшевый мишка",
+		"description": "Квестовый виртуальный предмет.",
+		"use_text": "",
+		"action": "Нужен для развития квеста.",
+		"use_effects": {},
+		"icon_path": "res://images/items/teddy_bear.png",
+	},
+}
+
+var item_catalog := {}
 var inventory_order: Array[String] = []
+
+
+func _init() -> void:
+	_rebuild_item_catalog()
 
 
 func _ready() -> void:
@@ -45,9 +76,42 @@ func is_known_item(item_name: String) -> bool:
 	return DEFAULT_ITEMS_INVENTORY.has(id) or item_catalog.has(id)
 
 
+func is_real_item(item_name: String) -> bool:
+	return get_item_class(item_name) == ITEM_CLASS_REAL
+
+
+func is_virtual_item(item_name: String) -> bool:
+	return get_item_class(item_name) == ITEM_CLASS_VIRTUAL
+
+
+func get_item_class(item_name: String) -> String:
+	var id := str(item_name)
+	if real_item_catalog.has(id):
+		return ITEM_CLASS_REAL
+	if virtual_item_catalog.has(id):
+		return ITEM_CLASS_VIRTUAL
+
+	var item_info := Dictionary(item_catalog.get(id, {}))
+	return str(item_info.get("item_class", ITEM_CLASS_REAL))
+
+
 func has_any_items() -> bool:
 	for item_count in items_inventory.values():
 		if int(item_count) > 0:
+			return true
+	return false
+
+
+func has_any_real_items() -> bool:
+	for item_id in get_ordered_real_item_ids():
+		if item_check(item_id) > 0:
+			return true
+	return false
+
+
+func has_any_virtual_items() -> bool:
+	for item_id in get_ordered_virtual_item_ids():
+		if item_check(item_id) > 0:
 			return true
 	return false
 
@@ -73,6 +137,7 @@ func item_was_dropped(item_name: String) -> void:
 
 func get_item_info(item_name: String) -> Dictionary:
 	var fallback := {
+		"item_class": ITEM_CLASS_REAL,
 		"display_name": _humanize_item_name(item_name),
 		"description": "Описание предмета пока не добавлено.",
 		"use_text": "",
@@ -86,6 +151,14 @@ func get_item_info(item_name: String) -> Dictionary:
 func get_ordered_item_ids() -> Array[String]:
 	_normalize_inventory_order()
 	return inventory_order.duplicate()
+
+
+func get_ordered_real_item_ids() -> Array[String]:
+	return _get_ordered_item_ids_by_class(ITEM_CLASS_REAL)
+
+
+func get_ordered_virtual_item_ids() -> Array[String]:
+	return _get_ordered_item_ids_by_class(ITEM_CLASS_VIRTUAL)
 
 
 func reorder_item(item_id: String, target_index: int) -> void:
@@ -182,6 +255,15 @@ func _normalize_inventory_order() -> void:
 	inventory_order = normalized
 
 
+func _get_ordered_item_ids_by_class(item_class: String) -> Array[String]:
+	_normalize_inventory_order()
+	var result: Array[String] = []
+	for item_id in inventory_order:
+		if get_item_class(item_id) == item_class:
+			result.append(item_id)
+	return result
+
+
 func _ensure_item_in_order(item_name: String) -> void:
 	var id := str(item_name)
 	if not inventory_order.has(id):
@@ -209,6 +291,14 @@ func _ensure_known_item_slot(item_name: String) -> bool:
 
 func _emit_inventory_changed() -> void:
 	inventory_changed.emit()
+
+
+func _rebuild_item_catalog() -> void:
+	item_catalog.clear()
+	for item_id in real_item_catalog.keys():
+		item_catalog[str(item_id)] = Dictionary(real_item_catalog[item_id]).duplicate(true)
+	for item_id in virtual_item_catalog.keys():
+		item_catalog[str(item_id)] = Dictionary(virtual_item_catalog[item_id]).duplicate(true)
 
 
 func _humanize_item_name(item_name: String) -> String:

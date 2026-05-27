@@ -439,6 +439,8 @@ func _refresh_inventory_ui() -> void:
 	for item_id in ordered_ids:
 		if not Items.is_known_item(item_id):
 			continue
+		if Items.is_virtual_item(item_id):
+			continue
 
 		var item_count := int(Items.items_inventory.get(item_id, 0))
 		if item_count <= 0:

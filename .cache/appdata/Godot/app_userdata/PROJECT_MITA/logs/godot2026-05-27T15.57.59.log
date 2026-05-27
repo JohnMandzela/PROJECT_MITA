@@ -10,15 +10,7 @@ ERROR: Node not found: "/root/Items" (absolute path attempted from "root").
    at: get_node (scene/main/node.cpp:1904)
    GDScript backtrace (most recent call first):
        [0] _initialize (res://tools/validate_offices_ui.gd:6)
-ERROR: Can't use get_node() with absolute paths from outside the active scene tree.
-   at: get_node_or_null (scene/main/node.cpp:1842)
-   GDScript backtrace (most recent call first):
-       [0] _initialize (res://tools/validate_offices_ui.gd:7)
-ERROR: Node not found: "/root/GameManager" (absolute path attempted from "root").
-   at: get_node (scene/main/node.cpp:1904)
-   GDScript backtrace (most recent call first):
-       [0] _initialize (res://tools/validate_offices_ui.gd:7)
 SCRIPT ERROR: Cannot call method 'call' on a null value.
-   at: _initialize (res://tools/validate_offices_ui.gd:8)
+   at: _initialize (res://tools/validate_offices_ui.gd:7)
    GDScript backtrace (most recent call first):
-       [0] _initialize (res://tools/validate_offices_ui.gd:8)
+       [0] _initialize (res://tools/validate_offices_ui.gd:7)

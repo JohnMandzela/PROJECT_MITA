@@ -4,9 +4,9 @@ extends SceneTree
 func _initialize() -> void:
 	root.size = Vector2i(1152, 648)
 	var items := root.get_node("/root/Items")
-	items.call("apply_inventory_state", {"buttle_cola": 0, "coffee_cup": 1}, ["coffee_cup", "buttle_cola"])
 	var game_manager := root.get_node("/root/GameManager")
 	game_manager.call("reset_game_state")
+	items.call("apply_inventory_state", {"buttle_cola": 0, "coffee_cup": 1, "teddy_bear": 1}, ["coffee_cup", "teddy_bear", "buttle_cola"])
 
 	var scene: PackedScene = load("res://scenes/test_room_vr.tscn")
 	if scene == null:
@@ -96,16 +96,55 @@ func _initialize() -> void:
 	if not inventory_drawer.visible or inventory_drawer.size.y < 120.0:
 		_fail("Inventory drawer did not open")
 		return
+	if inventory_drawer.size.y < 220.0:
+		_fail("Inventory drawer should be tall enough for the expanded 4x4 grid")
+		return
+
+	var system_status := overlay_root.get_node("RightPanel/SystemStatus") as Panel
+	if inventory_drawer.get_global_rect().end.y <= system_status.get_global_rect().position.y:
+		_fail("Inventory drawer should overlap the system status panel when open")
+		return
+	if inventory_drawer.get_index() <= system_status.get_index():
+		_fail("Inventory drawer should render above the system status panel")
+		return
+
+	var normal_tab := overlay_root.get_node_or_null("RightPanel/InventoryDrawer/InventoryNormalTab") as Button
+	var virtual_tab := overlay_root.get_node_or_null("RightPanel/InventoryDrawer/InventoryVirtualTab") as Button
+	if normal_tab == null or virtual_tab == null:
+		_fail("Inventory drawer is missing normal/virtual tabs")
+		return
 
 	var inventory_grid := overlay_root.get_node_or_null("RightPanel/InventoryDrawer/InventoryGrid") as GridContainer
-	if inventory_grid == null or inventory_grid.get_child_count() != 12:
-		_fail("Inventory grid should contain 12 item cells")
+	if inventory_grid == null or inventory_grid.get_child_count() != 16:
+		_fail("Inventory grid should contain 16 item cells")
 		return
 	if inventory_grid.get_node_or_null("ItemCell_00/ItemContent/ItemIcon") == null:
 		_fail("Inventory should show the default coffee item")
 		return
+	var teddy_info := items.call("get_item_info", "teddy_bear") as Dictionary
+	var teddy_display_name := str(teddy_info.get("display_name", ""))
+	if (inventory_grid.get_node("ItemCell_00") as PanelContainer).tooltip_text == teddy_display_name:
+		_fail("Virtual teddy bear should not appear on the normal inventory tab")
+		return
 	if not ResourceLoader.exists("res://images/items/Coffe_cup_paper.png"):
 		_fail("Coffee cup icon is missing or not imported")
+		return
+	if not ResourceLoader.exists("res://images/items/teddy_bear.png"):
+		_fail("Teddy bear icon is missing or not imported")
+		return
+
+	virtual_tab.pressed.emit()
+	await process_frame
+	if inventory_grid.get_node_or_null("ItemCell_00/ItemContent/ItemIcon") == null:
+		_fail("Virtual inventory tab should show the teddy bear item")
+		return
+	if (inventory_grid.get_node("ItemCell_00") as PanelContainer).tooltip_text != teddy_display_name:
+		_fail("Virtual inventory tab should show teddy bear instead of normal items")
+		return
+	normal_tab.pressed.emit()
+	await process_frame
+	if inventory_grid.get_node_or_null("ItemCell_00/ItemContent/ItemIcon") == null:
+		_fail("Normal inventory tab should show normal items after switching back")
 		return
 
 	var cell := inventory_grid.get_node("ItemCell_00") as PanelContainer

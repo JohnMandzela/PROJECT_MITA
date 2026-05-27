@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5ygrxojb8mb6"]
+[gd_scene load_steps=9 format=3 uid="uid://b5ygrxojb8mb6"]
 
-[ext_resource type="Script" path="res://scripts/offices.gd" id="1_hjh00"]
+[ext_resource type="Script" uid="uid://c1s5cauc13234" path="res://scripts/offices.gd" id="1_hjh00"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_p3dna"]
 [ext_resource type="Texture2D" uid="uid://xh0sxrfauuqa" path="res://images/scene/test_room_VR.png" id="3_ms455"]
 [ext_resource type="Script" uid="uid://dkk675v4puc0n" path="res://scripts/offices_coffee_zone.gd" id="4_4js0q"]
 [ext_resource type="Resource" uid="uid://valtm4offpne" path="res://dialogues/offices_coffee.dialogue" id="5_43lyh"]
 [ext_resource type="PackedScene" uid="uid://74fei1t52gx6" path="res://scenes/system/game_interface_overlay.tscn" id="6_ro5hb"]
+[ext_resource type="Script" uid="uid://b2jgd8nsuavya" path="res://scripts/teddy_bear_zone.gd" id="7_n8x9p"]
+[ext_resource type="Resource" uid="uid://dtgwjhxt1xepi" path="res://dialogues/teddy_bear.dialogue" id="8_q2t6r"]
 
 [node name="Test_Room_VR" type="Node2D"]
 script = ExtResource("1_hjh00")
@@ -40,6 +42,26 @@ metadata/_edit_use_anchors_ = true
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Coffee_Zone"]
 polygon = PackedVector2Array(138, 94, 147, 146, 119, 146, 119, 94)
 
+[node name="Teddy_Bear" type="Area2D" parent="Ivents"]
+script = ExtResource("7_n8x9p")
+required_direction = 2
+dialogue = ExtResource("8_q2t6r")
+
+[node name="Label" type="Label" parent="Ivents/Teddy_Bear"]
+offset_left = -341.0
+offset_top = 110.0
+offset_right = -211.0
+offset_bottom = 133.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Поднять мишку"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Teddy_Bear"]
+position = Vector2(-155, 131)
+polygon = PackedVector2Array(-23, -12, 30, -12, 30, 30, -30, 30)
+
 [node name="Game_Interface_Overlay" parent="." instance=ExtResource("6_ro5hb")]
 psyche = 41.0
 
@@ -51,3 +73,5 @@ polygon = PackedVector2Array(-62, 11, -95, 11, -98, 83, -107, 115, -181, 115, -1
 
 [connection signal="body_entered" from="Ivents/Coffee_Zone" to="Ivents/Coffee_Zone" method="_on_body_entered"]
 [connection signal="body_exited" from="Ivents/Coffee_Zone" to="Ivents/Coffee_Zone" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Teddy_Bear" to="Ivents/Teddy_Bear" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Teddy_Bear" to="Ivents/Teddy_Bear" method="_on_body_exited"]
