@@ -1,7 +1,7 @@
 [gd_scene load_steps=26 format=3 uid="uid://ca3jte36vrtpx"]
 
 [ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="1_0s3u6"]
-[ext_resource type="Texture2D" uid="uid://db0tilyuioce8" path="res://images/Phone_Flashlight.png" id="2_g2els"]
+[ext_resource type="Texture2D" uid="uid://db0tilyuioce8" path="res://images/phone/Phone_Flashlight.png" id="2_g2els"]
 
 [sub_resource type="GDScript" id="GDScript_0s3u6"]
 resource_name = "Player_RPG_Move"
@@ -101,7 +101,7 @@ func _process(_delta: float) -> void:
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0s3u6"]
-radius = 6.0
+radius = 5.0
 height = 24.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qm0ti"]

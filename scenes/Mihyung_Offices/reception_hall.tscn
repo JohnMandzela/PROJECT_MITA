@@ -280,7 +280,7 @@ shape = SubResource("RectangleShape2D_453ih")
 position = Vector2(577, -438)
 script = ExtResource("9_qy5m8")
 exit_direction = "down"
-target_scene = "Mihyung_Offices/elevator_office"
+target_scene = "res://scenes/Mihyung_Offices/elevator_office.tscn"
 target_spawn_point = "Marker2D"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AreaIvents/Elevator"]
