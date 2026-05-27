@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_4vifw"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_bmkgt"]
-[ext_resource type="Texture2D" uid="uid://bnjaciec2avpf" path="res://images/scene/corridor.png" id="3_p2dgv"]
+[ext_resource type="Texture2D" uid="uid://bp412kfso4t1y" path="res://images/scene/Кабинет Менеджер-итог.png" id="3_ucrnl"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_r6amo"]
 [ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_bmkgt"]
 
@@ -15,13 +15,15 @@ player_scene = ExtResource("2_bmkgt")
 default_spawn_point = "Spawn_from_Corridors"
 
 [node name="manager\'s_Cabinet_Texture" type="Sprite2D" parent="."]
-texture = ExtResource("3_p2dgv")
+position = Vector2(49.000004, 161.00002)
+scale = Vector2(1.475, 1.475)
+texture = ExtResource("3_ucrnl")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 build_mode = 1
-polygon = PackedVector2Array(-25, 313, -25, 253, -84, 253, -84, -95, 108, -95, 108, 253, 30, 253, 30, 313)
+polygon = PackedVector2Array(-25, 313, -25, 254, -78, 254, -77, -71, 102, -71, 102, 253, 30, 253, 30, 313)
 
 [node name="Spawn_from_Corridors" type="Marker2D" parent="."]
 position = Vector2(1, 239)

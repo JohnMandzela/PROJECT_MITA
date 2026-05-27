@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_oac7c"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_igi4i"]
-[ext_resource type="Texture2D" uid="uid://bnjaciec2avpf" path="res://images/scene/corridor.png" id="3_8ck4t"]
+[ext_resource type="Texture2D" uid="uid://b5hjidapfgdrd" path="res://images/scene/ТуалетМ-итог.png" id="3_iu652"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_8h0n1"]
 [ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_igi4i"]
 
@@ -15,11 +15,14 @@ player_scene = ExtResource("2_igi4i")
 default_spawn_point = "Spawn_from_Corridors"
 
 [node name="Toilet_Man_Texture" type="Sprite2D" parent="."]
-texture = ExtResource("3_8ck4t")
+position = Vector2(41, 32)
+scale = Vector2(1.425, 1.425)
+texture = ExtResource("3_iu652")
 
 [node name="Wall_Collision" type="StaticBody2D" parent="."]
 
 [node name="Wall_Collision" type="CollisionPolygon2D" parent="Wall_Collision"]
+position = Vector2(-1, -1)
 build_mode = 1
 polygon = PackedVector2Array(-101, 334, -101, -73, 163, -73, 163, 334, 137, 334, 137, 371, 84, 371, 84, 334)
 
