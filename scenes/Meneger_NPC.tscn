@@ -181,4 +181,5 @@ shape = SubResource("CapsuleShape2D_53cmf")
 position = Vector2(0, -46)
 sprite_frames = SubResource("SpriteFrames_n2yg7")
 animation = &"walk_up"
-frame_progress = 0.9971152
+frame = 3
+frame_progress = 0.9624793
