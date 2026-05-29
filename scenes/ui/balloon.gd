@@ -6,6 +6,12 @@ enum PortraitSide {
 	RIGHT,
 }
 
+## Visual mode for the balloon
+enum BalloonMode {
+	DEFAULT,
+	SIMPLE,
+}
+
 const SKIP_REPEAT_DELAY := 0.12
 
 ## The dialogue resource
@@ -46,11 +52,13 @@ var _skip_advance_after_typing := false
 var _previous_mouse_mode := Input.MOUSE_MODE_VISIBLE
 var _has_dialogue_mouse_mode := false
 
-## The current line
+## The current line (backing field)
+var _dialogue_line: DialogueLine
+
 var dialogue_line: DialogueLine:
 	set(value):
 		if value:
-			dialogue_line = value
+			_dialogue_line = value
 			apply_dialogue_line()
 		else:
 			_restore_dialogue_mouse_mode()
@@ -60,7 +68,7 @@ var dialogue_line: DialogueLine:
 			else:
 				hide()
 	get:
-		return dialogue_line
+		return _dialogue_line
 
 ## A cooldown timer for delaying the balloon hide when encountering a mutation.
 var mutation_cooldown: Timer = Timer.new()
@@ -85,6 +93,9 @@ var mutation_cooldown: Timer = Timer.new()
 
 ## Button held by mouse/touch to fast-forward dialogue.
 @onready var skip_button: Button = %SkipButton
+
+## Current visual mode
+var _balloon_mode: BalloonMode = BalloonMode.DEFAULT
 
 
 func _ready() -> void:
@@ -171,6 +182,51 @@ func start(with_dialogue_resource: DialogueResource = null, title: String = "", 
 	show()
 
 
+## Switch to simple centered text mode (no portraits, no background panel)
+func switch_to_simple_mode() -> void:
+	_balloon_mode = BalloonMode.SIMPLE
+
+	# Hide portraits
+	left_portrait.hide()
+	right_portrait.hide()
+
+	# Hide character name label
+	character_label.hide()
+
+	# Hide progress indicator
+	progress.hide()
+
+	# Hide responses menu (it's a direct child of Balloon, not inside PanelContainer)
+	responses_menu.hide()
+
+	# Reparent DialogueLabel from inside PanelContainer to directly under Balloon
+	# This is needed because DialogueLabel is inside the PanelContainer which has the black background
+	if dialogue_label.get_parent() != balloon:
+		var label_parent = dialogue_label.get_parent()
+		if label_parent:
+			label_parent.remove_child(dialogue_label)
+			balloon.add_child(dialogue_label)
+			dialogue_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+			dialogue_label.offset_left = 100
+			dialogue_label.offset_top = 100
+			dialogue_label.offset_right = -100
+			dialogue_label.offset_bottom = -100
+
+	# Hide the dark panel background
+	var panel := balloon.find_child("PanelContainer", true, false)
+	if panel:
+		panel.hide()
+
+	# Hide the outer MarginContainer (it was positioning the panel at the bottom)
+	var outer_margin := balloon.find_child("MarginContainer", false, false)
+	if outer_margin:
+		outer_margin.hide()
+
+	# Make dialogue label visible with black text, centered
+	dialogue_label.add_theme_color_override("default_color", Color(0, 0, 0, 1))
+	dialogue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
+
 ## Apply any changes to the balloon given a new [DialogueLine].
 func apply_dialogue_line() -> void:
 	mutation_cooldown.stop()
@@ -181,22 +237,33 @@ func apply_dialogue_line() -> void:
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
 
-	var character := dialogue_line.character
-	character_label.visible = not character.is_empty()
-	character_label.text = tr(character, "dialogue")
-	await _update_portraits(character)
+	if _balloon_mode == BalloonMode.SIMPLE:
+		# Simple mode: skip portraits and character label
+		dialogue_label.hide()
+		dialogue_label.dialogue_line = dialogue_line
+		responses_menu.hide()
+		responses_menu.responses = dialogue_line.responses
+		skip_button.disabled = _should_disable_skip_button()
+		balloon.show()
+		will_hide_balloon = false
+		dialogue_label.show()
+	else:
+		var character := dialogue_line.character
+		character_label.visible = not character.is_empty()
+		character_label.text = tr(character, "dialogue")
+		await _update_portraits(character)
 
-	dialogue_label.hide()
-	dialogue_label.dialogue_line = dialogue_line
+		dialogue_label.hide()
+		dialogue_label.dialogue_line = dialogue_line
 
-	responses_menu.hide()
-	responses_menu.responses = dialogue_line.responses
-	skip_button.disabled = _should_disable_skip_button()
+		responses_menu.hide()
+		responses_menu.responses = dialogue_line.responses
+		skip_button.disabled = _should_disable_skip_button()
 
-	balloon.show()
-	will_hide_balloon = false
+		balloon.show()
+		will_hide_balloon = false
 
-	dialogue_label.show()
+		dialogue_label.show()
 	if not dialogue_line.text.is_empty():
 		dialogue_label.type_out()
 		if dialogue_label.is_typing:
@@ -214,7 +281,8 @@ func apply_dialogue_line() -> void:
 		skip_button.disabled = true
 		_is_skip_button_held = false
 		balloon.focus_mode = Control.FOCUS_NONE
-		responses_menu.show()
+		if _balloon_mode != BalloonMode.SIMPLE:
+			responses_menu.show()
 		return
 
 	if dialogue_line.time != "":
