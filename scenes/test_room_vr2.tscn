@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://baees00obyuao"]
+
+[ext_resource type="Script" uid="uid://c1s5cauc13234" path="res://scripts/offices.gd" id="1_hjh00"]
+[ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="2_ms455"]
+[ext_resource type="Texture2D" uid="uid://b7rrb133ujv0b" path="res://images/scene/test_room_vr2.png" id="3_ms455"]
+[ext_resource type="PackedScene" uid="uid://74fei1t52gx6" path="res://scenes/system/game_interface_overlay.tscn" id="6_ro5hb"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="9_glapv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_km4w3"]
+size = Vector2(56, 20.25)
+
+[node name="Test_Room_VR2" type="Node2D"]
+script = ExtResource("1_hjh00")
+player_scene = ExtResource("2_ms455")
+default_spawn_point = "spawn_marker"
+
+[node name="Test_Room_Texture" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_ms455")
+
+[node name="spawn_marker" type="Marker2D" parent="."]
+position = Vector2(0, 39)
+
+[node name="Spawn_from_Bedroom" type="Marker2D" parent="."]
+position = Vector2(-97, 6)
+
+[node name="Ivents" type="Node2D" parent="."]
+
+[node name="Enter_Zone" parent="Ivents" instance=ExtResource("9_glapv")]
+exit_direction = "up"
+target_scene = "test_room_vr"
+target_spawn_point = "Spawn_from_Living_room"
+
+[node name="Label" type="Label" parent="Ivents/Enter_Zone"]
+offset_left = -127.0
+offset_top = -138.0
+offset_right = -67.0
+offset_bottom = -115.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Войти"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Enter_Zone"]
+position = Vector2(-97, 7.875)
+shape = SubResource("RectangleShape2D_km4w3")
+
+[node name="Game_Interface_Overlay" parent="." instance=ExtResource("6_ro5hb")]
+psyche = 41.0
+
+[node name="Collision_Wall" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collision_Wall"]
+position = Vector2(0, -15)
+scale = Vector2(0.9, 0.9)
+build_mode = 1
+polygon = PackedVector2Array(-61.111115, 13.333334, -140, 13.333334, -140, 47.77778, -180.00002, 126.66667, -186.66667, 131.11111, -194.44446, 133.33334, -194.44446, 162.22223, -30.000002, 162.22223, -30.000002, 204.44446, 31.111113, 204.44446, 31.111113, 162.22223, 194.44446, 162.22223, 194.44446, 118.8889, 127.77779, 22.222223, 103.333336, 27.777779, 80, 27.777779, 73.333336, 35.555557, -57.77778, 35.555557)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Collision_Wall"]
+build_mode = 1
+polygon = PackedVector2Array(-74, 56, -74, 112, 79, 112, 78, 55)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.2, 1.2)
