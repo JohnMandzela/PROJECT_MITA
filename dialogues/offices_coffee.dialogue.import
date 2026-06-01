@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://valtm4offpne"
+path="res://.godot/imported/offices_coffee.dialogue-bf7fc587775937542810728a7af956f6.tres"
+
+[deps]
+
+source_file="res://dialogues/offices_coffee.dialogue"
+dest_files=["res://.godot/imported/offices_coffee.dialogue-bf7fc587775937542810728a7af956f6.tres"]
+
+[params]
+
+defaults=true

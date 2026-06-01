@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bp4l7s6fdptfu"]
+
+[ext_resource type="Texture2D" uid="uid://drkxberecqhdg" path="res://images/scene/Комната Отдыха-итог.png" id="1_svye3"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_u12yk"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="3_0ui6e"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="4_player"]
+
+[node name="Restroom" type="Node2D"]
+script = ExtResource("1_u12yk")
+player_scene = ExtResource("4_player")
+default_spawn_point = "spawn_marker"
+
+[node name="КомнатаОтдыхаИтог" type="Sprite2D" parent="."]
+texture = ExtResource("1_svye3")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="КомнатаОтдыхаИтог"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="КомнатаОтдыхаИтог/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-260.20166, 38.39775, -260.20166, 74.484535, -225.1354, 74.484535, -224.966, 145.41371, 96.051025, 145.59149, 96.051025, -29.509386, -23.038666, -29.509386, -23.038666, 21.332087, -31.00058, 21.332087, -31.00058, -29.509386, -224.966, -29.509386, -224.966, 38.39775)
+
+[node name="spawn_marker" type="Marker2D" parent="."]
+position = Vector2(-163, 88)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("3_0ui6e")]

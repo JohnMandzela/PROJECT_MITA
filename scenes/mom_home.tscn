@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=47 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="5_uym5w"]
@@ -221,6 +221,79 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_d8v55"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_aosqw"]
+resource_name = "darken"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sm1ot"]
+_data = {
+&"RESET": SubResource("Animation_d8v55"),
+&"darken": SubResource("Animation_aosqw")
+}
+
+[sub_resource type="Animation" id="Animation_n7hji"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_sm1ot"]
+resource_name = "lighten"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5yqmt"]
+_data = {
+&"RESET": SubResource("Animation_n7hji"),
+&"lighten": SubResource("Animation_sm1ot")
+}
+
 [node name="Mom_Home" type="Node2D"]
 
 [node name="Sleep_Flashback" type="Node2D" parent="."]
@@ -307,4 +380,30 @@ sprite_frames = SubResource("SpriteFrames_7tks0")
 
 [node name="Pause_Menu" parent="Sleep_Flashback" instance=ExtResource("5_wby07")]
 
+[node name="CanvasLayer" type="CanvasLayer" parent="Sleep_Flashback"]
+
+[node name="ColorRect" type="ColorRect" parent="Sleep_Flashback/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 1.0
+offset_right = 7.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationDarken" type="AnimationPlayer" parent="Sleep_Flashback/CanvasLayer"]
+libraries = {
+&"": SubResource("AnimationLibrary_sm1ot")
+}
+
+[node name="AnimationLighten" type="AnimationPlayer" parent="Sleep_Flashback/CanvasLayer"]
+libraries = {
+&"": SubResource("AnimationLibrary_5yqmt")
+}
+
+[connection signal="body_entered" from="Sleep_Flashback/DialogueTest" to="Sleep_Flashback/DialogueTest" method="_on_body_entered"]
 [connection signal="timeout" from="Sleep_Flashback/Mike_NPC/Timer" to="Sleep_Flashback/Mike_NPC" method="_on_timer_timeout"]

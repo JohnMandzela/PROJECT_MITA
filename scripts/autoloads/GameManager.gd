@@ -1,129 +1,124 @@
 extends Node
 
 
-#---------------------------------------------------------------------------------------------------------------
-# Файл с данными настроек
-var SETTINGS_PATH := "user://settings.cfg"
+const SETTINGS_PATH := "user://settings.cfg"
+const SCENE_ROOT := "res://scenes/"
 
-# Переменные для СПАВНА игрока в сцене
 var player_scene: PackedScene = preload("res://scenes/player.tscn")
 var player: CharacterBody2D
 var pending_spawn_point: String = ""
 
-# Переменные для анимации ПЕРЕХОДА и сохранения взгляда
 var screen_fader
-var _pending_scene: String
+var _pending_scene_path: String
 var saved_direction = null
 var saved_flashlight_state = null
 
-# Переменная для музыки (чтобы громкость постоянно обновлялась)
 @onready var music_player: AudioStreamPlayer = AudioStreamPlayer.new()
 
-# Переменная для диалоговой системы
 var disable_movement := false
-#---------------------------------------------------------------------------------------------------------------
+var is_minigame_active := false
+var minigame_pause_target: Node = null
+
+var items_inventory: Dictionary:
+	get:
+		return Items.items_inventory
+	set(value):
+		Items.apply_inventory_state(value, Items.inventory_order)
+
+var quests_info: Dictionary:
+	get:
+		return Quests.quests_info
+	set(value):
+		Quests.quests_info = value
+
+var game_flags: Dictionary:
+	get:
+		return Quests.game_flags
+	set(value):
+		Quests.game_flags = value
 
 
-
-#---------------------------------------------------------------------------------------------------------------
-var items_inventory = {
-		"buttle_cola" = 0
-	}
-
-# Проверяем, было ли событие или нет
 func item_check(item_name: String) -> int:
-	return items_inventory.get(item_name, 0)
-
-# Отмечаем событие выполненным
-func item_was_took(item_name: String):
-	items_inventory[item_name] = items_inventory[item_name] + 1
-	print(items_inventory[item_name])
-
-# Снимаем флаг события (воспроизводим заново)
-func item_was_dropped(item_name: String):
-	items_inventory[item_name] = items_inventory[item_name] - 1
-	print(items_inventory[item_name])
-#---------------------------------------------------------------------------------------------------------------
+	return Items.item_check(item_name)
 
 
+func item_was_took(item_name: String) -> void:
+	Items.item_was_took(item_name)
 
-#---------------------------------------------------------------------------------------------------------------
-# Хранение флажков по игровым событиям
-var game_flags = {
-		"1_morning_quest" = false,
-		"2_mike_room_bed" = false,
-		"3_cola_in_fridge" = false,
-		"4_shower_use" = false,
-	}
 
-# Проверяем, было ли событие или нет
+func item_was_dropped(item_name: String) -> void:
+	Items.item_was_dropped(item_name)
+
+
 func is_done(flag_name: String) -> bool:
-	return game_flags.get(flag_name, false)
+	return Quests.is_done(flag_name)
 
-# Отмечаем событие выполненным
+
 func set_done(flag_name: String) -> void:
-	game_flags[flag_name] = true
+	Quests.set_done(flag_name)
 
-# Снимаем флаг события (воспроизводим заново)
+
 func reload(flag_name: String) -> void:
-	game_flags[flag_name] = false
-#---------------------------------------------------------------------------------------------------------------
+	Quests.reload(flag_name)
 
 
+func reset_game_state() -> void:
+	Quests.reset_game_state()
+	Items.apply_inventory_state(Items.DEFAULT_ITEMS_INVENTORY.duplicate(true), [])
 
-#---------------------------------------------------------------------------------------------------------------
-# Загружаем данные настроек
-func load_settings():
-	var config = ConfigFile.new()
-	var err = config.load(SETTINGS_PATH)
 
+func sync_quest_progress() -> void:
+	Quests.sync_quest_progress()
+
+
+func load_settings() -> void:
+	var config := ConfigFile.new()
+	var err := config.load(SETTINGS_PATH)
 	if err != OK:
-		return # если файла нет — запускаем с дефолтными
+		return
 
-	var fullscreen = config.get_value("video", "fullscreen", false)
-	var music_vol = config.get_value("audio", "music_volume", 100.0)
-	var sounds_vol = config.get_value("audio", "sounds_volume", 100.0)
+	var fullscreen: bool = config.get_value("video", "fullscreen", false)
+	var music_vol: float = config.get_value("audio", "music_volume", 100.0)
+	var sounds_vol: float = config.get_value("audio", "sounds_volume", 100.0)
 
-	# Применяем fullscreen
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen 
+		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen
 		else DisplayServer.WINDOW_MODE_WINDOWED
 	)
 
-	# Применяем звук
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index("Music"), 
+		AudioServer.get_bus_index("Music"),
 		linear_to_db(music_vol / 100.0)
 	)
-
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index("Sounds"), 
+		AudioServer.get_bus_index("Sounds"),
 		linear_to_db(sounds_vol / 100.0)
 	)
-#---------------------------------------------------------------------------------------------------------------
 
 
-
-#---------------------------------------------------------------------------------------------------------------
 func _ready() -> void:
-	# Добавляем музыку в AutoLoad
 	add_child(music_player)
 	music_player.bus = "Music"
 	music_player.autoplay = false
-	
+
+	sync_quest_progress()
 	load_settings()
-	screen_fader = preload("res://scenes/system/screen_fader.tscn").instantiate()   # подзагружаем анимацию перехода
-	add_child(screen_fader)                                                         # добавляем ее в сцену
 
+	const screen_fader_path := "res://scenes/system/screen_fader.tscn"
+	screen_fader = preload(screen_fader_path).instantiate()
+	add_child(screen_fader)
+	
 	screen_fader.fade_out_finished.connect(_on_fade_out_finished)
-#---------------------------------------------------------------------------------------------------------------
-
-
 
 #---------------------------------------------------------------------------------------------------------------
+
 # Начинаем перемещение в другую локацию
-func start_scene_transition(scene_name: String, spawn_point: String) -> void:
-	_pending_scene = scene_name
+func start_scene_transition(scene_reference: String, spawn_point: String) -> void:
+	_pending_scene_path = "res://scenes/" + scene_reference + ".tscn"
+	if _pending_scene_path.is_empty() or not ResourceLoader.exists(_pending_scene_path):
+		push_error("Scene transition target does not exist: %s" % scene_reference)
+		return
+	
 	pending_spawn_point = spawn_point
 	screen_fader.fade_out(0.5) # затемняем экран
 
@@ -131,23 +126,19 @@ func start_scene_transition(scene_name: String, spawn_point: String) -> void:
 func _on_fade_out_finished() -> void:
 	if SaveSystem.is_loading:
 		SaveSystem.load_game_state()
-	
-	get_tree().change_scene_to_file("res://scenes/" + _pending_scene + ".tscn")     # смена локации
-	_pending_scene = ""
+
+	get_tree().change_scene_to_file(_pending_scene_path)     # смена локации
+	_pending_scene_path = ""
 #---------------------------------------------------------------------------------------------------------------
 
 
-
-#---------------------------------------------------------------------------------------------------------------
-# Воспроизводим музыку
-func play_music(stream: AudioStream):
+func play_music(stream: AudioStream) -> void:
 	if music_player.stream == stream and music_player.playing:
 		return
 	music_player.stream = stream
 	music_player.play()
 
-# Останавливаем музыку
-func stop_music():
+
+func stop_music() -> void:
 	if music_player.playing:
 		music_player.stop()
-#---------------------------------------------------------------------------------------------------------------

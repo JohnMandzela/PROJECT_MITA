@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://b63ww5t8n7jkj"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_twrgn"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_52r6e"]
+[ext_resource type="Texture2D" uid="uid://cvplu6xupd0wm" path="res://images/scene/Подсобка-итог.png" id="3_peam7"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_d0j2m"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_l5utp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0gxbx"]
+size = Vector2(65, 60)
+
+[node name="Utility_Room" type="Node2D"]
+script = ExtResource("1_twrgn")
+player_scene = ExtResource("2_52r6e")
+default_spawn_point = "Spawn_from_Corridors"
+
+[node name="Utility_Room_Texture" type="Sprite2D" parent="."]
+position = Vector2(-21.000002, -31)
+scale = Vector2(1.73, 1.73)
+texture = ExtResource("3_peam7")
+
+[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
+position = Vector2(163, 129)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_d0j2m")]
+
+[node name="Exit_to_Corridors" type="Area2D" parent="."]
+script = ExtResource("5_l5utp")
+required_direction = 3
+exit_direction = "right"
+target_scene = "Mihyung_Offices/corridors_offices"
+target_spawn_point = "Spawn_on_Utility"
+
+[node name="Label" type="Label" parent="Exit_to_Corridors"]
+offset_left = 253.0
+offset_top = 91.0
+offset_right = 321.0
+offset_bottom = 114.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
+position = Vector2(215.5, 118)
+shape = SubResource("RectangleShape2D_0gxbx")
+
+[node name="Collision_Wall" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collision_Wall"]
+build_mode = 1
+polygon = PackedVector2Array(-256, 155, -256, 10, 180, 10, 179, 87, 248, 87, 248, 150, 179, 150, 180, 155)
+
+[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
+[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]

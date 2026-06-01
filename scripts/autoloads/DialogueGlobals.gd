@@ -5,11 +5,12 @@ extends Node
 const PORTRAIT_PREFIXES = {
 	"Майк": "Mike",
 	"Мита": "Mita",
-	"Мама": "Mita" # TODO: убрать плейсхолдер!
+	"Мама": "Mita", # TODO: убрать плейсхолдер!
+	"Эмили": "Emily",
 }
 
 # Допустимые эмоции персонажей
 # Задаются в диалогах через теги 
-var EMOTES := [
-	"happy", "sad", "angry"
+const EMOTES: PackedStringArray = [
+	"happy", "sad", "angry", "shame"
 ]

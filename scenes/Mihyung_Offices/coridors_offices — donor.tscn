@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4jmeca3hjlc0"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="2_spawn"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="3_player"]
+[ext_resource type="Texture2D" uid="uid://cf226dlsjh157" path="res://images/scene/Коридоры офисов-полный вариант.png" id="3_qbysk"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_pause"]
+
+[node name="CoridorsOffices" type="Node2D"]
+script = ExtResource("2_spawn")
+player_scene = ExtResource("3_player")
+default_spawn_point = "spawn_marker"
+
+[node name="КоридорыОфисовПолныйВариант" type="Sprite2D" parent="."]
+texture = ExtResource("3_qbysk")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="КоридорыОфисовПолныйВариант"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="КоридорыОфисовПолныйВариант/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-822.31757, -136.88062, -845.21936, -50.93232, -391.47754, -50.295666, -391.47754, 142.6105, -583.9957, 142.6105, -583.9957, 113.32441, -699.9361, 113.32441, -699.9361, 22.28289, -805.8569, 22.28289, -805.8569, 143.24716, -823.7489, 143.24716, -845.935, 217.73569, -406.50684, 217.73569, -406.50684, 395.99878, -823.7489, 395.99878, -850.94476, 486.40366, -850.94476, 487.67697, -4.2940674, 487.67697, -3.5783691, 487.67697, -3.5783691, 415.73508, -3.5783691, 415.73508, 32.921326, 415.73508, 32.921326, 381.35574, -2.1470337, 381.35574, -2.1470337, 256.57156, 539.62354, 256.57156, 540.33923, 487.67697, 577.5547, 487.67697, 577.5547, 258.48154, 793.6903, 258.48154, 793.6903, 151.52367, 509.56494, 151.52367, 509.56494, -330.42343, 454.45752, -330.42343, 454.45752, 150.88701, 2.1470337, 150.88701, 2.1470337, -126.057495, 314.89966, -126.057495, 314.89966, -154.70692, 349.25232, -154.70692, 349.25232, -189.72289, 314.18396, -189.72289, 314.18396, -206.91255, -0.7156372, -206.91255, -0.7156372, -331.69675, -67.27399, -331.69675, -67.27399, -292.86087, -98.04828, -292.86087, -98.04828, -251.47833, -67.989685, -251.47833, -67.27399, 208.82253, -339.23282, 208.82253, -339.23282, -136.88062)
+
+[node name="spawn_marker" type="Marker2D" parent="."]
+position = Vector2(-275, 319)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]

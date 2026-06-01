@@ -1,0 +1,176 @@
+[gd_scene load_steps=11 format=3 uid="uid://dtcpain5ajg7r"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_w585l"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_3mhh6"]
+[ext_resource type="Texture2D" uid="uid://bgmeuks7pq83y" path="res://images/scene/Коридоры офисов-полный вариант.png" id="3_ddor0"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_xtt1d"]
+[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/next_scene.gd" id="5_3mhh6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0stv2"]
+size = Vector2(36.5, 20.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3mhh6"]
+size = Vector2(34, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xtt1d"]
+size = Vector2(34, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wx7r7"]
+size = Vector2(43.5, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lgbt0"]
+size = Vector2(33, 44)
+
+[node name="Corridors_Offices" type="Node2D"]
+script = ExtResource("1_w585l")
+player_scene = ExtResource("2_3mhh6")
+default_spawn_point = "spawn_marker"
+
+[node name="Corridors_Oficces_Texture" type="Sprite2D" parent="."]
+texture = ExtResource("3_ddor0")
+
+[node name="Collision_Wall" type="StaticBody2D" parent="Corridors_Oficces_Texture"]
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Corridors_Oficces_Texture/Collision_Wall"]
+build_mode = 1
+polygon = PackedVector2Array(-822.31757, -136.88062, -845.21936, -50.93232, -391.47754, -50.295666, -391.47754, 142.6105, -583.9957, 142.6105, -583.9957, 113.32441, -699.9361, 113.32441, -699.9361, 22.28289, -805.8569, 22.28289, -805.8569, 143.24716, -823.7489, 143.24716, -845.935, 217.73569, -406.50684, 217.73569, -406.50684, 395.99878, -823.7489, 395.99878, -850.94476, 486.40366, -850.94476, 487.67697, -4.2940674, 487.67697, -3.5783691, 487.67697, -3.5783691, 415.73508, -3.5783691, 415.73508, 32.921326, 415.73508, 32.921326, 381.35574, -2.1470337, 381.35574, -2.1470337, 256.57156, 539.62354, 256.57156, 540.33923, 487.67697, 577.5547, 487.67697, 577.5547, 258.48154, 793.6903, 258.48154, 793.6903, 151.52367, 509.56494, 151.52367, 509.56494, -330.42343, 454.45752, -330.42343, 454.45752, 150.88701, 2.1470337, 150.88701, 2.1470337, -126.057495, 314.89966, -126.057495, 314.89966, -154.70692, 349.25232, -154.70692, 349.25232, -189.72289, 314.18396, -189.72289, 314.18396, -206.91255, -0.7156372, -206.91255, -0.7156372, -331.69675, -67.27399, -331.69675, -67.27399, -292.86087, -98.04828, -292.86087, -98.04828, -251.47833, -67.989685, -251.47833, -67.27399, 208.82253, -339.23282, 208.82253, -339.23282, -136.88062)
+
+[node name="spawn_marker" type="Marker2D" parent="."]
+position = Vector2(-234, 301)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_xtt1d")]
+
+[node name="Spawn_on_Left_Elevator" type="Marker2D" parent="."]
+position = Vector2(-587, 150)
+
+[node name="Spawn_on_Manager" type="Marker2D" parent="."]
+position = Vector2(-403, -124)
+
+[node name="Spawn_on_Programming" type="Marker2D" parent="."]
+position = Vector2(-747, -128)
+
+[node name="Spawn_on_Conference" type="Marker2D" parent="."]
+position = Vector2(-200, 217)
+
+[node name="Spawn_on_Toilet" type="Marker2D" parent="."]
+position = Vector2(386, 166)
+
+[node name="Spawn_on_Utility" type="Marker2D" parent="."]
+position = Vector2(-78, -277)
+
+[node name="Enter_Programming_Office" type="Area2D" parent="."]
+script = ExtResource("5_3mhh6")
+exit_direction = "up"
+target_scene = "Mihyung_Offices/Programming_Office"
+target_spawn_point = "Spawn_from_Corridors"
+
+[node name="Label" type="Label" parent="Enter_Programming_Office"]
+offset_left = -856.0
+offset_top = -239.0
+offset_right = -788.0
+offset_bottom = -216.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Войти"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Programming_Office"]
+position = Vector2(-748, -126)
+shape = SubResource("RectangleShape2D_0stv2")
+
+[node name="Enter_Manager_Cabinet" type="Area2D" parent="."]
+script = ExtResource("5_3mhh6")
+exit_direction = "up"
+target_scene = "Mihyung_Offices/manager's_cabinet"
+target_spawn_point = "Spawn_from_Corridors"
+
+[node name="Label" type="Label" parent="Enter_Manager_Cabinet"]
+offset_left = -477.0
+offset_top = -246.0
+offset_right = -409.0
+offset_bottom = -223.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Войти"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Manager_Cabinet"]
+position = Vector2(-402, -124.5)
+shape = SubResource("RectangleShape2D_3mhh6")
+
+[node name="Enter_Conference_Room" type="Area2D" parent="."]
+script = ExtResource("5_3mhh6")
+exit_direction = "up"
+target_scene = "Mihyung_Offices/conference_room"
+target_spawn_point = "Spawn_from_Corridors"
+
+[node name="Label" type="Label" parent="Enter_Conference_Room"]
+offset_left = -267.0
+offset_top = 97.0
+offset_right = -199.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Войти"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Conference_Room"]
+position = Vector2(-200, 217)
+shape = SubResource("RectangleShape2D_xtt1d")
+
+[node name="Enter_Toilet" type="Area2D" parent="."]
+script = ExtResource("5_3mhh6")
+exit_direction = "up"
+target_scene = "Mihyung_Offices/toilet_man"
+target_spawn_point = "Spawn_from_Corridors"
+
+[node name="Label" type="Label" parent="Enter_Toilet"]
+offset_left = 369.0
+offset_top = 108.0
+offset_right = 437.0
+offset_bottom = 131.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Войти"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Toilet"]
+position = Vector2(384, 162)
+shape = SubResource("RectangleShape2D_wx7r7")
+
+[node name="Enter_Utility_Room" type="Area2D" parent="."]
+script = ExtResource("5_3mhh6")
+required_direction = 2
+exit_direction = "left"
+target_scene = "Mihyung_Offices/utility_room"
+target_spawn_point = "Spawn_from_Corridors"
+
+[node name="Label" type="Label" parent="Enter_Utility_Room"]
+offset_left = -193.0
+offset_top = -292.0
+offset_right = -125.0
+offset_bottom = -269.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Войти"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Utility_Room"]
+position = Vector2(-83, -272)
+shape = SubResource("RectangleShape2D_lgbt0")
+
+[connection signal="body_entered" from="Enter_Programming_Office" to="Enter_Programming_Office" method="_on_body_entered"]
+[connection signal="body_exited" from="Enter_Programming_Office" to="Enter_Programming_Office" method="_on_body_exited"]
+[connection signal="body_entered" from="Enter_Manager_Cabinet" to="Enter_Manager_Cabinet" method="_on_body_entered"]
+[connection signal="body_exited" from="Enter_Manager_Cabinet" to="Enter_Manager_Cabinet" method="_on_body_exited"]
+[connection signal="body_entered" from="Enter_Conference_Room" to="Enter_Conference_Room" method="_on_body_entered"]
+[connection signal="body_exited" from="Enter_Conference_Room" to="Enter_Conference_Room" method="_on_body_exited"]
+[connection signal="body_entered" from="Enter_Toilet" to="Enter_Toilet" method="_on_body_entered"]
+[connection signal="body_exited" from="Enter_Toilet" to="Enter_Toilet" method="_on_body_exited"]
+[connection signal="body_entered" from="Enter_Utility_Room" to="Enter_Utility_Room" method="_on_body_entered"]
+[connection signal="body_exited" from="Enter_Utility_Room" to="Enter_Utility_Room" method="_on_body_exited"]

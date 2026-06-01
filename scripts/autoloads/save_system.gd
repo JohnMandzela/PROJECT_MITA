@@ -1,26 +1,28 @@
 extends Node
 
-# Режимы сохранения
 enum Mode {
 	AUTO,
 	QUICK,
-	MANUAL
+	MANUAL,
 }
 
-# Количество слотов для сохранения (для ручного сохранения)
 const SLOT_COUNT := 3
+const LEGACY_SAVE_PATH := "user://save.bin"
 
-# Свойства GameManager, подлежащие сериализации
 const GAME_MANAGER_PROPERTIES_TO_SAVE: PackedStringArray = [
-	"game_flags", 
-	"items_inventory"
+	"game_flags",
+	"quests_info",
 ]
 
-# Свойства игрока, подлежащие сериализации
+const ITEMS_PROPERTIES_TO_SAVE: PackedStringArray = [
+	"items_inventory",
+	"inventory_order",
+]
+
 const PLAYER_PROPERTIES_TO_SAVE: PackedStringArray = [
 	"global_position",
 	"last_direction",
-	"is_flashlight_on"
+	"is_flashlight_on",
 ]
 
 var is_loading := false
@@ -34,15 +36,15 @@ func _get_save_file_path(mode: Mode, slot := 0) -> String:
 		Mode.QUICK: 
 			return "user://quicksave.bin"
 		Mode.MANUAL: 
-			return "user://save_%d.bin" % slot
-		_: 
-			assert(false, "Недопустимый режим сохранения")
-			return ""
+			return "user://save_%d.bin" % clampi(slot, 0, SLOT_COUNT - 1)
+	
+	assert(false, "Недопустимый режим сохранения")
+	return ""
 
 
 # Получение всех существующих сохранений
-func get_all_save_files() -> Array:
-	var save_files := []
+func get_all_save_files() -> Array[String]:
+	var save_files: Array[String] = []
 	
 	for mode in [Mode.AUTO, Mode.QUICK]:
 		var path := _get_save_file_path(mode)
@@ -54,6 +56,9 @@ func get_all_save_files() -> Array:
 		if FileAccess.file_exists(path):
 			save_files.append(path)
 	
+	if FileAccess.file_exists(LEGACY_SAVE_PATH) and not save_files.has(LEGACY_SAVE_PATH):
+		save_files.append(LEGACY_SAVE_PATH)
+
 	return save_files
 
 
@@ -63,9 +68,9 @@ func get_latest_save_path() -> String:
 	var latest_file := ""
 
 	for path in get_all_save_files():
-		var time := FileAccess.get_modified_time(path)
-		if time > latest_time:
-			latest_time = time
+		var modified_time := FileAccess.get_modified_time(path)
+		if modified_time >= latest_time:
+			latest_time = modified_time
 			latest_file = path
 
 	return latest_file
@@ -132,9 +137,21 @@ func load_game_state() -> void:
 	assert(_save_data != null, "Нет данных для загрузки")
 
 	for property in GAME_MANAGER_PROPERTIES_TO_SAVE:
-		GameManager.set(property, _save_data[property])
+		if _save_data.has(property):
+			GameManager.set(property, _save_data[property])
+
+	GameManager.sync_quest_progress()
 	
-	GameManager._pending_scene_path = _save_data["scene_file_path"]
+	var loaded_inventory := Items.items_inventory
+	if _save_data.has("items_inventory"):
+		loaded_inventory = _save_data["items_inventory"]
+
+	var loaded_order := Items.inventory_order
+	if _save_data.has("inventory_order"):
+		loaded_order = _save_data["inventory_order"]
+
+	Items.apply_inventory_state(loaded_inventory, loaded_order)
+	GameManager._pending_scene_path = GameManager.resolve_scene_path(str(_save_data["scene_file_path"]))
 	
 	print("Загружены данные GameManager")
 
@@ -149,8 +166,40 @@ func load_player_state() -> void:
 
 	var player := GameManager.player
 	for property in PLAYER_PROPERTIES_TO_SAVE:
-		player.set(property, _save_data[property])
+		if _save_data.has(property):
+			GameManager.player.set(property, _save_data[property])
 		
 	print("Загружены данные игрока")
 	is_loading = false
 	_save_data = null
+
+func _build_slot_info(id: String, title: String, mode: Mode, slot: int) -> Dictionary:
+	return _build_path_info(id, title, get_save_file_path(mode, slot), mode, slot)
+
+
+func _build_path_info(id: String, title: String, path: String, mode = null, slot := -1) -> Dictionary:
+	var exists := FileAccess.file_exists(path)
+	var summary := get_save_summary(path) if exists else {}
+	return {
+		"id": id,
+		"title": title,
+		"mode": mode,
+		"slot": slot,
+		"path": path,
+		"exists": exists,
+		"modified_time": FileAccess.get_modified_time(path) if exists else 0,
+		"scene_file_path": str(summary.get("scene_file_path", "")),
+		"scene_name": str(summary.get("scene_name", "Пусто")),
+		"is_valid": bool(summary.get("is_valid", false)),
+	}
+
+
+func _humanize_scene_name(scene_path: String) -> String:
+	if scene_path.is_empty():
+		return "Неизвестная сцена"
+
+	var file_name := scene_path.get_file().get_basename()
+	if file_name.is_empty():
+		return scene_path
+
+	return file_name.replace("_", " ").capitalize()

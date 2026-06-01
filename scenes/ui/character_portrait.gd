@@ -4,6 +4,9 @@ class_name CharacterPortrait
 extends Node2D
 # Портрет персонажа для диалога
 
+const PORTRAIT_DIRECTORY := "res://images/characters/"
+const PORTRAIT_EXTENSION := ".png"
+
 const ACTIVE_COLOR := Color.WHITE
 const ACTIVE_SCALE := Vector2(1, 1)
 
