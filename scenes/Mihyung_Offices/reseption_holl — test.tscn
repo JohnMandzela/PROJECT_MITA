@@ -1,0 +1,111 @@
+[gd_scene load_steps=8 format=3 uid="uid://gfsycjpp6yj2"]
+
+[ext_resource type="Script" path="res://scripts/reseption_holl_main_script.gd" id="2_main"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="3_player"]
+[ext_resource type="Texture2D" uid="uid://7xlgpg06b5lr" path="res://images/scene/Reception_Hall.png" id="3_tts0j"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_pause"]
+[ext_resource type="Script" uid="uid://prhk0aevfahm" path="res://scripts/goshivon_area_event.gd" id="10_cutscene"]
+[ext_resource type="Resource" uid="uid://c1fhlrkknmd25" path="res://dialogues/Этап4.dialogue" id="11_etap4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cutscene1"]
+size = Vector2(80, 48)
+
+[node name="ReseptionHoll" type="Node2D"]
+script = ExtResource("2_main")
+player_scene = ExtResource("3_player")
+default_spawn_point = "spawn_marker"
+
+[node name="РесепшенхоллПолныйВариант" type="Sprite2D" parent="."]
+texture = ExtResource("3_tts0j")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="РесепшенхоллПолныйВариант"]
+position = Vector2(-956.99994, -368)
+scale = Vector2(1.5537635, 1.6894004)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="РесепшенхоллПолныйВариант/StaticBody2D"]
+position = Vector2(753.0104, 113.50253)
+scale = Vector2(0.78389794, 0.8469098)
+build_mode = 1
+polygon = PackedVector2Array(-761.08887, -366.06256, -761.08887, -319.23462, -512.3187, -319.23462, -512.3187, -231.86906, -542.6966, -231.86906, -542.6966, -207.4067, -512.3187, -207.4067, -512.3187, -103.965866, -637.9353, -103.965866, -637.9353, 176.30284, -419.54303, 176.30284, -419.54303, 311.8942, -559.11707, 311.8942, -571.4324, 311.8942, -571.4324, 218.93724, -651.07166, 218.93724, -651.07166, 311.19525, -752.0576, 311.19525, -774.2252, 501.30273, 137.11092, 501.30273, 155.13293, 496.91245, 187.19334, 485.9264, 207.71892, 469.15222, 221.67632, 451.67908, 233.17067, 425.8189, 244.665, 383.1845, 250.41216, 376.19525, 261.9065, 369.9049, 311.1679, 369.9049, 311.1679, 286.034, 233.99168, 286.034, 218.39223, 289.52863, 191.29845, 301.41034, 174.87798, 316.78668, 151.88933, 346.14148, 135.46886, 355.92645, 117.40633, 359.42108, -74.713165, 359.42108, -74.713165, 177.00177, 310.34686, 177.00177, 310.34686, 112.00179, -73.07112, 112.00179, -73.07112, -103.26695, -156.81552, -103.26695, -156.81552, -215.79378, -356.32422, -215.79378, -356.32422, -103.26695, -463.8783, -103.26695, -463.8783, -317.8368, -361.25037, -317.8368, -361.25037, -366.06256, -559.93805, -366.06256, -559.93805, -398.21307, -605.9154, -398.21307, -605.9154, -366.06256)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="РесепшенхоллПолныйВариант/StaticBody2D"]
+position = Vector2(125.50171, 24.8609)
+scale = Vector2(0.7742754, 0.8484427)
+polygon = PackedVector2Array(315.8662, 99.765625, 319.1911, 96.974976, 327.5034, 94.184326, 679.94366, 94.88199, 679.94366, 478.59595, 665.8128, 478.59595, 647.5258, 461.85208, 463.82465, 461.85208, 439.71906, 479.99127, 427.2506, 479.99127, 427.2506, 221.85643, 333.32196, 221.85643, 324.17847, 220.4611, 318.3599, 218.36813, 315.03497, 214.18216, 312.5413, 207.20554, 312.5413, 107.4399, 313.37253, 104.64926)
+
+[node name="spawn_marker" type="Marker2D" parent="."]
+position = Vector2(-66, 460)
+
+[node name="Ivents" type="Node2D" parent="."]
+
+[node name="Cutscene1_Reception" type="Area2D" parent="Ivents"]
+position = Vector2(-577, 438)
+script = ExtResource("10_cutscene")
+dialogue = ExtResource("11_etap4")
+dialogue_start = &"cutscene1"
+
+[node name="Label" type="Label" parent="Ivents/Cutscene1_Reception"]
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+offset_left = -56.0
+offset_top = -50.0
+offset_right = 56.0
+offset_bottom = -27.0
+text = "Катсцена 1"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Cutscene1_Reception"]
+position = Vector2(1, 3)
+shape = SubResource("RectangleShape2D_cutscene1")
+
+[node name="Cutscene2_Reception" type="Area2D" parent="Ivents"]
+position = Vector2(-478, 441)
+script = ExtResource("10_cutscene")
+dialogue = ExtResource("11_etap4")
+dialogue_start = &"cutscene2"
+
+[node name="Label" type="Label" parent="Ivents/Cutscene2_Reception"]
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+offset_left = -56.0
+offset_top = -50.0
+offset_right = 56.0
+offset_bottom = -27.0
+text = "Катсцена 2"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Cutscene2_Reception"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_cutscene1")
+
+[node name="DialogueRG_Reception" type="Area2D" parent="Ivents"]
+position = Vector2(-92, 376)
+script = ExtResource("10_cutscene")
+dialogue = ExtResource("11_etap4")
+dialogue_start = &"dialogue_RG"
+
+[node name="Label" type="Label" parent="Ivents/DialogueRG_Reception"]
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+offset_left = -64.0
+offset_top = -50.0
+offset_right = 64.0
+offset_bottom = -27.0
+text = "Ресепшен"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/DialogueRG_Reception"]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_cutscene1")
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]
+
+[connection signal="body_entered" from="Ivents/Cutscene1_Reception" to="Ivents/Cutscene1_Reception" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Cutscene1_Reception" to="Ivents/Cutscene1_Reception" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Cutscene2_Reception" to="Ivents/Cutscene2_Reception" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Cutscene2_Reception" to="Ivents/Cutscene2_Reception" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/DialogueRG_Reception" to="Ivents/DialogueRG_Reception" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/DialogueRG_Reception" to="Ivents/DialogueRG_Reception" method="_on_body_exited"]

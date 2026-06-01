@@ -1,0 +1,317 @@
+[gd_scene load_steps=26 format=3 uid="uid://ca3jte36vrtpx"]
+
+[ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="1_0s3u6"]
+[ext_resource type="Texture2D" uid="uid://db0tilyuioce8" path="res://images/phone/Phone_Flashlight.png" id="2_g2els"]
+
+[sub_resource type="GDScript" id="GDScript_0s3u6"]
+resource_name = "Player_RPG_Move"
+script/source = "extends CharacterBody2D
+
+var speed = 120.0
+var run_speed = 240.0
+var steals_speed = 70.0
+var current_speed = speed
+var last_direction := \"down\"
+var direction_vector := Vector2.ZERO
+
+@onready var flashlight = $Phone_Flashlight
+
+var is_flashlight_on := false:
+	set(value):
+		flashlight.enabled = value
+		is_flashlight_on = value
+
+func _ready():
+	# Добавляем последнее направление взгляда
+	if GameManager.saved_direction != null:
+		last_direction = GameManager.saved_direction
+		GameManager.saved_direction = null
+		
+	if GameManager.saved_flashlight_state != null:
+		is_flashlight_on = GameManager.saved_flashlight_state
+		GameManager.saved_flashlight_state = is_flashlight_on
+		
+	update_flashlight()
+
+
+func _input(event: InputEvent) -> void:
+	# Проверка нажатия кнопки бега (например, \"shift\")
+	if event.is_action_pressed(\"run\"):
+		current_speed = run_speed
+	# Проверка нажатия кнопки бега (например, \"c\")
+	elif event.is_action_pressed(\"steals\"):
+		current_speed = steals_speed
+	else:
+		current_speed = speed
+		
+	# Сохранение и загрузка
+	# TODO: перенести в меню
+	if event.is_action_pressed(\"save\"):
+		SaveSystem.save_game(SaveSystem.Mode.QUICK)
+	elif event.is_action_pressed(\"load\"):
+		SaveSystem.load_game(SaveSystem.Mode.QUICK)
+
+func _physics_process(_delta: float) -> void:
+	# Движение
+	if not GameManager.disable_movement:
+		direction_vector = Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
+		velocity = direction_vector * current_speed
+	else:
+		velocity = Vector2.ZERO
+
+	# Направление взгляда (определяем по вводу)
+	if direction_vector.y > 0:
+		last_direction = \"down\"
+	elif direction_vector.y < 0:
+		last_direction = \"up\"
+	elif direction_vector.x > 0:
+		last_direction = \"right\"
+	elif direction_vector.x < 0:
+		last_direction = \"left\"
+
+	# Определяем тип анимации
+	var anim_type := \"idle_\"
+	if velocity.length() > 0:
+		anim_type = \"walk_\"
+
+	# Проигрываем анимацию
+	%Player_Tileset.play(anim_type + last_direction)
+
+	update_flashlight()
+
+	# Передвижение
+	move_and_slide()
+
+func update_flashlight() -> void:	
+	# Поворачиваем фонарик в сторону взгляда
+	match last_direction:
+		\"right\":
+			flashlight.rotation = 0.0
+		\"left\":
+			flashlight.rotation = PI        # 180°
+		\"up\":
+			flashlight.rotation = -PI/2      # -90°
+		\"down\":
+			flashlight.rotation = PI/2       # 90°
+
+func _process(_delta: float) -> void:
+	# Включение/выключение фонарика по клавише F
+	if Input.is_action_just_pressed(\"flashlight\"):
+		is_flashlight_on = not is_flashlight_on
+"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0s3u6"]
+radius = 6.0
+height = 24.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qm0ti"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhbv5"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqap4"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2c7ny"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jhex"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38am0"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfidv"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(96, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxd4c"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8o0x"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(0, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pev8"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fytk8"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(96, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_clacw"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jj7ip"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(0, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ripyi"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahudb"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(96, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c160a"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pfnn"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(0, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttksc"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_earxd"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(96, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g721l"]
+atlas = ExtResource("1_0s3u6")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sle8g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qm0ti")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhbv5")
+}],
+"loop": true,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqap4")
+}],
+"loop": true,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2c7ny")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jhex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38am0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfidv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxd4c")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8o0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pev8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fytk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_clacw")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jj7ip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ripyi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahudb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c160a")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pfnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttksc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_earxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g721l")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+light_mask = 2
+visibility_layer = 2
+z_index = 3
+collision_mask = 3
+motion_mode = 1
+script = SubResource("GDScript_0s3u6")
+
+[node name="Player_Collision" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_0s3u6")
+
+[node name="Player_Tileset" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-24, -86)
+sprite_frames = SubResource("SpriteFrames_sle8g")
+animation = &"idle_down"
+autoplay = "idle_down"
+centered = false
+
+[node name="Phone_Flashlight" type="PointLight2D" parent="."]
+visibility_layer = 2
+enabled = false
+energy = 1.2
+blend_mode = 2
+texture = ExtResource("2_g2els")
+
+[connection signal="input_event" from="." to="." method="_input"]

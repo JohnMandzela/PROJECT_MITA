@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://cscnia42tc3d2"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_oac7c"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_igi4i"]
+[ext_resource type="Texture2D" uid="uid://b5hjidapfgdrd" path="res://images/scene/ТуалетМ-итог.png" id="3_iu652"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_8h0n1"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="5_igi4i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ck4t"]
+size = Vector2(51.25, 36.5)
+
+[node name="Toilet_Man" type="Node2D"]
+script = ExtResource("1_oac7c")
+player_scene = ExtResource("2_igi4i")
+default_spawn_point = "Spawn_from_Corridors"
+
+[node name="Toilet_Man_Texture" type="Sprite2D" parent="."]
+position = Vector2(41, 32)
+scale = Vector2(1.425, 1.425)
+texture = ExtResource("3_iu652")
+
+[node name="Wall_Collision" type="StaticBody2D" parent="."]
+
+[node name="Wall_Collision" type="CollisionPolygon2D" parent="Wall_Collision"]
+position = Vector2(-1, -1)
+build_mode = 1
+polygon = PackedVector2Array(-101, 334, -101, -73, 163, -73, 163, 334, 137, 334, 137, 371, 84, 371, 84, 334)
+
+[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
+position = Vector2(110, 322)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_8h0n1")]
+
+[node name="Exit_to_Corridors" type="Area2D" parent="."]
+script = ExtResource("5_igi4i")
+required_direction = 1
+exit_direction = "down"
+target_scene = "Mihyung_Offices/corridors_offices"
+target_spawn_point = "Spawn_on_Toilet"
+
+[node name="Label" type="Label" parent="Exit_to_Corridors"]
+offset_left = 77.0
+offset_top = 372.0
+offset_right = 145.0
+offset_bottom = 395.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
+position = Vector2(110.375, 352.25)
+shape = SubResource("RectangleShape2D_8ck4t")
+
+[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
+[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]

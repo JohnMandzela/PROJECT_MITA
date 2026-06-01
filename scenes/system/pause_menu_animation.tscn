@@ -1,0 +1,664 @@
+[gd_scene load_steps=35 format=3 uid="uid://jsdoohi5px74"]
+
+[ext_resource type="Script" uid="uid://c7lnwl3foh5fg" path="res://scripts/pause_menu.gd" id="1_myx47"]
+[ext_resource type="Texture2D" uid="uid://y0mm0pljq1fd" path="res://images/phone/phone.png" id="1_n87rw"]
+[ext_resource type="Texture2D" uid="uid://ocwn2npqb3yx" path="res://images/phone/31312.jpg" id="3_h5v6u"]
+[ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="3_kukqi"]
+[ext_resource type="Texture2D" uid="uid://blbelkkqbfq2d" path="res://images/phone/4343433.jpg" id="4_2yjx4"]
+[ext_resource type="Texture2D" uid="uid://dxon1hookl4t0" path="res://images/phone/432425555.jpg" id="5_1tr3n"]
+[ext_resource type="Texture2D" uid="uid://bypi1st6pt3od" path="res://images/phone/5554545454.png" id="6_18ave"]
+[ext_resource type="Texture2D" uid="uid://bfa7un6ymab0a" path="res://images/phone/434.jpg" id="7_yimwq"]
+[ext_resource type="Texture2D" uid="uid://eou3q6pmmkjb" path="res://images/phone/435123.jpg" id="8_a57rx"]
+
+[sub_resource type="Animation" id="Animation_1s2dm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(441, 700)]
+}
+
+[sub_resource type="Animation" id="Animation_88e76"]
+resource_name = "off_phone"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(441, 48), Vector2(441, 700)]
+}
+
+[sub_resource type="Animation" id="Animation_v4r4p"]
+resource_name = "on_phone"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(441, 700), Vector2(441, 48)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_knqa7"]
+_data = {
+&"RESET": SubResource("Animation_1s2dm"),
+&"off_phone": SubResource("Animation_88e76"),
+&"on_phone": SubResource("Animation_v4r4p")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwcfo"]
+bg_color = Color(0.55092597, 0.40609777, 0.2676155, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05uyy"]
+bg_color = Color(0.39875236, 0.28974146, 0.18017918, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p81d2"]
+bg_color = Color(0.61693394, 0.4633661, 0.31037748, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2nc7s"]
+bg_color = Color(0.58303016, 0, 0.0868346, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3xb4"]
+bg_color = Color(0.58431375, 0.15294118, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxa3g"]
+bg_color = Color(0.74509805, 0.09019608, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ccjd"]
+bg_color = Color(0.55092597, 0.40609777, 0.2676155, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wr72m"]
+bg_color = Color(0.39875236, 0.28974146, 0.18017918, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hvlvj"]
+bg_color = Color(0.61693394, 0.4633661, 0.31037748, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5gcy"]
+bg_color = Color(0.74978, 0.74978, 0.7497799, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hksts"]
+bg_color = Color(0.17283267, 0.17283267, 0.17283258, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kukqi"]
+shader = ExtResource("3_kukqi")
+shader_parameter/blur_amount = 0.0
+
+[sub_resource type="Animation" id="Animation_71k7c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/blur_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_cmnsq"]
+resource_name = "blur_off"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/blur_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.000000095, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_knqa7"]
+resource_name = "blur_on"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/blur_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.000000095]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ofnjo"]
+_data = {
+&"RESET": SubResource("Animation_71k7c"),
+&"blur_off": SubResource("Animation_cmnsq"),
+&"blur_on": SubResource("Animation_knqa7")
+}
+
+[sub_resource type="Animation" id="Animation_kukqi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:z_index")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [21]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../Panel/Pause_Label:theme_override_colors/font_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [null]
+}
+
+[sub_resource type="Animation" id="Animation_5d2l8"]
+resource_name = "close_pause_menu"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.7058824), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:z_index")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
+}
+
+[sub_resource type="Animation" id="Animation_7l7mv"]
+resource_name = "exit_to_main_menu"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../Panel/Pause_Label:theme_override_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [null, Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_myx47"]
+resource_name = "open_pause_menu"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.7058824)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:z_index")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v4r4p"]
+_data = {
+&"RESET": SubResource("Animation_kukqi"),
+&"close_pause_menu": SubResource("Animation_5d2l8"),
+&"exit_to_main_menu": SubResource("Animation_7l7mv"),
+&"open_pause_menu": SubResource("Animation_myx47")
+}
+
+[node name="pause_menu" type="Control"]
+process_mode = 3
+z_index = 20
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_myx47")
+
+[node name="Panel" type="Panel" parent="."]
+z_index = 21
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -135.0
+offset_top = 376.0
+offset_right = 135.0
+offset_bottom = 928.00134
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel"]
+root_node = NodePath("../Mike\'s_Phone")
+libraries = {
+&"": SubResource("AnimationLibrary_knqa7")
+}
+
+[node name="Mike\'s_Phone" type="Sprite2D" parent="Panel"]
+z_index = 21
+position = Vector2(135, 271)
+scale = Vector2(0.57170546, 0.59375)
+texture = ExtResource("1_n87rw")
+
+[node name="Pause_Label" type="Label" parent="Panel"]
+z_index = 21
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 50.0
+offset_bottom = 84.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Пауза"
+horizontal_alignment = 1
+
+[node name="VBoxStart" type="VBoxContainer" parent="Panel"]
+z_index = 21
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -109.0
+offset_top = -176.00067
+offset_right = 109.0
+offset_bottom = 213.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel/VBoxStart"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+columns = 4
+
+[node name="Continue_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Continue" type="Button" parent="Panel/VBoxStart/GridContainer/Continue_Container"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("3_h5v6u")
+
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Continue_Container/Continue"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 41.0
+offset_right = 43.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 7
+text = "Продолжить"
+
+[node name="Options_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Options" type="Button" parent="Panel/VBoxStart/GridContainer/Options_Container"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("4_2yjx4")
+
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Options_Container/Options"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 40.0
+offset_right = 42.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 8
+text = "Настройки"
+
+[node name="Inventory_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Inventory" type="Button" parent="Panel/VBoxStart/GridContainer/Inventory_Container"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("5_1tr3n")
+
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Inventory_Container/Inventory"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 40.0
+offset_right = 43.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 8
+text = "Инвентарь"
+
+[node name="Exit_to_Main_Menu_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Exit_to_Main_Menu" type="Button" parent="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2nc7s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_d3xb4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mxa3g")
+icon = ExtResource("6_18ave")
+
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container/Exit_to_Main_Menu"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 40.0
+offset_right = 36.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 9
+text = "Выйти"
+
+[node name="Messenger_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+layout_mode = 2
+
+[node name="Messenger" type="Button" parent="Panel/VBoxStart/GridContainer/Messenger_Container"]
+layout_mode = 2
+icon = ExtResource("7_yimwq")
+
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Messenger_Container/Messenger"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 45.0
+offset_right = 47.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 7
+text = "Мессенджер"
+
+[node name="VBoxOptions" type="VBoxContainer" parent="Panel"]
+visible = false
+z_index = 21
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.5
+offset_top = -88.5
+offset_right = 110.5
+offset_bottom = 88.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxOptions"]
+z_index = 21
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Настройки"
+horizontal_alignment = 1
+
+[node name="Sounds" type="VBoxContainer" parent="Panel/VBoxOptions"]
+layout_mode = 2
+
+[node name="Sounds_Text" type="HBoxContainer" parent="Panel/VBoxOptions/Sounds"]
+layout_mode = 2
+
+[node name="Sounds_Label" type="Label" parent="Panel/VBoxOptions/Sounds/Sounds_Text"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Звук"
+horizontal_alignment = 1
+
+[node name="sounds_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Sounds"]
+layout_mode = 2
+
+[node name="sounds_slider" type="HSlider" parent="Panel/VBoxOptions/Sounds/sounds_slider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+
+[node name="Music" type="VBoxContainer" parent="Panel/VBoxOptions"]
+layout_mode = 2
+
+[node name="Music_Text" type="HBoxContainer" parent="Panel/VBoxOptions/Music"]
+layout_mode = 2
+
+[node name="Music_Label" type="Label" parent="Panel/VBoxOptions/Music/Music_Text"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Музыка"
+horizontal_alignment = 1
+
+[node name="Music_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Music"]
+layout_mode = 2
+
+[node name="music_slider" type="HSlider" parent="Panel/VBoxOptions/Music/Music_slider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+
+[node name="Fullscreen_CheckBox" type="CheckBox" parent="Panel/VBoxOptions"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Полноэкранный режим"
+
+[node name="Back_from_Options" type="Button" parent="Panel/VBoxOptions"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_3ccjd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wr72m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hvlvj")
+text = "Назад"
+
+[node name="Messenger" type="Panel" parent="Panel"]
+visible = false
+z_index = 21
+layout_mode = 1
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 263.0
+offset_bottom = 504.0
+
+[node name="Tutorial" type="Button" parent="Panel/Messenger"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 22.0
+offset_right = 245.0
+offset_bottom = 54.0
+text = "Туториал"
+
+[node name="Back_from_Messenger" type="Button" parent="Panel/Messenger"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 391.0
+offset_right = 71.0
+offset_bottom = 465.0
+icon = ExtResource("8_a57rx")
+
+[node name="Tutorial" type="Panel" parent="Panel"]
+visible = false
+z_index = 21
+layout_mode = 1
+offset_left = 10.0
+offset_top = 35.0
+offset_right = 263.0
+offset_bottom = 503.0
+
+[node name="Tutorial_Text" type="Label" parent="Panel/Tutorial"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 15.0
+offset_right = 195.0
+offset_bottom = 130.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_m5gcy")
+text = "Ходить стрелками
+Фонарик F
+Взаимодействовать E
+Меню-пауза ESC"
+
+[node name="Write_Messenger" type="Label" parent="Panel/Tutorial"]
+layout_mode = 0
+offset_top = 428.0
+offset_right = 254.0
+offset_bottom = 468.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_hksts")
+text = "Написать сообщение..."
+
+[node name="Back_from_Tutorial" type="Button" parent="Panel/Tutorial"]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 428.0
+offset_right = 254.0
+offset_bottom = 468.0
+text = "🔙"
+
+[node name="Screen_Fader_Animation" type="Control" parent="."]
+z_index = 21
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Blur_Rect" type="ColorRect" parent="Screen_Fader_Animation"]
+z_index = 20
+material = SubResource("ShaderMaterial_kukqi")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/Blur_Rect"]
+libraries = {
+&"": SubResource("AnimationLibrary_ofnjo")
+}
+
+[node name="OnOff_Screen_Fader" type="ColorRect" parent="Screen_Fader_Animation"]
+z_index = 21
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/OnOff_Screen_Fader"]
+libraries = {
+&"": SubResource("AnimationLibrary_v4r4p")
+}
+
+[node name="Exit_Screen_Fader" type="ColorRect" parent="Screen_Fader_Animation"]
+z_index = 21
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/Exit_Screen_Fader"]
+libraries = {
+&"": SubResource("AnimationLibrary_v4r4p")
+}
+
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Continue_Container/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Options_Container/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Messenger_Container/Messenger" to="." method="_on_messenger_pressed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
+[connection signal="toggled" from="Panel/VBoxOptions/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Panel/VBoxOptions/Back_from_Options" to="." method="_on_back_from_options_pressed"]
+[connection signal="pressed" from="Panel/Messenger/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="Panel/Messenger/Back_from_Messenger" to="." method="_on_back_from_messenger_pressed"]
+[connection signal="pressed" from="Panel/Tutorial/Back_from_Tutorial" to="." method="_on_back_from_tutorial_pressed"]

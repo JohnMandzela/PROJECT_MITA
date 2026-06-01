@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://d3cll1ve50fou"
+path="res://.godot/imported/mike_room_bedside_table_day_1.dialogue-f25bb8fe8834d5b4410ea0e1589914de.tres"
+
+[deps]
+
+source_file="res://dialogues/2_mike_room/furniture/mike_room_bedside_table_day_1.dialogue"
+dest_files=["res://.godot/imported/mike_room_bedside_table_day_1.dialogue-f25bb8fe8834d5b4410ea0e1589914de.tres"]
+
+[params]
+
+defaults=true

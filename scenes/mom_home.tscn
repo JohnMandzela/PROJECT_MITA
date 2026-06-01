@@ -1,0 +1,408 @@
+[gd_scene load_steps=44 format=3 uid="uid://d2ue4khhqq6ys"]
+
+[ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="5_uym5w"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="5_wby07"]
+[ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
+[ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="9_mv7xs"]
+[ext_resource type="Script" uid="uid://x3lul8lxsod2" path="res://scripts/1_mom_home/mike_npc.gd" id="10_01ivo"]
+[ext_resource type="Script" uid="uid://b43v0n8hepw2c" path="res://scripts/1_mom_home/test_ivent.gd" id="10_fovv4"]
+[ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="10_mv7xs"]
+[ext_resource type="Resource" uid="uid://but1myuxismw1" path="res://dialogues/1_mom_home/sleep_flashback.dialogue" id="11_sm1ot"]
+[ext_resource type="Script" uid="uid://cqfjj73x6lml4" path="res://scripts/1_mom_home/mom_npc.gd" id="13_d8v55"]
+[ext_resource type="Texture2D" uid="uid://cii171lcyvvi8" path="res://images/tilesets/characters/$Mom.png" id="14_sm1ot"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jacmr"]
+size = Vector2(48, 15)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fovv4"]
+radius = 6.0
+height = 24.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qm0ti"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhbv5"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqap4"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2c7ny"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jhex"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38am0"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfidv"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(96, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxd4c"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8o0x"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(0, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pev8"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fytk8"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(96, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_clacw"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jj7ip"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(0, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ripyi"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahudb"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(96, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c160a"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pfnn"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(0, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttksc"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_earxd"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(96, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g721l"]
+atlas = ExtResource("10_mv7xs")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fovv4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qm0ti")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhbv5")
+}],
+"loop": true,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqap4")
+}],
+"loop": true,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2c7ny")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jhex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38am0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfidv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxd4c")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8o0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pev8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fytk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_clacw")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jj7ip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ripyi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahudb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c160a")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pfnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttksc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_earxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g721l")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n7hji"]
+radius = 6.0
+height = 24.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yqmt"]
+atlas = ExtResource("14_sm1ot")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7tks0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5yqmt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_d8v55"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_aosqw"]
+resource_name = "darken"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sm1ot"]
+_data = {
+&"RESET": SubResource("Animation_d8v55"),
+&"darken": SubResource("Animation_aosqw")
+}
+
+[sub_resource type="Animation" id="Animation_n7hji"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_sm1ot"]
+resource_name = "lighten"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5yqmt"]
+_data = {
+&"RESET": SubResource("Animation_n7hji"),
+&"lighten": SubResource("Animation_sm1ot")
+}
+
+[node name="Mom_Home" type="Node2D"]
+
+[node name="Sleep_Flashback" type="Node2D" parent="."]
+script = ExtResource("10_fovv4")
+dialogue = ExtResource("11_sm1ot")
+
+[node name="Mom_Home_Parallax" type="Parallax2D" parent="Sleep_Flashback"]
+
+[node name="Mom_Home_Texture" type="Sprite2D" parent="Sleep_Flashback/Mom_Home_Parallax"]
+texture = ExtResource("1_jacmr")
+
+[node name="Shadow" type="PointLight2D" parent="Sleep_Flashback/Mom_Home_Parallax"]
+blend_mode = 2
+range_z_max = 3
+shadow_enabled = true
+texture = ExtResource("9_mv7xs")
+
+[node name="Collisions" type="Node2D" parent="Sleep_Flashback"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sleep_Flashback/Collisions"]
+
+[node name="Walls" type="CollisionPolygon2D" parent="Sleep_Flashback/Collisions/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -70, -72, -75, -110, -69, -135, -53, -156, -22, -168, 120, -168, 120, 216, 72, 216, 72, 264, 24, 264)
+
+[node name="Exit_Mom_Home" parent="Sleep_Flashback" instance=ExtResource("5_uym5w")]
+visible = false
+required_direction = 1
+exit_direction = "down"
+target_scene = "Mike_Room"
+target_spawn_point = "Spawn_Mike_Room"
+
+[node name="Exit_Mom_Home" type="CollisionShape2D" parent="Sleep_Flashback/Exit_Mom_Home"]
+position = Vector2(48, 256.5)
+shape = SubResource("RectangleShape2D_jacmr")
+
+[node name="Label" type="Label" parent="Sleep_Flashback/Exit_Mom_Home"]
+z_index = 10
+offset_left = 22.0
+offset_top = 268.0
+offset_right = 75.0
+offset_bottom = 291.0
+text = "Выход"
+
+[node name="Audio" type="AudioStreamPlayer" parent="Sleep_Flashback/Exit_Mom_Home"]
+stream = ExtResource("7_mgikj")
+volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
+
+[node name="Camera2D" type="Camera2D" parent="Sleep_Flashback"]
+position = Vector2(69, 101)
+zoom = Vector2(2, 2)
+
+[node name="Mike_NPC" type="CharacterBody2D" parent="Sleep_Flashback"]
+position = Vector2(69.047035, 110.66194)
+script = ExtResource("10_01ivo")
+
+[node name="Mike_Collision" type="CollisionShape2D" parent="Sleep_Flashback/Mike_NPC"]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_fovv4")
+
+[node name="Mike_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/Mike_NPC"]
+unique_name_in_owner = true
+position = Vector2(-24, -86)
+sprite_frames = SubResource("SpriteFrames_fovv4")
+animation = &"idle_down"
+autoplay = "idle_down"
+centered = false
+
+[node name="Timer" type="Timer" parent="Sleep_Flashback/Mike_NPC"]
+
+[node name="Mom_NPC" type="CharacterBody2D" parent="Sleep_Flashback"]
+position = Vector2(97, -66)
+script = ExtResource("13_d8v55")
+
+[node name="Mom_Collision" type="CollisionShape2D" parent="Sleep_Flashback/Mom_NPC"]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_n7hji")
+
+[node name="Mom_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/Mom_NPC"]
+position = Vector2(0, -36)
+sprite_frames = SubResource("SpriteFrames_7tks0")
+
+[node name="Pause_Menu" parent="Sleep_Flashback" instance=ExtResource("5_wby07")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Sleep_Flashback"]
+
+[node name="ColorRect" type="ColorRect" parent="Sleep_Flashback/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 1.0
+offset_right = 7.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationDarken" type="AnimationPlayer" parent="Sleep_Flashback/CanvasLayer"]
+libraries = {
+&"": SubResource("AnimationLibrary_sm1ot")
+}
+
+[node name="AnimationLighten" type="AnimationPlayer" parent="Sleep_Flashback/CanvasLayer"]
+libraries = {
+&"": SubResource("AnimationLibrary_5yqmt")
+}
+
+[connection signal="timeout" from="Sleep_Flashback/Mike_NPC/Timer" to="Sleep_Flashback/Mike_NPC" method="_on_timer_timeout"]

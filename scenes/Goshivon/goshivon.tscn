@@ -1,0 +1,174 @@
+[gd_scene load_steps=20 format=3 uid="uid://bsvxh1s8ha4cv"]
+
+[ext_resource type="Texture2D" uid="uid://bnjaciec2avpf" path="res://images/scene/corridor.png" id="1_a6q5q"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawnScene.gd" id="1_km4w3"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_1vu13"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="3_cahr0"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="6_1vu13"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="7_1vu13"]
+[ext_resource type="Texture2D" uid="uid://fe0mw8eak7ba" path="res://images/tilesets/scenes/$door.png" id="8_j5r5n"]
+[ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="8_y5ma7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_km4w3"]
+size = Vector2(46, 28.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5ma7"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5r5n"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fbq3"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esvq2"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6as7"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7x8r"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sasj"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yo14v"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wxg6"]
+atlas = ExtResource("8_j5r5n")
+region = Rect2(0, 288, 48, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1fbq3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y5ma7")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5r5n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fbq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esvq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6as7")
+}],
+"loop": false,
+"name": &"closing",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7x8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sasj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yo14v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wxg6")
+}],
+"loop": false,
+"name": &"opening",
+"speed": 8.0
+}]
+
+[node name="Goshivon" type="Node2D"]
+script = ExtResource("1_km4w3")
+player_scene = ExtResource("2_1vu13")
+default_spawn_point = "Spawn_in_Corridor"
+
+[node name="Goshivon_Texture" type="Sprite2D" parent="."]
+texture = ExtResource("1_a6q5q")
+
+[node name="Walls_Collision" type="StaticBody2D" parent="."]
+
+[node name="Walls_Collision" type="CollisionPolygon2D" parent="Walls_Collision"]
+position = Vector2(-0.0035341366, 119.52704)
+build_mode = 1
+polygon = PackedVector2Array(-647.99646, -9.527039, -647.99646, 24.472961, -599.99646, 24.472961, -599.99646, 38.47296, -551.99646, 38.47296, -551.99646, 24.472961, -407.99646, 24.472961, -407.99646, 38.47296, -359.99646, 38.47296, -359.99646, 24.472961, -215.99646, 24.472961, -215.99646, 38.47296, -167.99646, 38.47296, -167.99646, 24.472961, -23.996466, 24.472961, -23.996466, 38.47296, 24.003534, 38.47296, 24.003534, 24.472961, 168.00354, 24.472961, 168.00354, 38.47296, 216.00354, 38.47296, 216.00354, 24.472961, 360.00354, 24.472961, 360.00354, 38.47296, 408.00354, 38.47296, 408.00354, 24.472961, 552.00354, 24.472961, 552.00354, 38.47296, 600.00354, 38.47296, 600.00354, 24.472961, 648.00354, 24.472961, 648.00354, -9.527039, 600.00354, -9.527039, 600.00354, -23.527039, 552.00354, -23.527039, 552.00354, -9.527039, 408.00354, -9.527039, 408.00354, -23.527039, 360.00354, -23.527039, 360.00354, -9.527039, 216.00354, -9.527039, 216.00354, -23.527039, 168.00354, -23.527039, 168.00354, -9.527039, 72.00353, -9.527039, 72.00353, -263.52704, 24.003534, -263.52704, 24.003534, -19.527039, -23.996466, -19.527039, -23.996466, -164.52704, -71.99647, -164.52704, -71.99647, -9.527039, -167.99646, -9.527039, -167.99646, -23.527039, -215.99646, -23.527039, -215.99646, -9.527039, -359.99646, -9.527039, -359.99646, -23.527039, -407.99646, -23.527039, -407.99646, -9.527039, -551.99646, -9.527039, -551.99646, -23.527039, -599.99646, -23.527039, -599.99646, -9.527039)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("3_cahr0")]
+
+[node name="Enter_1_floor" parent="." instance=ExtResource("7_1vu13")]
+exit_direction = "down"
+target_scene = "Goshivon/goshivon_1_floor"
+target_spawn_point = "Spawn_on_Stairs"
+
+[node name="Label" type="Label" parent="Enter_1_floor"]
+offset_left = -145.0
+offset_top = -79.0
+offset_right = -77.0
+offset_bottom = -56.0
+text = "1-й этаж"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_1_floor"]
+position = Vector2(-48, -23.5)
+shape = SubResource("RectangleShape2D_km4w3")
+
+[node name="Spawn_on_Stairs" type="Marker2D" parent="."]
+position = Vector2(-47, 101)
+
+[node name="Spawn_in_Corridor" type="Marker2D" parent="."]
+position = Vector2(-576, 128)
+
+[node name="Door_Mike_Room" type="Node2D" parent="."]
+
+[node name="Enter_Mike_Room" type="Area2D" parent="Door_Mike_Room"]
+script = ExtResource("6_1vu13")
+exit_direction = "up"
+target_scene = "Goshivon/mike_room"
+target_spawn_point = "Spawn_from_Corridor"
+
+[node name="Label" type="Label" parent="Door_Mike_Room/Enter_Mike_Room"]
+offset_left = -602.0
+offset_top = -56.0
+offset_right = -550.0
+offset_bottom = -33.0
+text = "Войти"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Mike_Room/Enter_Mike_Room"]
+position = Vector2(-576, 111.25)
+shape = SubResource("RectangleShape2D_km4w3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Door_Mike_Room/Enter_Mike_Room"]
+position = Vector2(-576, 48)
+sprite_frames = SubResource("SpriteFrames_1fbq3")
+animation = &"closing"
+frame = 3
+frame_progress = 1.0
+
+[node name="Audio" type="AudioStreamPlayer" parent="Door_Mike_Room/Enter_Mike_Room"]
+stream = ExtResource("8_y5ma7")
+volume_db = -15.0
+bus = &"Sounds"
+playback_type = 1
+
+[connection signal="body_entered" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_entered"]
+[connection signal="body_exited" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_exited"]
