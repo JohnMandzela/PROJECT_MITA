@@ -1,9 +1,121 @@
-[gd_scene load_steps=2 format=3 uid="uid://ca26smv8k04hh"]
+[gd_scene load_steps=8 format=3 uid="uid://dvhw5m37qmxyq"]
 
 [ext_resource type="Script" uid="uid://dtxtjaav08262" path="res://scenes/ui/character_portrait.gd" id="1_gt2jc"]
 
-[node name="CharacterPortrait" type="TextureRect"]
-offset_right = 384.0
-offset_bottom = 532.0
-expand_mode = 1
+[sub_resource type="Animation" id="Animation_gt2jc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-384.0]
+}
+
+[sub_resource type="Animation" id="Animation_vshug"]
+resource_name = "enter"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:anchors_preset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-384.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_yonvg"]
+resource_name = "enter_right"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -384.0]
+}
+
+[sub_resource type="Animation" id="Animation_05n4f"]
+resource_name = "leave_left"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -384.0]
+}
+
+[sub_resource type="Animation" id="Animation_h5180"]
+resource_name = "leave_right"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-384.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yonvg"]
+_data = {
+&"RESET": SubResource("Animation_gt2jc"),
+&"enter_left": SubResource("Animation_vshug"),
+&"enter_right": SubResource("Animation_yonvg"),
+&"leave_left": SubResource("Animation_05n4f"),
+&"leave_right": SubResource("Animation_h5180")
+}
+
+[node name="CharacterPortrait" type="Node2D"]
 script = ExtResource("1_gt2jc")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = -532.0
+offset_right = -6.1035156e-05
+grow_vertical = 0
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
+libraries = {
+&"": SubResource("AnimationLibrary_yonvg")
+}
