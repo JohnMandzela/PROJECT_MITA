@@ -176,15 +176,7 @@ func _on_new_game_button_pressed() -> void:
 
 func _on_continue_button_pressed() -> void:
 	GameManager.stop_music()
-	SaveSystem.load_game()
-
-
-func _on_continue_tree_entered() -> void:
-	_update_save_buttons_visibility()
-
-
-func _on_load_button_tree_entered() -> void:
-	_update_save_buttons_visibility()
+	SaveSystem.load_latest_save()
 
 
 func _on_load_button_pressed() -> void:

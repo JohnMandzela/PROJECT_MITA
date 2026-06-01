@@ -259,10 +259,8 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [connection signal="pressed" from="Buttons_VBox/Continue" to="." method="_on_continue_pressed"]
-[connection signal="tree_entered" from="Buttons_VBox/Continue" to="." method="_on_continue_tree_entered"]
 [connection signal="pressed" from="Buttons_VBox/New_Game" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="Buttons_VBox/Load" to="." method="_on_load_button_pressed"]
-[connection signal="tree_entered" from="Buttons_VBox/Load" to="." method="_on_load_button_tree_entered"]
 [connection signal="pressed" from="Buttons_VBox/Options" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="Buttons_VBox/Exit" to="." method="_on_exit_pressed"]
 [connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]

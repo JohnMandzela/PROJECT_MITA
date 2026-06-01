@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=44 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="5_uym5w"]
@@ -405,5 +405,4 @@ libraries = {
 &"": SubResource("AnimationLibrary_5yqmt")
 }
 
-[connection signal="body_entered" from="Sleep_Flashback/DialogueTest" to="Sleep_Flashback/DialogueTest" method="_on_body_entered"]
 [connection signal="timeout" from="Sleep_Flashback/Mike_NPC/Timer" to="Sleep_Flashback/Mike_NPC" method="_on_timer_timeout"]

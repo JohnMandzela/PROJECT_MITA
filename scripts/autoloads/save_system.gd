@@ -29,7 +29,7 @@ var is_loading := false
 var _save_data = null
 
 # Получение пути к файлу сохранения в зависимости от режима сохранения
-func _get_save_file_path(mode: Mode, slot := 0) -> String:
+func get_save_file_path(mode: Mode, slot := 0) -> String:
 	match mode:
 		Mode.AUTO: 
 			return "user://autosave.bin"
@@ -47,12 +47,12 @@ func get_all_save_files() -> Array[String]:
 	var save_files: Array[String] = []
 	
 	for mode in [Mode.AUTO, Mode.QUICK]:
-		var path := _get_save_file_path(mode)
+		var path := get_save_file_path(mode)
 		if FileAccess.file_exists(path):
 			save_files.append(path)
 	
 	for slot in range(SLOT_COUNT):
-		var path := _get_save_file_path(Mode.MANUAL, slot)
+		var path := get_save_file_path(Mode.MANUAL, slot)
 		if FileAccess.file_exists(path):
 			save_files.append(path)
 	
@@ -82,7 +82,7 @@ func save_game(mode: Mode, slot := 0) -> void:
 		push_warning("Нельзя сохраниться во время загрузки")
 		return
 	
-	var path := _get_save_file_path(mode, slot)
+	var path := get_save_file_path(mode, slot)
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	
 	var player := GameManager.player
@@ -108,7 +108,12 @@ func save_game(mode: Mode, slot := 0) -> void:
 
 # Загрузка сохранённой игры по режиму сохранения и слоту
 func load_game(mode: Mode, slot := 0) -> void:	
-	var path := _get_save_file_path(mode, slot)
+	var path := get_save_file_path(mode, slot)
+	load_game_from_file(path)
+
+
+func load_latest_save() -> void:
+	var path := get_latest_save_path()
 	load_game_from_file(path)
 
 
@@ -151,15 +156,15 @@ func load_game_state() -> void:
 		loaded_order = _save_data["inventory_order"]
 
 	Items.apply_inventory_state(loaded_inventory, loaded_order)
-	GameManager._pending_scene_path = GameManager.resolve_scene_path(str(_save_data["scene_file_path"]))
+	GameManager._pending_scene_path = str(_save_data["scene_file_path"])
 	
 	print("Загружены данные GameManager")
 
 
 # Завершение загрузки игрока. Вызывать после загрузки сцены
-func load_player_state() -> void:
+func load_player_data() -> void:
 	if not is_loading:
-		push_warning("Функция load_player_state вызвана вне процесса загрузки")
+		push_warning("Функция load_player_data вызвана вне процесса загрузки")
 		return
 	
 	assert(_save_data != null, "Нет данных для загрузки")
@@ -172,6 +177,56 @@ func load_player_state() -> void:
 	print("Загружены данные игрока")
 	is_loading = false
 	_save_data = null
+	
+	GameManager.screen_fader.fade_in()
+
+
+func save_exists(mode = null, slot := 0) -> bool:
+	if mode == null:
+		return not get_all_save_files().is_empty()
+
+	return FileAccess.file_exists(get_save_file_path(mode, slot))
+
+
+func get_save_slot_infos() -> Array[Dictionary]:
+	var slots: Array[Dictionary] = []
+
+	slots.append(_build_slot_info("quick", "Быстрое сохранение", Mode.QUICK, 0))
+	slots.append(_build_slot_info("auto", "Автосохранение", Mode.AUTO, 0))
+
+	for slot in range(SLOT_COUNT):
+		slots.append(_build_slot_info("manual_%d" % slot, "Слот %d" % (slot + 1), Mode.MANUAL, slot))
+
+	if FileAccess.file_exists(LEGACY_SAVE_PATH):
+		slots.append(_build_path_info("legacy", "Старое сохранение", LEGACY_SAVE_PATH))
+
+	return slots
+
+
+func get_save_summary(path: String) -> Dictionary:
+	var info := {
+		"scene_file_path": "",
+		"scene_name": "Неизвестная сцена",
+		"is_valid": false,
+	}
+
+	if path.is_empty() or not FileAccess.file_exists(path):
+		return info
+
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return info
+
+	var data = file.get_var()
+	file.close()
+	if not (data is Dictionary):
+		return info
+
+	var scene_path := str(data.get("scene_file_path", ""))
+	info["scene_file_path"] = scene_path
+	info["scene_name"] = _humanize_scene_name(scene_path)
+	info["is_valid"] = not scene_path.is_empty()
+	return info
 
 func _build_slot_info(id: String, title: String, mode: Mode, slot: int) -> Dictionary:
 	return _build_path_info(id, title, get_save_file_path(mode, slot), mode, slot)
