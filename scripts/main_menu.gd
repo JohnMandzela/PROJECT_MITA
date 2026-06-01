@@ -22,6 +22,24 @@ func _on_new_game_button_pressed() -> void:
 	var mom_home_scene = load("res://scenes/mom_home.tscn")
 	get_tree().change_scene_to_packed(mom_home_scene)
 
+func _on_load_button_tree_entered() -> void:
+	var load_button := $Buttons_VBox/Load
+	load_button.visible = SaveSystem.get_all_save_files().size() > 0
+
+func _on_load_button_pressed() -> void:
+	pass # TODO: слоты сохранений
+
+
+func _on_continue_tree_entered() -> void:
+	var continue_button := $Buttons_VBox/Continue
+	continue_button.visible = SaveSystem.get_all_save_files().size() > 0
+
+
+func _on_continue_pressed() -> void:
+	var latest_save := SaveSystem.get_latest_save_path()
+	SaveSystem.load_game_from_file(latest_save)
+
+
 func _on_options_button_pressed() -> void:
 	menu_start.visible = false
 	title_label.visible = false
@@ -54,12 +72,6 @@ func save_settings():
 	config.set_value("audio", "sounds_volume", sounds_value_path.value)
 
 	config.save(GameManager.SETTINGS_PATH)
-
-
-#---------------------------------------------------------------------------------------------------
-#-------------------------------------ФУНКЦИЯ-READY-------------------------------------------------
-#---------------------------------------------------------------------------------------------------
-
 
 func _ready():
 

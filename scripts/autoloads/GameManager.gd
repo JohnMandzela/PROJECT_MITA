@@ -11,9 +11,10 @@ var player: CharacterBody2D
 var pending_spawn_point: String = ""
 
 # Переменные для анимации ПЕРЕХОДА и сохранения взгляда
-var screen_fader: ScreenFader
+var screen_fader
 var _pending_scene: String
-var saved_direction
+var saved_direction = null
+var saved_flashlight_state = null
 
 # Переменная для музыки (чтобы громкость постоянно обновлялась)
 @onready var music_player: AudioStreamPlayer = AudioStreamPlayer.new()
@@ -121,15 +122,15 @@ func _ready() -> void:
 
 #---------------------------------------------------------------------------------------------------------------
 # Начинаем перемещение в другую локацию
-func start_scene_transition(scene_path: String, spawn_point: String) -> void:
-	_pending_scene = scene_path
+func start_scene_transition(scene_name: String, spawn_point: String) -> void:
+	_pending_scene = scene_name
 	pending_spawn_point = spawn_point
 	screen_fader.fade_out(0.5) # затемняем экран
 
 # Меняем локацию после затемнения экрана
 func _on_fade_out_finished() -> void:
-	if not _pending_scene:
-		return
+	if SaveSystem.is_loading:
+		SaveSystem.load_game_state()
 	
 	get_tree().change_scene_to_file("res://scenes/" + _pending_scene + ".tscn")     # смена локации
 	_pending_scene = ""

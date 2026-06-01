@@ -1,13 +1,15 @@
-[gd_scene load_steps=34 format=3 uid="uid://ct4wb5bpg8y5t"]
+[gd_scene load_steps=36 format=3 uid="uid://ct4wb5bpg8y5t"]
 
 [ext_resource type="Script" uid="uid://c7lnwl3foh5fg" path="res://scripts/pause_menu.gd" id="1_vrq0f"]
 [ext_resource type="Texture2D" uid="uid://y0mm0pljq1fd" path="res://images/phone/phone.png" id="2_dbwm0"]
 [ext_resource type="Texture2D" uid="uid://b0o1qm1y41qld" path="res://images/phone/wallpaper.png" id="3_dbwm0"]
 [ext_resource type="Texture2D" uid="uid://dxon1hookl4t0" path="res://images/phone/432425555.jpg" id="5_dstu0"]
 [ext_resource type="Texture2D" uid="uid://dbxqtn330f3or" path="res://images/phone/Call_icon.png" id="6_fp5ma"]
+[ext_resource type="Texture2D" uid="uid://fhh0rj24gg3e" path="res://images/phone/save.png" id="7_0poqj"]
 [ext_resource type="Texture2D" uid="uid://kgpt50g6ih2n" path="res://images/phone/continue.png" id="7_fp5ma"]
 [ext_resource type="Texture2D" uid="uid://bfa7un6ymab0a" path="res://images/phone/434.jpg" id="7_pamot"]
 [ext_resource type="Texture2D" uid="uid://be3jrnh3kjbto" path="res://images/phone/settings.png" id="8_0poqj"]
+[ext_resource type="Texture2D" uid="uid://btlm7nvx704m" path="res://images/phone/load.png" id="8_dstu0"]
 [ext_resource type="Texture2D" uid="uid://eou3q6pmmkjb" path="res://images/phone/435123.jpg" id="8_qf3n5"]
 [ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="9_a8tgm"]
 [ext_resource type="Texture2D" uid="uid://doxc8wbvjhwi6" path="res://images/phone/Off_button_icon.png" id="9_fp5ma"]
@@ -466,6 +468,46 @@ offset_bottom = 56.0
 theme_override_font_sizes/font_size = 7
 text = "Заметки"
 
+[node name="Save_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/GridStart"]
+layout_mode = 2
+
+[node name="Save" type="Button" parent="pause_menu/Panel/Start_Display/GridStart/Save_Container"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("7_0poqj")
+
+[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/GridStart/Save_Container/Save"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 40.0
+offset_right = 43.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 8
+text = "Сохранить"
+
+[node name="Load_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/GridStart"]
+layout_mode = 2
+
+[node name="Load" type="Button" parent="pause_menu/Panel/Start_Display/GridStart/Load_Container"]
+process_mode = 3
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
+icon = ExtResource("8_dstu0")
+
+[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/GridStart/Load_Container/Load"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 40.0
+offset_right = 43.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 8
+text = "Загрузить"
+
 [node name="HBoxLowButtons" type="HBoxContainer" parent="pause_menu/Panel/Start_Display"]
 z_index = 21
 layout_mode = 0
@@ -737,6 +779,8 @@ libraries = {
 }
 
 [connection signal="pressed" from="pause_menu/Panel/Start_Display/GridStart/Messenger_Container/Messenger" to="pause_menu" method="_on_messenger_pressed"]
+[connection signal="pressed" from="pause_menu/Panel/Start_Display/GridStart/Save_Container/Save" to="pause_menu" method="_on_save_pressed"]
+[connection signal="pressed" from="pause_menu/Panel/Start_Display/GridStart/Load_Container/Load" to="pause_menu" method="_on_load_pressed"]
 [connection signal="pressed" from="pause_menu/Panel/Start_Display/HBoxLowButtons/Continue_Container/Continue" to="pause_menu" method="_on_continue_pressed"]
 [connection signal="pressed" from="pause_menu/Panel/Start_Display/HBoxLowButtons/Options_Container/Options" to="pause_menu" method="_on_options_pressed"]
 [connection signal="pressed" from="pause_menu/Panel/Start_Display/HBoxLowButtons/Exit_to_Main_Menu_Container/Exit_to_Main_Menu" to="pause_menu" method="_on_exit_to_main_menu_pressed"]

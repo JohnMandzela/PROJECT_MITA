@@ -35,7 +35,6 @@ runtime/balloon_path="uid://crgoc60wxu88c"
 
 [display]
 
-window/size/mode=3
 window/stretch/mode="canvas_items"
 mouse_cursor/custom_image="uid://y5l7xcplapsp"
 
