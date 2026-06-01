@@ -4,7 +4,9 @@ extends Node2D
 @export var player_scene: PackedScene
 @export var default_spawn_point: String
 
-func _ready():	
+func _ready():
+	assert(player_scene, "Сцена игрока не установлена")
+
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# Если игрока нет — создаём НУЖНУЮ модель
 	if not GameManager.player:
@@ -14,7 +16,7 @@ func _ready():
 		print("Пересоздаём игрока")
 		GameManager.player.queue_free()
 		GameManager.player = player_scene.instantiate()
-	
+
 	add_child(GameManager.player)
 
 	# Определяем spawn

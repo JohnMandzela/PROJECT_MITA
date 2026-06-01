@@ -7,11 +7,11 @@ extends PlayerSpawnScene
 
 func _ready():
 	_start_game()
+	super._ready()
+	
 	if not GameManager.is_done("1_morning_quest"):
 		mike_visible_false()
 		_new_game()
-		
-	super._ready()
 
 func _new_game():
 	color_rect.visible = true
@@ -68,5 +68,5 @@ func shock():
 	%Mike_Sleep_Tileset.play("shock")
 
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: Node2D) -> void:
 	pass # Replace with function body.

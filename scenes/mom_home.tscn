@@ -1,12 +1,10 @@
-[gd_scene load_steps=41 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=38 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="5_uym5w"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="5_wby07"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
-[ext_resource type="Script" uid="uid://cry7nlc0ddq8d" path="res://scenes/dialogue_test.gd" id="8_pd21m"]
 [ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="9_mv7xs"]
-[ext_resource type="Resource" uid="uid://vreb14xfkllx" path="res://dialogues/test.dialogue" id="9_pjgex"]
 [ext_resource type="Script" uid="uid://x3lul8lxsod2" path="res://scripts/1_mom_home/mike_npc.gd" id="10_01ivo"]
 [ext_resource type="Script" uid="uid://b43v0n8hepw2c" path="res://scripts/1_mom_home/test_ivent.gd" id="10_fovv4"]
 [ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="10_mv7xs"]
@@ -16,9 +14,6 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jacmr"]
 size = Vector2(48, 15)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pjgex"]
-size = Vector2(147, 56)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fovv4"]
 radius = 6.0
@@ -276,14 +271,6 @@ volume_db = -15.0
 bus = &"Sounds"
 playback_type = 1
 
-[node name="DialogueTest" type="Area2D" parent="Sleep_Flashback"]
-script = ExtResource("8_pd21m")
-dialogue = ExtResource("9_pjgex")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sleep_Flashback/DialogueTest"]
-position = Vector2(-2.5, -141)
-shape = SubResource("RectangleShape2D_pjgex")
-
 [node name="Camera2D" type="Camera2D" parent="Sleep_Flashback"]
 position = Vector2(69, 101)
 zoom = Vector2(2, 2)
@@ -320,5 +307,4 @@ sprite_frames = SubResource("SpriteFrames_7tks0")
 
 [node name="Pause_Menu" parent="Sleep_Flashback" instance=ExtResource("5_wby07")]
 
-[connection signal="body_entered" from="Sleep_Flashback/DialogueTest" to="Sleep_Flashback/DialogueTest" method="_on_body_entered"]
 [connection signal="timeout" from="Sleep_Flashback/Mike_NPC/Timer" to="Sleep_Flashback/Mike_NPC" method="_on_timer_timeout"]
