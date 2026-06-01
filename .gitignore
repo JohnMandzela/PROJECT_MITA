@@ -4,6 +4,7 @@
 
 # Временные файлы Godot
 *.tmp
+.cache
 
 # VSCode
 .vscode/

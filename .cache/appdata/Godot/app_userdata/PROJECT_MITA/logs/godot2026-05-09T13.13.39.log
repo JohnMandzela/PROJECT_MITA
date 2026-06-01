@@ -1,9 +1,0 @@
-Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
-
-ERROR: Failed to read the root certificate store.
-   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2548)
-ERROR: Balloon skip action should use skip_dialogue instead of ui_cancel
-   at: push_error (core/variant/variant_utility.cpp:1024)
-   GDScript backtrace (most recent call first):
-       [0] _fail (res://tools/validate_dialogue_portraits.gd:198)
-       [1] _initialize (res://tools/validate_dialogue_portraits.gd:50)
