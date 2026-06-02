@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://ctxnt187plljn"]
 
-[ext_resource type="Script" path="res://scripts/programming_office.gd" id="1_root"]
+[ext_resource type="Script" uid="uid://b00ofgtcie2jx" path="res://scripts/programming_office.gd" id="1_root"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="2_player"]
 [ext_resource type="Texture2D" uid="uid://b0q4bb4sib57x" path="res://images/scene/Programming_Office.png" id="3_bg"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_pause"]
-[ext_resource type="Script" path="res://scripts/programming_office_puzzle_zone.gd" id="5_zone"]
+[ext_resource type="Script" uid="uid://bvad7pqaih7dl" path="res://scripts/programming_office_puzzle_zone.gd" id="5_zone"]
 [ext_resource type="PackedScene" uid="uid://cih1v2kckb6g3" path="res://scenes/samples_puzzle.tscn" id="6_puzzle"]
 [ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="7_fapqt"]
 
@@ -23,6 +23,18 @@ default_spawn_point = "spawn_marker"
 [node name="Programming_Office_Texture" type="Sprite2D" parent="."]
 scale = Vector2(0.38085538, 0.38085544)
 texture = ExtResource("3_bg")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Programming_Office_Texture"]
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+polygon = PackedVector2Array(26, 505, 25, 352, 222, 352, 222, 222, 27, 222, 27, -106, 166, -106, 166, 65, 363, 65, 364, 505)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-732, -279, 708, -279, 708, -198, 566, -198, 565, 582, 708, 582, 708, 635, -444, 635, -444, 780, -589, 780, -589, 635, -732, 635)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+polygon = PackedVector2Array(-544, 335, -544, -106, -207, -106, -207, 47, -403, 47, -403, 181, -207, 181, -207, 505, -348, 505, -347, 335)
 
 [node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]
 

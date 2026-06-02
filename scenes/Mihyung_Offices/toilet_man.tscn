@@ -19,9 +19,11 @@ position = Vector2(41, 32)
 scale = Vector2(1.425, 1.425)
 texture = ExtResource("3_iu652")
 
-[node name="Wall_Collision" type="StaticBody2D" parent="."]
+[node name="Wall_Collision" type="StaticBody2D" parent="Toilet_Man_Texture"]
+position = Vector2(-28.77193, -22.45614)
+scale = Vector2(0.7017544, 0.7017544)
 
-[node name="Wall_Collision" type="CollisionPolygon2D" parent="Wall_Collision"]
+[node name="Wall_Collision" type="CollisionPolygon2D" parent="Toilet_Man_Texture/Wall_Collision"]
 position = Vector2(-1, -1)
 build_mode = 1
 polygon = PackedVector2Array(-101, 334, -101, -73, 163, -73, 163, 334, 137, 334, 137, 371, 84, 371, 84, 334)

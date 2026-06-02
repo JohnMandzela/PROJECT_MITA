@@ -57,7 +57,7 @@ shape = SubResource("RectangleShape2D_30krv")
 script = ExtResource("6_iqv8y")
 required_direction = 1
 exit_direction = "up"
-target_scene = "Mihyung_Offices/reception_hall"
+target_scene = "res://scenes/Mihyung_Offices/reception_hall.tscn"
 target_spawn_point = "Entrance_in_Hall"
 
 [node name="Label" type="Label" parent="Exit_to_Street"]

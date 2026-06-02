@@ -1,13 +1,13 @@
 [gd_scene load_steps=49 format=3 uid="uid://c8iry8brseioi"]
 
 [ext_resource type="Texture2D" uid="uid://dtrhkafrucdn1" path="res://images/scene/Elevator.png" id="1_7flr6"]
-[ext_resource type="Script" uid="uid://b3e4ivgpm51hs" path="res://scripts/elevator_office.gd" id="1_voyuo"]
+[ext_resource type="Script" uid="uid://bkomvnarjx0pp" path="res://scripts/elevator_office.gd" id="1_voyuo"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="2_jteaq"]
 [ext_resource type="Script" uid="uid://x3lul8lxsod2" path="res://scripts/1_mom_home/mike_npc.gd" id="2_ln3ns"]
 [ext_resource type="Resource" uid="uid://srmsufeg2ur" path="res://dialogues/elevator_office.dialogue" id="2_pnnwi"]
 [ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="3_voyuo"]
 [ext_resource type="Texture2D" uid="uid://dc0mt4x4i7ait" path="res://images/tilesets/characters/$Emily.png" id="4_ijbvk"]
-[ext_resource type="Script" path="res://scripts/emily_npc.gd" id="5_ijbvk"]
+[ext_resource type="Script" uid="uid://bc6xrkjssp4s" path="res://scripts/emily_npc.gd" id="5_ijbvk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fovv4"]
 radius = 6.0
@@ -370,7 +370,7 @@ animations = [{
 [node name="Elevator_Office" type="Node2D"]
 script = ExtResource("1_voyuo")
 exit_direction = "down"
-target_scene = "Mihyung_Offices/corridors_offices"
+target_scene = "res://scenes/Mihyung_Offices/coridors_offices_Test.tscn"
 target_spawn_point = "Spawn_on_Left_Elevator"
 dialogue = ExtResource("2_pnnwi")
 
