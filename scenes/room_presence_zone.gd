@@ -1,4 +1,4 @@
-class_name RoomPresenceZone
+#class_name RoomPresenceZone
 extends Area2D
 ## Area2D: пока игрок пересекается с зоной, room_id считается активной комнатой (см. RoomPresenceManager).
 

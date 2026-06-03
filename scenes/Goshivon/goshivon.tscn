@@ -192,7 +192,7 @@ text = "Осмотреть"
 horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_1"]
-position = Vector2(1, -6.9375)
+position = Vector2(1, 1.0625)
 shape = SubResource("RectangleShape2D_p3pc1")
 
 [node name="Inspect_Door_2" type="Area2D" parent="Door_Inspect_Events"]
@@ -210,7 +210,7 @@ text = "Осмотреть"
 horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_2"]
-position = Vector2(0, -15)
+position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_p3pc1")
 
 [node name="Inspect_Door_3" type="Area2D" parent="Door_Inspect_Events"]
@@ -228,7 +228,7 @@ text = "Осмотреть"
 horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_3"]
-position = Vector2(0, -8.25)
+position = Vector2(0, -0.25)
 shape = SubResource("RectangleShape2D_p3pc1")
 
 [node name="Inspect_Door_4" type="Area2D" parent="Door_Inspect_Events"]
@@ -246,7 +246,7 @@ text = "Осмотреть"
 horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_4"]
-position = Vector2(0, -9.25)
+position = Vector2(0, -1.25)
 shape = SubResource("RectangleShape2D_p3pc1")
 
 [node name="Inspect_Door_5" type="Area2D" parent="Door_Inspect_Events"]
@@ -264,7 +264,7 @@ text = "Осмотреть"
 horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_5"]
-position = Vector2(48, -8.25)
+position = Vector2(48, -0.25)
 shape = SubResource("RectangleShape2D_p3pc1")
 
 [connection signal="body_entered" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_entered"]

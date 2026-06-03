@@ -29,6 +29,8 @@ func darken_screen_backwards() -> void:
 	animation_darken.play_backwards("darken")
 	await get_tree().create_timer(0.5).timeout
 
+func wait(time):
+	await get_tree().create_timer(time).timeout
 
 func lighten_screen() -> void:
 	animation_lighten.play("lighten")

@@ -2,6 +2,7 @@ extends CanvasLayer
 ## A simple dialogue balloon with centered text for use with Dialogue Manager.
 
 const SKIP_REPEAT_DELAY := 0.12
+const SIMPLE_LINE_COUNT := 4
 
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource
@@ -43,6 +44,8 @@ var _is_skip_button_held := false
 var _skip_advance_after_typing := false
 var _previous_mouse_mode := Input.MOUSE_MODE_VISIBLE
 var _has_dialogue_mouse_mode := false
+var _simple_line_index := 0
+var _current_line_prefix_characters := 0
 
 ## The current line (backing field)
 var _dialogue_line: DialogueLine
@@ -138,6 +141,8 @@ func _exit_tree() -> void:
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
 	temporary_game_states = [self] + extra_game_states
 	is_waiting_for_input = false
+	_simple_line_index = 0
+	_current_line_prefix_characters = 0
 	GameManager.disable_movement = true
 	_enter_dialogue_mouse_mode()
 
@@ -159,7 +164,7 @@ func apply_dialogue_line() -> void:
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
 
-	dialogue_label.dialogue_line = dialogue_line
+	dialogue_label.dialogue_line = _build_display_dialogue_line(dialogue_line)
 
 	if responses_menu:
 		responses_menu.hide()
@@ -172,6 +177,8 @@ func apply_dialogue_line() -> void:
 	dialogue_label.show()
 	if not dialogue_line.text.is_empty():
 		dialogue_label.type_out()
+		if _current_line_prefix_characters > 0:
+			dialogue_label.visible_characters = _current_line_prefix_characters
 		if dialogue_label.is_typing:
 			await dialogue_label.finished_typing
 
@@ -330,3 +337,70 @@ func _advance_from_skip_request() -> bool:
 		_skip_advance_after_typing = false
 		return true
 	return false
+
+
+func _build_display_dialogue_line(source_line: DialogueLine) -> DialogueLine:
+	var prefix_text := ""
+	for _index in range(min(_simple_line_index, SIMPLE_LINE_COUNT - 1)):
+		prefix_text += "\n"
+
+	_current_line_prefix_characters = _get_parsed_character_count(prefix_text)
+
+	if not source_line.text.is_empty():
+		_simple_line_index += 1
+
+	var display_line := DialogueLine.new()
+	display_line.id = source_line.id
+	display_line.type = source_line.type
+	display_line.next_id = source_line.next_id
+	display_line.character = source_line.character
+	display_line.character_replacements = source_line.character_replacements
+	display_line.text = prefix_text + source_line.text
+	display_line.text_replacements = source_line.text_replacements
+	display_line.translation_key = source_line.translation_key
+	display_line.speeds = _shift_text_indices(source_line.speeds, _current_line_prefix_characters)
+	display_line.inline_mutations = _shift_inline_mutations(source_line.inline_mutations, _current_line_prefix_characters)
+	display_line.responses = source_line.responses
+	display_line.concurrent_lines = source_line.concurrent_lines
+	display_line.extra_game_states = source_line.extra_game_states
+	display_line.time = source_line.time
+	display_line.tags = source_line.tags
+	display_line.mutation = source_line.mutation
+	display_line.conditions = source_line.conditions
+	return display_line
+
+
+func _get_parsed_character_count(text_to_measure: String) -> int:
+	if text_to_measure.is_empty():
+		return 0
+
+	var original_text := dialogue_label.text
+	dialogue_label.text = text_to_measure
+	var character_count := dialogue_label.get_total_character_count()
+	dialogue_label.text = original_text
+	return character_count
+
+
+func _shift_text_indices(indices: Dictionary, offset: int) -> Dictionary:
+	if offset <= 0:
+		return indices.duplicate(true)
+
+	var shifted := {}
+	for index in indices:
+		shifted[index + offset] = indices[index]
+	return shifted
+
+
+func _shift_inline_mutations(mutations: Array[Array], offset: int) -> Array[Array]:
+	if offset <= 0:
+		return mutations.duplicate(true)
+
+	var shifted: Array[Array] = []
+	for mutation in mutations:
+		if mutation.size() < 2:
+			shifted.append(mutation.duplicate(true))
+			continue
+		var shifted_mutation := mutation.duplicate(true)
+		shifted_mutation[0] = shifted_mutation[0] + offset
+		shifted.append(shifted_mutation)
+	return shifted
