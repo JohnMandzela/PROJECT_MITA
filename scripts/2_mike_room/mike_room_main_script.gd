@@ -3,7 +3,7 @@ extends PlayerSpawnScene
 @export var dialogue: DialogueResource
 @onready var mike_sleep: CharacterBody2D = $Mike_Sleep
 @onready var color_rect: ColorRect = $ColorRect
-@onready var unsleep_sound: AudioStreamPlayer = $Mike_Sleep/unsleep_sound
+@onready var wake_up_sound: AudioStreamPlayer = $Mike_Sleep/wake_up_sound
 
 func _ready():
 	_start_game()
@@ -56,10 +56,10 @@ func _wait_time(wait_time: float):
 func sleep_animation():
 	%Mike_Sleep_Tileset.play("sleep")
 
-func unsleep_animation():
-	%Mike_Sleep_Tileset.play("unsleep")
-	if not unsleep_sound.playing:
-		unsleep_sound.play()
+func wake_up_animation():
+	%Mike_Sleep_Tileset.play("wake_up")
+	if not wake_up_sound.playing:
+		wake_up_sound.play()
 
 func phone_hand_animation():
 	%Mike_Sleep_Tileset.play("phone_on_hand")

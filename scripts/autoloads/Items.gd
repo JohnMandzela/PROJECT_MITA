@@ -5,7 +5,7 @@ signal inventory_changed
 const DATA_PATH := "user://items_data.cfg"
 const FALLBACK_ICON_PATH := "res://images/items/cola.png"
 const DEFAULT_ITEMS_INVENTORY := {
-	"buttle_cola": 0,
+	"bottle_cola": 0,
 	"coffee_cup": 0,
 }
 

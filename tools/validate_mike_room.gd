@@ -61,7 +61,7 @@ func _validate_room_flags_and_dialogues() -> bool:
 	game_manager.reset_game_state()
 	game_manager.set_done("1_morning_quest")
 	game_manager.player = null
-	items.items_inventory["buttle_cola"] = 0
+	items.items_inventory["bottle_cola"] = 0
 
 	var room := await _instantiate_scene(MIKE_ROOM_SCENE_PATH)
 	if room == null:
@@ -93,7 +93,7 @@ func _validate_room_flags_and_dialogues() -> bool:
 		return false
 
 	game_manager.reload("3_cola_in_fridge")
-	items.items_inventory["buttle_cola"] = 1
+	items.items_inventory["bottle_cola"] = 1
 
 	var laptop_before := await _collect_dialogue_until_choice(
 		laptop.get("dialogue"),

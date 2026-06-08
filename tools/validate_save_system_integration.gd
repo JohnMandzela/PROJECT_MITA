@@ -55,7 +55,7 @@ func _validate_save_round_trip() -> bool:
 
 	game_manager.player = player
 	game_manager.set_done("3_cola_in_fridge")
-	items.apply_inventory_state({"buttle_cola": 1, "coffee_cup": 0}, ["buttle_cola", "coffee_cup"])
+	items.apply_inventory_state({"bottle_cola": 1, "coffee_cup": 0}, ["bottle_cola", "coffee_cup"])
 
 	save_system.save_game(save_system.Mode.QUICK)
 	save_system.save_game_to_next_manual_slot()
@@ -78,7 +78,7 @@ func _validate_save_round_trip() -> bool:
 		return false
 
 	game_manager.reload("3_cola_in_fridge")
-	items.apply_inventory_state({"buttle_cola": 0, "coffee_cup": 0}, ["coffee_cup", "buttle_cola"])
+	items.apply_inventory_state({"bottle_cola": 0, "coffee_cup": 0}, ["coffee_cup", "bottle_cola"])
 
 	save_system.load_game_from_file(latest_path)
 	save_system.load_game_data()
@@ -88,7 +88,7 @@ func _validate_save_round_trip() -> bool:
 		push_error("Quest flag was not restored from save")
 		return false
 
-	if items.item_check("buttle_cola") != 1:
+	if items.item_check("bottle_cola") != 1:
 		push_error("Inventory was not restored from save")
 		return false
 

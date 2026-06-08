@@ -7,7 +7,7 @@ func _initialize() -> void:
 	items.call("apply_inventory_state", {"buttle_cola": 0, "coffee_cup": 1}, ["coffee_cup", "buttle_cola"])
 	var game_manager := root.get_node("/root/GameManager")
 	game_manager.call("reset_game_state")
-
+	
 	var scene: PackedScene = load("res://scenes/test_room_vr.tscn")
 	if scene == null:
 		_fail("test_room_vr.tscn failed to load")
@@ -134,7 +134,7 @@ func _initialize() -> void:
 		_fail("Use button should hide after using coffee")
 		return
 
-	items.call("apply_inventory_state", {"buttle_cola": 0, "coffee_cup": 1}, ["coffee_cup", "buttle_cola"])
+	items.call("apply_inventory_state", {"bottle_cola": 0, "coffee_cup": 1}, ["coffee_cup", "bottle_cola"])
 	await process_frame
 	overlay.call("_refresh_inventory")
 	overlay.call("_on_inventory_cell_gui_input", click_event, cell)
@@ -175,7 +175,7 @@ func _initialize() -> void:
 		_fail("Settings drawer is missing music slider")
 		return
 
-	items.call("apply_inventory_state", {"buttle_cola": 0, "coffee_cup": 0}, ["coffee_cup", "buttle_cola"])
+	items.call("apply_inventory_state", {"bottle_cola": 0, "coffee_cup": 0}, ["coffee_cup", "bottle_cola"])
 	game_manager.call("reload", "offices_coffee_picked_up")
 	var coffee_zone := offices.get_node("Ivents/Coffee_Zone")
 	coffee_zone.call("_on_body_entered", player)

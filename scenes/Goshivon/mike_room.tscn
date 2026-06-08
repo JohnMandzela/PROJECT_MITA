@@ -271,7 +271,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_0i05t")
 }],
 "loop": true,
-"name": &"unsleep",
+"name": &"wake_up",
 "speed": 5.0
 }]
 
@@ -599,7 +599,7 @@ sprite_frames = SubResource("SpriteFrames_tksu2")
 animation = &"shock"
 autoplay = "sleep"
 
-[node name="unsleep_sound" type="AudioStreamPlayer" parent="Mike_Sleep"]
+[node name="wake_up_sound" type="AudioStreamPlayer" parent="Mike_Sleep"]
 stream = ExtResource("25_lg8j8")
 volume_db = -10.0
 bus = &"Sounds"
