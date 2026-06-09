@@ -1,18 +1,8 @@
 extends Area2D
 
-
 const PUZZLE_COMPLETION_FLAG := "programming_office_samples_puzzle_completed"
 
-
-enum LookDirection {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-}
-
-
-@export var required_direction: LookDirection = LookDirection.LEFT
+@export var required_direction := Enums.Direction.LEFT
 
 @onready var label: Label = $Label
 
@@ -62,13 +52,13 @@ func _is_correct_direction() -> bool:
 	if player == null:
 		return false
 	match required_direction:
-		LookDirection.UP:
+		Enums.Direction.UP:
 			return player.last_direction == "up"
-		LookDirection.DOWN:
+		Enums.Direction.DOWN:
 			return player.last_direction == "down"
-		LookDirection.LEFT:
+		Enums.Direction.LEFT:
 			return player.last_direction == "left"
-		LookDirection.RIGHT:
+		Enums.Direction.RIGHT:
 			return player.last_direction == "right"
 	return false
 

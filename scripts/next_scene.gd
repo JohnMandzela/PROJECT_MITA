@@ -1,21 +1,10 @@
 extends Area2D
 
 # -------------------------------------------------
-# Варианты направления взгляда
-enum LookDirection {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-}
-# -------------------------------------------------
-
-
-# -------------------------------------------------
 # ЗАДАЕМ ПЕРЕМЕННЫЕ
 
 # Вводим в инспекторе:
-@export var required_direction: LookDirection = LookDirection.UP     # направление взгляда
+@export var required_direction := Enums.Direction.UP     # направление взгляда
 @export_enum("up", "down", "left", "right")                          # список для взгляда на выход
 var exit_direction: String                                           # направление взгляда (на выходе)
 @export var target_scene: String                                     # предыдущую сцену
@@ -93,13 +82,13 @@ func _process(_delta: float) -> void:
 # -------------------------------------------------
 func _is_correct_direction() -> bool:
 	match required_direction:
-		LookDirection.UP:
+		Enums.Direction.UP:
 			return player.last_direction == "up"
-		LookDirection.DOWN:
+		Enums.Direction.DOWN:
 			return player.last_direction == "down"
-		LookDirection.LEFT:
+		Enums.Direction.LEFT:
 			return player.last_direction == "left"
-		LookDirection.RIGHT:
+		Enums.Direction.RIGHT:
 			return player.last_direction == "right"
 	return false
 

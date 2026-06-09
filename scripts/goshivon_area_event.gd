@@ -1,13 +1,6 @@
 extends Area2D
 
-enum LookDirection {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-}
-
-@export var required_direction: LookDirection = LookDirection.UP
+@export var required_direction := Enums.Direction.UP
 @export var dialogue: DialogueResource
 @export var dialogue_start: StringName = &"start"
 
@@ -52,13 +45,13 @@ func _on_body_exited(body: CharacterBody2D) -> void:
 
 func _is_correct_direction() -> bool:
 	match required_direction:
-		LookDirection.UP:
+		Enums.Direction.UP:
 			return player.last_direction == "up"
-		LookDirection.DOWN:
+		Enums.Direction.DOWN:
 			return player.last_direction == "down"
-		LookDirection.LEFT:
+		Enums.Direction.LEFT:
 			return player.last_direction == "left"
-		LookDirection.RIGHT:
+		Enums.Direction.RIGHT:
 			return player.last_direction == "right"
 	return false
 

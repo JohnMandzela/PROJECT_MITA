@@ -1,19 +1,10 @@
 extends Area2D
 
-
-enum LookDirection {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-}
-
-
 const COFFEE_PICKUP_FLAG := "offices_coffee_picked_up"
 const COFFEE_ITEM_ID := "coffee_cup"
 
 
-@export var required_direction: LookDirection = LookDirection.LEFT
+@export var required_direction := Enums.Direction.LEFT
 @export var dialogue: DialogueResource
 
 @onready var label: Label = $Label
@@ -80,13 +71,13 @@ func _is_correct_direction() -> bool:
 		return false
 
 	match required_direction:
-		LookDirection.UP:
+		Enums.Direction.UP:
 			return player.last_direction == "up"
-		LookDirection.DOWN:
+		Enums.Direction.DOWN:
 			return player.last_direction == "down"
-		LookDirection.LEFT:
+		Enums.Direction.LEFT:
 			return player.last_direction == "left"
-		LookDirection.RIGHT:
+		Enums.Direction.RIGHT:
 			return player.last_direction == "right"
 	return false
 

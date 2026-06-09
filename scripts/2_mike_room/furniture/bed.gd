@@ -1,15 +1,7 @@
 extends Area2D
 
-#---------------------------------------------------------------------------------------------------
-# Варианты направления взгляда
-enum LookDirection {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-}
 # Выпадающая строка для выбора направления взгляда (в инспекторе справа)
-@export var required_direction: LookDirection = LookDirection.UP
+@export var required_direction := Enums.Direction.UP
 # Связываем с уведомлением + задаем переменную player
 @onready var label := $Label
 var player: CharacterBody2D = null
@@ -43,13 +35,13 @@ func _on_body_exited(body: CharacterBody2D) -> void:
 # Проверка направления взгляда
 func _is_correct_direction() -> bool:
 	match required_direction:
-		LookDirection.UP:
+		Enums.Direction.UP:
 			return player.last_direction == "up"
-		LookDirection.DOWN:
+		Enums.Direction.DOWN:
 			return player.last_direction == "down"
-		LookDirection.LEFT:
+		Enums.Direction.LEFT:
 			return player.last_direction == "left"
-		LookDirection.RIGHT:
+		Enums.Direction.RIGHT:
 			return player.last_direction == "right"
 	return false
 

@@ -8,9 +8,3 @@ const PORTRAIT_PREFIXES = {
 	"Мама": "Mita", # TODO: убрать плейсхолдер!
 	"Эмили": "Emily",
 }
-
-# Допустимые эмоции персонажей
-# Задаются в диалогах через теги 
-const EMOTES: PackedStringArray = [
-	"happy", "sad", "angry", "shame"
-]

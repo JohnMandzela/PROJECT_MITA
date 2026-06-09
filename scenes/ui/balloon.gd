@@ -220,9 +220,9 @@ func apply_dialogue_line() -> void:
 	
 	if character:
 		var emotion := &""
-		for emotion_name in DialogueGlobals.EMOTES:
-			if emotion_name in dialogue_line.tags:
-				emotion = emotion_name
+		for emotion_name in Enums.Emote.keys():
+			if emotion_name.to_lower() in dialogue_line.tags:
+				emotion = emotion_name.to_lower()
 				break
 
 		var current_portrait: CharacterPortrait
@@ -359,12 +359,12 @@ func _update_portraits(character: String) -> void:
 
 func _get_line_emotion() -> String:
 	var emotion := dialogue_line.get_tag_value("emotion").to_lower()
-	if emotion in DialogueGlobals.EMOTES:
-		return emotion
+	if emotion.to_upper() in Enums.Emote.keys():
+		return emotion.to_lower()
 
-	for emotion_name in DialogueGlobals.EMOTES:
-		if dialogue_line.has_tag(emotion_name):
-			return emotion_name
+	for emotion_name in Enums.Emote.keys():
+		if dialogue_line.has_tag(emotion_name.to_lower()):
+			return emotion_name.to_lower()
 
 	return ""
 

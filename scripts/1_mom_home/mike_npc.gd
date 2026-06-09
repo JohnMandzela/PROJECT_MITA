@@ -3,21 +3,9 @@ extends CharacterBody2D
 @onready var sprite = $Mike_Tileset
 @onready var timer = $Timer
 
-enum Rotation_mode {
-	Default,
-	Random
-}
+@export var rotation_mode := Enums.RotationMode.DEFAULT
 
-@export var rotation_mode : Rotation_mode = Rotation_mode.Default
-
-enum Direction {
-	DOWN,
-	RIGHT,
-	UP,
-	LEFT
-}
-
-var current_direction = Direction.DOWN
+var current_direction = Enums.Direction.DOWN
 
 
 func _ready():
