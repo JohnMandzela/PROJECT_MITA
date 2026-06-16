@@ -47,10 +47,10 @@ theme_override_font_sizes/font_size = 32
 text = "Звук"
 horizontal_alignment = 1
 
-[node name="sounds_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
+[node name="SoundsSlider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
 layout_mode = 2
 
-[node name="sounds_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Sounds/sounds_slider"]
+[node name="SoundsSlider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Sounds/SoundsSlider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -67,10 +67,10 @@ theme_override_font_sizes/font_size = 32
 text = "Музыка"
 horizontal_alignment = 1
 
-[node name="Music_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
+[node name="MusicSlider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
 layout_mode = 2
 
-[node name="music_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Music/Music_slider"]
+[node name="Slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Music/MusicSlider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4

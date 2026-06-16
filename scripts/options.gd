@@ -3,8 +3,8 @@ extends Control
 
 # Переменные к путям данных настроек
 @onready var fullscren_checkbox_path: CheckBox = $Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox
-@onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider
-@onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/sounds_slider/sounds_slider
+@onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/MusicSlider/Slider
+@onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/SoundsSlider/SoundsSlider
 @onready var mouse_sensitivity_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Mouse_Sensitivity/Mouse_slider/mouse_sensitivity_slider
 
 

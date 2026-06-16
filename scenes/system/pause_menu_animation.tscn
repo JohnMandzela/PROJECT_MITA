@@ -487,10 +487,10 @@ theme_override_font_sizes/font_size = 16
 text = "Звук"
 horizontal_alignment = 1
 
-[node name="sounds_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Sounds"]
+[node name="SoundsSlider" type="HBoxContainer" parent="Panel/VBoxOptions/Sounds"]
 layout_mode = 2
 
-[node name="sounds_slider" type="HSlider" parent="Panel/VBoxOptions/Sounds/sounds_slider"]
+[node name="SoundsSlider" type="HSlider" parent="Panel/VBoxOptions/Sounds/SoundsSlider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -508,10 +508,10 @@ theme_override_font_sizes/font_size = 16
 text = "Музыка"
 horizontal_alignment = 1
 
-[node name="Music_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Music"]
+[node name="MusicSlider" type="HBoxContainer" parent="Panel/VBoxOptions/Music"]
 layout_mode = 2
 
-[node name="music_slider" type="HSlider" parent="Panel/VBoxOptions/Music/Music_slider"]
+[node name="Slider" type="HSlider" parent="Panel/VBoxOptions/Music/MusicSlider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -593,7 +593,7 @@ offset_right = 254.0
 offset_bottom = 468.0
 text = "🔙"
 
-[node name="Screen_Fader_Animation" type="Control" parent="."]
+[node name="ScreenFaderAnimation" type="Control" parent="."]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -603,7 +603,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Blur_Rect" type="ColorRect" parent="Screen_Fader_Animation"]
+[node name="BlurRect" type="ColorRect" parent="ScreenFaderAnimation"]
 z_index = 20
 material = SubResource("ShaderMaterial_kukqi")
 layout_mode = 1
@@ -614,12 +614,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/Blur_Rect"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenFaderAnimation/BlurRect"]
 libraries = {
 &"": SubResource("AnimationLibrary_ofnjo")
 }
 
-[node name="OnOff_Screen_Fader" type="ColorRect" parent="Screen_Fader_Animation"]
+[node name="OnOffScreenFader" type="ColorRect" parent="ScreenFaderAnimation"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -630,12 +630,12 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/OnOff_Screen_Fader"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenFaderAnimation/OnOffScreenFader"]
 libraries = {
 &"": SubResource("AnimationLibrary_v4r4p")
 }
 
-[node name="Exit_Screen_Fader" type="ColorRect" parent="Screen_Fader_Animation"]
+[node name="ExitScreenFader" type="ColorRect" parent="ScreenFaderAnimation"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -646,7 +646,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/Exit_Screen_Fader"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenFaderAnimation/ExitScreenFader"]
 libraries = {
 &"": SubResource("AnimationLibrary_v4r4p")
 }
@@ -655,8 +655,8 @@ libraries = {
 [connection signal="pressed" from="Panel/VBoxStart/GridContainer/Options_Container/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
 [connection signal="pressed" from="Panel/VBoxStart/GridContainer/Messenger_Container/Messenger" to="." method="_on_messenger_pressed"]
-[connection signal="value_changed" from="Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
-[connection signal="value_changed" from="Panel/VBoxOptions/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Sounds/SoundsSlider/SoundsSlider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Music/MusicSlider/Slider" to="." method="_on_music_value_changed"]
 [connection signal="toggled" from="Panel/VBoxOptions/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="Panel/VBoxOptions/Back_from_Options" to="." method="_on_back_from_options_pressed"]
 [connection signal="pressed" from="Panel/Messenger/Tutorial" to="." method="_on_tutorial_pressed"]

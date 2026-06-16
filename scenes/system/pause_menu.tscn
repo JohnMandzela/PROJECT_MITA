@@ -218,7 +218,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../../Panel/Pause_Label:theme_override_colors/font_color")
+tracks/2/path = NodePath("../../Panel/PauseLabel:theme_override_colors/font_color")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -273,7 +273,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../Panel/Pause_Label:theme_override_colors/font_color")
+tracks/1/path = NodePath("../../Panel/PauseLabel:theme_override_colors/font_color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -319,11 +319,11 @@ _data = {
 &"open_pause_menu": SubResource("Animation_myx47")
 }
 
-[node name="Pause_Menu" type="CanvasLayer"]
+[node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
 layer = 101
 
-[node name="pause_menu" type="Control" parent="."]
+[node name="PauseMenuRoot" type="Control" parent="."]
 process_mode = 3
 z_index = 20
 layout_mode = 3
@@ -334,7 +334,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vrq0f")
 
-[node name="Panel" type="Panel" parent="pause_menu"]
+[node name="Panel" type="Panel" parent="PauseMenuRoot"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 8
@@ -349,26 +349,26 @@ offset_bottom = 928.001
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="pause_menu/Panel"]
-root_node = NodePath("../Mike\'s_Phone")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PauseMenuRoot/Panel"]
+root_node = NodePath("../MikesPhone")
 libraries = {
 &"": SubResource("AnimationLibrary_knqa7")
 }
 
-[node name="Mike\'s_Phone" type="Sprite2D" parent="pause_menu/Panel"]
+[node name="MikesPhone" type="Sprite2D" parent="PauseMenuRoot/Panel"]
 z_index = 21
 position = Vector2(135, 271)
 scale = Vector2(0.57170546, 0.59375)
 texture = ExtResource("2_dbwm0")
 
-[node name="Wallpaper" type="Sprite2D" parent="pause_menu/Panel"]
+[node name="Wallpaper" type="Sprite2D" parent="PauseMenuRoot/Panel"]
 modulate = Color(0, 0, 0, 1)
 z_index = 21
 position = Vector2(135, 271)
 scale = Vector2(0.57170546, 0.59375)
 texture = ExtResource("3_dbwm0")
 
-[node name="Pause_Label" type="Label" parent="pause_menu/Panel"]
+[node name="PauseLabel" type="Label" parent="PauseMenuRoot/Panel"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 10
@@ -380,7 +380,7 @@ theme_override_font_sizes/font_size = 24
 text = "Пауза"
 horizontal_alignment = 1
 
-[node name="Start_Display" type="Panel" parent="pause_menu/Panel"]
+[node name="StartDisplay" type="Panel" parent="PauseMenuRoot/Panel"]
 visible = false
 layout_mode = 0
 offset_left = 7.0
@@ -388,7 +388,7 @@ offset_top = 37.0
 offset_right = 262.0
 offset_bottom = 506.0
 
-[node name="GridStart" type="GridContainer" parent="pause_menu/Panel/Start_Display"]
+[node name="GridStart" type="GridContainer" parent="PauseMenuRoot/Panel/StartDisplay"]
 z_index = 21
 layout_mode = 0
 offset_left = 12.0
@@ -399,10 +399,10 @@ theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 14
 columns = 4
 
-[node name="Inventory_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/GridStart"]
+[node name="InventoryContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/GridStart"]
 layout_mode = 2
 
-[node name="Inventory" type="Button" parent="pause_menu/Panel/Start_Display/GridStart/Inventory_Container"]
+[node name="InventoryButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/InventoryContainer"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
@@ -410,7 +410,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
 icon = ExtResource("5_dstu0")
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/GridStart/Inventory_Container/Inventory"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/InventoryContainer/InventoryButton"]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 40.0
@@ -419,15 +419,15 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 8
 text = "Инвентарь"
 
-[node name="Call_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/GridStart"]
+[node name="CallContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/GridStart"]
 layout_mode = 2
 
-[node name="Call" type="Button" parent="pause_menu/Panel/Start_Display/GridStart/Call_Container"]
+[node name="CallButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/CallContainer"]
 layout_mode = 2
 icon = ExtResource("6_fp5ma")
 flat = true
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/GridStart/Call_Container/Call"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/CallContainer/CallButton"]
 layout_mode = 0
 offset_top = 56.0
 offset_right = 56.0
@@ -437,14 +437,14 @@ theme_override_font_sizes/font_size = 12
 text = "Телефон"
 horizontal_alignment = 1
 
-[node name="Messenger_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/GridStart"]
+[node name="MessengerContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/GridStart"]
 layout_mode = 2
 
-[node name="Messenger" type="Button" parent="pause_menu/Panel/Start_Display/GridStart/Messenger_Container"]
+[node name="MessengerButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/MessengerContainer"]
 layout_mode = 2
 icon = ExtResource("7_pamot")
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/GridStart/Messenger_Container/Messenger"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/MessengerContainer/MessengerButton"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 45.0
@@ -453,14 +453,14 @@ offset_bottom = 56.0
 theme_override_font_sizes/font_size = 7
 text = "Мессенджер"
 
-[node name="Quests_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/GridStart"]
+[node name="QuestsContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/GridStart"]
 layout_mode = 2
 
-[node name="Quests" type="Button" parent="pause_menu/Panel/Start_Display/GridStart/Quests_Container"]
+[node name="QuestsButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/QuestsContainer"]
 layout_mode = 2
 icon = ExtResource("7_pamot")
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/GridStart/Quests_Container/Quests"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/QuestsContainer/QuestsButton"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 45.0
@@ -469,10 +469,10 @@ offset_bottom = 56.0
 theme_override_font_sizes/font_size = 7
 text = "Заметки"
 
-[node name="Save_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/GridStart"]
+[node name="SaveContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/GridStart"]
 layout_mode = 2
 
-[node name="Save" type="Button" parent="pause_menu/Panel/Start_Display/GridStart/Save_Container"]
+[node name="SaveButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/SaveContainer"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
@@ -480,7 +480,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
 icon = ExtResource("7_0poqj")
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/GridStart/Save_Container/Save"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/SaveContainer/SaveButton"]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 40.0
@@ -489,10 +489,10 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 8
 text = "Сохранить"
 
-[node name="Load_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/GridStart"]
+[node name="LoadContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/GridStart"]
 layout_mode = 2
 
-[node name="Load" type="Button" parent="pause_menu/Panel/Start_Display/GridStart/Load_Container"]
+[node name="LoadButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/LoadContainer"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
@@ -500,7 +500,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
 icon = ExtResource("8_dstu0")
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/GridStart/Load_Container/Load"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/GridStart/LoadContainer/LoadButton"]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 40.0
@@ -509,7 +509,7 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 8
 text = "Загрузить"
 
-[node name="HBoxLowButtons" type="HBoxContainer" parent="pause_menu/Panel/Start_Display"]
+[node name="BottomButtons" type="HBoxContainer" parent="PauseMenuRoot/Panel/StartDisplay"]
 z_index = 21
 layout_mode = 0
 offset_left = 14.0
@@ -519,16 +519,16 @@ offset_bottom = 450.0
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="Continue_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/HBoxLowButtons"]
+[node name="ContinueContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons"]
 layout_mode = 2
 
-[node name="Continue" type="Button" parent="pause_menu/Panel/Start_Display/HBoxLowButtons/Continue_Container"]
+[node name="ContinueButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ContinueContainer"]
 process_mode = 3
 layout_mode = 2
 icon = ExtResource("7_fp5ma")
 flat = true
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/HBoxLowButtons/Continue_Container/Continue"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ContinueContainer/ContinueButton"]
 layout_mode = 0
 offset_left = -10.0
 offset_top = 52.0
@@ -538,16 +538,16 @@ theme_override_colors/font_color = Color(0.2784314, 0.2784314, 0.2784314, 1)
 theme_override_font_sizes/font_size = 12
 text = "Продолжить"
 
-[node name="Options_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/HBoxLowButtons"]
+[node name="OptionsContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons"]
 layout_mode = 2
 
-[node name="Options" type="Button" parent="pause_menu/Panel/Start_Display/HBoxLowButtons/Options_Container"]
+[node name="OptionsButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons/OptionsContainer"]
 process_mode = 3
 layout_mode = 2
 icon = ExtResource("8_0poqj")
 flat = true
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/HBoxLowButtons/Options_Container/Options"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons/OptionsContainer/OptionsButton"]
 layout_mode = 0
 offset_left = -5.0
 offset_top = 52.0
@@ -557,16 +557,16 @@ theme_override_colors/font_color = Color(0.2784314, 0.2784314, 0.2784314, 1)
 theme_override_font_sizes/font_size = 12
 text = "Настройки"
 
-[node name="Exit_to_Main_Menu_Container" type="AspectRatioContainer" parent="pause_menu/Panel/Start_Display/HBoxLowButtons"]
+[node name="ExitContainer" type="AspectRatioContainer" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons"]
 layout_mode = 2
 
-[node name="Exit_to_Main_Menu" type="Button" parent="pause_menu/Panel/Start_Display/HBoxLowButtons/Exit_to_Main_Menu_Container"]
+[node name="ExitButton" type="Button" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ExitContainer"]
 process_mode = 3
 layout_mode = 2
 icon = ExtResource("9_fp5ma")
 flat = true
 
-[node name="Label" type="Label" parent="pause_menu/Panel/Start_Display/HBoxLowButtons/Exit_to_Main_Menu_Container/Exit_to_Main_Menu"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ExitContainer/ExitButton"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 52.0
@@ -577,7 +577,7 @@ theme_override_font_sizes/font_size = 12
 text = "Выйти"
 horizontal_alignment = 1
 
-[node name="InventoryView" type="Panel" parent="pause_menu/Panel"]
+[node name="InventoryView" type="Panel" parent="PauseMenuRoot/Panel"]
 visible = false
 z_index = 21
 clip_contents = true
@@ -587,7 +587,7 @@ offset_top = 37.0
 offset_right = 262.0
 offset_bottom = 506.0
 
-[node name="InventoryVBox" type="VBoxContainer" parent="pause_menu/Panel/InventoryView"]
+[node name="InventoryVBox" type="VBoxContainer" parent="PauseMenuRoot/Panel/InventoryView"]
 clip_contents = true
 layout_mode = 0
 offset_left = 8.0
@@ -596,86 +596,86 @@ offset_right = 248.0
 offset_bottom = 460.0
 theme_override_constants/separation = 8
 
-[node name="InventoryTitle" type="Label" parent="pause_menu/Panel/InventoryView/InventoryVBox"]
+[node name="InventoryTitle" type="Label" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Инвентарь"
 horizontal_alignment = 1
 
-[node name="InventoryScroll" type="ScrollContainer" parent="pause_menu/Panel/InventoryView/InventoryVBox"]
+[node name="InventoryScroll" type="ScrollContainer" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox"]
 custom_minimum_size = Vector2(0, 220)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="ItemsList" type="VBoxContainer" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryScroll"]
+[node name="ItemsList" type="VBoxContainer" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="ItemRow_Example" type="HBoxContainer" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList"]
+[node name="ItemRowTemplate" type="HBoxContainer" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="ItemIcon" type="TextureRect" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRow_Example"]
+[node name="ItemIcon" type="TextureRect" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRowTemplate"]
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemInfoBlock" type="PanelContainer" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRow_Example"]
+[node name="ItemInfoBlock" type="PanelContainer" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRowTemplate"]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ItemInfoHBox" type="HBoxContainer" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRow_Example/ItemInfoBlock"]
+[node name="ItemInfoHBox" type="HBoxContainer" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRowTemplate/ItemInfoBlock"]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ItemName" type="Label" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRow_Example/ItemInfoBlock/ItemInfoHBox"]
+[node name="ItemName" type="Label" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRowTemplate/ItemInfoBlock/ItemInfoHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 2
 
-[node name="ItemCount" type="Label" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRow_Example/ItemInfoBlock/ItemInfoHBox"]
+[node name="ItemCount" type="Label" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRowTemplate/ItemInfoBlock/ItemInfoHBox"]
 custom_minimum_size = Vector2(26, 0)
 layout_mode = 2
 vertical_alignment = 1
 
-[node name="ItemDescriptionPanel" type="PanelContainer" parent="pause_menu/Panel/InventoryView/InventoryVBox"]
+[node name="ItemDescriptionPanel" type="PanelContainer" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox"]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 
-[node name="ItemDescription" type="Label" parent="pause_menu/Panel/InventoryView/InventoryVBox/ItemDescriptionPanel"]
+[node name="ItemDescription" type="Label" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/ItemDescriptionPanel"]
 layout_mode = 2
 text = "Описание предмета будет отображаться здесь."
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="InventoryButtons" type="HBoxContainer" parent="pause_menu/Panel/InventoryView/InventoryVBox"]
+[node name="InventoryButtons" type="HBoxContainer" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox"]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="Back_from_Inventory" type="Button" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryButtons"]
+[node name="CloseInventoryButton" type="Button" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryButtons"]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Назад"
 
-[node name="Use_Item" type="Button" parent="pause_menu/Panel/InventoryView/InventoryVBox/InventoryButtons"]
+[node name="UseItemButton" type="Button" parent="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryButtons"]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 disabled = true
 text = "Использовать"
 
-[node name="Quest_Container" type="Panel" parent="pause_menu/Panel"]
+[node name="QuestContainer" type="Panel" parent="PauseMenuRoot/Panel"]
 z_index = 21
 clip_contents = true
 layout_mode = 0
@@ -684,7 +684,7 @@ offset_top = 37.0
 offset_right = 262.0
 offset_bottom = 506.0
 
-[node name="QuestVBox" type="VBoxContainer" parent="pause_menu/Panel/Quest_Container"]
+[node name="QuestVBox" type="VBoxContainer" parent="PauseMenuRoot/Panel/QuestContainer"]
 clip_contents = true
 layout_mode = 0
 offset_left = 8.0
@@ -693,47 +693,47 @@ offset_right = 248.0
 offset_bottom = 460.0
 theme_override_constants/separation = 8
 
-[node name="QuestTitle" type="Label" parent="pause_menu/Panel/Quest_Container/QuestVBox"]
+[node name="QuestTitle" type="Label" parent="PauseMenuRoot/Panel/QuestContainer/QuestVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Мои заметки"
 horizontal_alignment = 1
 
-[node name="QuestScroll" type="ScrollContainer" parent="pause_menu/Panel/Quest_Container/QuestVBox"]
+[node name="QuestScroll" type="ScrollContainer" parent="PauseMenuRoot/Panel/QuestContainer/QuestVBox"]
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="QuestList" type="VBoxContainer" parent="pause_menu/Panel/Quest_Container/QuestVBox/QuestScroll"]
+[node name="QuestList" type="VBoxContainer" parent="PauseMenuRoot/Panel/QuestContainer/QuestVBox/QuestScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="QuestRow_Example" type="Button" parent="pause_menu/Panel/Quest_Container/QuestVBox/QuestScroll/QuestList"]
+[node name="QuestRowTemplate" type="Button" parent="PauseMenuRoot/Panel/QuestContainer/QuestVBox/QuestScroll/QuestList"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Quest"
 
-[node name="QuestButtons" type="HBoxContainer" parent="pause_menu/Panel/Quest_Container/QuestVBox"]
+[node name="QuestButtons" type="HBoxContainer" parent="PauseMenuRoot/Panel/QuestContainer/QuestVBox"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Back_from_Quests" type="Button" parent="pause_menu/Panel/Quest_Container/QuestVBox/QuestButtons"]
+[node name="Back_from_Quests" type="Button" parent="PauseMenuRoot/Panel/QuestContainer/QuestVBox/QuestButtons"]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Назад"
 
-[node name="QuestDetails" type="Panel" parent="pause_menu/Panel/Quest_Container"]
+[node name="QuestDetails" type="Panel" parent="PauseMenuRoot/Panel/QuestContainer"]
 visible = false
 z_index = 22
 layout_mode = 0
 offset_right = 255.0
 offset_bottom = 469.0
 
-[node name="QuestDetailsVBox" type="VBoxContainer" parent="pause_menu/Panel/Quest_Container/QuestDetails"]
+[node name="QuestDetailsVBox" type="VBoxContainer" parent="PauseMenuRoot/Panel/QuestContainer/QuestDetails"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -746,23 +746,23 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
 
-[node name="QuestDetailsTitle" type="Label" parent="pause_menu/Panel/Quest_Container/QuestDetails/QuestDetailsVBox"]
+[node name="QuestDetailsTitle" type="Label" parent="PauseMenuRoot/Panel/QuestContainer/QuestDetails/QuestDetailsVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 
-[node name="QuestDetailsText" type="Label" parent="pause_menu/Panel/Quest_Container/QuestDetails/QuestDetailsVBox"]
+[node name="QuestDetailsText" type="Label" parent="PauseMenuRoot/Panel/QuestContainer/QuestDetails/QuestDetailsVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Back_from_Quest_Details" type="Button" parent="pause_menu/Panel/Quest_Container/QuestDetails/QuestDetailsVBox"]
+[node name="Back_from_Quest_Details" type="Button" parent="PauseMenuRoot/Panel/QuestContainer/QuestDetails/QuestDetailsVBox"]
 process_mode = 3
 layout_mode = 2
 text = "Назад"
 
-[node name="VBoxOptions" type="VBoxContainer" parent="pause_menu/Panel"]
+[node name="VBoxOptions" type="VBoxContainer" parent="PauseMenuRoot/Panel"]
 visible = false
 z_index = 21
 layout_mode = 1
@@ -778,7 +778,7 @@ offset_bottom = 88.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="pause_menu/Panel/VBoxOptions"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/VBoxOptions"]
 z_index = 21
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2784314, 0.2784314, 0.2784314, 1)
@@ -786,57 +786,57 @@ theme_override_font_sizes/font_size = 24
 text = "Настройки"
 horizontal_alignment = 1
 
-[node name="Sounds" type="VBoxContainer" parent="pause_menu/Panel/VBoxOptions"]
+[node name="Sounds" type="VBoxContainer" parent="PauseMenuRoot/Panel/VBoxOptions"]
 layout_mode = 2
 
-[node name="Sounds_Text" type="HBoxContainer" parent="pause_menu/Panel/VBoxOptions/Sounds"]
+[node name="SoundsText" type="HBoxContainer" parent="PauseMenuRoot/Panel/VBoxOptions/Sounds"]
 layout_mode = 2
 
-[node name="Sounds_Label" type="Label" parent="pause_menu/Panel/VBoxOptions/Sounds/Sounds_Text"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/VBoxOptions/Sounds/SoundsText"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2784314, 0.2784314, 0.2784314, 1)
 theme_override_font_sizes/font_size = 16
 text = "Звук"
 horizontal_alignment = 1
 
-[node name="sounds_slider" type="HBoxContainer" parent="pause_menu/Panel/VBoxOptions/Sounds"]
+[node name="SoundsSlider" type="HBoxContainer" parent="PauseMenuRoot/Panel/VBoxOptions/Sounds"]
 layout_mode = 2
 
-[node name="sounds_slider" type="HSlider" parent="pause_menu/Panel/VBoxOptions/Sounds/sounds_slider"]
+[node name="Slider" type="HSlider" parent="PauseMenuRoot/Panel/VBoxOptions/Sounds/SoundsSlider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 step = 5.0
 
-[node name="Music" type="VBoxContainer" parent="pause_menu/Panel/VBoxOptions"]
+[node name="Music" type="VBoxContainer" parent="PauseMenuRoot/Panel/VBoxOptions"]
 layout_mode = 2
 
-[node name="Music_Text" type="HBoxContainer" parent="pause_menu/Panel/VBoxOptions/Music"]
+[node name="MusicText" type="HBoxContainer" parent="PauseMenuRoot/Panel/VBoxOptions/Music"]
 layout_mode = 2
 
-[node name="Music_Label" type="Label" parent="pause_menu/Panel/VBoxOptions/Music/Music_Text"]
+[node name="Label" type="Label" parent="PauseMenuRoot/Panel/VBoxOptions/Music/MusicText"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2784314, 0.2784314, 0.2784314, 1)
 theme_override_font_sizes/font_size = 16
 text = "Музыка"
 horizontal_alignment = 1
 
-[node name="Music_slider" type="HBoxContainer" parent="pause_menu/Panel/VBoxOptions/Music"]
+[node name="MusicSlider" type="HBoxContainer" parent="PauseMenuRoot/Panel/VBoxOptions/Music"]
 layout_mode = 2
 
-[node name="music_slider" type="HSlider" parent="pause_menu/Panel/VBoxOptions/Music/Music_slider"]
+[node name="Slider" type="HSlider" parent="PauseMenuRoot/Panel/VBoxOptions/Music/MusicSlider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 step = 5.0
 
-[node name="Fullscreen_CheckBox" type="CheckBox" parent="pause_menu/Panel/VBoxOptions"]
+[node name="FullscreenCheckBox" type="CheckBox" parent="PauseMenuRoot/Panel/VBoxOptions"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2784314, 0.2784314, 0.2784314, 1)
 theme_override_font_sizes/font_size = 16
 text = "Полноэкранный режим"
 
-[node name="Back_from_Options" type="Button" parent="pause_menu/Panel/VBoxOptions"]
+[node name="CloseOptionsButton" type="Button" parent="PauseMenuRoot/Panel/VBoxOptions"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_3ccjd")
@@ -844,7 +844,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_wr72m")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hvlvj")
 text = "Назад"
 
-[node name="Messenger" type="Panel" parent="pause_menu/Panel"]
+[node name="Messenger" type="Panel" parent="PauseMenuRoot/Panel"]
 visible = false
 z_index = 21
 layout_mode = 1
@@ -853,7 +853,7 @@ offset_top = 36.0
 offset_right = 263.0
 offset_bottom = 504.0
 
-[node name="Tutorial" type="Button" parent="pause_menu/Panel/Messenger"]
+[node name="TutorialButton" type="Button" parent="PauseMenuRoot/Panel/Messenger"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 22.0
@@ -861,7 +861,7 @@ offset_right = 245.0
 offset_bottom = 54.0
 text = "Туториал"
 
-[node name="Back_from_Messenger" type="Button" parent="pause_menu/Panel/Messenger"]
+[node name="CloseMessengerButton" type="Button" parent="PauseMenuRoot/Panel/Messenger"]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 391.0
@@ -869,7 +869,7 @@ offset_right = 71.0
 offset_bottom = 465.0
 icon = ExtResource("8_qf3n5")
 
-[node name="Tutorial" type="Panel" parent="pause_menu/Panel"]
+[node name="Tutorial" type="Panel" parent="PauseMenuRoot/Panel"]
 visible = false
 z_index = 21
 layout_mode = 1
@@ -878,7 +878,7 @@ offset_top = 35.0
 offset_right = 263.0
 offset_bottom = 503.0
 
-[node name="Tutorial_Text" type="Label" parent="pause_menu/Panel/Tutorial"]
+[node name="TutorialText" type="Label" parent="PauseMenuRoot/Panel/Tutorial"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 15.0
@@ -891,7 +891,7 @@ text = "Ходить стрелками
 Взаимодействовать E
 Меню-пауза ESC"
 
-[node name="Write_Messenger" type="Label" parent="pause_menu/Panel/Tutorial"]
+[node name="WriteMessenger" type="Label" parent="PauseMenuRoot/Panel/Tutorial"]
 layout_mode = 0
 offset_top = 428.0
 offset_right = 254.0
@@ -899,7 +899,7 @@ offset_bottom = 468.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_hksts")
 text = "Написать сообщение..."
 
-[node name="Back_from_Tutorial" type="Button" parent="pause_menu/Panel/Tutorial"]
+[node name="CloseTutorialButton" type="Button" parent="PauseMenuRoot/Panel/Tutorial"]
 layout_mode = 0
 offset_left = 213.0
 offset_top = 428.0
@@ -907,7 +907,7 @@ offset_right = 254.0
 offset_bottom = 468.0
 text = "🔙"
 
-[node name="Screen_Fader_Animation" type="Control" parent="pause_menu"]
+[node name="ScreenFaderAnimation" type="Control" parent="PauseMenuRoot"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -917,7 +917,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Blur_Rect" type="ColorRect" parent="pause_menu/Screen_Fader_Animation"]
+[node name="BlurRect" type="ColorRect" parent="PauseMenuRoot/ScreenFaderAnimation"]
 z_index = 20
 material = SubResource("ShaderMaterial_kukqi")
 layout_mode = 1
@@ -928,12 +928,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="pause_menu/Screen_Fader_Animation/Blur_Rect"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PauseMenuRoot/ScreenFaderAnimation/BlurRect"]
 libraries = {
 &"": SubResource("AnimationLibrary_ofnjo")
 }
 
-[node name="OnOff_Screen_Fader" type="ColorRect" parent="pause_menu/Screen_Fader_Animation"]
+[node name="OnOffScreenFader" type="ColorRect" parent="PauseMenuRoot/ScreenFaderAnimation"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -944,12 +944,12 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="pause_menu/Screen_Fader_Animation/OnOff_Screen_Fader"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PauseMenuRoot/ScreenFaderAnimation/OnOffScreenFader"]
 libraries = {
 &"": SubResource("AnimationLibrary_v4r4p")
 }
 
-[node name="Exit_Screen_Fader" type="ColorRect" parent="pause_menu/Screen_Fader_Animation"]
+[node name="ExitScreenFader" type="ColorRect" parent="PauseMenuRoot/ScreenFaderAnimation"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -960,26 +960,26 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="pause_menu/Screen_Fader_Animation/Exit_Screen_Fader"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PauseMenuRoot/ScreenFaderAnimation/ExitScreenFader"]
 libraries = {
 &"": SubResource("AnimationLibrary_v4r4p")
 }
 
-[connection signal="pressed" from="pause_menu/Panel/Start_Display/GridStart/Inventory_Container/Inventory" to="pause_menu" method="_on_inventory_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Start_Display/GridStart/Messenger_Container/Messenger" to="pause_menu" method="_on_messenger_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Start_Display/GridStart/Quests_Container/Quests" to="pause_menu" method="_on_quests_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Start_Display/GridStart/Save_Container/Save" to="pause_menu" method="_on_save_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Start_Display/GridStart/Load_Container/Load" to="pause_menu" method="_on_load_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Start_Display/HBoxLowButtons/Continue_Container/Continue" to="pause_menu" method="_on_continue_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Start_Display/HBoxLowButtons/Options_Container/Options" to="pause_menu" method="_on_options_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Start_Display/HBoxLowButtons/Exit_to_Main_Menu_Container/Exit_to_Main_Menu" to="pause_menu" method="_on_exit_to_main_menu_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/InventoryView/InventoryVBox/InventoryButtons/Back_from_Inventory" to="pause_menu" method="_on_back_from_inventory_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Quest_Container/QuestVBox/QuestButtons/Back_from_Quests" to="pause_menu" method="_on_back_from_quests_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Quest_Container/QuestDetails/QuestDetailsVBox/Back_from_Quest_Details" to="pause_menu" method="_on_back_from_quest_details_pressed"]
-[connection signal="value_changed" from="pause_menu/Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider" to="pause_menu" method="_on_sounds_value_changed"]
-[connection signal="value_changed" from="pause_menu/Panel/VBoxOptions/Music/Music_slider/music_slider" to="pause_menu" method="_on_music_value_changed"]
-[connection signal="toggled" from="pause_menu/Panel/VBoxOptions/Fullscreen_CheckBox" to="pause_menu" method="_on_fullscreen_toggled"]
-[connection signal="pressed" from="pause_menu/Panel/VBoxOptions/Back_from_Options" to="pause_menu" method="_on_back_from_options_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Messenger/Tutorial" to="pause_menu" method="_on_tutorial_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Messenger/Back_from_Messenger" to="pause_menu" method="_on_back_from_messenger_pressed"]
-[connection signal="pressed" from="pause_menu/Panel/Tutorial/Back_from_Tutorial" to="pause_menu" method="_on_back_from_tutorial_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/GridStart/InventoryContainer/InventoryButton" to="PauseMenuRoot" method="_on_inventory_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/GridStart/MessengerContainer/MessengerButton" to="PauseMenuRoot" method="_on_messenger_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/GridStart/QuestsContainer/QuestsButton" to="PauseMenuRoot" method="_on_quests_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/GridStart/SaveContainer/SaveButton" to="PauseMenuRoot" method="_on_save_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/GridStart/LoadContainer/LoadButton" to="PauseMenuRoot" method="_on_load_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ContinueContainer/ContinueButton" to="PauseMenuRoot" method="_on_continue_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/OptionsContainer/OptionsButton" to="PauseMenuRoot" method="_on_options_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ExitContainer/ExitButton" to="PauseMenuRoot" method="_on_exit_to_main_menu_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryButtons/CloseInventoryButton" to="PauseMenuRoot" method="_on_back_from_inventory_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/QuestContainer/QuestVBox/QuestButtons/Back_from_Quests" to="PauseMenuRoot" method="_on_back_from_quests_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/QuestContainer/QuestDetails/QuestDetailsVBox/Back_from_Quest_Details" to="PauseMenuRoot" method="_on_back_from_quest_details_pressed"]
+[connection signal="value_changed" from="PauseMenuRoot/Panel/VBoxOptions/Sounds/SoundsSlider/Slider" to="PauseMenuRoot" method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="PauseMenuRoot/Panel/VBoxOptions/Music/MusicSlider/Slider" to="PauseMenuRoot" method="_on_music_value_changed"]
+[connection signal="toggled" from="PauseMenuRoot/Panel/VBoxOptions/FullscreenCheckBox" to="PauseMenuRoot" method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/VBoxOptions/CloseOptionsButton" to="PauseMenuRoot" method="_on_back_from_options_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/Messenger/TutorialButton" to="PauseMenuRoot" method="_on_tutorial_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/Messenger/CloseMessengerButton" to="PauseMenuRoot" method="_on_back_from_messenger_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/Tutorial/CloseTutorialButton" to="PauseMenuRoot" method="_on_back_from_tutorial_pressed"]

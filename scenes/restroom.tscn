@@ -8,7 +8,7 @@
 [node name="Restroom" type="Node2D"]
 script = ExtResource("1_u12yk")
 player_scene = ExtResource("4_player")
-default_spawn_point = "spawn_marker"
+default_spawn_point = "SpawnMarker"
 
 [node name="КомнатаОтдыхаИтог" type="Sprite2D" parent="."]
 texture = ExtResource("1_svye3")
@@ -19,7 +19,7 @@ texture = ExtResource("1_svye3")
 build_mode = 1
 polygon = PackedVector2Array(-260.20166, 38.39775, -260.20166, 74.484535, -225.1354, 74.484535, -224.966, 145.41371, 96.051025, 145.59149, 96.051025, -29.509386, -23.038666, -29.509386, -23.038666, 21.332087, -31.00058, 21.332087, -31.00058, -29.509386, -224.966, -29.509386, -224.966, 38.39775)
 
-[node name="spawn_marker" type="Marker2D" parent="."]
+[node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(-163, 88)
 
 [node name="Pause_Menu" parent="." instance=ExtResource("3_0ui6e")]

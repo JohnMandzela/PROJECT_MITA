@@ -1,33 +1,33 @@
 extends Control
 
-@onready var pause_label: Label = $Panel/Pause_Label
-@onready var pause_menu_ui: Panel = $Panel/Start_Display
+@onready var pause_label: Label = $Panel/PauseLabel
+@onready var pause_menu_ui: Panel = $Panel/StartDisplay
 @onready var inventory_view: Panel = $Panel/InventoryView
-@onready var quest_view: Panel = $Panel/Quest_Container
+@onready var quest_view: Panel = $Panel/QuestContainer
 @onready var menu_options: VBoxContainer = $Panel/VBoxOptions
 
 @onready var inventory_scroll: ScrollContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll
 @onready var inventory_items_list: VBoxContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList
-@onready var inventory_item_template: HBoxContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRow_Example
+@onready var inventory_item_template: HBoxContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRowTemplate
 @onready var inventory_description: Label = $Panel/InventoryView/InventoryVBox/ItemDescriptionPanel/ItemDescription
 
-@onready var quest_vbox: VBoxContainer = $Panel/Quest_Container/QuestVBox
-@onready var quest_scroll: ScrollContainer = $Panel/Quest_Container/QuestVBox/QuestScroll
-@onready var quest_list: VBoxContainer = $Panel/Quest_Container/QuestVBox/QuestScroll/QuestList
-@onready var quest_row_template: Button = $Panel/Quest_Container/QuestVBox/QuestScroll/QuestList/QuestRow_Example
-@onready var quest_buttons: HBoxContainer = $Panel/Quest_Container/QuestVBox/QuestButtons
-@onready var quest_details: Panel = $Panel/Quest_Container/QuestDetails
-@onready var quest_details_title: Label = $Panel/Quest_Container/QuestDetails/QuestDetailsVBox/QuestDetailsTitle
-@onready var quest_details_text: Label = $Panel/Quest_Container/QuestDetails/QuestDetailsVBox/QuestDetailsText
+@onready var quest_vbox: VBoxContainer = $Panel/QuestContainer/QuestVBox
+@onready var quest_scroll: ScrollContainer = $Panel/QuestContainer/QuestVBox/QuestScroll
+@onready var quest_list: VBoxContainer = $Panel/QuestContainer/QuestVBox/QuestScroll/QuestList
+@onready var quest_row_template: Button = $Panel/QuestContainer/QuestVBox/QuestScroll/QuestList/QuestRowTemplate
+@onready var quest_buttons: HBoxContainer = $Panel/QuestContainer/QuestVBox/QuestButtons
+@onready var quest_details: Panel = $Panel/QuestContainer/QuestDetails
+@onready var quest_details_title: Label = $Panel/QuestContainer/QuestDetails/QuestDetailsVBox/QuestDetailsTitle
+@onready var quest_details_text: Label = $Panel/QuestContainer/QuestDetails/QuestDetailsVBox/QuestDetailsText
 
-@onready var fullscren_checkbox_path: CheckBox = $Panel/VBoxOptions/Fullscreen_CheckBox
-@onready var music_value_path: HSlider = $Panel/VBoxOptions/Music/Music_slider/music_slider
-@onready var sounds_value_path: HSlider = $Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider
+@onready var fullscren_checkbox_path: CheckBox = $Panel/VBoxOptions/FullscreenCheckBox
+@onready var music_value_path: HSlider = $Panel/VBoxOptions/Music/MusicSlider/Slider
+@onready var sounds_value_path: HSlider = $Panel/VBoxOptions/Sounds/SoundsSlider/Slider
 
-@onready var anim_on_off: AnimationPlayer = $Screen_Fader_Animation/OnOff_Screen_Fader/AnimationPlayer
-@onready var anim_exit: AnimationPlayer = $Screen_Fader_Animation/Exit_Screen_Fader/AnimationPlayer
+@onready var anim_on_off: AnimationPlayer = $ScreenFaderAnimation/OnOffScreenFader/AnimationPlayer
+@onready var anim_exit: AnimationPlayer = $ScreenFaderAnimation/ExitScreenFader/AnimationPlayer
 @onready var anim_phone: AnimationPlayer = $Panel/AnimationPlayer
-@onready var anim_blur: AnimationPlayer = $Screen_Fader_Animation/Blur_Rect/AnimationPlayer
+@onready var anim_blur: AnimationPlayer = $ScreenFaderAnimation/BlurRect/AnimationPlayer
 
 @onready var messenger: Panel = $Panel/Messenger
 @onready var tutorial: Panel = $Panel/Tutorial

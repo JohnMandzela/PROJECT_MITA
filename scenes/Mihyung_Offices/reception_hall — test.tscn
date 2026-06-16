@@ -13,7 +13,7 @@ size = Vector2(80, 48)
 [node name="ReceptionHall" type="Node2D"]
 script = ExtResource("2_main")
 player_scene = ExtResource("3_player")
-default_spawn_point = "spawn_marker"
+default_spawn_point = "SpawnMarker"
 
 [node name="РесепшенхоллПолныйВариант" type="Sprite2D" parent="."]
 texture = ExtResource("3_tts0j")
@@ -33,7 +33,7 @@ position = Vector2(125.50171, 24.8609)
 scale = Vector2(0.7742754, 0.8484427)
 polygon = PackedVector2Array(315.8662, 99.765625, 319.1911, 96.974976, 327.5034, 94.184326, 679.94366, 94.88199, 679.94366, 478.59595, 665.8128, 478.59595, 647.5258, 461.85208, 463.82465, 461.85208, 439.71906, 479.99127, 427.2506, 479.99127, 427.2506, 221.85643, 333.32196, 221.85643, 324.17847, 220.4611, 318.3599, 218.36813, 315.03497, 214.18216, 312.5413, 207.20554, 312.5413, 107.4399, 313.37253, 104.64926)
 
-[node name="spawn_marker" type="Marker2D" parent="."]
+[node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(-66, 460)
 
 [node name="Events" type="Node2D" parent="."]

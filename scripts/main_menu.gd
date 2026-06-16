@@ -5,8 +5,8 @@ extends Control
 @onready var menu_start: VBoxContainer = $Buttons_VBox
 @onready var menu_options: MarginContainer = $Options_Menu
 @onready var fullscren_checkbox_path: CheckBox = $Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox
-@onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider
-@onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/sounds_slider
+@onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/MusicSlider/Slider
+@onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/SoundsSlider
 
 @export var menu_theme: AudioStream
 
