@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
 [ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="9_mv7xs"]
 [ext_resource type="Script" uid="uid://x3lul8lxsod2" path="res://scripts/1_mom_home/mike_npc.gd" id="10_01ivo"]
-[ext_resource type="Script" uid="uid://b43v0n8hepw2c" path="res://scripts/1_mom_home/test_ivent.gd" id="10_fovv4"]
+[ext_resource type="Script" uid="uid://b43v0n8hepw2c" path="res://scripts/1_mom_home/test_event.gd" id="10_fovv4"]
 [ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="10_mv7xs"]
 [ext_resource type="Resource" uid="uid://but1myuxismw1" path="res://dialogues/1_mom_home/sleep_flashback.dialogue" id="11_sm1ot"]
 [ext_resource type="Script" uid="uid://cqfjj73x6lml4" path="res://scripts/1_mom_home/mom_npc.gd" id="13_d8v55"]

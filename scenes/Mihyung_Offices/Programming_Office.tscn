@@ -29,12 +29,12 @@ texture = ExtResource("3_bg")
 [node name="spawn_marker" type="Marker2D" parent="."]
 position = Vector2(-35, 45)
 
-[node name="Ivents" type="Node2D" parent="."]
+[node name="Events" type="Node2D" parent="."]
 
-[node name="Samples_Puzzle_Zone" type="Area2D" parent="Ivents"]
+[node name="Samples_Puzzle_Zone" type="Area2D" parent="Events"]
 script = ExtResource("5_zone")
 
-[node name="Label" type="Label" parent="Ivents/Samples_Puzzle_Zone"]
+[node name="Label" type="Label" parent="Events/Samples_Puzzle_Zone"]
 offset_left = -225.0
 offset_top = -65.0
 offset_right = -61.0
@@ -45,7 +45,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Samples_Puzzle_Zone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Samples_Puzzle_Zone"]
 position = Vector2(-137, 44)
 shape = SubResource("RectangleShape2D_zone")
 
@@ -90,7 +90,7 @@ shape = SubResource("RectangleShape2D_td11o")
 [node name="Spawn_from_Corridors" type="Marker2D" parent="."]
 position = Vector2(-256, 231)
 
-[connection signal="body_entered" from="Ivents/Samples_Puzzle_Zone" to="Ivents/Samples_Puzzle_Zone" method="_on_body_entered"]
-[connection signal="body_exited" from="Ivents/Samples_Puzzle_Zone" to="Ivents/Samples_Puzzle_Zone" method="_on_body_exited"]
+[connection signal="body_entered" from="Events/Samples_Puzzle_Zone" to="Events/Samples_Puzzle_Zone" method="_on_body_entered"]
+[connection signal="body_exited" from="Events/Samples_Puzzle_Zone" to="Events/Samples_Puzzle_Zone" method="_on_body_exited"]
 [connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
 [connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]

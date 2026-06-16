@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy1cigkh8pc62"
-path="res://.godot/imported/Mike's_Goshivon.png-a1166dff8b42d8ffb06376c71904c4f9.ctex"
+uid="uid://e5fkonhk247a"
+path="res://.godot/imported/Dorm_Light.png-283a88679c1de21082c27300fff62f99.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/scene/Mike's_Goshivon.png"
-dest_files=["res://.godot/imported/Mike's_Goshivon.png-a1166dff8b42d8ffb06376c71904c4f9.ctex"]
+source_file="res://images/scene/Dorm_Light.png"
+dest_files=["res://.godot/imported/Dorm_Light.png-283a88679c1de21082c27300fff62f99.ctex"]
 
 [params]
 

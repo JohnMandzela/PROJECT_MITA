@@ -12,7 +12,7 @@ const DEFAULT_ITEMS_INVENTORY := {
 var items_inventory := DEFAULT_ITEMS_INVENTORY.duplicate(true)
 
 var item_catalog := {
-	"buttle_cola": {
+	"bottle_cola": {
 		"display_name": "Бутылка колы",
 		"description": "Освежающий напиток. Восстанавливает силы.",
 		"icon_path": "res://images/items/cola.png",

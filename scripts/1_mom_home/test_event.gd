@@ -50,5 +50,5 @@ func _process(delta):
 			mom_moving = false
 
 func dialogue_end():
-	var mike_room_scene = load("res://scenes/Goshivon/mike_room.tscn")
+	var mike_room_scene = load("res://scenes/Dorm/mike_room.tscn")
 	get_tree().change_scene_to_packed(mike_room_scene)

@@ -13,12 +13,12 @@ size = Vector2(46, 43)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_apq6k"]
 size = Vector2(46, 47)
 
-[node name="Goshivon" type="Node2D"]
+[node name="Dorm" type="Node2D"]
 script = ExtResource("1_iwjpk")
 player_scene = ExtResource("2_yxuxe")
 default_spawn_point = "Spawn_on_Stairs"
 
-[node name="Goshivon_Texture" type="Sprite2D" parent="."]
+[node name="Dorm_Texture" type="Sprite2D" parent="."]
 texture = ExtResource("2_tec0y")
 
 [node name="Walls_Collision" type="StaticBody2D" parent="."]
@@ -36,7 +36,7 @@ position = Vector2(47, -16)
 [node name="Enter_2_floor" type="Area2D" parent="."]
 script = ExtResource("5_iqv8y")
 exit_direction = "down"
-target_scene = "Goshivon/goshivon"
+target_scene = "Dorm/dorm"
 target_spawn_point = "Spawn_on_Stairs"
 
 [node name="Label" type="Label" parent="Enter_2_floor"]

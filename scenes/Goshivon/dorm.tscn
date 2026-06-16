@@ -93,12 +93,12 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="Goshivon" type="Node2D"]
+[node name="Dorm" type="Node2D"]
 script = ExtResource("1_km4w3")
 player_scene = ExtResource("2_1vu13")
 default_spawn_point = "Spawn_in_Corridor"
 
-[node name="Goshivon_Texture" type="Sprite2D" parent="."]
+[node name="Dorm_Texture" type="Sprite2D" parent="."]
 texture = ExtResource("1_a6q5q")
 
 [node name="Walls_Collision" type="StaticBody2D" parent="."]
@@ -112,7 +112,7 @@ polygon = PackedVector2Array(-647.99646, -9.527039, -647.99646, 24.472961, -599.
 
 [node name="Enter_1_floor" parent="." instance=ExtResource("7_1vu13")]
 exit_direction = "down"
-target_scene = "Goshivon/goshivon_1_floor"
+target_scene = "Dorm/dorm_1_floor"
 target_spawn_point = "Spawn_on_Stairs"
 
 [node name="Label" type="Label" parent="Enter_1_floor"]
@@ -140,7 +140,7 @@ position = Vector2(-576, 128)
 [node name="Enter_Mike_Room" type="Area2D" parent="Door_Mike_Room"]
 script = ExtResource("6_1vu13")
 exit_direction = "up"
-target_scene = "Goshivon/mike_room"
+target_scene = "Dorm/mike_room"
 target_spawn_point = "Spawn_from_Corridor"
 
 [node name="Label" type="Label" parent="Door_Mike_Room/Enter_Mike_Room"]

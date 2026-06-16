@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bj7gn1t6ff36n"
-path="res://.godot/imported/Goshivon_Shadow.png-55c93a25cec84a1928e11e9e8d0fb3dc.ctex"
+path="res://.godot/imported/Dorm_Shadow.png-b1fdcf806f3d06ced3e4d25e1a9f2e20.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/scene/Goshivon_Shadow.png"
-dest_files=["res://.godot/imported/Goshivon_Shadow.png-55c93a25cec84a1928e11e9e8d0fb3dc.ctex"]
+source_file="res://images/scene/Dorm_Shadow.png"
+dest_files=["res://.godot/imported/Dorm_Shadow.png-b1fdcf806f3d06ced3e4d25e1a9f2e20.ctex"]
 
 [params]
 
