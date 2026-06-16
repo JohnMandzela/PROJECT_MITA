@@ -18,7 +18,7 @@ size = Vector2(43, 38)
 script = ExtResource("1_root")
 puzzle_scene = ExtResource("6_puzzle")
 player_scene = ExtResource("2_player")
-default_spawn_point = "spawn_marker"
+default_spawn_point = "SpawnMarker"
 
 [node name="Programming_Office_Texture" type="Sprite2D" parent="."]
 scale = Vector2(0.38085538, 0.38085544)
@@ -26,7 +26,7 @@ texture = ExtResource("3_bg")
 
 [node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]
 
-[node name="spawn_marker" type="Marker2D" parent="."]
+[node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(-35, 45)
 
 [node name="Events" type="Node2D" parent="."]
