@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b63ww5t8n7jkj"]
 
-[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_twrgn"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_twrgn"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_52r6e"]
 [ext_resource type="Texture2D" uid="uid://cvplu6xupd0wm" path="res://images/scene/Подсобка-итог.png" id="3_peam7"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_d0j2m"]

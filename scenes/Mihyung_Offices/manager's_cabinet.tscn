@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bwvq6vds4vsvu"]
 
-[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_4vifw"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_4vifw"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_bmkgt"]
 [ext_resource type="Texture2D" uid="uid://bp412kfso4t1y" path="res://images/scene/Кабинет Менеджер-итог.png" id="3_ucrnl"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_r6amo"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://b7tjfu7r6up7y"]
 
-[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawnScene.gd" id="1_iwjpk"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_iwjpk"]
 [ext_resource type="Texture2D" uid="uid://bpuchk46yp222" path="res://images/scene/corridor1floor.png" id="2_tec0y"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_yxuxe"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_iqv8y"]

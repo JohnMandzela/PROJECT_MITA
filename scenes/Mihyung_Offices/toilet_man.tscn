@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cscnia42tc3d2"]
 
-[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawn.gd" id="1_oac7c"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_oac7c"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_igi4i"]
 [ext_resource type="Texture2D" uid="uid://b5hjidapfgdrd" path="res://images/scene/ТуалетМ-итог.png" id="3_iu652"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_8h0n1"]

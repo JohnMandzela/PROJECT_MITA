@@ -1,6 +1,6 @@
 [gd_scene load_steps=36 format=3 uid="uid://cqaxqdrdd5ye8"]
 
-[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/PlayerSpawnScene.gd" id="1_fc117"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_fc117"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_bcki3"]
 [ext_resource type="Texture2D" uid="uid://7xlgpg06b5lr" path="res://images/scene/Reception_Hall.png" id="3_fc117"]
 [ext_resource type="Texture2D" uid="uid://b6dayudrlxvt7" path="res://images/tilesets/scenes/reception_stand.png" id="4_1usdv"]

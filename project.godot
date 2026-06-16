@@ -24,12 +24,12 @@ buses/default_bus_layout="res://audio/default_bus_layout.tres"
 
 [autoload]
 
-Items="*res://scripts/autoloads/Items.gd"
-Quests="*res://scripts/autoloads/Quests.gd"
-GameManager="*res://scripts/autoloads/GameManager.gd"
+Items="*res://scripts/autoloads/inventory_system.gd"
+Quests="*res://scripts/autoloads/quest_system.gd"
+GameManager="*res://scripts/autoloads/game_manager.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 SaveSystem="*res://scripts/autoloads/save_system.gd"
-DialogueGlobals="*res://scripts/autoloads/DialogueGlobals.gd"
+DialogueGlobals="*res://scripts/autoloads/dialogue_globals.gd"
 
 [dialogue_manager]
 
