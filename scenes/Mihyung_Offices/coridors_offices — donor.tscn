@@ -22,4 +22,4 @@ polygon = PackedVector2Array(-822.31757, -136.88062, -845.21936, -50.93232, -391
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(-275, 319)
 
-[node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]
+[node name="PauseMenu" parent="." instance=ExtResource("4_pause")]

@@ -2,11 +2,11 @@ extends Control
 
 
 @onready var title_label: Label = $TitleLabel
-@onready var menu_start: VBoxContainer = $Buttons_VBox
-@onready var menu_options: MarginContainer = $Options_Menu
-@onready var fullscren_checkbox_path: CheckBox = $Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox
-@onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/MusicSlider/Slider
-@onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/SoundsSlider
+@onready var menu_start: VBoxContainer = $ButtonsVBox
+@onready var menu_options: MarginContainer = $OptionsMenu
+@onready var fullscren_checkbox_path: CheckBox = $OptionsMenu/OptionsMenuVBox/FullscreenCheckBox
+@onready var music_value_path: HSlider = $OptionsMenu/OptionsMenuVBox/Music/MusicSlider/Slider
+@onready var sounds_value_path: HSlider = $OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider/Slider
 
 @export var menu_theme: AudioStream
 
@@ -50,7 +50,7 @@ func _ensure_continue_button() -> void:
 	var continue_button := menu_start.get_node_or_null("Continue") as Button
 	if continue_button == null:
 		continue_button = _create_menu_button("Continue", "Продолжить")
-		var new_game_button := menu_start.get_node_or_null("New_Game") as Button
+		var new_game_button := menu_start.get_node_or_null("NewGame") as Button
 		var target_index := new_game_button.get_index() + 1 if new_game_button else 0
 		menu_start.add_child(continue_button)
 		menu_start.move_child(continue_button, target_index)
@@ -78,7 +78,7 @@ func _create_menu_button(button_name: String, button_text: String) -> Button:
 	button.text = button_text
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
-	var source_button := menu_start.get_node_or_null("New_Game") as Button
+	var source_button := menu_start.get_node_or_null("NewGame") as Button
 	if source_button:
 		button.add_theme_font_override("font", source_button.get_theme_font("font"))
 		button.add_theme_font_size_override("font_size", source_button.get_theme_font_size("font_size"))

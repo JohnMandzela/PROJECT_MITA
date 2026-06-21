@@ -13,33 +13,33 @@ size = Vector2(46, 43)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_apq6k"]
 size = Vector2(46, 47)
 
-[node name="Dorm" type="Node2D"]
+[node name="dorm" type="Node2D"]
 script = ExtResource("1_iwjpk")
 player_scene = ExtResource("2_yxuxe")
-default_spawn_point = "Spawn_on_Stairs"
+default_spawn_point = "SpawnOnStairs"
 
-[node name="Dorm_Texture" type="Sprite2D" parent="."]
+[node name="dormTexture" type="Sprite2D" parent="."]
 texture = ExtResource("2_tec0y")
 
-[node name="Walls_Collision" type="StaticBody2D" parent="."]
+[node name="WallsCollision" type="StaticBody2D" parent="."]
 
-[node name="Walls_Collision" type="CollisionPolygon2D" parent="Walls_Collision"]
+[node name="WallsCollision" type="CollisionPolygon2D" parent="WallsCollision"]
 position = Vector2(0, -144)
 build_mode = 1
 polygon = PackedVector2Array(-648, 134, -648, 168, -600, 168, -600, 182, -552, 182, -552, 168, -408, 168, -408, 182, -360, 182, -360, 168, -216, 168, -216, 182, -168, 182, -168, 168, -73, 168, -72, 408, -24, 408, -24, 456, 24, 456, 24, 408, 72, 408, 72, 264, 120, 264, 120, 216, 72, 216, 72, 168, 360, 168, 360, 182, 408, 182, 408, 168, 552, 168, 552, 182, 600, 182, 600, 168, 648, 168, 648, 134, 600, 134, 600, 120, 552, 120, 552, 134, 408, 134, 408, 120, 360, 120, 360, 134, 216, 134, 216, 120, 168, 120, 168, 134, 72, 134, 72, -120, 24, -120, 24, 124, -24, 124, -24, -21, -72, -21, -72, 134, -168, 134, -168, 120, -216, 120, -216, 134, -360, 134, -360, 120, -408, 120, -408, 134, -552, 134, -552, 120, -600, 120, -600, 134)
 
-[node name="Pause_Menu" parent="." instance=ExtResource("4_iqv8y")]
+[node name="PauseMenu" parent="." instance=ExtResource("4_iqv8y")]
 
-[node name="Spawn_on_Stairs" type="Marker2D" parent="."]
+[node name="SpawnOnStairs" type="Marker2D" parent="."]
 position = Vector2(47, -16)
 
-[node name="Enter_2_floor" type="Area2D" parent="."]
+[node name="EnterFloor2" type="Area2D" parent="."]
 script = ExtResource("5_iqv8y")
 exit_direction = "down"
-target_scene = "Dorm/dorm"
-target_spawn_point = "Spawn_on_Stairs"
+target_scene = "dorm/dorm"
+target_spawn_point = "SpawnOnStairs"
 
-[node name="Label" type="Label" parent="Enter_2_floor"]
+[node name="Label" type="Label" parent="EnterFloor2"]
 offset_left = 83.0
 offset_top = -290.0
 offset_right = 135.0
@@ -49,18 +49,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_2_floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnterFloor2"]
 position = Vector2(48, -241.5)
 shape = SubResource("RectangleShape2D_30krv")
 
-[node name="Exit_to_Street" type="Area2D" parent="."]
+[node name="ExitToStreet" type="Area2D" parent="."]
 script = ExtResource("6_iqv8y")
 required_direction = 1
 exit_direction = "up"
-target_scene = "Mihyung_Offices/reception_hall"
-target_spawn_point = "Entrance_in_Hall"
+target_scene = "mihyung_offices/reception_hall"
+target_spawn_point = "SpawnInHall"
 
-[node name="Label" type="Label" parent="Exit_to_Street"]
+[node name="Label" type="Label" parent="ExitToStreet"]
 offset_left = -34.0
 offset_top = 313.0
 offset_right = 34.0
@@ -70,11 +70,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Street"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToStreet"]
 position = Vector2(0, 287.5)
 shape = SubResource("RectangleShape2D_apq6k")
 
-[connection signal="body_entered" from="Enter_2_floor" to="Enter_2_floor" method="_on_body_entered"]
-[connection signal="body_exited" from="Enter_2_floor" to="Enter_2_floor" method="_on_body_exited"]
-[connection signal="body_entered" from="Exit_to_Street" to="Exit_to_Street" method="_on_body_entered"]
-[connection signal="body_exited" from="Exit_to_Street" to="Exit_to_Street" method="_on_body_exited"]
+[connection signal="body_entered" from="EnterFloor2" to="EnterFloor2" method="_on_body_entered"]
+[connection signal="body_exited" from="EnterFloor2" to="EnterFloor2" method="_on_body_exited"]
+[connection signal="body_entered" from="ExitToStreet" to="ExitToStreet" method="_on_body_entered"]
+[connection signal="body_exited" from="ExitToStreet" to="ExitToStreet" method="_on_body_exited"]

@@ -2,8 +2,8 @@ extends Node2D
 
 
 @export var dialogue: DialogueResource
-@onready var Mike: CharacterBody2D = $Mike_NPC
-@onready var Mom: CharacterBody2D = $Mom_NPC
+@onready var Mike: CharacterBody2D = $MikeNpc
+@onready var Mom: CharacterBody2D = $MomNpc
 @onready var animation_darken: AnimationPlayer = $CanvasLayer/AnimationDarken
 @onready var animation_lighten: AnimationPlayer = $CanvasLayer/AnimationLighten
 

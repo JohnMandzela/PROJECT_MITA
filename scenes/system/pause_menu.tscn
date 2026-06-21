@@ -720,7 +720,7 @@ text = "Quest"
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Back_from_Quests" type="Button" parent="PauseMenuRoot/Panel/QuestContainer/QuestVBox/QuestButtons"]
+[node name="CloseQuest" type="Button" parent="PauseMenuRoot/Panel/QuestContainer/QuestVBox/QuestButtons"]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
@@ -757,7 +757,7 @@ size_flags_vertical = 3
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Back_from_Quest_Details" type="Button" parent="PauseMenuRoot/Panel/QuestContainer/QuestDetails/QuestDetailsVBox"]
+[node name="CloseQuestDetails" type="Button" parent="PauseMenuRoot/Panel/QuestContainer/QuestDetails/QuestDetailsVBox"]
 process_mode = 3
 layout_mode = 2
 text = "Назад"
@@ -974,8 +974,8 @@ libraries = {
 [connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/OptionsContainer/OptionsButton" to="PauseMenuRoot" method="_on_options_pressed"]
 [connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ExitContainer/ExitButton" to="PauseMenuRoot" method="_on_exit_to_main_menu_pressed"]
 [connection signal="pressed" from="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryButtons/CloseInventoryButton" to="PauseMenuRoot" method="_on_back_from_inventory_pressed"]
-[connection signal="pressed" from="PauseMenuRoot/Panel/QuestContainer/QuestVBox/QuestButtons/Back_from_Quests" to="PauseMenuRoot" method="_on_back_from_quests_pressed"]
-[connection signal="pressed" from="PauseMenuRoot/Panel/QuestContainer/QuestDetails/QuestDetailsVBox/Back_from_Quest_Details" to="PauseMenuRoot" method="_on_back_from_quest_details_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/QuestContainer/QuestVBox/QuestButtons/CloseQuest" to="PauseMenuRoot" method="_on_back_from_quests_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/QuestContainer/QuestDetails/QuestDetailsVBox/CloseQuestDetails" to="PauseMenuRoot" method="_on_back_from_quest_details_pressed"]
 [connection signal="value_changed" from="PauseMenuRoot/Panel/VBoxOptions/Sounds/SoundsSlider/Slider" to="PauseMenuRoot" method="_on_sounds_value_changed"]
 [connection signal="value_changed" from="PauseMenuRoot/Panel/VBoxOptions/Music/MusicSlider/Slider" to="PauseMenuRoot" method="_on_music_value_changed"]
 [connection signal="toggled" from="PauseMenuRoot/Panel/VBoxOptions/FullscreenCheckBox" to="PauseMenuRoot" method="_on_fullscreen_toggled"]

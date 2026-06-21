@@ -7,7 +7,7 @@ const PUZZLE_COMPLETION_FLAG := "programming_office_samples_puzzle_completed"
 @export var puzzle_scene: PackedScene
 
 @onready var camera: Camera2D = $Camera2D
-@onready var pause_menu: Node = $Pause_Menu
+@onready var pause_menu: Node = $PauseMenu
 @onready var puzzle_container: Control = $PuzzleLayer/PuzzleContainer
 
 var active_puzzle: Control = null

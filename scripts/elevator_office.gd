@@ -12,8 +12,8 @@ var exit_direction: String                                           # напр�
 @export var target_scene: String                                     # предыдущую сцену
 @export var target_spawn_point: String                               # точку спавна в сцене
 @export var dialogue: DialogueResource
-@onready var Mike: CharacterBody2D = $Mike_NPC
-@onready var Emily: CharacterBody2D = $Emily_NPC
+@onready var Mike: CharacterBody2D = $MikeNpc
+@onready var Emily: CharacterBody2D = $EmilyNpc
 var player: CharacterBody2D = null
 # -------------------------------------------------
 

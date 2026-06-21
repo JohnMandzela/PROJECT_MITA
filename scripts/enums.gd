@@ -8,7 +8,7 @@ enum Direction {
 	RIGHT
 }
 
-# Режим вращения NPC
+# Режим вращения Npc
 enum RotationMode {
 	DEFAULT,
 	RANDOM

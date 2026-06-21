@@ -302,7 +302,7 @@ dialogue = ExtResource("11_sm1ot")
 
 [node name="Mom_Home_Parallax" type="Parallax2D" parent="Sleep_Flashback"]
 
-[node name="Mom_Home_Texture" type="Sprite2D" parent="Sleep_Flashback/Mom_Home_Parallax"]
+[node name="Mom_HomeTexture" type="Sprite2D" parent="Sleep_Flashback/Mom_Home_Parallax"]
 texture = ExtResource("1_jacmr")
 
 [node name="Shadow" type="PointLight2D" parent="Sleep_Flashback/Mom_Home_Parallax"]
@@ -348,15 +348,15 @@ playback_type = 1
 position = Vector2(69, 101)
 zoom = Vector2(2, 2)
 
-[node name="Mike_NPC" type="CharacterBody2D" parent="Sleep_Flashback"]
+[node name="MikeNpc" type="CharacterBody2D" parent="Sleep_Flashback"]
 position = Vector2(69.047035, 110.66194)
 script = ExtResource("10_01ivo")
 
-[node name="Mike_Collision" type="CollisionShape2D" parent="Sleep_Flashback/Mike_NPC"]
+[node name="MikeCollision" type="CollisionShape2D" parent="Sleep_Flashback/MikeNpc"]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_fovv4")
 
-[node name="Mike_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/Mike_NPC"]
+[node name="Mike_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/MikeNpc"]
 unique_name_in_owner = true
 position = Vector2(-24, -86)
 sprite_frames = SubResource("SpriteFrames_fovv4")
@@ -364,21 +364,21 @@ animation = &"idle_down"
 autoplay = "idle_down"
 centered = false
 
-[node name="Timer" type="Timer" parent="Sleep_Flashback/Mike_NPC"]
+[node name="Timer" type="Timer" parent="Sleep_Flashback/MikeNpc"]
 
-[node name="Mom_NPC" type="CharacterBody2D" parent="Sleep_Flashback"]
+[node name="MomNpc" type="CharacterBody2D" parent="Sleep_Flashback"]
 position = Vector2(97, -66)
 script = ExtResource("13_d8v55")
 
-[node name="Mom_Collision" type="CollisionShape2D" parent="Sleep_Flashback/Mom_NPC"]
+[node name="MomCollision" type="CollisionShape2D" parent="Sleep_Flashback/MomNpc"]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_n7hji")
 
-[node name="Mom_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/Mom_NPC"]
+[node name="Mom_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/MomNpc"]
 position = Vector2(0, -36)
 sprite_frames = SubResource("SpriteFrames_7tks0")
 
-[node name="Pause_Menu" parent="Sleep_Flashback" instance=ExtResource("5_wby07")]
+[node name="PauseMenu" parent="Sleep_Flashback" instance=ExtResource("5_wby07")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Sleep_Flashback"]
 
@@ -405,4 +405,4 @@ libraries = {
 &"": SubResource("AnimationLibrary_5yqmt")
 }
 
-[connection signal="timeout" from="Sleep_Flashback/Mike_NPC/Timer" to="Sleep_Flashback/Mike_NPC" method="_on_timer_timeout"]
+[connection signal="timeout" from="Sleep_Flashback/MikeNpc/Timer" to="Sleep_Flashback/MikeNpc" method="_on_timer_timeout"]

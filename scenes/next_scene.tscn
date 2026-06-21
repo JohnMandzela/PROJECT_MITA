@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/next_scene.gd" id="1_4oj65"]
 
-[node name="Next_Scene" type="Area2D"]
+[node name="NextScene" type="Area2D"]
 light_mask = 2
 script = ExtResource("1_4oj65")
 

@@ -20,11 +20,11 @@ puzzle_scene = ExtResource("6_puzzle")
 player_scene = ExtResource("2_player")
 default_spawn_point = "SpawnMarker"
 
-[node name="Programming_Office_Texture" type="Sprite2D" parent="."]
+[node name="Programming_OfficeTexture" type="Sprite2D" parent="."]
 scale = Vector2(0.38085538, 0.38085544)
 texture = ExtResource("3_bg")
 
-[node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]
+[node name="PauseMenu" parent="." instance=ExtResource("4_pause")]
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(-35, 45)
@@ -66,14 +66,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="Exit_to_Corridors" type="Area2D" parent="."]
+[node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("7_fapqt")
 required_direction = 1
 exit_direction = "down"
-target_scene = "Mihyung_Offices/corridors_offices"
+target_scene = "mihyung_offices/corridors_offices"
 target_spawn_point = "Spawn_on_Programming"
 
-[node name="Label" type="Label" parent="Exit_to_Corridors"]
+[node name="Label" type="Label" parent="ExitToCorridors"]
 offset_left = -351.0
 offset_top = 244.0
 offset_right = -283.0
@@ -83,14 +83,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCorridors"]
 position = Vector2(-256.5, 261)
 shape = SubResource("RectangleShape2D_td11o")
 
-[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
+[node name="SpawnFromCorridors" type="Marker2D" parent="."]
 position = Vector2(-256, 231)
 
 [connection signal="body_entered" from="Events/Samples_Puzzle_Zone" to="Events/Samples_Puzzle_Zone" method="_on_body_entered"]
 [connection signal="body_exited" from="Events/Samples_Puzzle_Zone" to="Events/Samples_Puzzle_Zone" method="_on_body_exited"]
-[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
-[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]
+[connection signal="body_entered" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_entered"]
+[connection signal="body_exited" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_exited"]

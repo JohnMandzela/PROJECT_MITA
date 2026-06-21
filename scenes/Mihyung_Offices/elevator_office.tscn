@@ -370,31 +370,31 @@ animations = [{
 [node name="Elevator_Office" type="Node2D"]
 script = ExtResource("1_voyuo")
 exit_direction = "down"
-target_scene = "Mihyung_Offices/corridors_offices"
+target_scene = "mihyung_offices/corridors_offices"
 target_spawn_point = "Spawn_on_Left_Elevator"
 dialogue = ExtResource("2_pnnwi")
 
-[node name="Elevator_Texture" type="Sprite2D" parent="."]
+[node name="ElevatorTexture" type="Sprite2D" parent="."]
 texture = ExtResource("1_7flr6")
 
-[node name="Walls_Collision" type="StaticBody2D" parent="."]
+[node name="WallsCollision" type="StaticBody2D" parent="."]
 
-[node name="Walls_Collision" type="CollisionPolygon2D" parent="Walls_Collision"]
+[node name="WallsCollision" type="CollisionPolygon2D" parent="WallsCollision"]
 build_mode = 1
 polygon = PackedVector2Array(-48, 0, -48, 96, 48, 96, 48, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.3, 2.3)
 
-[node name="Mike_NPC" type="CharacterBody2D" parent="."]
+[node name="MikeNpc" type="CharacterBody2D" parent="."]
 position = Vector2(-23.952965, 26.661942)
 script = ExtResource("2_ln3ns")
 
-[node name="Mike_Collision" type="CollisionShape2D" parent="Mike_NPC"]
+[node name="MikeCollision" type="CollisionShape2D" parent="MikeNpc"]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_fovv4")
 
-[node name="Mike_Tileset" type="AnimatedSprite2D" parent="Mike_NPC"]
+[node name="Mike_Tileset" type="AnimatedSprite2D" parent="MikeNpc"]
 unique_name_in_owner = true
 position = Vector2(-24, -86)
 sprite_frames = SubResource("SpriteFrames_fovv4")
@@ -403,17 +403,17 @@ autoplay = "idle_down"
 frame_progress = 0.6666982
 centered = false
 
-[node name="Timer" type="Timer" parent="Mike_NPC"]
+[node name="Timer" type="Timer" parent="MikeNpc"]
 
-[node name="Emily_NPC" type="CharacterBody2D" parent="."]
+[node name="EmilyNpc" type="CharacterBody2D" parent="."]
 position = Vector2(25.039063, 26.648438)
 script = ExtResource("5_ijbvk")
 
-[node name="Emily_Collision" type="CollisionShape2D" parent="Emily_NPC"]
+[node name="EmilyCollision" type="CollisionShape2D" parent="EmilyNpc"]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_2p6vp")
 
-[node name="Emily_Tileset" type="AnimatedSprite2D" parent="Emily_NPC"]
+[node name="EmilyTileset" type="AnimatedSprite2D" parent="EmilyNpc"]
 unique_name_in_owner = true
 position = Vector2(-1.0390625, -31.648438)
 sprite_frames = SubResource("SpriteFrames_dp53l")
@@ -421,9 +421,9 @@ animation = &"idle_down"
 autoplay = "idle_down"
 frame_progress = 0.08197742
 
-[node name="Pause_Menu" parent="." instance=ExtResource("2_jteaq")]
+[node name="PauseMenu" parent="." instance=ExtResource("2_jteaq")]
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(-435.99512, 35.22281)
 
-[connection signal="timeout" from="Mike_NPC/Timer" to="Mike_NPC" method="_on_timer_timeout"]
+[connection signal="timeout" from="MikeNpc/Timer" to="MikeNpc" method="_on_timer_timeout"]

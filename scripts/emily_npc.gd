@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@onready var sprite = $Emily_Tileset
+@onready var sprite = $EmilyTileset
 #@onready var timer = $Timer
 
 @export var rotation_mode := Enums.RotationMode.DEFAULT

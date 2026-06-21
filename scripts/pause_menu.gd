@@ -112,9 +112,9 @@ func _build_completed_quests_overlay() -> void:
 	completed_quest_row_template.text = "Quest"
 	completed_quest_list.add_child(completed_quest_row_template)
 
-	var source_back_button := quest_buttons.get_node("Back_from_Quests") as Button
+	var source_back_button := quest_buttons.get_node("CloseQuest") as Button
 	var back_button := Button.new()
-	back_button.name = "Back_from_Completed_Quests"
+	back_button.name = "BackFromCompleted_Quests"
 	back_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	back_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	back_button.text = source_back_button.text

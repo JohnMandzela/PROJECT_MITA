@@ -188,10 +188,8 @@ func get_portrait_side(character: String) -> PortraitSide:
 		return current_side
 
 	if side == "left": 
-		print("explicitly left")
 		return PortraitSide.LEFT
 	elif side == "right": 
-		print("explicitly right")
 		return PortraitSide.RIGHT
 	elif side:
 		push_warning("Некорректная сторона '%s' для персонажа '%s' в строке диалога '%s'" % [side, character, dialogue_line.id])

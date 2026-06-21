@@ -12,9 +12,9 @@ size = Vector2(54.5, 57)
 [node name="Manager\'s_Cabinet" type="Node2D"]
 script = ExtResource("1_4vifw")
 player_scene = ExtResource("2_bmkgt")
-default_spawn_point = "Spawn_from_Corridors"
+default_spawn_point = "SpawnFromCorridors"
 
-[node name="manager\'s_Cabinet_Texture" type="Sprite2D" parent="."]
+[node name="manager\'s_CabinetTexture" type="Sprite2D" parent="."]
 position = Vector2(49.000004, 161.00002)
 scale = Vector2(1.475, 1.475)
 texture = ExtResource("3_ucrnl")
@@ -25,19 +25,19 @@ texture = ExtResource("3_ucrnl")
 build_mode = 1
 polygon = PackedVector2Array(-25, 313, -25, 254, -78, 254, -77, -71, 102, -71, 102, 253, 30, 253, 30, 313)
 
-[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
+[node name="SpawnFromCorridors" type="Marker2D" parent="."]
 position = Vector2(1, 239)
 
-[node name="Pause_Menu" parent="." instance=ExtResource("4_r6amo")]
+[node name="PauseMenu" parent="." instance=ExtResource("4_r6amo")]
 
-[node name="Exit_to_Corridors" type="Area2D" parent="."]
+[node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("5_bmkgt")
 required_direction = 1
 exit_direction = "down"
-target_scene = "Mihyung_Offices/corridors_offices"
+target_scene = "mihyung_offices/corridors_offices"
 target_spawn_point = "Spawn_on_Manager"
 
-[node name="Label" type="Label" parent="Exit_to_Corridors"]
+[node name="Label" type="Label" parent="ExitToCorridors"]
 offset_left = -31.0
 offset_top = 318.0
 offset_right = 37.0
@@ -47,9 +47,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCorridors"]
 position = Vector2(2.75, 284.5)
 shape = SubResource("RectangleShape2D_p2dgv")
 
-[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
-[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]
+[connection signal="body_entered" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_entered"]
+[connection signal="body_exited" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_exited"]

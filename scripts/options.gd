@@ -2,10 +2,10 @@ extends Control
 
 
 # Переменные к путям данных настроек
-@onready var fullscren_checkbox_path: CheckBox = $Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox
-@onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/MusicSlider/Slider
-@onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/SoundsSlider/SoundsSlider
-@onready var mouse_sensitivity_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Mouse_Sensitivity/Mouse_slider/mouse_sensitivity_slider
+@onready var fullscren_checkbox_path: CheckBox = $OptionsMenu/OptionsMenuVBox/FullscreenCheckBox
+@onready var music_value_path: HSlider = $OptionsMenu/OptionsMenuVBox/Music/MusicSlider/Slider
+@onready var sounds_value_path: HSlider = $OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider/SoundsSlider
+@onready var mouse_sensitivity_value_path: HSlider = $OptionsMenu/OptionsMenuVBox/MouseSensitivity/MouseSlider/MouseSensitivitySlider
 
 
 # Сохраняем данные настроек

@@ -12,26 +12,26 @@ size = Vector2(52.25, 45)
 [node name="Conference_Room" type="Node2D"]
 script = ExtResource("1_sbv3r")
 player_scene = ExtResource("2_esxbj")
-default_spawn_point = "Spawn_from_Corridors"
+default_spawn_point = "SpawnFromCorridors"
 
-[node name="Conference_Room_Texture" type="Sprite2D" parent="."]
+[node name="Conference_RoomTexture" type="Sprite2D" parent="."]
 position = Vector2(160, 325)
 scale = Vector2(1.675, 1.675)
 texture = ExtResource("3_psbys")
 
-[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
+[node name="SpawnFromCorridors" type="Marker2D" parent="."]
 position = Vector2(25, 410)
 
-[node name="Pause_Menu" parent="." instance=ExtResource("4_ycwvv")]
+[node name="PauseMenu" parent="." instance=ExtResource("4_ycwvv")]
 
-[node name="Exit_to_Corridors" type="Area2D" parent="."]
+[node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("5_esxbj")
 required_direction = 1
 exit_direction = "down"
-target_scene = "Mihyung_Offices/corridors_offices"
+target_scene = "mihyung_offices/corridors_offices"
 target_spawn_point = "Spawn_on_Conference"
 
-[node name="Label" type="Label" parent="Exit_to_Corridors"]
+[node name="Label" type="Label" parent="ExitToCorridors"]
 offset_left = -6.0
 offset_top = 489.0
 offset_right = 62.0
@@ -41,19 +41,19 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCorridors"]
 position = Vector2(27.125, 464.5)
 shape = SubResource("RectangleShape2D_4kei3")
 
-[node name="Collision_Wall" type="StaticBody2D" parent="."]
+[node name="CollisionWall" type="StaticBody2D" parent="."]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collision_Wall"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CollisionWall"]
 build_mode = 1
 polygon = PackedVector2Array(0, 441, -226, 441, -226, -263, 249, -264, 250, 441, 54, 441, 54, 488, 0, 488)
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Collision_Wall"]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CollisionWall"]
 position = Vector2(-3, 10)
 polygon = PackedVector2Array(-124, -117, -173, -248, -173, -260, 204, -260, 205, -250, 158, -116)
 
-[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
-[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]
+[connection signal="body_entered" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_entered"]
+[connection signal="body_exited" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_exited"]

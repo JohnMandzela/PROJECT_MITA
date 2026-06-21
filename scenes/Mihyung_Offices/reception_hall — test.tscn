@@ -80,13 +80,13 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_cutscene1")
 
-[node name="DialogueRG_Reception" type="Area2D" parent="Events"]
+[node name="DialogueRGReception" type="Area2D" parent="Events"]
 position = Vector2(-92, 376)
 script = ExtResource("10_cutscene")
 dialogue = ExtResource("11_etap4")
 dialogue_start = &"dialogue_RG"
 
-[node name="Label" type="Label" parent="Events/DialogueRG_Reception"]
+[node name="Label" type="Label" parent="Events/DialogueRGReception"]
 modulate = Color(0, 0, 0, 1)
 z_index = 10
 offset_left = -64.0
@@ -97,15 +97,15 @@ text = "Ресепшен"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/DialogueRG_Reception"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/DialogueRGReception"]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_cutscene1")
 
-[node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]
+[node name="PauseMenu" parent="." instance=ExtResource("4_pause")]
 
 [connection signal="body_entered" from="Events/Cutscene1_Reception" to="Events/Cutscene1_Reception" method="_on_body_entered"]
 [connection signal="body_exited" from="Events/Cutscene1_Reception" to="Events/Cutscene1_Reception" method="_on_body_exited"]
 [connection signal="body_entered" from="Events/Cutscene2_Reception" to="Events/Cutscene2_Reception" method="_on_body_entered"]
 [connection signal="body_exited" from="Events/Cutscene2_Reception" to="Events/Cutscene2_Reception" method="_on_body_exited"]
-[connection signal="body_entered" from="Events/DialogueRG_Reception" to="Events/DialogueRG_Reception" method="_on_body_entered"]
-[connection signal="body_exited" from="Events/DialogueRG_Reception" to="Events/DialogueRG_Reception" method="_on_body_exited"]
+[connection signal="body_entered" from="Events/DialogueRGReception" to="Events/DialogueRGReception" method="_on_body_entered"]
+[connection signal="body_exited" from="Events/DialogueRGReception" to="Events/DialogueRGReception" method="_on_body_exited"]

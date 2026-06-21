@@ -203,9 +203,9 @@ size = Vector2(80, 48)
 [node name="Reception_Hall" type="Node2D"]
 script = ExtResource("1_fc117")
 player_scene = ExtResource("2_bcki3")
-default_spawn_point = "Entrance_in_Hall"
+default_spawn_point = "SpawnInHall"
 
-[node name="Reception_Hall_Texture" type="Sprite2D" parent="."]
+[node name="Reception_HallTexture" type="Sprite2D" parent="."]
 texture = ExtResource("3_fc117")
 
 [node name="Reception_Stand" type="Sprite2D" parent="."]
@@ -218,39 +218,39 @@ position = Vector2(-107, 363)
 scale = Vector2(0.46396396, 0.39497757)
 texture = ExtResource("5_yb44m")
 
-[node name="Emily_NPC" type="CharacterBody2D" parent="."]
+[node name="EmilyNpc" type="CharacterBody2D" parent="."]
 position = Vector2(-380, 283)
 script = ExtResource("6_1uhl5")
 
-[node name="Emily_Collision" type="CollisionShape2D" parent="Emily_NPC"]
+[node name="EmilyCollision" type="CollisionShape2D" parent="EmilyNpc"]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_ciswt")
 
-[node name="Emily_Tileset" type="AnimatedSprite2D" parent="Emily_NPC"]
+[node name="EmilyTileset" type="AnimatedSprite2D" parent="EmilyNpc"]
 unique_name_in_owner = true
 position = Vector2(-1.0390625, -31.648438)
 sprite_frames = SubResource("SpriteFrames_6027o")
 animation = &"idle_down"
 autoplay = "idle_down"
 
-[node name="Collision_Wall" type="StaticBody2D" parent="."]
+[node name="CollisionWall" type="StaticBody2D" parent="."]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collision_Wall"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CollisionWall"]
 position = Vector2(0.85842896, 0)
 scale = Vector2(1.001943, 1)
 polygon = PackedVector2Array(-203.4631, 336, -231.4088, 362, -247.37778, 362, -248.37584, -8, -363.1528, -8, -376.1276, -12, -383.114, -18, -385.11014, -29, -386.10822, -176, -379.12177, -188, -365.14893, -191, 55.034637, -189, 55.034637, 361, 37.069542, 361, 14.114147, 336, -3.8509467, 336, -3.8509467, 369, -136.59303, 369, -136.59303, 336)
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Collision_Wall"]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CollisionWall"]
 build_mode = 1
 polygon = PackedVector2Array(-729, 540, -703, 268, -580, 268, -580, 138, -483, 138, -483, 269, -298, 269, -298, 75, -564, 75, -564, -325, -412, -325, -412, -473, -448, -473, -448, -508, -412, -508, -412, -633, -714, -633, -714, -701, -524, -701, -524, -748, -470, -748, -470, -701, -227, -701, -227, -633, -352, -633, -351, -325, -219, -325, -219, -485, 21, -485, 21, -323, 123, -323, 123, -15, 591, -14, 591, 77, 123, 77, 122, 339, 355, 339, 377, 333, 402, 315, 425, 277, 452, 250, 478, 239, 502, 234, 590, 234, 590, 356, 527, 356, 515, 363, 510, 378, 499, 427, 486, 461, 475, 484, 459, 504, 441, 519, 426, 526, 379, 541)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision_Wall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionWall"]
 position = Vector2(-106, 392)
 shape = SubResource("CapsuleShape2D_hxeso")
 
-[node name="Pause_Menu" parent="." instance=ExtResource("8_42cvc")]
+[node name="PauseMenu" parent="." instance=ExtResource("8_42cvc")]
 
-[node name="Entrance_in_Hall" type="Marker2D" parent="."]
+[node name="SpawnInHall" type="Marker2D" parent="."]
 position = Vector2(-73, 463)
 
 [node name="AreaEvents" type="Node2D" parent="."]
@@ -280,7 +280,7 @@ shape = SubResource("RectangleShape2D_453ih")
 position = Vector2(577, -438)
 script = ExtResource("9_qy5m8")
 exit_direction = "down"
-target_scene = "Mihyung_Offices/elevator_office"
+target_scene = "mihyung_offices/elevator_office"
 target_spawn_point = "Marker2D"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AreaEvents/Elevator"]
@@ -299,12 +299,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Dialogue_Reception" type="Area2D" parent="AreaEvents"]
+[node name="DialogueReception" type="Area2D" parent="AreaEvents"]
 position = Vector2(577, -438)
 script = ExtResource("10_xyr6m")
 dialogue = ExtResource("11_pjjs5")
 
-[node name="Label" type="Label" parent="AreaEvents/Dialogue_Reception"]
+[node name="Label" type="Label" parent="AreaEvents/DialogueReception"]
 offset_left = -100.0
 offset_top = 251.0
 offset_bottom = 274.0
@@ -314,7 +314,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaEvents/Dialogue_Reception"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaEvents/DialogueReception"]
 position = Vector2(-70, 396.75)
 shape = SubResource("RectangleShape2D_nqvbx")
 
@@ -339,13 +339,13 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(6, 0)
 shape = SubResource("RectangleShape2D_bcki3")
 
-[node name="DialogueRG_Reception" type="Area2D" parent="AreaEvents"]
+[node name="DialogueRGReception" type="Area2D" parent="AreaEvents"]
 position = Vector2(125, -15)
 script = ExtResource("12_bcki3")
 dialogue = ExtResource("11_pjjs5")
 dialogue_start = &"dialogue_RG"
 
-[node name="Label" type="Label" parent="AreaEvents/DialogueRG_Reception"]
+[node name="Label" type="Label" parent="AreaEvents/DialogueRGReception"]
 modulate = Color(0, 0, 0, 1)
 z_index = 10
 offset_left = -64.0
@@ -356,7 +356,7 @@ text = "Ресепшен"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaEvents/DialogueRG_Reception"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaEvents/DialogueRGReception"]
 position = Vector2(1, 8)
 shape = SubResource("RectangleShape2D_1usdv")
 
@@ -364,9 +364,9 @@ shape = SubResource("RectangleShape2D_1usdv")
 [connection signal="body_exited" from="AreaEvents/Cutscene1_Reception" to="AreaEvents/Cutscene1_Reception" method="_on_body_exited"]
 [connection signal="body_entered" from="AreaEvents/Elevator" to="AreaEvents/Elevator" method="_on_body_entered"]
 [connection signal="body_exited" from="AreaEvents/Elevator" to="AreaEvents/Elevator" method="_on_body_exited"]
-[connection signal="body_entered" from="AreaEvents/Dialogue_Reception" to="AreaEvents/Dialogue_Reception" method="_on_body_entered"]
-[connection signal="body_exited" from="AreaEvents/Dialogue_Reception" to="AreaEvents/Dialogue_Reception" method="_on_body_exited"]
+[connection signal="body_entered" from="AreaEvents/DialogueReception" to="AreaEvents/DialogueReception" method="_on_body_entered"]
+[connection signal="body_exited" from="AreaEvents/DialogueReception" to="AreaEvents/DialogueReception" method="_on_body_exited"]
 [connection signal="body_entered" from="AreaEvents/Cutscene2_Reception" to="AreaEvents/Cutscene2_Reception" method="_on_body_entered"]
 [connection signal="body_exited" from="AreaEvents/Cutscene2_Reception" to="AreaEvents/Cutscene2_Reception" method="_on_body_exited"]
-[connection signal="body_entered" from="AreaEvents/DialogueRG_Reception" to="AreaEvents/DialogueRG_Reception" method="_on_body_entered"]
-[connection signal="body_exited" from="AreaEvents/DialogueRG_Reception" to="AreaEvents/DialogueRG_Reception" method="_on_body_exited"]
+[connection signal="body_entered" from="AreaEvents/DialogueRGReception" to="AreaEvents/DialogueRGReception" method="_on_body_entered"]
+[connection signal="body_exited" from="AreaEvents/DialogueRGReception" to="AreaEvents/DialogueRGReception" method="_on_body_exited"]

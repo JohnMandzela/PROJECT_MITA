@@ -85,7 +85,7 @@ func _is_correct_direction() -> bool:
 func _find_overlay() -> CanvasLayer:
 	var current: Node = self
 	while current != null:
-		var overlay := current.get_node_or_null("Game_Interface_Overlay") as CanvasLayer
+		var overlay := current.get_node_or_null("GameInterfaceOverlay") as CanvasLayer
 		if overlay:
 			return overlay
 		current = current.get_parent()
