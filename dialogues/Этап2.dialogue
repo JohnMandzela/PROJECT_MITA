@@ -15,7 +15,7 @@ if inspect_door1 == 0:
 		=> END
 
 elif inspect_door1 == 1:
-	Майк: Мне правда больше заняться нечем?  
+	Майк: Мне больше заняться нечем?  
 	=> END
 
 ~ inspect_door2
@@ -37,7 +37,7 @@ if inspect_door2 == 0:
 		=> END
 
 elif inspect_door2 == 1:
-	 Майк: Всё ещё не хочу лезть в чужое пространство.
+	 Майк: Не хочу лезть в чужое пространство.
 	=> END
 
 ~ inspect_door3
