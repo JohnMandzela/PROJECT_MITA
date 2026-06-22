@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://7xlgpg06b5lr" path="res://images/scene/Reception_Hall.png" id="3_fc117"]
 [ext_resource type="Texture2D" uid="uid://b6dayudrlxvt7" path="res://images/tilesets/scenes/reception_stand.png" id="4_1usdv"]
 [ext_resource type="Texture2D" uid="uid://byc8prc04ug5b" path="res://images/tilesets/characters/jackobson.png" id="5_yb44m"]
-[ext_resource type="Script" uid="uid://bc6xrkjssp4s" path="res://scripts/emily_npc.gd" id="6_1uhl5"]
+[ext_resource type="Script" uid="uid://bc6xrkjssp4s" path="res://scripts/npc/emily_npc.gd" id="6_1uhl5"]
 [ext_resource type="Texture2D" uid="uid://dc0mt4x4i7ait" path="res://images/tilesets/characters/$Emily.png" id="7_3lt05"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="8_42cvc"]
 [ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/next_scene.gd" id="9_qy5m8"]
