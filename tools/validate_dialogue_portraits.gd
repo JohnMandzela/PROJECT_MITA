@@ -50,7 +50,7 @@ func _initialize() -> void:
 		_fail("Balloon skip action should use skip_dialogue instead of ui_cancel")
 		return
 
-	var skip_button := balloon.get_node_or_null("Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control/SkipButton") as Button
+	var skip_button := balloon.get_node_or_null("Balloon/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/DialogueArea/SkipButton") as Button
 	if skip_button == null:
 		_fail("Dialogue balloon is missing the SkipButton")
 		return
