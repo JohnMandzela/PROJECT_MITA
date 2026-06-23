@@ -3,9 +3,9 @@ extends Control
 signal exit_requested
 signal puzzle_completed
 
-const LANE_COUNT := 4
-const LANE_KEYS: Array[int] = [KEY_D, KEY_F, KEY_J, KEY_K]
-const LANE_LABELS: Array[String] = ["D", "F", "J", "K"]
+const LANE_COUNT := 3
+const LANE_KEYS: Array[int] = [KEY_Z, KEY_X, KEY_C]
+const LANE_LABELS: Array[String] = ["Z", "X", "C"]
 const LANE_COLORS: Array[Color] = [
 	Color(0.95, 0.35, 0.35),
 	Color(0.35, 0.75, 0.95),
