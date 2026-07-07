@@ -651,7 +651,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_v4r4p")
 }
 
-[connection signal="pressed" from="Panel/VBoxStart/GridContainer/ContinueContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/ContinueContainer/Continue" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxStart/GridContainer/OptionsContainer/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Panel/VBoxStart/GridContainer/ExitToMainMenuContainer/ExitToMainMenu" to="." method="_on_exit_to_main_menu_pressed"]
 [connection signal="pressed" from="Panel/VBoxStart/GridContainer/MessengerContainer/Messenger" to="." method="_on_messenger_pressed"]

@@ -83,12 +83,15 @@ func save_game(mode: Mode, slot := 0) -> void:
 		push_warning("Нельзя сохраниться во время загрузки")
 		return
 
-	var path := get_save_file_path(mode, slot)
-	var file := FileAccess.open(path, FileAccess.WRITE)
-
 	var player := GameManager.player
 	if not player:
 		push_error("Узел игрока не найден")
+		return
+		
+	var path := get_save_file_path(mode, slot)
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if not file:
+		push_error("Не удалось открыть файл сохранения %s" % path)
 		return
 
 	var save_data := {
@@ -100,6 +103,9 @@ func save_game(mode: Mode, slot := 0) -> void:
 
 	for property in PLAYER_PROPERTIES_TO_SAVE:
 		save_data[property] = player.get(property)
+
+	for property in ITEMS_PROPERTIES_TO_SAVE:
+		save_data[property] = Items.get(property)
 
 	file.store_var(save_data)
 	file.close()

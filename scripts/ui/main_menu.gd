@@ -13,6 +13,8 @@ var loading_settings := true
 var save_slots_overlay: Panel
 var save_slots_list: VBoxContainer
 
+# TODO: почистить нейрослоп
+# TODO: проверить корректность сохранения конфига
 
 func _ready() -> void:
 	_ensure_continue_button()

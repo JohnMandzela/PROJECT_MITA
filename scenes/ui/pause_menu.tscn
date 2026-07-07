@@ -970,7 +970,7 @@ libraries = {
 [connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/GridStart/QuestsContainer/QuestsButton" to="PauseMenuRoot" method="_on_quests_pressed"]
 [connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/GridStart/SaveContainer/SaveButton" to="PauseMenuRoot" method="_on_save_pressed"]
 [connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/GridStart/LoadContainer/LoadButton" to="PauseMenuRoot" method="_on_load_pressed"]
-[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ContinueContainer/ContinueButton" to="PauseMenuRoot" method="_on_continue_pressed"]
+[connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ContinueContainer/ContinueButton" to="PauseMenuRoot" method="_on_continue_button_pressed"]
 [connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/OptionsContainer/OptionsButton" to="PauseMenuRoot" method="_on_options_pressed"]
 [connection signal="pressed" from="PauseMenuRoot/Panel/StartDisplay/BottomButtons/ExitContainer/ExitButton" to="PauseMenuRoot" method="_on_exit_to_main_menu_pressed"]
 [connection signal="pressed" from="PauseMenuRoot/Panel/InventoryView/InventoryVBox/InventoryButtons/CloseInventoryButton" to="PauseMenuRoot" method="_on_back_from_inventory_pressed"]

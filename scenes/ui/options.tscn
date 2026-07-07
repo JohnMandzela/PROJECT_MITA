@@ -107,3 +107,6 @@ text = "Назад"
 
 [connection signal="toggled" from="OptionsMenu/OptionsMenuVBox/FullscreenCheckBox" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="OptionsMenu/OptionsMenuVBox/ExitToMainMenu" to="." method="_on_back_pressed"]
+[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider/SoundsSlider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/Music/MusicSlider/Slider" to="." method="_on_music_value_changed"]
+[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/MouseSensitivity/MouseSlider/MouseSensitivitySlider" to="." method="_on_mouse_sensitivity_value_changed"]

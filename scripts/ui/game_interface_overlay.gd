@@ -19,7 +19,7 @@ const SETTINGS_CLOSED_HEIGHT := 0.0
 const INVENTORY_COLUMNS := 4
 const INVENTORY_ROWS := 3
 const WEBCAM_TEXTURE_PATH := "res://images/characters/Mike_webcam.png"
-const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
+const MAIN_MENU_PATH := "res://scenes/ui/main_menu.tscn"
 
 @export_range(0.0, 100.0, 1.0) var vigor := 72.0:
 	set(value):
@@ -788,9 +788,14 @@ func _on_use_item_pressed() -> void:
 
 	var item_info: Dictionary = items_node.call("get_item_info", selected_item_id)
 	var effects := Dictionary(item_info.get("use_effects", { }))
+	
 	var vigor_bonus := float(effects.get("vigor", 0.0))
 	if vigor_bonus != 0.0:
 		vigor = vigor + vigor_bonus
+
+	var psyche_bonus := float(effects.get("psyche", 0.0))
+	if psyche_bonus != 0.0:
+		psyche = psyche + psyche_bonus
 
 	if items_node and items_node.has_method("item_was_dropped"):
 		items_node.call("item_was_dropped", selected_item_id)

@@ -242,7 +242,7 @@ func toggle() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
-func _on_continue_pressed() -> void:
+func _on_continue_button_pressed() -> void:
 	if menu_open == 1:
 		menu_open -= 1
 	close_pause_menu()
