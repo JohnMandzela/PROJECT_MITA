@@ -1,14 +1,11 @@
 @tool
-class_name DMInspectorPlugin
-extends EditorInspectorPlugin
+class_name DMInspectorPlugin extends EditorInspectorPlugin
+
 
 func _can_handle(object: Object) -> bool:
-	if object is GDScript:
-		return false
-	if not object is Node and not object is Resource:
-		return false
-	if "name" in object and object.name == "Dialogue Manager":
-		return false
+	if object is GDScript: return false
+	if not object is Node and not object is Resource: return false
+	if "name" in object and object.name == "Dialogue Manager": return false
 	return true
 
 

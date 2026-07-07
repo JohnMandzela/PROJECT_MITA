@@ -3,7 +3,9 @@ extends VBoxContainer
 
 signal title_selected(title: String)
 
+
 const DialogueConstants = preload("../constants.gd")
+
 
 @onready var filter_edit: LineEdit = $FilterEdit
 @onready var list: ItemList = $List
@@ -48,6 +50,7 @@ func apply_theme() -> void:
 		filter_edit.right_icon = get_theme_icon("Search", "EditorIcons")
 	if is_instance_valid(list):
 		list.add_theme_stylebox_override("panel", get_theme_stylebox("panel", "Panel"))
+
 
 ### Signals
 

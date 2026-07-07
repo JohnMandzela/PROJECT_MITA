@@ -6,6 +6,7 @@ const DialogueSettings = preload("../settings.gd")
 
 const REMOTE_RELEASES_URL = "https://api.github.com/repos/nathanhoad/godot_dialogue_manager/releases"
 
+
 @onready var http_request: HTTPRequest = $HTTPRequest
 @onready var download_dialog: AcceptDialog = $DownloadDialog
 @onready var download_update_panel = $DownloadDialog/DownloadUpdatePanel
@@ -55,27 +56,25 @@ func check_for_update() -> void:
 	if DialogueSettings.get_user_value("check_for_updates", true):
 		http_request.request(REMOTE_RELEASES_URL)
 
+
 ### Signals
 
 
 func _on_http_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
-	if result != HTTPRequest.RESULT_SUCCESS:
-		return
+	if result != HTTPRequest.RESULT_SUCCESS: return
 
 	var current_version: String = DMPlugin.get_version()
 
 	# Work out the next version from the releases information on GitHub
 	var response = JSON.parse_string(body.get_string_from_utf8())
-	if typeof(response) != TYPE_ARRAY:
-		return
+	if typeof(response) != TYPE_ARRAY: return
 
 	# GitHub releases are in order of creation, not order of version
-	var versions = (response as Array).filter(
-		func(release):
-			var version: String = release.tag_name.substr(1)
-			var major_version: int = version.split(".")[0].to_int()
-			var current_major_version: int = current_version.split(".")[0].to_int()
-			return major_version == current_major_version and version_to_number(version) > version_to_number(current_version)
+	var versions = (response as Array).filter(func(release):
+		var version: String = release.tag_name.substr(1)
+		var major_version: int = version.split(".")[0].to_int()
+		var current_major_version: int = current_version.split(".")[0].to_int()
+		return major_version == current_major_version and version_to_number(version) > version_to_number(current_version)
 	)
 	if versions.size() > 0:
 		download_update_panel.next_version_release = versions[0]

@@ -1,6 +1,6 @@
 ## Data associated with a dialogue jump/goto line.
-class_name DMResolvedGotoData
-extends RefCounted
+class_name DMResolvedGotoData extends RefCounted
+
 
 ## The title that was specified
 var title: String = ""
@@ -22,8 +22,7 @@ var regex: DMCompilerRegEx = DMCompilerRegEx.new()
 
 
 func _init(text: String, titles: Dictionary) -> void:
-	if not "=> " in text and not "=>< " in text:
-		return
+	if not "=> " in text and not "=>< " in text: return
 
 	if "=> " in text:
 		text_without_goto = text.substr(0, text.find("=> ")).strip_edges()

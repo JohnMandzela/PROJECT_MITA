@@ -1,7 +1,8 @@
-class_name DMWaiter
-extends Node
+class_name DMWaiter extends Node
+
 
 signal waited()
+
 
 var _actions: PackedStringArray
 var _null: String = str(null)

@@ -1,6 +1,6 @@
 ## A collection of [RegEx] for use by the [DMCompiler].
-class_name DMCompilerRegEx
-extends RefCounted
+class_name DMCompilerRegEx extends RefCounted
+
 
 var IMPORT_REGEX: RegEx = RegEx.create_from_string("import \"(?<path>[^\"]+)\" as (?<prefix>[a-zA-Z_\\p{Emoji_Presentation}\\p{Han}\\p{Katakana}\\p{Hiragana}\\p{Cyrillic}][a-zA-Z_0-9\\p{Emoji_Presentation}\\p{Han}\\p{Katakana}\\p{Hiragana}\\p{Cyrillic}]+)")
 var USING_REGEX: RegEx = RegEx.create_from_string("^using (?<state>.*)$")
@@ -46,5 +46,5 @@ var TOKEN_DEFINITIONS: Dictionary = {
 	DMConstants.TOKEN_VARIABLE: RegEx.create_from_string("^[a-zA-Z_\\p{Emoji_Presentation}\\p{Han}\\p{Katakana}\\p{Hiragana}\\p{Cyrillic}][a-zA-Z_0-9\\p{Emoji_Presentation}\\p{Han}\\p{Katakana}\\p{Hiragana}\\p{Cyrillic}]*"),
 	DMConstants.TOKEN_COMMENT: RegEx.create_from_string("^#.*"),
 	DMConstants.TOKEN_CONDITION: RegEx.create_from_string("^(if|elif|else)"),
-	DMConstants.TOKEN_BOOL: RegEx.create_from_string("^(true|false)"),
+	DMConstants.TOKEN_BOOL: RegEx.create_from_string("^(true|false)")
 }

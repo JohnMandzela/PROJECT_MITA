@@ -1,20 +1,21 @@
-class_name DMConstants
-extends RefCounted
+class_name DMConstants extends RefCounted
+
 
 const USER_CONFIG_PATH = "user://dialogue_manager_user_config.json"
 const CACHE_PATH = "user://dialogue_manager_cache.json"
 
+
 enum MutationBehaviour {
 	Wait,
 	DoNotWait,
-	Skip,
+	Skip
 }
 
 enum TranslationSource {
 	None,
 	Guess,
 	CSV,
-	PO,
+	PO
 }
 
 # Token types
@@ -122,6 +123,7 @@ const ERR_GOTO_NOT_ALLOWED_ON_CONCURRECT_LINES = 140
 const ERR_UNEXPECTED_SYNTAX_ON_NESTED_DIALOGUE_LINE = 141
 const ERR_NESTED_DIALOGUE_INVALID_JUMP = 142
 const ERR_MISSING_RESOURCE_FOR_AUTOSTART = 143
+
 
 static var _current_locale: String = ""
 static var _current_translation: Translation

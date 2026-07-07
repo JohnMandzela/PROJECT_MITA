@@ -1,12 +1,12 @@
 @tool
-class_name DMSyntaxHighlighter
-extends SyntaxHighlighter
+class_name DMSyntaxHighlighter extends SyntaxHighlighter
+
 
 var regex: DMCompilerRegEx = DMCompilerRegEx.new()
 var compilation: DMCompilation = DMCompilation.new()
 var expression_parser = DMExpressionParser.new()
 
-var cache: Dictionary = { }
+var cache: Dictionary = {}
 
 
 func _clear_highlighting_cache() -> void:
@@ -16,7 +16,7 @@ func _clear_highlighting_cache() -> void:
 func _get_line_syntax_highlighting(line: int) -> Dictionary:
 	expression_parser.include_comments = true
 
-	var colors: Dictionary = { }
+	var colors: Dictionary = {}
 	var text_edit: TextEdit = get_text_edit()
 	var text: String = text_edit.get_line(line)
 
@@ -36,6 +36,7 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 		DMConstants.TYPE_USING:
 			colors[index] = { color = theme.conditions_color }
 			colors[index + "using ".length()] = { color = theme.text_color }
+
 		DMConstants.TYPE_IMPORT:
 			colors[index] = { color = theme.conditions_color }
 			var import: RegExMatch = regex.IMPORT_REGEX.search(text)
@@ -43,10 +44,13 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 				colors[index + import.get_start("path") - 1] = { color = theme.strings_color }
 				colors[index + import.get_end("path") + 1] = { color = theme.conditions_color }
 				colors[index + import.get_start("prefix")] = { color = theme.text_color }
+
 		DMConstants.TYPE_COMMENT:
 			colors[index] = { color = theme.comments_color }
+
 		DMConstants.TYPE_TITLE:
 			colors[index] = { color = theme.titles_color }
+
 		DMConstants.TYPE_CONDITION, DMConstants.TYPE_WHILE, DMConstants.TYPE_MATCH, DMConstants.TYPE_WHEN:
 			colors[0] = { color = theme.conditions_color }
 			index = text.find(" ")
@@ -56,6 +60,7 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 					colors[index] = { color = theme.critical_color }
 				else:
 					_highlight_expression(expression, colors, index)
+
 		DMConstants.TYPE_MUTATION:
 			colors[0] = { color = theme.mutations_line_color }
 			index = text.find(" ")
@@ -64,13 +69,16 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 				colors[index] = { color = theme.critical_color }
 			else:
 				_highlight_expression(expression, colors, index)
+
 		DMConstants.TYPE_GOTO:
 			if text.strip_edges().begins_with("%"):
 				colors[index] = { color = theme.symbols_color }
 				index = text.find(" ")
 			_highlight_goto(text, colors, index)
+
 		DMConstants.TYPE_RANDOM:
 			colors[index] = { color = theme.symbols_color }
+
 		DMConstants.TYPE_DIALOGUE, DMConstants.TYPE_RESPONSE:
 			if text.strip_edges().begins_with("%"):
 				colors[index] = { color = theme.symbols_color }
@@ -138,7 +146,7 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 				_highlight_goto(text, colors, index)
 
 	# Order the dictionary keys to prevent CodeEdit from having issues
-	var ordered_colors: Dictionary = { }
+	var ordered_colors: Dictionary = {}
 	var ordered_keys: Array = colors.keys()
 	ordered_keys.sort()
 	for key_index: int in ordered_keys:
@@ -156,13 +164,16 @@ func _highlight_expression(tokens: Array, colors: Dictionary, index: int) -> int
 		match token.type:
 			DMConstants.TOKEN_COMMENT:
 				colors[index + token.i] = { color = theme.comments_color }
+
 			DMConstants.TOKEN_CONDITION, DMConstants.TOKEN_AND_OR, DMConstants.TOKEN_NOT:
 				colors[index + token.i] = { color = theme.conditions_color }
+
 			DMConstants.TOKEN_VARIABLE:
 				if token.value in ["true", "false"]:
 					colors[index + token.i] = { color = theme.conditions_color }
 				else:
 					colors[index + token.i] = { color = theme.members_color }
+
 			DMConstants.TOKEN_OPERATOR, DMConstants.TOKEN_COLON, \
 			DMConstants.TOKEN_COMMA, DMConstants.TOKEN_DOT, DMConstants.TOKEN_NULL_COALESCE, \
 			DMConstants.TOKEN_ASSIGNMENT, DMConstants.TOKEN_COMPARISON:
@@ -170,10 +181,13 @@ func _highlight_expression(tokens: Array, colors: Dictionary, index: int) -> int
 					colors[index + token.i] = { color = theme.conditions_color }
 				else:
 					colors[index + token.i] = { color = theme.symbols_color }
+
 			DMConstants.TOKEN_NUMBER:
 				colors[index + token.i] = { color = theme.numbers_color }
+
 			DMConstants.TOKEN_STRING:
 				colors[index + token.i] = { color = theme.strings_color }
+
 			DMConstants.TOKEN_FUNCTION:
 				colors[index + token.i] = { color = theme.mutations_color }
 				colors[index + token.i + token.function.length()] = { color = theme.symbols_color }
@@ -181,6 +195,7 @@ func _highlight_expression(tokens: Array, colors: Dictionary, index: int) -> int
 					last_index = _highlight_expression(parameter, colors, index)
 			DMConstants.TOKEN_PARENS_CLOSE:
 				colors[index + token.i] = { color = theme.symbols_color }
+
 			DMConstants.TOKEN_DICTIONARY_REFERENCE:
 				colors[index + token.i] = { color = theme.members_color }
 				colors[index + token.i + token.variable.length()] = { color = theme.symbols_color }
@@ -191,12 +206,14 @@ func _highlight_expression(tokens: Array, colors: Dictionary, index: int) -> int
 					last_index = _highlight_expression(item, colors, index)
 			DMConstants.TOKEN_BRACKET_CLOSE:
 				colors[index + token.i] = { color = theme.symbols_color }
+
 			DMConstants.TOKEN_DICTIONARY:
 				colors[index + token.i] = { color = theme.symbols_color }
 				last_index = _highlight_expression(token.value.keys() + token.value.values(), colors, index)
 			DMConstants.TOKEN_BRACE_CLOSE:
 				colors[index + token.i] = { color = theme.symbols_color }
 				last_index += 1
+
 			DMConstants.TOKEN_GROUP:
 				last_index = _highlight_expression(token.value, colors, index)
 
@@ -205,7 +222,7 @@ func _highlight_expression(tokens: Array, colors: Dictionary, index: int) -> int
 
 func _highlight_goto(text: String, colors: Dictionary, index: int) -> int:
 	var theme: Dictionary = get_text_edit().theme_overrides
-	var goto_data: DMResolvedGotoData = DMResolvedGotoData.new(text, { })
+	var goto_data: DMResolvedGotoData = DMResolvedGotoData.new(text, {})
 	colors[goto_data.index] = { color = theme.jumps_color }
 	if "{{" in text:
 		index = text.find("{{", goto_data.index)

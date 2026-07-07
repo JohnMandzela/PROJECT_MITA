@@ -1,6 +1,6 @@
 ## A compiled line of dialogue.
-class_name DMCompiledLine
-extends RefCounted
+class_name DMCompiledLine extends RefCounted
+
 
 ## The ID of the line
 var id: String
@@ -25,7 +25,7 @@ var concurrent_lines: PackedStringArray = []
 ## Any tags on this line.
 var tags: PackedStringArray = []
 ## The condition or mutation expression for this line.
-var expression: Dictionary = { }
+var expression: Dictionary = {}
 ## The express as the raw text that was given.
 var expression_text: String = ""
 ## The next sequential line to go to after this line.
@@ -41,7 +41,9 @@ var next_id_after: String = ""
 ## Any doc comments attached to this line.
 var notes: String = ""
 
+
 #region Hooks
+
 
 func _init(initial_id: String, initial_type: String) -> void:
 	id = initial_id
@@ -64,16 +66,18 @@ func _to_string() -> String:
 
 	return " ".join(s)
 
+
 #endregion
 
 #region Helpers
+
 
 ## Express this line as a [Dictionary] that can be stored in a resource.
 func to_data() -> Dictionary:
 	var d: Dictionary = {
 		id = id,
 		type = type,
-		next_id = next_id,
+		next_id = next_id
 	}
 
 	if next_id_expression.size() > 0:
@@ -85,22 +89,28 @@ func to_data() -> Dictionary:
 			if not next_sibling_id.is_empty():
 				d.next_sibling_id = next_sibling_id
 			d.next_id_after = next_id_after
+
 		DMConstants.TYPE_WHILE:
 			d.condition = expression
 			d.next_id_after = next_id_after
+
 		DMConstants.TYPE_MATCH:
 			d.condition = expression
 			d.next_id_after = next_id_after
 			d.cases = siblings
+
 		DMConstants.TYPE_MUTATION:
 			d.mutation = expression
+
 		DMConstants.TYPE_GOTO:
 			d.is_snippet = is_snippet
 			d.next_id_after = next_id_after
 			if not siblings.is_empty():
 				d.siblings = siblings
+
 		DMConstants.TYPE_RANDOM:
 			d.siblings = siblings
+
 		DMConstants.TYPE_RESPONSE:
 			d.text = text
 
@@ -123,6 +133,7 @@ func to_data() -> Dictionary:
 				d.notes = notes
 			if not expression_text.is_empty():
 				d.condition_as_text = expression_text
+
 		DMConstants.TYPE_DIALOGUE:
 			d.text = text
 
@@ -145,5 +156,6 @@ func to_data() -> Dictionary:
 				d.concurrent_lines = concurrent_lines
 
 	return d
+
 
 #endregion

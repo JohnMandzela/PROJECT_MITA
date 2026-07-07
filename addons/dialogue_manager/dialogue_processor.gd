@@ -1,5 +1,5 @@
-class_name DMDialogueProcessor
-extends RefCounted
+class_name DMDialogueProcessor extends RefCounted
+
 
 ## Override to modify the incoming raw string.
 func _preprocess_line(raw_line: String) -> String:

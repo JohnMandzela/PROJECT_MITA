@@ -1,6 +1,6 @@
 ## An intermediate representation of a dialogue line before it gets compiled.
-class_name DMTreeLine
-extends RefCounted
+class_name DMTreeLine extends RefCounted
+
 
 ## The line number where this dialogue was found (after imported files have had their content imported).
 var line_number: int = 0
@@ -36,15 +36,11 @@ func _to_string() -> String:
 	tabs.fill("\t")
 	tabs = "".join(tabs)
 
-	return tabs.join(
-		[
-			tabs + "{\n",
-			"\tid: %s\n" % [id],
-			"\ttype: %s\n" % [type],
-			"\tis_random: %s\n" % ["true" if is_random else "false"],
-			"\ttext: %s\n" % [text],
-			"\tnotes: %s\n" % [notes],
-			"\tchildren: []\n" if children.size() == 0 else "\tchildren: [\n" + ",\n".join(children.map(func(child): return str(child))) + "]\n",
-			"}",
-		],
-	)
+	return tabs.join([tabs + "{\n",
+		"\tid: %s\n" % [id],
+		"\ttype: %s\n" % [type],
+		"\tis_random: %s\n" % ["true" if is_random else "false"],
+		"\ttext: %s\n" % [text],
+		"\tnotes: %s\n" % [notes],
+		"\tchildren: []\n" if children.size() == 0 else "\tchildren: [\n" + ",\n".join(children.map(func(child): return str(child))) + "]\n",
+	"}"])

@@ -1,6 +1,6 @@
 ## A collection of utility functions for working with dialogue translations.
-class_name DMTranslationUtilities
-extends RefCounted
+class_name DMTranslationUtilities extends RefCounted
+
 
 ## Generate translation keys from some text.
 static func generate_translation_keys() -> void:
@@ -18,13 +18,10 @@ static func generate_translation_keys() -> void:
 			var line = lines[i]
 			var l = line.strip_edges()
 
-			if not [DMConstants.TYPE_DIALOGUE, DMConstants.TYPE_RESPONSE].has(DMCompiler.get_line_type(l)):
-				continue
-			if not compiled_lines.has(str(i)):
-				continue
+			if not [DMConstants.TYPE_DIALOGUE, DMConstants.TYPE_RESPONSE].has(DMCompiler.get_line_type(l)): continue
+			if not compiled_lines.has(str(i)): continue
 
-			if "[ID:" in line:
-				continue
+			if "[ID:" in line: continue
 
 			var translatable_text: String = ""
 			if l.begins_with("- "):
@@ -60,7 +57,7 @@ static func export_translations_to_csv(to_path: String, text: String, dialogue_p
 	var file: FileAccess
 
 	# If the file exists, open it first and work out which keys are already in it
-	var existing_csv: Dictionary = { }
+	var existing_csv: Dictionary = {}
 	var delimiter: String = get_delimiter_for_csv(to_path)
 	var column_count: int = 2
 	var default_locale_column: int = 1
@@ -124,13 +121,11 @@ static func export_translations_to_csv(to_path: String, text: String, dialogue_p
 	for key in dialogue.keys():
 		var line: Dictionary = dialogue.get(key)
 
-		if not line.type in [DMConstants.TYPE_DIALOGUE, DMConstants.TYPE_RESPONSE]:
-			continue
+		if not line.type in [DMConstants.TYPE_DIALOGUE, DMConstants.TYPE_RESPONSE]: continue
 
 		var translation_key: String = line.get(&"translation_key", line.text)
 
-		if translation_key in known_keys:
-			continue
+		if translation_key in known_keys: continue
 
 		known_keys.append(translation_key)
 
@@ -190,7 +185,7 @@ static func export_character_names_to_csv(to_path: String, text: String, dialogu
 	var file: FileAccess
 
 	# If the file exists, open it first and work out which keys are already in it
-	var existing_csv = { }
+	var existing_csv = {}
 	var delimiter: String = get_delimiter_for_csv(to_path)
 	var commas = []
 	if FileAccess.file_exists(to_path):
@@ -221,8 +216,7 @@ static func export_character_names_to_csv(to_path: String, text: String, dialogu
 	# Make a list of stuff that needs to go into the file
 	var lines_to_save = []
 	for character_name in character_names:
-		if character_name in known_keys:
-			continue
+		if character_name in known_keys: continue
 
 		known_keys.append(character_name)
 
@@ -245,12 +239,11 @@ static func export_character_names_to_csv(to_path: String, text: String, dialogu
 
 ## Replace translatable lines in some text using an existing CSV.
 static func import_translations_from_csv(from_path: String, text: String) -> String:
-	if not FileAccess.file_exists(from_path):
-		return text
+	if not FileAccess.file_exists(from_path): return text
 
 	# Open the CSV file and build a dictionary of the known keys
 	var delimiter: String = get_delimiter_for_csv(from_path)
-	var keys: Dictionary = { }
+	var keys: Dictionary = {}
 	var file: FileAccess = FileAccess.open(from_path, FileAccess.READ)
 	var csv_line: Array
 	while !file.eof_reached():

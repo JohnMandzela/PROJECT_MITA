@@ -3,8 +3,8 @@
 @tool
 
 ## A RichTextLabel specifically for use with [b]Dialogue Manager[/b] dialogue.
-class_name DialogueLabel
-extends RichTextLabel
+class_name DialogueLabel extends RichTextLabel
+
 
 ## Emitted for each letter typed out.
 signal spoke(letter: String, letter_index: int, speed: float)
@@ -20,6 +20,7 @@ signal finished_typing()
 
 ## [Deprecated] No longer emitted.
 signal paused_typing(duration: float)
+
 
 ## The action to press to skip typing.
 @export var skip_action: StringName = &"ui_cancel"
@@ -42,6 +43,7 @@ signal paused_typing(duration: float)
 @export var seconds_per_pause_step: float = 0.3
 
 var _already_mutated_indices: PackedInt32Array = []
+
 
 ## The current line of dialogue.
 var dialogue_line:
@@ -125,8 +127,7 @@ func skip_typing() -> void:
 
 # Type out the next character(s)
 func _type_next(delta: float, seconds_needed: float) -> void:
-	if _is_awaiting_mutation:
-		return
+	if _is_awaiting_mutation: return
 
 	if visible_characters == get_total_character_count():
 		return
@@ -134,8 +135,7 @@ func _type_next(delta: float, seconds_needed: float) -> void:
 	if _last_mutation_index != visible_characters:
 		_last_mutation_index = visible_characters
 		_mutate_inline_mutations(visible_characters)
-		if _is_awaiting_mutation:
-			return
+		if _is_awaiting_mutation: return
 
 	# Pause on characters like "."
 	var waiting_seconds: float = seconds_per_pause_step if _should_auto_pause() else 0
@@ -187,15 +187,13 @@ func _mutate_inline_mutations(index: int) -> void:
 
 # Determine if the current autopause character at the cursor should qualify to pause typing.
 func _should_auto_pause() -> bool:
-	if visible_characters == 0:
-		return false
+	if visible_characters == 0: return false
 
 	var parsed_text: String = get_parsed_text()
 
 	# Avoid outofbounds when the label auto-translates and the text changes to one shorter while typing out
 	# Note: visible characters can be larger than parsed_text after a translation event
-	if visible_characters >= parsed_text.length():
-		return false
+	if visible_characters >= parsed_text.length(): return false
 
 	# Ignore pause characters if they are next to a non-pause character
 	if parsed_text[visible_characters] in skip_pause_at_character_if_followed_by.split():

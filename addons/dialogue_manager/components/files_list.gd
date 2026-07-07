@@ -1,21 +1,24 @@
 @tool
 extends VBoxContainer
 
+
 signal file_selected(file_path: String)
 signal file_popup_menu_requested(at_position: Vector2)
 signal file_double_clicked(file_path: String)
 signal file_middle_clicked(file_path: String)
 
+
 const DialogueConstants = preload("../constants.gd")
 
 const MODIFIED_SUFFIX = "(*)"
+
 
 @export var icon: Texture2D
 
 @onready var filter_edit: LineEdit = $FilterEdit
 @onready var list: ItemList = $List
 
-var file_map: Dictionary = { }
+var file_map: Dictionary = {}
 
 var current_file_path: String = ""
 var last_selected_file_path: String = ""
@@ -67,7 +70,7 @@ func mark_file_as_unsaved(file: String, is_unsaved: bool) -> void:
 
 
 func update_file_map() -> void:
-	file_map = { }
+	file_map = {}
 	for file in files:
 		var nice_file: String = get_nice_file(file)
 
@@ -113,6 +116,7 @@ func apply_theme() -> void:
 		filter_edit.right_icon = get_theme_icon("Search", "EditorIcons")
 	if is_instance_valid(list):
 		list.add_theme_stylebox_override("panel", get_theme_stylebox("panel", "Panel"))
+
 
 ### Signals
 

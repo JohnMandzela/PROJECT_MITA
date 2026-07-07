@@ -1,11 +1,13 @@
 @tool
-class_name DMPlugin
-extends EditorPlugin
+class_name DMPlugin extends EditorPlugin
+
 
 signal cache_file_content_changed(path: String, new_content: String)
 
+
 const MainView: PackedScene = preload("./views/main_view.tscn")
 const FindInDialogueView: PackedScene = preload("./views/find_in_dialogue_view.tscn")
+
 
 static var instance: DMPlugin
 
@@ -127,10 +129,8 @@ func _apply_changes() -> void:
 
 
 func _get_unsaved_status(for_scene: String) -> String:
-	if not for_scene.is_empty():
-		return ""
-	if not is_instance_valid(main_view):
-		return ""
+	if not for_scene.is_empty(): return ""
+	if not is_instance_valid(main_view): return ""
 
 	var unsaved_count: int = main_view.count_unsaved_files()
 	if unsaved_count > 0:
@@ -152,8 +152,7 @@ func _build() -> bool:
 	DMSettings.check_for_dotnet_solution()
 
 	# Ignore errors in other files if we are just running the test scene
-	if DMSettings.get_user_value("is_running_test_scene", true):
-		return true
+	if DMSettings.get_user_value("is_running_test_scene", true): return true
 
 	DMCache.reimport_files()
 
@@ -200,44 +199,46 @@ static func get_editor_shortcuts() -> Dictionary:
 	var shortcuts: Dictionary = {
 		toggle_comment = [
 			_create_event("Ctrl+K"),
-			_create_event("Ctrl+Slash"),
+			_create_event("Ctrl+Slash")
 		],
 		delete_line = [
-			_create_event("Ctrl+Shift+K"),
+			_create_event("Ctrl+Shift+K")
 		],
 		move_up = [
-			_create_event("Alt+Up"),
+			_create_event("Alt+Up")
 		],
 		move_down = [
-			_create_event("Alt+Down"),
+			_create_event("Alt+Down")
 		],
 		save = [
-			_create_event("Ctrl+Alt+S"),
+			_create_event("Ctrl+Alt+S")
 		],
 		close_file = [
-			_create_event("Ctrl+W"),
+			_create_event("Ctrl+W")
 		],
 		find_in_files = [
-			_create_event("Ctrl+Shift+F"),
+			_create_event("Ctrl+Shift+F")
 		],
+
 		run_test_scene = [
-			_create_event("Ctrl+F5"),
+			_create_event("Ctrl+F5")
 		],
 		text_size_increase = [
-			_create_event("Ctrl+Equal"),
+			_create_event("Ctrl+Equal")
 		],
 		text_size_decrease = [
-			_create_event("Ctrl+Minus"),
+			_create_event("Ctrl+Minus")
 		],
 		text_size_reset = [
-			_create_event("Ctrl+0"),
+			_create_event("Ctrl+0")
 		],
+
 		make_bold = [
-			_create_event("Ctrl+Shift+b"),
+			_create_event("Ctrl+Shift+b")
 		],
 		make_italic = [
-			_create_event("Ctrl+Shift+i"),
-		],
+			_create_event("Ctrl+Shift+i")
+		]
 	}
 
 	var paths = EditorInterface.get_editor_paths()
@@ -248,8 +249,7 @@ static func get_editor_shortcuts() -> Dictionary:
 			settings = load(path)
 			break
 
-	if settings == null:
-		return shortcuts
+	if settings == null: return shortcuts
 
 	for s: Dictionary in settings.get("shortcuts"):
 		for key: String in shortcuts:
@@ -356,6 +356,7 @@ func _update_localization() -> void:
 		ProjectSettings.set_setting("internationalization/locale/translations_pot_files", files_for_pot)
 		ProjectSettings.save()
 
+
 ### Callbacks
 
 
@@ -367,54 +368,53 @@ func _copy_dialogue_balloon() -> void:
 	directory_dialog.get_vbox().add_child(label)
 	directory_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
 	directory_dialog.min_size = Vector2(600, 500) * scale
-	directory_dialog.dir_selected.connect(
-		func(path):
-			var plugin_path: String = get_plugin_path()
-			var is_dotnet: bool = DMSettings.check_for_dotnet_solution()
+	directory_dialog.dir_selected.connect(func(path):
+		var plugin_path: String = get_plugin_path()
+		var is_dotnet: bool = DMSettings.check_for_dotnet_solution()
 
-			var balloon_path: String = path + ("/Balloon.tscn" if is_dotnet else "/balloon.tscn")
-			var balloon_script_path: String = path + ("/DialogueBalloon.cs" if is_dotnet else "/balloon.gd")
+		var balloon_path: String = path + ("/Balloon.tscn" if is_dotnet else "/balloon.tscn")
+		var balloon_script_path: String = path + ("/DialogueBalloon.cs" if is_dotnet else "/balloon.gd")
 
-			# Copy the balloon scene file and change the script reference
-			var is_small_window: bool = ProjectSettings.get_setting("display/window/size/viewport_width") < 400
-			var example_balloon_file_name: String = "small_example_balloon.tscn" if is_small_window else "example_balloon.tscn"
-			var example_balloon_path: String = plugin_path + "/example_balloon/" + example_balloon_file_name
-			var example_balloon_script_file_name: String = "ExampleBalloon.cs" if is_dotnet else "example_balloon.gd"
-			var example_balloon_script_uid: String = ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/example_balloon.gd"))
-			var example_balloon_uid: String = ResourceUID.id_to_text(ResourceLoader.get_resource_uid(example_balloon_path))
+		# Copy the balloon scene file and change the script reference
+		var is_small_window: bool = ProjectSettings.get_setting("display/window/size/viewport_width") < 400
+		var example_balloon_file_name: String = "small_example_balloon.tscn" if is_small_window else "example_balloon.tscn"
+		var example_balloon_path: String = plugin_path + "/example_balloon/" + example_balloon_file_name
+		var example_balloon_script_file_name: String = "ExampleBalloon.cs" if is_dotnet else "example_balloon.gd"
+		var example_balloon_script_uid: String = ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/example_balloon.gd"))
+		var example_balloon_uid: String = ResourceUID.id_to_text(ResourceLoader.get_resource_uid(example_balloon_path))
 
-			# Copy the script file
-			var file: FileAccess = FileAccess.open(plugin_path + "/example_balloon/" + example_balloon_script_file_name, FileAccess.READ)
-			var file_contents: String = file.get_as_text()
-			if is_dotnet:
-				file_contents = file_contents.replace("class ExampleBalloon", "class DialogueBalloon")
-			else:
-				file_contents = file_contents.replace("class_name DialogueManagerExampleBalloon ", "")
-			file = FileAccess.open(balloon_script_path, FileAccess.WRITE)
-			file.store_string(file_contents)
-			file.close()
-			var new_balloon_script_uid_raw: int = ResourceUID.create_id()
-			ResourceUID.add_id(new_balloon_script_uid_raw, balloon_script_path)
-			var new_balloon_script_uid: String = ResourceUID.id_to_text(new_balloon_script_uid_raw)
+		# Copy the script file
+		var file: FileAccess = FileAccess.open(plugin_path + "/example_balloon/" + example_balloon_script_file_name, FileAccess.READ)
+		var file_contents: String = file.get_as_text()
+		if is_dotnet:
+			file_contents = file_contents.replace("class ExampleBalloon", "class DialogueBalloon")
+		else:
+			file_contents = file_contents.replace("class_name DialogueManagerExampleBalloon ", "")
+		file = FileAccess.open(balloon_script_path, FileAccess.WRITE)
+		file.store_string(file_contents)
+		file.close()
+		var new_balloon_script_uid_raw: int = ResourceUID.create_id()
+		ResourceUID.add_id(new_balloon_script_uid_raw, balloon_script_path)
+		var new_balloon_script_uid: String = ResourceUID.id_to_text(new_balloon_script_uid_raw)
 
-			# Save the new balloon
-			file_contents = FileAccess.get_file_as_string(example_balloon_path)
-			if "example_balloon.gd" in file_contents:
-				file_contents = file_contents.replace(plugin_path + "/example_balloon/example_balloon.gd", balloon_script_path)
-			else:
-				file_contents = file_contents.replace(plugin_path + "/example_balloon/ExampleBalloon.cs", balloon_script_path)
-			var new_balloon_uid: String = ResourceUID.id_to_text(ResourceUID.create_id())
-			file_contents = file_contents.replace(example_balloon_uid, new_balloon_uid).replace(example_balloon_script_uid, new_balloon_script_uid)
-			file = FileAccess.open(balloon_path, FileAccess.WRITE)
-			file.store_string(file_contents)
-			file.close()
+		# Save the new balloon
+		file_contents = FileAccess.get_file_as_string(example_balloon_path)
+		if "example_balloon.gd" in file_contents:
+			file_contents = file_contents.replace(plugin_path + "/example_balloon/example_balloon.gd", balloon_script_path)
+		else:
+			file_contents = file_contents.replace(plugin_path + "/example_balloon/ExampleBalloon.cs", balloon_script_path)
+		var new_balloon_uid: String = ResourceUID.id_to_text(ResourceUID.create_id())
+		file_contents = file_contents.replace(example_balloon_uid, new_balloon_uid).replace(example_balloon_script_uid, new_balloon_script_uid)
+		file = FileAccess.open(balloon_path, FileAccess.WRITE)
+		file.store_string(file_contents)
+		file.close()
 
-			EditorInterface.get_resource_filesystem().scan()
-			EditorInterface.get_file_system_dock().call_deferred("navigate_to_path", balloon_path)
+		EditorInterface.get_resource_filesystem().scan()
+		EditorInterface.get_file_system_dock().call_deferred("navigate_to_path", balloon_path)
 
-			DMSettings.set_setting(DMSettings.BALLOON_PATH, balloon_path)
+		DMSettings.set_setting(DMSettings.BALLOON_PATH, balloon_path)
 
-			directory_dialog.queue_free()
+		directory_dialog.queue_free()
 	)
 	EditorInterface.get_base_control().add_child(directory_dialog)
 	directory_dialog.popup_centered()
@@ -430,24 +430,20 @@ func _housekeeping() -> void:
 			var balloon_path: String = plugin_path + "/example_balloon/" + balloon_file_name
 			var balloon_content: String = FileAccess.get_file_as_string(balloon_path)
 			if "example_balloon.gd" in balloon_content and DMSettings.check_for_dotnet_solution():
-				balloon_content = balloon_content
-				\
-				# Replace script path with the C# one
-				.replace("example_balloon.gd", "ExampleBalloon.cs")
-				\
-				# Replace script UID with the C# one
-				.replace(ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/example_balloon.gd")), ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/ExampleBalloon.cs")))
+				balloon_content = balloon_content \
+					# Replace script path with the C# one
+					.replace("example_balloon.gd", "ExampleBalloon.cs") \
+					# Replace script UID with the C# one
+					.replace(ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/example_balloon.gd")), ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/ExampleBalloon.cs")))
 				var balloon_file: FileAccess = FileAccess.open(balloon_path, FileAccess.WRITE)
 				balloon_file.store_string(balloon_content)
 				balloon_file.close()
 			elif "ExampleBalloon.cs" in balloon_content and not DMSettings.check_for_dotnet_solution():
-				balloon_content = balloon_content
-				\
-				# Replace script path with the GDScript one
-				.replace("ExampleBalloon.cs", "example_balloon.gd")
-				\
-				# Replace script UID with the GDScript one
-				.replace(ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/ExampleBalloon.cs")), ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/example_balloon.gd")))
+				balloon_content = balloon_content \
+					# Replace script path with the GDScript one
+					.replace("ExampleBalloon.cs", "example_balloon.gd") \
+					# Replace script UID with the GDScript one
+					.replace(ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/ExampleBalloon.cs")), ResourceUID.id_to_text(ResourceLoader.get_resource_uid(plugin_path + "/example_balloon/example_balloon.gd")))
 				var balloon_file: FileAccess = FileAccess.open(balloon_path, FileAccess.WRITE)
 				balloon_file.store_string(balloon_content)
 				balloon_file.close()
@@ -480,6 +476,8 @@ func _housekeeping() -> void:
 			var balloon_file: FileAccess = FileAccess.open(balloon_path, FileAccess.WRITE)
 			balloon_file.store_string(contents)
 			balloon_file.close()
+
+
 
 ### Signals
 

@@ -1,5 +1,5 @@
-class_name DMCache
-extends RefCounted
+class_name DMCache extends RefCounted
+
 
 # Keep track of errors and dependencies
 # {
@@ -9,7 +9,7 @@ extends RefCounted
 # 		errors = [<error>, <error>]
 # 	}
 # }
-static var _cache: Dictionary = { }
+static var _cache: Dictionary = {}
 
 static var _update_dependency_timer: Timer
 static var _update_dependency_paths: PackedStringArray = []
@@ -22,7 +22,7 @@ static var _files_marked_for_reimport: PackedStringArray = []
 # }
 # Before compiling a file, remove any static IDs with a file path that matches
 # the file
-static var known_static_ids: Dictionary = { }
+static var known_static_ids: Dictionary = {}
 
 
 # Build the initial cache for dialogue files
@@ -58,8 +58,7 @@ static func reimport_files(and_files: PackedStringArray = []) -> void:
 		if not _files_marked_for_reimport.has(file):
 			_files_marked_for_reimport.append(file)
 
-	if _files_marked_for_reimport.is_empty():
-		return
+	if _files_marked_for_reimport.is_empty(): return
 
 	# Guard against recursive reimport calls. Don't mark for reimport unless attempted once.
 	var filesystem: EditorFileSystem = EditorInterface.get_resource_filesystem()
@@ -76,8 +75,7 @@ static func reimport_files(and_files: PackedStringArray = []) -> void:
 ## Helper to try and resolve recursive import crashes while importer is busy.
 static func _schedule_deferred_reimport() -> void:
 	# Wait before trying again.
-	if _files_marked_for_reimport.is_empty():
-		return
+	if _files_marked_for_reimport.is_empty(): return
 
 	var filesystem: EditorFileSystem = EditorInterface.get_resource_filesystem()
 	if filesystem.is_scanning():
@@ -95,7 +93,7 @@ static func add_file(path: String, compile_result: DMCompilerResult = null) -> v
 	_cache[path] = {
 		path = path,
 		dependencies = [],
-		errors = [],
+		errors = []
 	}
 
 	if compile_result != null:
@@ -124,7 +122,7 @@ static func add_errors_to_file(path: String, errors: Array[Dictionary]) -> void:
 			path = path,
 			resource_path = "",
 			dependencies = [],
-			errors = errors,
+			errors = errors
 		}
 
 
@@ -139,8 +137,7 @@ static func get_files_with_errors() -> Array[Dictionary]:
 
 ## Queue a file to have its dependencies checked
 static func queue_updating_dependencies(of_path: String) -> void:
-	if _update_dependency_paths.has(of_path):
-		return
+	if _update_dependency_paths.has(of_path): return
 
 	_update_dependency_timer.stop()
 	if not _update_dependency_paths.has(of_path):
@@ -150,8 +147,7 @@ static func queue_updating_dependencies(of_path: String) -> void:
 
 ## Update any references to a file path that has moved
 static func move_file_path(from_path: String, to_path: String) -> void:
-	if not _cache.has(from_path):
-		return
+	if not _cache.has(from_path): return
 
 	if to_path != "":
 		_cache[to_path] = _cache[from_path].duplicate()
@@ -166,8 +162,8 @@ static func get_files_with_dependency(imported_path: String) -> Array:
 ## Get any paths that are dependent on a given path
 static func get_dependent_paths_for_reimport(on_path: String) -> PackedStringArray:
 	return get_files_with_dependency(on_path) \
-			.filter(func(d): return Time.get_ticks_msec() - d.get("compiled_at", 0) > 3000) \
-			.map(func(d): return d.path)
+		.filter(func(d): return Time.get_ticks_msec() - d.get("compiled_at", 0) > 3000) \
+		.map(func(d): return d.path)
 
 
 # Recursively find any dialogue files in a directory
@@ -189,7 +185,9 @@ static func _get_dialogue_files_in_filesystem(path: String = "res://") -> Packed
 
 	return files
 
+
 #region Signals
+
 
 static func _on_dependency_timer_timeout() -> void:
 	_update_dependency_timer.stop()
@@ -205,5 +203,6 @@ static func _on_dependency_timer_timeout() -> void:
 			dependencies.append(found.strings[found.names.path])
 		_cache[path].dependencies = dependencies
 	_update_dependency_paths.clear()
+
 
 #endregion

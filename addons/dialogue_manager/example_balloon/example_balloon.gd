@@ -1,6 +1,6 @@
-class_name DialogueManagerExampleBalloon
-extends CanvasLayer
+class_name DialogueManagerExampleBalloon extends CanvasLayer
 ## A basic dialogue balloon for use with Dialogue Manager.
+
 
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource
@@ -33,7 +33,7 @@ var is_waiting_for_input: bool = false
 var will_hide_balloon: bool = false
 
 ## A dictionary to store any ephemeral variables
-var locals: Dictionary = { }
+var locals: Dictionary = {}
 
 var _locale: String = TranslationServer.get_locale()
 
@@ -171,7 +171,9 @@ func apply_dialogue_line() -> void:
 func next(next_id: String) -> void:
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, temporary_game_states)
 
+
 #region Signals
+
 
 func _on_mutation_cooldown_timeout() -> void:
 	if will_hide_balloon:
@@ -196,10 +198,8 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 			dialogue_label.skip_typing()
 			return
 
-	if not is_waiting_for_input:
-		return
-	if dialogue_line.responses.size() > 0:
-		return
+	if not is_waiting_for_input: return
+	if dialogue_line.responses.size() > 0: return
 
 	# When there are no response options the balloon itself is the clickable thing
 	get_viewport().set_input_as_handled()
@@ -212,5 +212,6 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 	next(response.next_id)
+
 
 #endregion

@@ -1,6 +1,7 @@
 @tool
 extends Control
 
+
 const OPEN_OPEN = 100
 const OPEN_QUICK = 101
 const OPEN_CLEAR = 102
@@ -20,10 +21,12 @@ const ITEM_SHOW_IN_FILESYSTEM = 201
 
 enum TranslationSource {
 	CharacterNames,
-	Lines,
+	Lines
 }
 
+
 signal confirmation_closed()
+
 
 @onready var parse_timer: Timer = $ParseTimer
 
@@ -46,6 +49,7 @@ signal confirmation_closed()
 @onready var close_confirmation_dialog: ConfirmationDialog = $CloseConfirmationDialog
 @onready var updated_dialog: AcceptDialog = $UpdatedDialog
 @onready var generate_static_ids_confirmation_dialog: ConfirmationDialog = $GenerateStaticIdsConfirmationDialog
+
 
 # Toolbar
 @onready var new_button: Button = %NewButton
@@ -124,7 +128,7 @@ var current_file_path: String = "":
 		return current_file_path
 
 # A reference to the currently open files and their last saved text
-var open_buffers: Dictionary = { }
+var open_buffers: Dictionary = {}
 
 # Which thing are we exporting translations for?
 var translation_source: TranslationSource = TranslationSource.Lines
@@ -140,13 +144,10 @@ func _ready() -> void:
 	version_label.text = "v%s" % DMPlugin.get_version()
 	update_button.on_before_refresh = func on_before_refresh():
 		# Save everything
-		DMSettings.set_user_value(
-			"just_refreshed",
-			{
-				current_file_path = current_file_path,
-				open_buffers = open_buffers,
-			},
-		)
+		DMSettings.set_user_value("just_refreshed", {
+			current_file_path = current_file_path,
+			open_buffers = open_buffers
+		})
 		return true
 
 	# Did we just load from an addon version refresh?
@@ -199,8 +200,7 @@ func _exit_tree() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible:
-		return
+	if not visible: return
 
 	if event is InputEventKey and event.is_pressed():
 		var shortcut: String = DMPlugin.get_editor_shortcut(event)
@@ -240,7 +240,7 @@ func load_from_version_refresh(just_refreshed: Dictionary) -> void:
 		var file_text: String = file.get_as_text()
 		open_buffers[just_refreshed.current_file_path] = {
 			pristine_text = file_text,
-			text = just_refreshed.current_file_content,
+			text = just_refreshed.current_file_content
 		}
 	else:
 		open_buffers = just_refreshed.open_buffers
@@ -273,8 +273,7 @@ func open_resource(resource: DialogueResource) -> void:
 
 
 func open_file(path: String) -> void:
-	if not FileAccess.file_exists(path):
-		return
+	if not FileAccess.file_exists(path): return
 
 	if not open_buffers.has(path):
 		var file: FileAccess = FileAccess.open(path, FileAccess.READ)
@@ -283,7 +282,7 @@ func open_file(path: String) -> void:
 		open_buffers[path] = {
 			cursor = Vector2.ZERO,
 			text = text,
-			pristine_text = text,
+			pristine_text = text
 		}
 
 	DMSettings.add_recent_file(path)
@@ -342,8 +341,7 @@ func save_file(path: String, rescan_file_system: bool = true) -> void:
 
 
 func close_file(path: String) -> void:
-	if not path in open_buffers.keys():
-		return
+	if not path in open_buffers.keys(): return
 
 	var buffer = open_buffers[path]
 
@@ -357,8 +355,7 @@ func close_file(path: String) -> void:
 
 
 func remove_file_from_open_buffers(path: String) -> void:
-	if not path in open_buffers.keys():
-		return
+	if not path in open_buffers.keys(): return
 
 	var current_index = open_buffers.keys().find(current_file_path)
 
@@ -379,11 +376,14 @@ func apply_theme() -> void:
 		var editor_settings = EditorInterface.get_editor_settings()
 		code_edit.theme_overrides = {
 			scale = scale,
+
 			background_color = Color(editor_settings.get_setting("interface/theme/base_color").blend(editor_settings.get_setting("text_editor/theme/highlighting/background_color")), 1),
 			current_line_color = editor_settings.get_setting("text_editor/theme/highlighting/current_line_color"),
 			error_line_color = editor_settings.get_setting("text_editor/theme/highlighting/mark_color"),
+
 			critical_color = editor_settings.get_setting("text_editor/theme/highlighting/comment_markers/critical_color"),
 			notice_color = editor_settings.get_setting("text_editor/theme/highlighting/comment_markers/notice_color"),
+
 			titles_color = editor_settings.get_setting("text_editor/theme/highlighting/control_flow_keyword_color"),
 			text_color = editor_settings.get_setting("text_editor/theme/highlighting/text_color"),
 			conditions_color = editor_settings.get_setting("text_editor/theme/highlighting/keyword_color"),
@@ -395,7 +395,8 @@ func apply_theme() -> void:
 			symbols_color = editor_settings.get_setting("text_editor/theme/highlighting/symbol_color"),
 			comments_color = editor_settings.get_setting("text_editor/theme/highlighting/comment_color"),
 			jumps_color = Color(editor_settings.get_setting("text_editor/theme/highlighting/control_flow_keyword_color"), 0.6),
-			font_size = editor_settings.get_setting("interface/editor/code_font_size"),
+
+			font_size = editor_settings.get_setting("interface/editor/code_font_size")
 		}
 
 		banner_new_button.icon = get_theme_icon("New", "EditorIcons")
@@ -474,7 +475,9 @@ func apply_theme() -> void:
 		export_dialog.min_size = Vector2(600, 500) * scale
 		import_dialog.min_size = Vector2(600, 500) * scale
 
+
 #region Helpers
+
 
 # Move the cursor to a given title in the dialogue editor
 func go_to_title(title: String, create_if_none: bool = false) -> void:
@@ -515,8 +518,7 @@ func get_last_export_path(extension: String) -> String:
 # Check the current text for errors
 func compile() -> void:
 	# Skip if nothing to parse
-	if current_file_path == "":
-		return
+	if current_file_path == "": return
 
 	var result: DMCompilerResult = DMCompiler.compile_string(code_edit.text, current_file_path)
 	code_edit.errors = result.errors
@@ -595,9 +597,11 @@ func run_test_scene(from_key: String) -> void:
 		test_scene_path = ResourceUID.get_id_path(ResourceUID.text_to_id(test_scene_path))
 	EditorInterface.play_custom_scene(test_scene_path)
 
+
 #endregion
 
 #region Signals
+
 
 func _on_files_moved(old_file: String, new_file: String) -> void:
 	if open_buffers.has(old_file):
@@ -678,16 +682,19 @@ func _on_translations_button_menu_id_pressed(id: int) -> void:
 	match id:
 		TRANSLATIONS_GENERATE_LINE_IDS:
 			generate_translations_keys()
+
 		TRANSLATIONS_SAVE_CHARACTERS_TO_CSV:
 			translation_source = TranslationSource.CharacterNames
 			export_dialog.filters = PackedStringArray(["*.csv ; Translation CSV"])
 			export_dialog.current_path = get_last_export_path("csv")
 			export_dialog.popup_centered()
+
 		TRANSLATIONS_SAVE_TO_CSV:
 			translation_source = TranslationSource.Lines
 			export_dialog.filters = PackedStringArray(["*.csv ; Translation CSV"])
 			export_dialog.current_path = get_last_export_path("csv")
 			export_dialog.popup_centered()
+
 		TRANSLATIONS_IMPORT_FROM_CSV:
 			import_dialog.current_path = get_last_export_path("csv")
 			import_dialog.popup_centered()
@@ -737,8 +744,7 @@ func _on_new_dialog_file_selected(path: String) -> void:
 
 
 func _on_save_dialog_file_selected(path: String) -> void:
-	if path == "":
-		path = "res://untitled.dialogue"
+	if path == "": path = "res://untitled.dialogue"
 
 	new_file(path, code_edit.text)
 	open_file(path)
@@ -901,6 +907,7 @@ func _on_files_popup_menu_id_pressed(id: int) -> void:
 			for path in open_buffers.keys():
 				if path != current_current_file_path:
 					await close_file(path)
+
 		ITEM_COPY_PATH:
 			DisplayServer.clipboard_set(current_file_path)
 		ITEM_SHOW_IN_FILESYSTEM:
@@ -934,7 +941,7 @@ func _on_find_in_files_result_selected(path: String, cursor: Vector2, length: in
 	code_edit.set_line_as_center_visible(cursor.y)
 
 
-func _on_banner_image_gui_input(event: InputEvent) -> void:
+func _on_banner_image_gui_input(event:  InputEvent) -> void:
 	if event.is_pressed():
 		OS.shell_open("https://bravestcoconut.com/wishlist")
 
@@ -968,5 +975,6 @@ func _on_generate_static_ids_confirmation_dialog_confirmed() -> void:
 	code_edit.set_cursor(cursor)
 	code_edit.scroll_vertical = scroll_vertical
 	_on_code_edit_text_changed()
+
 
 #endregion

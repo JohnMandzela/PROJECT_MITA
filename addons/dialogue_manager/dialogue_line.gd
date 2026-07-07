@@ -1,6 +1,6 @@
 ## A line of dialogue returned from [code]DialogueManager[/code].
-class_name DialogueLine
-extends RefCounted
+class_name DialogueLine extends RefCounted
+
 
 ## The ID of this line
 var id: String
@@ -27,7 +27,7 @@ var text_replacements: Array[Dictionary] = []
 var translation_key: String = ""
 
 ## A map for speed changes when typing out the dialogue text.
-var speeds: Dictionary = { }
+var speeds: Dictionary = {}
 
 ## A map of any mutations to run while typing out the dialogue text.
 var inline_mutations: Array[Array] = []
@@ -48,13 +48,13 @@ var time: String = ""
 var tags: PackedStringArray = []
 
 ## The mutation details if this is a mutation line (where [code]type == TYPE_MUTATION[/code]).
-var mutation: Dictionary = { }
+var mutation: Dictionary = {}
 
 ## The conditions to check before including this line in the flow of dialogue. If failed the line will be skipped over.
-var conditions: Dictionary = { }
+var conditions: Dictionary = {}
 
 
-func _init(data: Dictionary = { }) -> void:
+func _init(data: Dictionary = {}) -> void:
 	if data.size() > 0:
 		id = data.id
 		next_id = data.next_id
@@ -68,11 +68,12 @@ func _init(data: Dictionary = { }) -> void:
 				text = data.text
 				text_replacements = data.get("text_replacements", [] as Array[Dictionary])
 				translation_key = data.get("translation_key", data.text)
-				speeds = data.get("speeds", { })
+				speeds = data.get("speeds", {})
 				inline_mutations = data.get("inline_mutations", [] as Array[Array])
 				time = data.get("time", "")
 				tags = data.get("tags", [])
 				concurrent_lines = data.get("concurrent_lines", [] as Array[DialogueLine])
+
 			DMConstants.TYPE_MUTATION:
 				mutation = data.mutation
 

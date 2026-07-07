@@ -1,10 +1,13 @@
 @tool
 extends VBoxContainer
 
+
 signal open_requested()
 signal close_requested()
 
+
 const DialogueConstants = preload("../constants.gd")
+
 
 @onready var input: LineEdit = $Search/Input
 @onready var result_label: Label = $Search/ResultLabel
@@ -112,7 +115,9 @@ func find_in_line(line: String, text: String, from_index: int = 0) -> int:
 	else:
 		return line.findn(text, from_index)
 
+
 #region Signals
+
 
 func _on_text_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
@@ -172,8 +177,7 @@ func _on_input_gui_input(event: InputEvent) -> void:
 
 
 func _on_replace_button_pressed() -> void:
-	if result_index == -1:
-		return
+	if result_index == -1: return
 
 	# Replace the selection at result index
 	var r: Array = results[result_index]
@@ -213,5 +217,6 @@ func _on_input_focus_entered() -> void:
 
 func _on_match_case_check_box_toggled(button_pressed: bool) -> void:
 	search()
+
 
 #endregion

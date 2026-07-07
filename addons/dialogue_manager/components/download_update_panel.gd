@@ -1,12 +1,15 @@
 @tool
 extends Control
 
+
 signal failed()
 signal updated(updated_to_version: String)
+
 
 const DialogueConstants = preload("../constants.gd")
 
 const TEMP_FILE_NAME = "user://temp.zip"
+
 
 @onready var logo: TextureRect = %Logo
 @onready var label: Label = $VBox/Label
@@ -24,6 +27,7 @@ var next_version_release: Dictionary:
 func _ready() -> void:
 	$VBox/Center/DownloadButton.text = DialogueConstants.translate(&"update.download_update")
 	$VBox/Center2/NotesButton.text = DialogueConstants.translate(&"update.release_notes")
+
 
 ### Signals
 
