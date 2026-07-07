@@ -102,7 +102,7 @@ func _ready() -> void:
 	sync_quest_progress()
 	load_settings()
 
-	const screen_fader_path := "res://scenes/system/screen_fader.tscn"
+	const screen_fader_path := "res://scenes/ui/screen_fader.tscn"
 	screen_fader = preload(screen_fader_path).instantiate()
 	add_child(screen_fader)
 

@@ -59,7 +59,7 @@ var inventory_tween: Tween
 var settings_button: Button
 var settings_drawer: Panel
 var fullscreen_checkbox: CheckBox
-var Slider: HSlider
+var MusicSlider: HSlider
 var SoundsSlider: HSlider
 var settings_open := false
 var settings_tween: Tween
@@ -531,8 +531,8 @@ func _build_settings_drawer(parent: Control) -> void:
 	fullscreen_checkbox.toggled.connect(_on_fullscreen_toggled)
 	vbox.add_child(fullscreen_checkbox)
 
-	Slider = _add_settings_slider(vbox, "Музыка")
-	Slider.value_changed.connect(_on_music_value_changed)
+	MusicSlider = _add_settings_slider(vbox, "Музыка")
+	MusicSlider.value_changed.connect(_on_music_value_changed)
 	SoundsSlider = _add_settings_slider(vbox, "Звуки")
 	SoundsSlider.value_changed.connect(_on_sounds_value_changed)
 
@@ -823,24 +823,24 @@ func _load_settings() -> void:
 	var config := ConfigFile.new()
 	var err := config.load(GameManager.SETTINGS_PATH)
 	if err == OK:
-		Slider.value = float(config.get_value("audio", "music_volume", 100.0))
+		MusicSlider.value = float(config.get_value("audio", "music_volume", 100.0))
 		SoundsSlider.value = float(config.get_value("audio", "sounds_volume", 100.0))
 	else:
-		Slider.value = 100.0
+		MusicSlider.value = 100.0
 		SoundsSlider.value = 100.0
 
 
 func _save_settings() -> void:
 	var config := ConfigFile.new()
 	config.set_value("video", "fullscreen", fullscreen_checkbox.button_pressed)
-	config.set_value("audio", "music_volume", Slider.value)
+	config.set_value("audio", "music_volume", MusicSlider.value)
 	config.set_value("audio", "sounds_volume", SoundsSlider.value)
 	config.save(GameManager.SETTINGS_PATH)
 
 
 func _apply_settings() -> void:
 	_apply_fullscreen(fullscreen_checkbox.button_pressed)
-	_apply_bus_volume("Music", Slider.value)
+	_apply_bus_volume("Music", MusicSlider.value)
 	_apply_bus_volume("Sounds", SoundsSlider.value)
 
 
