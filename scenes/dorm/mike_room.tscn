@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://dyjl1lpi8xtee" path="res://scripts/2_mike_room/furniture/bed.gd" id="8_glapv"]
 [ext_resource type="Resource" uid="uid://xfr1x7r1n7s5" path="res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue" id="8_tksu2"]
 [ext_resource type="Script" uid="uid://daok3uyt8ffsd" path="res://scripts/2_mike_room/furniture/bedside_table.gd" id="9_dxssy"]
-[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="9_glapv"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_glapv"]
 [ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scripts/2_mike_room/furniture/laptop.gd" id="10_7co0a"]
 [ext_resource type="Resource" uid="uid://igbqwnik8w8l" path="res://dialogues/2_mike_room/furniture/mike_room_bed_day_1-1.dialogue" id="10_md5sy"]
 [ext_resource type="AudioStream" uid="uid://b5aub5gi1bcnt" path="res://audio/sounds/shower_wash.mp3" id="10_q4ttt"]

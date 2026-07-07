@@ -1,6 +1,6 @@
 ## A response to a line of dialogue, usualy attached to a [code]DialogueLine[/code].
-class_name DialogueResponse extends RefCounted
-
+class_name DialogueResponse
+extends RefCounted
 
 ## The ID of this response
 var id: String
@@ -36,7 +36,7 @@ var tags: PackedStringArray = []
 var translation_key: String = ""
 
 
-func _init(data: Dictionary = {}) -> void:
+func _init(data: Dictionary = { }) -> void:
 	if data.size() > 0:
 		id = data.id
 		type = data.type

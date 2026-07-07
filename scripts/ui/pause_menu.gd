@@ -34,12 +34,12 @@ extends Control
 
 var menu_open := 0
 var loading_settings := true
-var _inventory_rows := {}
+var _inventory_rows := { }
 var _selected_item_id := ""
-var _active_quest_rows := {}
-var _completed_quest_rows := {}
+var _active_quest_rows := { }
+var _completed_quest_rows := { }
 var _quest_details_source := "active_quests"
-var _scroll_states := {}
+var _scroll_states := { }
 var completed_quests_overlay: Panel
 var completed_quest_vbox: VBoxContainer
 var completed_quest_scroll: ScrollContainer
@@ -144,7 +144,7 @@ func save_settings() -> void:
 func _ready() -> void:
 	var mode := DisplayServer.window_get_mode()
 	var is_full := mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN \
-		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
+			or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscren_checkbox_path.button_pressed = is_full
 
 	visible = false
@@ -292,8 +292,7 @@ func _on_music_value_changed(value: float) -> void:
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed
-		else DisplayServer.WINDOW_MODE_WINDOWED
+		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed else DisplayServer.WINDOW_MODE_WINDOWED,
 	)
 	if not loading_settings:
 		save_settings()
@@ -743,7 +742,7 @@ func _on_scroll_gui_input(event: InputEvent, scroll_id: String) -> void:
 	if event is InputEventMouseMotion and bool(state["dragging"]):
 		state["target"] = _clamp_scroll_target(
 			scroll_id,
-			float(state["target"]) - event.relative.y * DRAG_SCROLL_MULTIPLIER
+			float(state["target"]) - event.relative.y * DRAG_SCROLL_MULTIPLIER,
 		)
 		state["velocity"] = -event.relative.y * SCROLL_INERTIA_SCALE
 		get_viewport().set_input_as_handled()
@@ -761,7 +760,7 @@ func _on_scroll_gui_input(event: InputEvent, scroll_id: String) -> void:
 	if event is InputEventScreenDrag and bool(state["dragging"]):
 		state["target"] = _clamp_scroll_target(
 			scroll_id,
-			float(state["target"]) - event.relative.y * DRAG_SCROLL_MULTIPLIER
+			float(state["target"]) - event.relative.y * DRAG_SCROLL_MULTIPLIER,
 		)
 		state["velocity"] = -event.relative.y * SCROLL_INERTIA_SCALE
 		get_viewport().set_input_as_handled()
@@ -777,7 +776,7 @@ func _update_scroll(scroll_id: String, delta: float) -> void:
 		state["velocity"] = move_toward(
 			float(state["velocity"]),
 			0.0,
-			SCROLL_INERTIA_DAMP * SCROLL_INERTIA_SCALE * delta
+			SCROLL_INERTIA_DAMP * SCROLL_INERTIA_SCALE * delta,
 		)
 		if absf(float(state["velocity"])) < SCROLL_INERTIA_CUTOFF:
 			state["velocity"] = 0.0
@@ -789,7 +788,7 @@ func _update_scroll(scroll_id: String, delta: float) -> void:
 	var next_scroll := lerpf(
 		current_scroll,
 		float(state["target"]),
-		minf(1.0, SCROLL_FOLLOW_SPEED * delta)
+		minf(1.0, SCROLL_FOLLOW_SPEED * delta),
 	)
 	scroll.scroll_vertical = int(round(next_scroll))
 
@@ -806,7 +805,7 @@ func _is_scroll_area_visible(scroll_id: String) -> bool:
 
 
 func _clamp_scroll_target(scroll_id: String, value: float) -> float:
-	var state: Dictionary = _scroll_states.get(scroll_id, {})
+	var state: Dictionary = _scroll_states.get(scroll_id, { })
 	var scroll := state.get("scroll", null) as ScrollContainer
 	if scroll == null:
 		return 0.0

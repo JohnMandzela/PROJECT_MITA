@@ -77,7 +77,7 @@ func get_item_info(item_name: String) -> Dictionary:
 		"description": "Описание предмета пока не добавлено.",
 		"use_text": "",
 		"action": "Действие пока не назначено.",
-		"use_effects": {},
+		"use_effects": { },
 		"icon_path": FALLBACK_ICON_PATH,
 	}
 	return item_catalog.get(item_name, fallback)
@@ -165,7 +165,7 @@ func _normalize_inventory_order() -> void:
 		for item_id in items_inventory.keys():
 			inventory_order.append(str(item_id))
 
-	var existing := {}
+	var existing := { }
 	for item_id in items_inventory.keys():
 		existing[str(item_id)] = true
 

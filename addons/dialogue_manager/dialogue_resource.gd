@@ -2,8 +2,8 @@
 @icon("./assets/icon.svg")
 
 ## A collection of dialogue lines for use with [code]DialogueManager[/code].
-class_name DialogueResource extends Resource
-
+class_name DialogueResource
+extends Resource
 
 const DialogueLine = preload("./dialogue_line.gd")
 
@@ -11,7 +11,7 @@ const DialogueLine = preload("./dialogue_line.gd")
 @export var using_states: PackedStringArray = []
 
 ## A map of titles and the lines they point to.
-@export var titles: Dictionary = {}
+@export var titles: Dictionary = { }
 
 ## A list of character names.
 @export var character_names: PackedStringArray = []
@@ -20,7 +20,7 @@ const DialogueLine = preload("./dialogue_line.gd")
 @export var first_title: String = ""
 
 ## A map of the encoded lines of dialogue.
-@export var lines: Dictionary = {}
+@export var lines: Dictionary = { }
 
 ## raw version of the text
 @export var raw_text: String

@@ -1,9 +1,7 @@
 extends Control
 
-
 signal exit_requested
 signal puzzle_completed
-
 
 const GRID_COLUMNS := 7
 const GRID_ROWS := 6
@@ -88,7 +86,6 @@ const IMPACT_FONT := preload("res://fonts/Impact.otf")
 const VIRUS_TEXTURE := preload("res://images/virus.png")
 const BOMB_TEXTURE := preload("res://images/bomb.png")
 
-
 @onready var background: ColorRect = $Background
 @onready var board_grid: GridContainer = $CenterContainer/ContentMargin/MainRow/BoardColumn/BoardFrame/BoardMargin/BoardGrid
 @onready var red_zone_overlay: Control = $CenterContainer/ContentMargin/MainRow/BoardColumn/BoardFrame/BoardMargin/RedZoneOverlay
@@ -111,7 +108,6 @@ const BOMB_TEXTURE := preload("res://images/bomb.png")
 @onready var pause_label: Label = $PauseOverlay/PausePanel/PauseMargin/PauseVBox/PauseLabel
 @onready var pause_exit_button: Button = $PauseOverlay/PausePanel/PauseMargin/PauseVBox/PauseExitButton
 @onready var pause_continue_button: Button = $PauseOverlay/PausePanel/PauseMargin/PauseVBox/PauseContinueButton
-
 
 var board_state: Array[int] = []
 var board_tile_types: Array[int] = []
@@ -280,19 +276,19 @@ func _configure_zone_overlays() -> void:
 	red_zone_overlay.call(
 		"set_style",
 		Color(1.0, 0.3764706, 0.40392157, 0.2),
-		Color(0.8509804, 0.27058825, 0.28627452, 0.85)
+		Color(0.8509804, 0.27058825, 0.28627452, 0.85),
 	)
 	# Назначаем визуальный стиль желтой защитной зоны.
 	yellow_zone_overlay.call(
 		"set_style",
 		Color(0.98039216, 0.8627451, 0.40392157, 0.18),
-		Color(1.0, 0.84313726, 0.23921569, 0.95)
+		Color(1.0, 0.84313726, 0.23921569, 0.95),
 	)
 	# Назначаем визуальный стиль темно-красной зоны бомбы.
 	bomb_zone_overlay.call(
 		"set_style",
 		Color(0.4509804, 0.12156863, 0.12156863, 0.2),
-		Color(0.8509804, 0.27058825, 0.28627452, 0.85)
+		Color(0.8509804, 0.27058825, 0.28627452, 0.85),
 	)
 
 
@@ -602,7 +598,7 @@ func _on_board_cell_pressed(index: int) -> void:
 			"board_index": index,
 			"palette_index": selected_palette_index,
 			"tile_type": tile_type,
-		}
+		},
 	)
 	selected_palette_index = -1
 	# После установки пересчитываем зоны, очки и доступность управления.
@@ -810,7 +806,7 @@ func _build_spread_entries() -> Array[Dictionary]:
 				{
 					"board_index": board_index,
 					"owner_id": source_id,
-				}
+				},
 			)
 	return entries
 
@@ -846,11 +842,11 @@ func _get_spread_candidates_for_owner(owner_id: int, reserved_indices: Array[int
 				continue
 			# Не заражаем уже зараженные клетки, источники, стены, желтые клетки и бомбы.
 			if (
-				board_tile_types[neighbor] == TILE_VIRUS
-				or board_tile_types[neighbor] == TILE_INFECTED
-				or board_tile_types[neighbor] == TILE_WALL
-				or board_tile_types[neighbor] == TILE_YELLOW
-				or board_tile_types[neighbor] == TILE_BOMB
+					board_tile_types[neighbor] == TILE_VIRUS
+					or board_tile_types[neighbor] == TILE_INFECTED
+					or board_tile_types[neighbor] == TILE_WALL
+					or board_tile_types[neighbor] == TILE_YELLOW
+					or board_tile_types[neighbor] == TILE_BOMB
 			):
 				continue
 			# Свободные клетки после взрыва считаем менее приоритетными, чем нетронутые цели.
@@ -1207,10 +1203,10 @@ func _zone_effect_contains_index(effect: Dictionary, index: int) -> bool:
 	var radius_high: int = int(effect.get("radius_high", 1))
 
 	return (
-		row >= center_row - radius_low
-		and row <= center_row + radius_high
-		and column >= center_column - radius_low
-		and column <= center_column + radius_high
+			row >= center_row - radius_low
+			and row <= center_row + radius_high
+			and column >= center_column - radius_low
+			and column <= center_column + radius_high
 	)
 
 
@@ -1221,10 +1217,10 @@ func _is_in_square_zone(index: int, center_index: int, radius_low: int, radius_h
 	var row: int = index / GRID_COLUMNS
 	var column: int = index % GRID_COLUMNS
 	return (
-		row >= center_row - radius_low
-		and row <= center_row + radius_high
-		and column >= center_column - radius_low
-		and column <= center_column + radius_high
+			row >= center_row - radius_low
+			and row <= center_row + radius_high
+			and column >= center_column - radius_low
+			and column <= center_column + radius_high
 	)
 
 
@@ -1367,11 +1363,11 @@ func _sync_palette_slot(index: int) -> void:
 
 
 func _apply_palette_styles(
-	button: Button,
-	fill_color: Color,
-	border_color: Color,
-	border_width: int,
-	hover_color: Color = Color(-1, -1, -1, -1)
+		button: Button,
+		fill_color: Color,
+		border_color: Color,
+		border_width: int,
+		hover_color: Color = Color(-1, -1, -1, -1),
 ) -> void:
 	# Если отдельный hover-цвет не задан, вычисляем его автоматически из основного.
 	var resolved_hover: Color = hover_color if hover_color.a >= 0.0 else fill_color.lightened(0.06)

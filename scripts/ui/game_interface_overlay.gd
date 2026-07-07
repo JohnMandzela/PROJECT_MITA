@@ -51,7 +51,7 @@ var inventory_button: Button
 var inventory_drawer: Panel
 var inventory_grid: GridContainer
 var inventory_cells: Array[PanelContainer] = []
-var inventory_cell_items := {}
+var inventory_cell_items := { }
 var selected_item_id := ""
 var selected_item_cell: PanelContainer
 var inventory_open := false
@@ -74,6 +74,7 @@ class DottedPanel:
 
 	var fill_color := Color(0.965, 0.96, 0.94, 1.0)
 	var dot_color := Color(0.62, 0.62, 0.62, 0.55)
+
 
 	func _draw() -> void:
 		draw_rect(Rect2(Vector2.ZERO, size), fill_color, true)
@@ -774,7 +775,7 @@ func _can_use_item(item_id: String) -> bool:
 	if items_node == null:
 		return false
 	var item_info: Dictionary = items_node.call("get_item_info", item_id)
-	return not Dictionary(item_info.get("use_effects", {})).is_empty()
+	return not Dictionary(item_info.get("use_effects", { })).is_empty()
 
 
 func _on_use_item_pressed() -> void:
@@ -786,7 +787,7 @@ func _on_use_item_pressed() -> void:
 		return
 
 	var item_info: Dictionary = items_node.call("get_item_info", selected_item_id)
-	var effects := Dictionary(item_info.get("use_effects", {}))
+	var effects := Dictionary(item_info.get("use_effects", { }))
 	var vigor_bonus := float(effects.get("vigor", 0.0))
 	if vigor_bonus != 0.0:
 		vigor = vigor + vigor_bonus
@@ -816,7 +817,7 @@ func _on_settings_pressed() -> void:
 func _load_settings() -> void:
 	var mode := DisplayServer.window_get_mode()
 	var is_fullscreen := mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN \
-		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
+			or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscreen_checkbox.button_pressed = is_fullscreen
 
 	var config := ConfigFile.new()
@@ -863,8 +864,7 @@ func _on_sounds_value_changed(value: float) -> void:
 
 func _apply_fullscreen(enabled: bool) -> void:
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if enabled
-		else DisplayServer.WINDOW_MODE_WINDOWED
+		DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED,
 	)
 
 

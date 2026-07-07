@@ -1,15 +1,14 @@
 @icon("./assets/responses_menu.svg")
 
 ## A [Container] for dialogue responses provided by [b]Dialogue Manager[/b].
-class_name DialogueResponsesMenu extends Container
-
+class_name DialogueResponsesMenu
+extends Container
 
 ## Emitted when a response is focused.
 signal response_focused(response: Control)
 
 ## Emitted when a response is selected.
 signal response_selected(response: Control)
-
 
 ## Optionally specify a control to duplicate for each response
 @export var response_template: Control
@@ -39,11 +38,12 @@ var _previously_focused_item: Control = null
 
 
 func _ready() -> void:
-	visibility_changed.connect(func():
-		if auto_focus_first_item and visible and get_menu_items().size() > 0:
-			var first_item: Control = get_menu_items()[0]
-			if first_item.is_inside_tree():
-				first_item.grab_focus()
+	visibility_changed.connect(
+		func():
+			if auto_focus_first_item and visible and get_menu_items().size() > 0:
+				var first_item: Control = get_menu_items()[0]
+				if first_item.is_inside_tree():
+					first_item.grab_focus()
 	)
 
 	if is_instance_valid(response_template):
@@ -56,8 +56,10 @@ func _ready() -> void:
 func get_menu_items() -> Array:
 	var items: Array = []
 	for child in get_children():
-		if not child.visible: continue
-		if "Disallowed" in child.name: continue
+		if not child.visible:
+			continue
+		if "Disallowed" in child.name:
+			continue
 		items.append(child)
 
 	return items
@@ -100,15 +102,14 @@ func configure_focus() -> void:
 	if auto_focus_first_item:
 		items[0].grab_focus()
 
-
 #region Internal
-
 
 # Set up the visual side of things.
 func _apply_responses() -> void:
 	# Remove any current items
 	for item in get_children():
-		if item == response_template: continue
+		if item == response_template:
+			continue
 
 		remove_child(item)
 		item.queue_free()
@@ -116,7 +117,8 @@ func _apply_responses() -> void:
 	# Add new items
 	if responses.size() > 0:
 		for response in responses:
-			if hide_failed_responses and not response.is_allowed: continue
+			if hide_failed_responses and not response.is_allowed:
+				continue
 
 			var item: Control
 			if is_instance_valid(response_template):
@@ -143,15 +145,15 @@ func _apply_responses() -> void:
 		if auto_configure_focus:
 			configure_focus()
 
-
 #endregion
 
 #region Signals
 
-
 func _on_focus_changed(control: Control) -> void:
-	if "Disallowed" in control.name: return
-	if not control in get_menu_items(): return
+	if "Disallowed" in control.name:
+		return
+	if not control in get_menu_items():
+		return
 
 	if _previously_focused_item != control:
 		_previously_focused_item = control
@@ -159,13 +161,15 @@ func _on_focus_changed(control: Control) -> void:
 
 
 func _on_response_mouse_entered(item: Control) -> void:
-	if "Disallowed" in item.name: return
+	if "Disallowed" in item.name:
+		return
 
 	item.grab_focus()
 
 
 func _on_response_gui_input(event: InputEvent, item: Control, response) -> void:
-	if "Disallowed" in item.name: return
+	if "Disallowed" in item.name:
+		return
 
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		get_viewport().set_input_as_handled()
@@ -173,6 +177,5 @@ func _on_response_gui_input(event: InputEvent, item: Control, response) -> void:
 	elif event.is_action_pressed(&"ui_accept" if next_action.is_empty() else next_action) and item in get_menu_items():
 		get_viewport().set_input_as_handled()
 		response_selected.emit(response)
-
 
 #endregion

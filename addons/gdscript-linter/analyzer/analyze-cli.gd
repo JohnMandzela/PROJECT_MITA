@@ -18,20 +18,22 @@ const FileResultClass = preload("res://addons/gdscript-linter/analyzer/file-resu
 const IssueClass = preload("res://addons/gdscript-linter/analyzer/issue.gd")
 const HtmlReportGenerator = preload("res://addons/gdscript-linter/analyzer/html-report-generator.gd")
 
-var _target_paths: Array[String] = []  # Multiple paths to analyze
-var _output_format: String = "console"  # "console", "json", "clickable", "html", "github"
-var _output_file: String = ""  # For HTML output
-var _no_ignore: bool = false  # Bypass all gdlint:ignore directives
-var _config_path: String = ""  # Custom config file path
-var _severity_filter: String = ""  # Minimum severity: "info", "warning", "critical"
-var _check_filter: Array[String] = []  # Specific checks to run
-var _top_limit: int = 0  # Limit to top N issues (0 = no limit)
+var _target_paths: Array[String] = [] # Multiple paths to analyze
+var _output_format: String = "console" # "console", "json", "clickable", "html", "github"
+var _output_file: String = "" # For HTML output
+var _no_ignore: bool = false # Bypass all gdlint:ignore directives
+var _config_path: String = "" # Custom config file path
+var _severity_filter: String = "" # Minimum severity: "info", "warning", "critical"
+var _check_filter: Array[String] = [] # Specific checks to run
+var _top_limit: int = 0 # Limit to top N issues (0 = no limit)
 var _exit_code: int = 0
+
 
 func _init() -> void:
 	_parse_arguments()
 	_run_analysis()
 	quit(_exit_code)
+
 
 # gdlint:ignore-function:long-function - CLI argument parsing with many options
 func _parse_arguments() -> void:
@@ -104,6 +106,7 @@ func _parse_arguments() -> void:
 	if _target_paths.is_empty():
 		_target_paths.append("res://")
 
+
 # gdlint:ignore-function:print-statement,long-function - CLI help output
 func _print_help() -> void:
 	print("")
@@ -148,6 +151,7 @@ func _print_help() -> void:
 	print("  1 = Warnings found")
 	print("  2 = Critical issues found")
 	print("")
+
 
 func _run_analysis() -> void:
 	var config := _load_config()
@@ -264,8 +268,8 @@ func _apply_severity_filter(result) -> void:
 			min_severity = IssueClass.Severity.CRITICAL
 		"warning":
 			min_severity = IssueClass.Severity.WARNING
-		_:  # "info" or any other value
-			return  # No filtering needed
+		_: # "info" or any other value
+			return # No filtering needed
 
 	result.issues = result.issues.filter(func(issue): return issue.severity >= min_severity)
 
@@ -315,14 +319,19 @@ func _extract_issue_value(issue) -> int:
 func _output_json(result) -> void:
 	print(JSON.stringify(result.to_dict(), "\t"))
 
+
 # gdlint:ignore-function:print-statement,long-function - CLI clickable output
 func _output_clickable(result) -> void:
 	# Format that Godot Output panel makes clickable
 	print("")
 	print("=== Code Analysis Results ===")
-	print("Files: %d | Lines: %d | Issues: %d" % [
-		result.files_analyzed, result.total_lines, result.issues.size()
-	])
+	print(
+		"Files: %d | Lines: %d | Issues: %d" % [
+			result.files_analyzed,
+			result.total_lines,
+			result.issues.size(),
+		],
+	)
 	print("")
 
 	# Group by severity
@@ -373,13 +382,15 @@ func _output_github(result) -> void:
 			file_path = file_path.substr(6)
 
 		# Format: ::level file=path,line=N::message
-		print("::%s file=%s,line=%d::[%s] %s" % [
-			level,
-			file_path,
-			issue.line,
-			issue.check_id,
-			issue.message
-		])
+		print(
+			"::%s file=%s,line=%d::[%s] %s" % [
+				level,
+				file_path,
+				issue.line,
+				issue.check_id,
+				issue.message,
+			],
+		)
 
 
 # gdlint:ignore-function:print-statement - Console output formatting
@@ -393,15 +404,16 @@ func _output_console(result) -> void:
 	_print_todo_comments(result)
 	_print_console_footer()
 
+
 # gdlint:ignore-function:print-statement - CLI console output
 func _print_console_header(result) -> void:
 	print("")
-	print("=" .repeat(60))
+	print("=".repeat(60))
 	print("GDSCRIPT LINTER - CODE QUALITY REPORT")
-	print("=" .repeat(60))
+	print("=".repeat(60))
 	print("")
 	print("SUMMARY")
-	print("-" .repeat(40))
+	print("-".repeat(40))
 	print("Total files analyzed: %d" % result.files_analyzed)
 	print("Total lines of code: %d" % result.total_lines)
 	print("Critical issues: %d" % result.get_critical_count())
@@ -411,10 +423,11 @@ func _print_console_header(result) -> void:
 	print("Analysis time: %dms" % result.analysis_time_ms)
 	print("")
 
+
 # gdlint:ignore-function:print-statement - CLI console output
 func _print_top_files_by_size(result) -> void:
 	print("TOP 10 FILES BY SIZE")
-	print("-" .repeat(40))
+	print("-".repeat(40))
 	var by_size: Array = result.file_results.duplicate()
 	by_size.sort_custom(func(a, b): return a.line_count > b.line_count)
 	for i in range(mini(10, by_size.size())):
@@ -422,10 +435,11 @@ func _print_top_files_by_size(result) -> void:
 		print("%4d lines | %s" % [f.line_count, f.file_path])
 	print("")
 
+
 # gdlint:ignore-function:print-statement - CLI console output
 func _print_top_files_by_debt(result) -> void:
 	print("TOP 10 FILES BY DEBT SCORE")
-	print("-" .repeat(40))
+	print("-".repeat(40))
 	var by_debt: Array = result.file_results.duplicate()
 	by_debt.sort_custom(func(a, b): return a.debt_score > b.debt_score)
 	for i in range(mini(10, by_debt.size())):
@@ -435,21 +449,23 @@ func _print_top_files_by_debt(result) -> void:
 		print("Score %3d | %4d lines | %s" % [f.debt_score, f.line_count, f.file_path])
 	print("")
 
+
 # gdlint:ignore-function:print-statement - CLI console output
 func _print_critical_issues(result) -> void:
 	var critical: Array = result.get_issues_by_severity(IssueClass.Severity.CRITICAL)
 	if critical.size() == 0:
 		return
 	print("CRITICAL ISSUES (Fix Immediately)")
-	print("-" .repeat(40))
+	print("-".repeat(40))
 	for issue in critical:
 		print("  %s" % issue.get_clickable_format())
 	print("")
 
+
 # gdlint:ignore-function:print-statement - CLI console output
 func _print_long_functions(result) -> void:
 	print("LONG FUNCTIONS")
-	print("-" .repeat(40))
+	print("-".repeat(40))
 	var long_func_issues: Array = result.issues.filter(func(i): return i.check_id == "long-function")
 	long_func_issues.sort_custom(func(a, b): return a.severity > b.severity)
 	for i in range(mini(15, long_func_issues.size())):
@@ -457,13 +473,14 @@ func _print_long_functions(result) -> void:
 		print("  %s" % issue.get_clickable_format())
 	print("")
 
+
 # gdlint:ignore-function:print-statement - CLI console output
 func _print_pinned_exception_issues(result) -> void:
 	var pinned_issues: Array = result.issues.filter(func(i): return i.check_id.ends_with("-exceeded") or i.check_id.ends_with("-improved") or i.check_id.ends_with("-unnecessary"))
 	if pinned_issues.size() == 0:
 		return
 	print("PINNED EXCEPTION ALERTS")
-	print("-" .repeat(40))
+	print("-".repeat(40))
 	for issue in pinned_issues:
 		print("  %s" % issue.get_clickable_format())
 	print("")
@@ -475,7 +492,7 @@ func _print_todo_comments(result) -> void:
 	if todo_issues.size() == 0:
 		return
 	print("TODO/FIXME COMMENTS (%d total)" % todo_issues.size())
-	print("-" .repeat(40))
+	print("-".repeat(40))
 	for i in range(mini(10, todo_issues.size())):
 		var issue = todo_issues[i]
 		print("  %s" % issue.get_clickable_format())
@@ -483,12 +500,13 @@ func _print_todo_comments(result) -> void:
 		print("  ... and %d more" % (todo_issues.size() - 10))
 	print("")
 
+
 # gdlint:ignore-function:print-statement - CLI console output
 func _print_console_footer() -> void:
-	print("=" .repeat(60))
+	print("=".repeat(60))
 	print("Run with --clickable for Godot Output panel clickable links")
 	print("Run with --json for machine-readable output")
-	print("=" .repeat(60))
+	print("=".repeat(60))
 
 
 # gdlint:ignore-function:print-statement - CLI HTML output

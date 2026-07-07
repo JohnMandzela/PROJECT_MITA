@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dvhw5m37qmxyq"]
 
-[ext_resource type="Script" uid="uid://dtxtjaav08262" path="res://scenes/ui/character_portrait.gd" id="1_gt2jc"]
+[ext_resource type="Script" uid="uid://dtxtjaav08262" path="res://scripts/ui/character_portrait.gd" id="1_gt2jc"]
 
 [sub_resource type="Animation" id="Animation_gt2jc"]
 length = 0.001

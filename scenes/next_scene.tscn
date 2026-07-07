@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwpho562ow03u"]
-
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/next_scene.gd" id="1_4oj65"]
-
-[node name="NextScene" type="Area2D"]
-light_mask = 2
-script = ExtResource("1_4oj65")
-
-[connection signal="body_entered" from="." to="." method="_on_player_entered"]

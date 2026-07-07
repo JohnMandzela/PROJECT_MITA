@@ -14,6 +14,7 @@ var is_dialogue_running := false
 @onready var color_rect: ColorRect = $ColorRect
 @onready var screen_fader: AnimationPlayer = $ColorRect/AnimationPlayer
 
+
 #---------------------------------------------------------------------------------------------------
 func _ready() -> void:
 	color_rect.visible = false
@@ -27,9 +28,12 @@ func _ready() -> void:
 	var dialogue_manager = Engine.get_singleton("DialogueManager")
 	dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
 
+
 # Игрок вошел в ивент-зону
 func _on_body_entered(body: CharacterBody2D) -> void:
 	player = body
+
+
 # Игрок вышел из ивент-зоны
 func _on_body_exited(body: CharacterBody2D) -> void:
 	if body == player:
@@ -57,7 +61,7 @@ func _is_correct_direction() -> bool:
 func _process(_delta: float) -> void:
 	if player == null:
 		return
-	
+
 	if _is_correct_direction():
 		label.visible = true
 		if Input.is_action_just_pressed("interact") and is_dialogue_running == false:
@@ -71,9 +75,8 @@ func _process(_delta: float) -> void:
 	else:
 		label.visible = false
 
-
-#region Signals 
-func _on_dialogue_ended(_resource: DialogueResource): 
+#region Signals
+func _on_dialogue_ended(_resource: DialogueResource):
 	await get_tree().create_timer(0.1).timeout
 	is_dialogue_running = false
 #endregion
@@ -82,6 +85,8 @@ func _on_dialogue_ended(_resource: DialogueResource):
 func _play_toilet_sound() -> void:
 	if not toilet_sound.playing:
 		toilet_sound.play()
+
+
 #Функция воспроизведения звука душа
 func _play_shower_wash_sound() -> void:
 	if not shower_wah_sound.playing:
@@ -91,6 +96,7 @@ func _play_shower_wash_sound() -> void:
 func on_screen_fader() -> void:
 	color_rect.visible = true
 	screen_fader.play("on_screen_fader")
+
 
 func off_screen_fader() -> void:
 	screen_fader.play("off_screen_fader")

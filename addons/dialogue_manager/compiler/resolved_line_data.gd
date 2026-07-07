@@ -1,10 +1,11 @@
 ## Any data associated with inline dialogue BBCodes.
-class_name DMResolvedLineData extends RefCounted
+class_name DMResolvedLineData
+extends RefCounted
 
 ## The line's text
 var text: String = ""
 ## A map of speed changes against where they are found in the text.
-var speeds: Dictionary = {}
+var speeds: Dictionary = { }
 ## A list of any mutations to run and where they are found in the text.
 var mutations: Array[Array] = []
 ## A duration reference for the line. Represented as "auto" or a stringified number.
@@ -13,7 +14,7 @@ var time: String = ""
 
 func _init(line: String) -> void:
 	text = line
-	speeds = {}
+	speeds = { }
 	mutations = []
 	time = ""
 
@@ -39,11 +40,13 @@ func _init(line: String) -> void:
 		if position.code in ["wait", "speed", "/speed", "$>", "$>>", "do", "do!", "set", "next", "if", "else", "/if"]:
 			continue
 
-		bbcodes.append({
-			bbcode = position.bbcode,
-			start = position.start,
-			offset_start = position.start - accumulaive_length_offset
-		})
+		bbcodes.append(
+			{
+				bbcode = position.bbcode,
+				start = position.start,
+				offset_start = position.start - accumulaive_length_offset,
+			},
+		)
 		accumulaive_length_offset += position.bbcode.length()
 
 	for bb in bbcodes:
@@ -59,7 +62,7 @@ func _init(line: String) -> void:
 		var index = bbcode.start
 		var code = bbcode.code
 		var raw_args = bbcode.raw_args
-		var args = {}
+		var args = { }
 		if code in ["$>", "$>>", "do", "do!", "set"]:
 			args["value"] = DMCompiler.extract_mutation("%s %s" % [code, raw_args])
 		else:
@@ -116,7 +119,8 @@ func _init(line: String) -> void:
 
 
 func find_bbcode_positions_in_string(string: String, find_all: bool = true, include_conditions: bool = false) -> Array[Dictionary]:
-	if not "[" in string: return []
+	if not "[" in string:
+		return []
 
 	var positions: Array[Dictionary] = []
 
@@ -146,13 +150,15 @@ func find_bbcode_positions_in_string(string: String, find_all: bool = true, incl
 		if string[i] == "]":
 			open_brace_count -= 1
 			if open_brace_count == 0 and (include_conditions or not code in ["if", "else", "/if"]):
-				positions.append({
-					bbcode = bbcode,
-					code = code,
-					start = start,
-					end = i,
-					raw_args = bbcode.substr(code.length() + 1, bbcode.length() - code.length() - 2).strip_edges()
-				})
+				positions.append(
+					{
+						bbcode = bbcode,
+						code = code,
+						start = start,
+						end = i,
+						raw_args = bbcode.substr(code.length() + 1, bbcode.length() - code.length() - 2).strip_edges(),
+					},
+				)
 
 				if not find_all:
 					return positions

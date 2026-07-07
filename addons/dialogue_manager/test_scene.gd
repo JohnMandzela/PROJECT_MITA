@@ -1,9 +1,8 @@
-class_name BaseDialogueTestScene extends Node2D
-
+class_name BaseDialogueTestScene
+extends Node2D
 
 const DialogueSettings = preload("./settings.gd")
 const DialogueResource = preload("./dialogue_resource.gd")
-
 
 @onready var title: String = DialogueSettings.get_user_value("run_title")
 @onready var resource: DialogueResource = load("res://dialogues/test.dialogue")
@@ -26,12 +25,9 @@ func _ready():
 func _enter_tree() -> void:
 	DialogueSettings.set_user_value("is_running_test_scene", false)
 
-
 #region Signals
-
 
 func _on_dialogue_ended(_resource: DialogueResource):
 	get_tree().quit()
-
 
 #endregion

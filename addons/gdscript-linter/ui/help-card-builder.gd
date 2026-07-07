@@ -2,9 +2,9 @@
 # https://poplava.itch.io
 @tool
 extends RefCounted
+
 class_name GDLintHelpCardBuilder
 ## Creates the Help section card with ignore rules, CLI usage, and shortcuts
-
 
 # Create Help card (returns content to be added to a collapsible card)
 func create_card_content(container: VBoxContainer) -> void:
@@ -58,20 +58,32 @@ func _add_defensive_attributes_section(parent: VBoxContainer) -> void:
 
 	# Examples for each directive
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "#@ascii_only (per-file)",
-		"#@ascii_only\n# Place in first 10 lines. Raises ascii-violation WARNING\n# for any non-ASCII characters in the file.\n# Also available: ascii_only_project_wide in config")
+	_add_ignore_example(
+		parent,
+		"#@ascii_only (per-file)",
+		"#@ascii_only\n# Place in first 10 lines. Raises ascii-violation WARNING\n# for any non-ASCII characters in the file.\n# Also available: ascii_only_project_wide in config",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "gdlint:strict-file:rule=value",
-		"# gdlint:strict-file:long-function=20\n# Place in first 10 lines. Applies stricter limit to all\n# functions in the file. Raises strict-limit CRITICAL.")
+	_add_ignore_example(
+		parent,
+		"gdlint:strict-file:rule=value",
+		"# gdlint:strict-file:long-function=20\n# Place in first 10 lines. Applies stricter limit to all\n# functions in the file. Raises strict-limit CRITICAL.",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "gdlint:strict-function:rule=value",
-		"# gdlint:strict-function:long-function=15\nfunc tight_func():\n    # Applies stricter limit to this function only.\n    # Raises strict-limit CRITICAL. Suppresses normal check.")
+	_add_ignore_example(
+		parent,
+		"gdlint:strict-function:rule=value",
+		"# gdlint:strict-function:long-function=15\nfunc tight_func():\n    # Applies stricter limit to this function only.\n    # Raises strict-limit CRITICAL. Suppresses normal check.",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "#@Sealed (prevent inheritance)",
-		"#@Sealed\nclass_name MyBaseClass\n# Requires class_name on next line. Raises sealed-violation\n# CRITICAL when another file extends a sealed class.")
+	_add_ignore_example(
+		parent,
+		"#@Sealed (prevent inheritance)",
+		"#@Sealed\nclass_name MyBaseClass\n# Requires class_name on next line. Raises sealed-violation\n# CRITICAL when another file extends a sealed class.",
+	)
 
 
 func _add_defensive_table(parent: VBoxContainer) -> void:
@@ -109,32 +121,53 @@ func _add_ignore_rules_section(parent: VBoxContainer) -> void:
 
 	# Examples for each directive
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "gdlint:ignore-file",
-		"# gdlint:ignore-file\n# gdlint:ignore-file:file-length,long-function")
+	_add_ignore_example(
+		parent,
+		"gdlint:ignore-file",
+		"# gdlint:ignore-file\n# gdlint:ignore-file:file-length,long-function",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "gdlint:ignore-below",
-		"# gdlint:ignore-below\n# gdlint:ignore-below:magic-number")
+	_add_ignore_example(
+		parent,
+		"gdlint:ignore-below",
+		"# gdlint:ignore-below\n# gdlint:ignore-below:magic-number",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "gdlint:ignore-function",
-		"# gdlint:ignore-function\nfunc _debug(): ...\n\n# gdlint:ignore-function:print-statement\nfunc _log(): ...")
+	_add_ignore_example(
+		parent,
+		"gdlint:ignore-function",
+		"# gdlint:ignore-function\nfunc _debug(): ...\n\n# gdlint:ignore-function:print-statement\nfunc _log(): ...",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "gdlint:ignore-block-start/end",
-		"# gdlint:ignore-block-start:magic-number\nvar x = 42\nvar y = 100\n# gdlint:ignore-block-end")
+	_add_ignore_example(
+		parent,
+		"gdlint:ignore-block-start/end",
+		"# gdlint:ignore-block-start:magic-number\nvar x = 42\nvar y = 100\n# gdlint:ignore-block-end",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "gdlint:ignore-next-line",
-		"# gdlint:ignore-next-line\nvar magic = 42")
+	_add_ignore_example(
+		parent,
+		"gdlint:ignore-next-line",
+		"# gdlint:ignore-next-line\nvar magic = 42",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "gdlint:ignore-line",
-		"var magic = 42  # gdlint:ignore-line\nvar x = 100  # gdlint:ignore-line:magic-number")
+	_add_ignore_example(
+		parent,
+		"gdlint:ignore-line",
+		"var magic = 42  # gdlint:ignore-line\nvar x = 100  # gdlint:ignore-line:magic-number",
+	)
 
 	_add_thin_separator(parent)
-	_add_ignore_example(parent, "Pinned Exceptions (=value)",
-		"# gdlint:ignore-function:long-function=35\nfunc complex(): ...  # Warns if exceeds 35 lines")
+	_add_ignore_example(
+		parent,
+		"Pinned Exceptions (=value)",
+		"# gdlint:ignore-function:long-function=35\nfunc complex(): ...  # Warns if exceeds 35 lines",
+	)
 
 
 func _add_ignore_table(parent: VBoxContainer) -> void:
@@ -193,36 +226,56 @@ func _add_cli_section(parent: VBoxContainer) -> void:
 	_add_section_header(parent, "CLI Usage", "Run analysis from command line")
 
 	# Output formats table
-	_add_cli_table(parent, "Output Formats", [
-		["--clickable", "Godot Output panel (default)"],
-		["--json", "JSON format"],
-		["--html -o file.html", "HTML report"],
-		["--no-ignore", "Bypass all ignore directives"],
-	])
+	_add_cli_table(
+		parent,
+		"Output Formats",
+		[
+			["--clickable", "Godot Output panel (default)"],
+			["--json", "JSON format"],
+			["--html -o file.html", "HTML report"],
+			["--no-ignore", "Bypass all ignore directives"],
+		],
+	)
 
 	# Exit codes table
-	_add_cli_table(parent, "Exit Codes", [
-		["0", "No issues"],
-		["1", "Warnings only"],
-		["2", "Critical issues"],
-	])
+	_add_cli_table(
+		parent,
+		"Exit Codes",
+		[
+			["0", "No issues"],
+			["1", "Warnings only"],
+			["2", "Critical issues"],
+		],
+	)
 
 	# Examples
 	_add_thin_separator(parent)
-	_add_cli_example(parent, "Basic scan",
-		"godot --headless --script res://addons/gdscript-linter/analyzer/analyze-cli.gd")
+	_add_cli_example(
+		parent,
+		"Basic scan",
+		"godot --headless --script res://addons/gdscript-linter/analyzer/analyze-cli.gd",
+	)
 
 	_add_thin_separator(parent)
-	_add_cli_example(parent, "JSON output",
-		"godot --headless --script res://addons/gdscript-linter/analyzer/analyze-cli.gd -- --json")
+	_add_cli_example(
+		parent,
+		"JSON output",
+		"godot --headless --script res://addons/gdscript-linter/analyzer/analyze-cli.gd -- --json",
+	)
 
 	_add_thin_separator(parent)
-	_add_cli_example(parent, "HTML report",
-		"godot --headless --script res://addons/gdscript-linter/analyzer/analyze-cli.gd -- --html -o report.html")
+	_add_cli_example(
+		parent,
+		"HTML report",
+		"godot --headless --script res://addons/gdscript-linter/analyzer/analyze-cli.gd -- --html -o report.html",
+	)
 
 	_add_thin_separator(parent)
-	_add_cli_example(parent, "Scan external project",
-		"godot --headless --script res://addons/gdscript-linter/analyzer/analyze-cli.gd -- --path \"C:/my/project\"")
+	_add_cli_example(
+		parent,
+		"Scan external project",
+		"godot --headless --script res://addons/gdscript-linter/analyzer/analyze-cli.gd -- --path \"C:/my/project\"",
+	)
 
 
 func _add_cli_table(parent: VBoxContainer, title: String, entries: Array) -> void:
@@ -276,7 +329,7 @@ func _add_shortcuts_section(parent: VBoxContainer) -> void:
 	var shortcuts := [
 		["Click", "Plan mode (safe, reviews first)"],
 		["Shift+Click", "Immediate mode (fixes directly)"],
-		["Right-click", "Context menu with options"]
+		["Right-click", "Context menu with options"],
 	]
 
 	for shortcut in shortcuts:

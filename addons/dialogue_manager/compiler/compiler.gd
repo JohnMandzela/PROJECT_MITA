@@ -1,6 +1,6 @@
 ## A compiler of Dialogue Manager dialogue.
-class_name DMCompiler extends RefCounted
-
+class_name DMCompiler
+extends RefCounted
 
 ## Compile a dialogue script.
 static func compile_string(text: String, path: String) -> DMCompilerResult:

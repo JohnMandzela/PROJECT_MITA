@@ -57,7 +57,7 @@ func _collect_declarations(lines: Array) -> void:
 
 
 func _extract_func_name(line: String) -> String:
-	var after_func := line.substr(5)  # After "func "
+	var after_func := line.substr(5) # After "func "
 	var paren_pos := after_func.find("(")
 	if paren_pos > 0:
 		return after_func.substr(0, paren_pos).strip_edges()
@@ -66,9 +66,22 @@ func _extract_func_name(line: String) -> String:
 
 func _extract_parameters(line: String, line_num: int, func_name: String) -> void:
 	# Skip built-in virtual methods where parameters may be intentionally unused
-	var virtual_methods := ["_ready", "_process", "_physics_process", "_input",
-		"_unhandled_input", "_gui_input", "_notification", "_draw", "_enter_tree",
-		"_exit_tree", "_init", "_get", "_set", "_get_property_list"]
+	var virtual_methods := [
+		"_ready",
+		"_process",
+		"_physics_process",
+		"_input",
+		"_unhandled_input",
+		"_gui_input",
+		"_notification",
+		"_draw",
+		"_enter_tree",
+		"_exit_tree",
+		"_init",
+		"_get",
+		"_set",
+		"_get_property_list",
+	]
 	if func_name in virtual_methods:
 		return
 
@@ -91,12 +104,14 @@ func _extract_parameters(line: String, line_num: int, func_name: String) -> void
 		if config.ignore_underscore_prefix and param_name.begins_with("_"):
 			continue
 
-		_declarations.append({
-			"name": param_name,
-			"line": line_num,
-			"type": "parameter",
-			"used": false
-		})
+		_declarations.append(
+			{
+				"name": param_name,
+				"line": line_num,
+				"type": "parameter",
+				"used": false,
+			},
+		)
 
 
 func _extract_param_name(param: String) -> String:
@@ -131,12 +146,14 @@ func _extract_variable_declaration(line: String, line_num: int) -> void:
 		if config.ignore_underscore_prefix and var_name.begins_with("_"):
 			return
 
-		_declarations.append({
-			"name": var_name,
-			"line": line_num,
-			"type": "variable",
-			"used": false
-		})
+		_declarations.append(
+			{
+				"name": var_name,
+				"line": line_num,
+				"type": "variable",
+				"used": false,
+			},
+		)
 
 
 func _extract_for_loop_variable(line: String, line_num: int) -> void:
@@ -151,12 +168,14 @@ func _extract_for_loop_variable(line: String, line_num: int) -> void:
 		if config.ignore_underscore_prefix and var_name.begins_with("_"):
 			return
 
-		_declarations.append({
-			"name": var_name,
-			"line": line_num,
-			"type": "for_loop",
-			"used": false
-		})
+		_declarations.append(
+			{
+				"name": var_name,
+				"line": line_num,
+				"type": "for_loop",
+				"used": false,
+			},
+		)
 
 
 func _find_usages(lines: Array) -> void:
@@ -220,13 +239,25 @@ func _report_unused(add_issue_callback: Callable) -> void:
 		match decl_type:
 			"variable":
 				if config.check_unused_variables:
-					add_issue_callback.call(decl_line, "warning", "unused-variable",
-						"Variable '%s' is declared but never used" % decl_name)
+					add_issue_callback.call(
+						decl_line,
+						"warning",
+						"unused-variable",
+						"Variable '%s' is declared but never used" % decl_name,
+					)
 			"parameter":
 				if config.check_unused_parameters:
-					add_issue_callback.call(decl_line, "info", "unused-parameter",
-						"Parameter '%s' is declared but never used" % decl_name)
+					add_issue_callback.call(
+						decl_line,
+						"info",
+						"unused-parameter",
+						"Parameter '%s' is declared but never used" % decl_name,
+					)
 			"for_loop":
 				if config.check_unused_variables:
-					add_issue_callback.call(decl_line, "warning", "unused-variable",
-						"Loop variable '%s' is declared but never used" % decl_name)
+					add_issue_callback.call(
+						decl_line,
+						"warning",
+						"unused-variable",
+						"Loop variable '%s' is declared but never used" % decl_name,
+					)

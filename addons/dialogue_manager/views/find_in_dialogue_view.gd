@@ -3,9 +3,7 @@ extends Control
 
 signal result_selected(path: String, cursor: Vector2, length: int)
 
-
 const DialogueConstants = preload("../constants.gd")
-
 
 var main_view: Control
 
@@ -20,7 +18,7 @@ var main_view: Control
 @onready var results_container: VBoxContainer = %ResultsContainer
 @onready var result_template: HBoxContainer = %ResultTemplate
 
-var current_results: Dictionary = {}:
+var current_results: Dictionary = { }:
 	set(value):
 		current_results = value
 		update_results_view()
@@ -70,11 +68,9 @@ func prepare() -> void:
 	replace_selected_button.text = DialogueConstants.translate(&"search.replace_selected")
 
 	selections.clear()
-	current_results = {}
-
+	current_results = { }
 
 #region helpers
-
 
 func update_results_view() -> void:
 	for child in results_container.get_children():
@@ -92,13 +88,14 @@ func update_results_view() -> void:
 
 			var checkbox: CheckBox = result_item.get_node("CheckBox") as CheckBox
 			var key: String = get_selection_key(path, path_result)
-			checkbox.toggled.connect(func(is_pressed):
-				if is_pressed:
-					if not selections.has(key):
-						selections.append(key)
-				else:
-					if selections.has(key):
-						selections.remove_at(selections.find(key))
+			checkbox.toggled.connect(
+				func(is_pressed):
+					if is_pressed:
+						if not selections.has(key):
+							selections.append(key)
+					else:
+						if selections.has(key):
+							selections.remove_at(selections.find(key))
 			)
 			checkbox.set_pressed_no_signal(selections.has(key))
 			checkbox.visible = replace_toggle.button_pressed
@@ -113,16 +110,17 @@ func update_results_view() -> void:
 				highlight = "[bgcolor=" + colors.notice_color.to_html() + "][color=" + colors.text_color.to_html() + "]" + path_result.matched_text + "[/color][/bgcolor]"
 			var text: String = path_result.text.substr(0, path_result.index) + highlight + path_result.text.substr(path_result.index + path_result.query.length())
 			result_label.text = "%s: %s" % [str(path_result.line + 1).lpad(4), text]
-			result_label.gui_input.connect(func(event):
-				if event is InputEventMouseButton and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT and (event as InputEventMouseButton).double_click:
-					result_selected.emit(path, Vector2(path_result.index, path_result.line), path_result.query.length())
+			result_label.gui_input.connect(
+				func(event):
+					if event is InputEventMouseButton and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT and (event as InputEventMouseButton).double_click:
+						result_selected.emit(path, Vector2(path_result.index, path_result.line), path_result.query.length())
 			)
 
 			results_container.add_child(result_item)
 
 
 func find_in_files() -> Dictionary:
-	var results: Dictionary = {}
+	var results: Dictionary = { }
 
 	var q: String = input.text
 	var file: FileAccess
@@ -139,13 +137,15 @@ func find_in_files() -> Dictionary:
 		for i in range(0, lines.size()):
 			var index: int = find_in_line(lines[i], q)
 			while index > -1:
-				path_results.append({
-					line = i,
-					index = index,
-					text = lines[i],
-					matched_text = lines[i].substr(index, q.length()),
-					query = q
-				})
+				path_results.append(
+					{
+						line = i,
+						index = index,
+						text = lines[i],
+						matched_text = lines[i].substr(index, q.length()),
+						query = q,
+					},
+				)
 				index = find_in_line(lines[i], q, index + q.length())
 
 		if file != null and file.is_open():
@@ -199,11 +199,9 @@ func replace_results(only_selected: bool) -> void:
 
 	current_results = find_in_files()
 
-
 #endregion
 
 #region signals
-
 
 func _on_search_button_pressed() -> void:
 	selections.clear()
@@ -235,6 +233,5 @@ func _on_replace_all_button_pressed() -> void:
 
 func _on_match_case_button_toggled(toggled_on: bool) -> void:
 	_on_search_button_pressed()
-
 
 #endregion

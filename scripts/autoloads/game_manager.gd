@@ -1,6 +1,5 @@
 extends Node
 
-
 const SETTINGS_PATH := "user://settings.cfg"
 const SCENE_ROOT := "res://scenes/"
 
@@ -82,17 +81,16 @@ func load_settings() -> void:
 	var sounds_vol: float = config.get_value("audio", "sounds_volume", 100.0)
 
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen
-		else DisplayServer.WINDOW_MODE_WINDOWED
+		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED,
 	)
 
 	AudioServer.set_bus_volume_db(
 		AudioServer.get_bus_index("Music"),
-		linear_to_db(music_vol / 100.0)
+		linear_to_db(music_vol / 100.0),
 	)
 	AudioServer.set_bus_volume_db(
 		AudioServer.get_bus_index("Sounds"),
-		linear_to_db(sounds_vol / 100.0)
+		linear_to_db(sounds_vol / 100.0),
 	)
 
 
@@ -107,13 +105,15 @@ func _ready() -> void:
 	const screen_fader_path := "res://scenes/system/screen_fader.tscn"
 	screen_fader = preload(screen_fader_path).instantiate()
 	add_child(screen_fader)
-	
+
 	screen_fader.fade_out_finished.connect(_on_fade_out_finished)
 
 #---------------------------------------------------------------------------------------------------------------
 
+
 func resolve_scene_path(scene_reference: String) -> String:
 	return "res://scenes/" + scene_reference + ".tscn"
+
 
 # Начинаем перемещение в другую локацию
 func start_scene_transition(scene_reference: String, spawn_point: String) -> void:
@@ -121,16 +121,17 @@ func start_scene_transition(scene_reference: String, spawn_point: String) -> voi
 	if _pending_scene_path.is_empty() or not ResourceLoader.exists(_pending_scene_path):
 		push_error("Scene transition target does not exist: %s" % scene_reference)
 		return
-	
+
 	pending_spawn_point = spawn_point
 	screen_fader.fade_out(0.5) # затемняем экран
+
 
 # Меняем локацию после затемнения экрана
 func _on_fade_out_finished() -> void:
 	if SaveSystem.is_loading:
 		SaveSystem.load_game_state()
 
-	get_tree().change_scene_to_file(_pending_scene_path)     # смена локации
+	get_tree().change_scene_to_file(_pending_scene_path) # смена локации
 	_pending_scene_path = ""
 #---------------------------------------------------------------------------------------------------------------
 

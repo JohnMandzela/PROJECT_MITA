@@ -14,9 +14,12 @@ static func generate(result, issues: Array, context: String = "") -> String:
 	var info: Array = []
 	for issue in issues:
 		match issue.severity:
-			IssueClass.Severity.CRITICAL: critical.append(issue)
-			IssueClass.Severity.WARNING: warnings.append(issue)
-			IssueClass.Severity.INFO: info.append(issue)
+			IssueClass.Severity.CRITICAL:
+				critical.append(issue)
+			IssueClass.Severity.WARNING:
+				warnings.append(issue)
+			IssueClass.Severity.INFO:
+				info.append(issue)
 
 	var md := ""
 
@@ -52,7 +55,7 @@ static func generate(result, issues: Array, context: String = "") -> String:
 		md += "*No issues found.*\n\n"
 		return md
 
-	var by_file: Dictionary = {}
+	var by_file: Dictionary = { }
 	for issue in issues:
 		if not by_file.has(issue.file_path):
 			by_file[issue.file_path] = []
@@ -88,7 +91,10 @@ static func generate(result, issues: Array, context: String = "") -> String:
 
 static func _get_severity_label(severity: int) -> String:
 	match severity:
-		IssueClass.Severity.CRITICAL: return "CRITICAL"
-		IssueClass.Severity.WARNING: return "WARNING"
-		IssueClass.Severity.INFO: return "INFO"
+		IssueClass.Severity.CRITICAL:
+			return "CRITICAL"
+		IssueClass.Severity.WARNING:
+			return "WARNING"
+		IssueClass.Severity.INFO:
+			return "INFO"
 	return "UNKNOWN"

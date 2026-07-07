@@ -3,7 +3,6 @@ extends Area2D
 const COFFEE_PICKUP_FLAG := "offices_coffee_picked_up"
 const COFFEE_ITEM_ID := "coffee_cup"
 
-
 @export var required_direction := Enums.Direction.LEFT
 @export var dialogue: DialogueResource
 

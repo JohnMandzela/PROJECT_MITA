@@ -2,16 +2,18 @@
 
 ## This script wraps the intro scene, exposes the intro over signal and play function.
 extends Control
+
 class_name GlitchIntro
 
 ## Signals when the intro is over.
 signal intro_over
 
 ## The intro scene.
-var glitch_scene : PackedScene = preload("res://addons/glitch_intro/scenes/glitch_intro_scene.tscn")
+var glitch_scene: PackedScene = preload("res://addons/glitch_intro/scenes/glitch_intro_scene.tscn")
 
 ## Inner glitch scene.
 var glitch = null
+
 
 ## Instantiates the intro scene, adds it as a child and connects the exposed signal.
 func _ready() -> void:
@@ -23,6 +25,7 @@ func _ready() -> void:
 	new_glitch.intro_over.connect(emit_intro_over)
 	new_glitch.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(new_glitch)
+
 
 func play() -> void:
 	if glitch != null:

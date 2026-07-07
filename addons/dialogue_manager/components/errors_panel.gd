@@ -1,12 +1,9 @@
 @tool
 extends HBoxContainer
 
-
 signal error_pressed(line_number)
 
-
 const DialogueConstants = preload("../constants.gd")
-
 
 @onready var error_button: Button = $ErrorButton
 @onready var next_button: Button = $NextButton
@@ -62,7 +59,6 @@ func show_error() -> void:
 		error_button.text = DialogueConstants.translate(&"errors.line_and_message").format({ line = error.line_number, column = error.column_number, message = DialogueConstants.get_error_message(error.error) })
 		if error.has("external_error"):
 			error_button.text += " " + DialogueConstants.get_error_message(error.external_error)
-
 
 ### Signals
 

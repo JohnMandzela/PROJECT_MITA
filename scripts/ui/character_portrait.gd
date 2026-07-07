@@ -1,7 +1,7 @@
 @icon("res://images/editor/character_portrait.svg")
-
 class_name CharacterPortrait
 extends Node2D
+
 # Портрет персонажа для диалога
 
 const PORTRAIT_DIRECTORY := "res://images/characters/"
@@ -21,10 +21,12 @@ const INACTIVE_SCALE := Vector2(0.9, 0.9)
 var _character := &""
 var _emotion := &""
 
-func set_active() -> void:	
+
+func set_active() -> void:
 	self.texture_rect.modulate = ACTIVE_COLOR
 	self.scale = ACTIVE_SCALE
-	
+
+
 func set_inactive() -> void:
 	self.texture_rect.modulate = INACTIVE_COLOR
 	self.scale = INACTIVE_SCALE
@@ -32,7 +34,7 @@ func set_inactive() -> void:
 
 func set_character(character: String, emotion := &"") -> void:
 	var char_changed = character != self._character
-	
+
 	if char_changed:
 		hide_character()
 	elif emotion == self._emotion:
@@ -40,7 +42,7 @@ func set_character(character: String, emotion := &"") -> void:
 
 	self._character = character
 	self._emotion = emotion
-	
+
 	var prefix = DialogueGlobals.PORTRAIT_PREFIXES[character]
 	var portrait_name = (prefix + "_" + emotion) if emotion else prefix
 
@@ -58,7 +60,7 @@ func set_character(character: String, emotion := &"") -> void:
 
 
 func hide_character() -> void:
-	if not self._character: 
+	if not self._character:
 		return
 
 	anim_player.play("leave_right" if flipped else "leave_left")

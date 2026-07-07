@@ -2,6 +2,7 @@
 # https://poplava.itch.io
 @tool
 extends RefCounted
+
 class_name GDLintThemeColors
 ## Provides semantic colors derived from the active editor theme.
 ## All UI files use these instead of hardcoded Color() values.
@@ -10,7 +11,7 @@ class_name GDLintThemeColors
 ## theme. Standard controls (Button, CheckBox, Label) should inherit from the
 ## editor theme directly - no font_color overrides on them.
 
-static var _colors: Dictionary = {}
+static var _colors: Dictionary = { }
 static var _initialized: bool = false
 
 
@@ -77,7 +78,7 @@ static func refresh() -> void:
 		success_color.lerp(dark_color_1, 0.3).r,
 		success_color.lerp(dark_color_1, 0.3).g,
 		success_color.lerp(dark_color_1, 0.3).b,
-		0.8
+		0.8,
 	)
 	_colors["success_text"] = success_color.lerp(font_color, 0.3)
 	_colors["success_text_light"] = success_color.lerp(font_color, 0.6)

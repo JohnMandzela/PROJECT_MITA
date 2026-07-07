@@ -10,6 +10,7 @@ var player: CharacterBody2D = null
 @export var dialogue_2: DialogueResource
 var is_dialogue_running := false
 
+
 #---------------------------------------------------------------------------------------------------
 func _ready() -> void:
 	label.visible = false
@@ -22,15 +23,19 @@ func _ready() -> void:
 	var dialogue_manager = Engine.get_singleton("DialogueManager")
 	dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
 
+
 # Игрок вошел в ивент-зону
 func _on_body_entered(body: CharacterBody2D) -> void:
 	player = body
+
+
 # Игрок вышел из ивент-зоны
 func _on_body_exited(body: CharacterBody2D) -> void:
 	if body == player:
 		player = null
 		label.visible = false
 #---------------------------------------------------------------------------------------------------
+
 
 # Проверка направления взгляда
 func _is_correct_direction() -> bool:
@@ -51,7 +56,7 @@ func _is_correct_direction() -> bool:
 func _process(_delta: float) -> void:
 	if player == null:
 		return
-	
+
 	if _is_correct_direction():
 		label.visible = true
 		if Input.is_action_just_pressed("interact") and is_dialogue_running == false:
@@ -65,8 +70,8 @@ func _process(_delta: float) -> void:
 	else:
 		label.visible = false
 
-#region Signals 
-func _on_dialogue_ended(_resource: DialogueResource): 
+#region Signals
+func _on_dialogue_ended(_resource: DialogueResource):
 	await get_tree().create_timer(0.1).timeout
 	is_dialogue_running = false
 #endregion

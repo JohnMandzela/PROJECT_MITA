@@ -2,6 +2,7 @@
 # https://poplava.itch.io
 @tool
 extends RefCounted
+
 class_name GDLintSettingsManager
 ## Handles loading and saving settings from EditorSettings
 
@@ -47,8 +48,8 @@ var show_full_path: bool = false
 
 # Settings state - Export
 var filter_exports: bool = false
-var include_context_in_exports: bool = true  # Enabled by default
-var export_folder_path: String = ""  # Empty = res:// (project root)
+var include_context_in_exports: bool = true # Enabled by default
+var export_folder_path: String = "" # Empty = res:// (project root)
 
 # Settings state - Scanning
 var respect_gdignore: bool = true
@@ -56,8 +57,8 @@ var scan_addons: bool = false
 var remember_filter_selections: bool = false
 
 # Persisted filter selections (only used when remember_filter_selections is true)
-var saved_severity_filter: int = 0  # Index in dropdown
-var saved_type_filter: String = "all"  # check_id or "all"
+var saved_severity_filter: int = 0 # Index in dropdown
+var saved_type_filter: String = "all" # check_id or "all"
 var saved_file_filter: String = ""
 
 # Settings state - Code Checks (all enabled by default)
@@ -89,18 +90,31 @@ var claude_custom_instructions: String = ""
 
 # All check control keys for Enable All / Disable All
 var _check_control_keys: Array[String] = [
-	"check_naming_conventions", "check_long_lines", "check_todo_comments",
-	"check_print_statements", "check_magic_numbers", "check_commented_code",
-	"check_missing_types", "check_function_length", "check_parameters",
-	"check_nesting", "check_cyclomatic_complexity", "check_empty_functions",
-	"check_missing_return_type", "check_file_length", "check_god_class",
-	"check_unused_variables", "check_unused_parameters",
-	"check_ascii_only", "check_strict_limits", "check_sealed"
+	"check_naming_conventions",
+	"check_long_lines",
+	"check_todo_comments",
+	"check_print_statements",
+	"check_magic_numbers",
+	"check_commented_code",
+	"check_missing_types",
+	"check_function_length",
+	"check_parameters",
+	"check_nesting",
+	"check_cyclomatic_complexity",
+	"check_empty_functions",
+	"check_missing_return_type",
+	"check_file_length",
+	"check_god_class",
+	"check_unused_variables",
+	"check_unused_parameters",
+	"check_ascii_only",
+	"check_strict_limits",
+	"check_sealed",
 ]
 
 # References
-var config: Resource  # GDLintConfig
-var controls: Dictionary = {}
+var config: Resource # GDLintConfig
+var controls: Dictionary = { }
 var _limits_handler: GDLintSettingsLimitsHandler
 
 
@@ -379,8 +393,8 @@ func _sync_config_to_json() -> void:
 		return
 	config.save_to_json("res://gdlint.json")
 
-
 # ========== Display Options Handlers ==========
+
 
 func _on_show_issues_toggled(pressed: bool) -> void:
 	show_total_issues = pressed
@@ -478,8 +492,8 @@ func save_filter_selections(severity_index: int, type_id: String, file_text: Str
 	save_setting("code_quality/filters/type", type_id)
 	save_setting("code_quality/filters/file", file_text)
 
-
 # ========== Claude Code Handlers ==========
+
 
 func _on_claude_enabled_toggled(pressed: bool) -> void:
 	claude_code_enabled = pressed
@@ -511,8 +525,8 @@ func _on_claude_instructions_reset_pressed() -> void:
 		controls.claude_instructions_edit.text = CLAUDE_CODE_DEFAULT_INSTRUCTIONS
 	save_setting("code_quality/claude/custom_instructions", CLAUDE_CODE_DEFAULT_INSTRUCTIONS)
 
-
 # ========== Config Export Handlers ==========
+
 
 func _on_export_config_pressed() -> void:
 	export_config_requested.emit()
@@ -525,8 +539,8 @@ func export_config_to_path(file_path: String) -> bool:
 		return false
 	return config.save_to_json(file_path)
 
-
 # ========== Code Checks Handlers ==========
+
 
 # Connect all individual check toggle signals
 func _connect_check_signals() -> void:

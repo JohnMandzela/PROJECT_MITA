@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="2_spawn"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="3_player"]
 [ext_resource type="Texture2D" uid="uid://bgmeuks7pq83y" path="res://images/scene/Коридоры офисов-полный вариант.png" id="3_qbysk"]
-[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="4_pause"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
 
 [node name="CoridorsOffices" type="Node2D"]
 script = ExtResource("2_spawn")

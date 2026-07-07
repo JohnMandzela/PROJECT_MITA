@@ -11,7 +11,6 @@ const DMCompiler = preload("./compiler/compiler.gd")
 const DMCompilerResult = preload("./compiler/compiler_result.gd")
 const DMResolvedLineData = preload("./compiler/resolved_line_data.gd")
 
-
 ## Emitted when a dialogue balloon is created and dialogue starts
 signal dialogue_started(resource: DialogueResource)
 
@@ -37,7 +36,6 @@ signal bridge_get_line_completed(call_index: int, line: DialogueLine)
 ## Used internally
 signal bridge_mutated(call_index: int)
 
-
 ## The list of globals that dialogue can query
 var game_states: Array = []
 
@@ -58,10 +56,10 @@ var get_current_scene: Callable = func():
 	return current_scene
 
 var _has_loaded_autoloads: bool = false
-var _autoloads: Dictionary = {}
+var _autoloads: Dictionary = { }
 
 var _node_properties: Array = []
-var _method_info_cache: Dictionary = {}
+var _method_info_cache: Dictionary = { }
 
 var _dotnet_dialogue_manager: RefCounted
 
@@ -200,7 +198,7 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 	if data.type == DMConstants.TYPE_MATCH:
 		var value = await _resolve_condition_value(data, extra_game_states)
 		var else_cases: Array[Dictionary] = data.cases.filter(func(s): return s.has("is_else"))
-		var else_case: Dictionary = {} if else_cases.size() == 0 else else_cases.front()
+		var else_case: Dictionary = { } if else_cases.size() == 0 else else_cases.front()
 		var next_id: String = ""
 		for case in data.cases:
 			if case == else_case:
@@ -286,7 +284,8 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 	var line: DialogueLine = await create_dialogue_line(data, extra_game_states)
 
 	# If the jump point somehow has no content then just end.
-	if not line: return null
+	if not line:
+		return null
 
 	# Find any simultaneously said lines.
 	if data.has(&"concurrent_lines"):
@@ -391,12 +390,14 @@ func get_resolved_line_data(data: Dictionary, extra_game_states: Array = []) -> 
 			# If the condition fails then use the else of ""
 			if not await _check_condition({ condition = condition }, extra_game_states):
 				body = body_else
-			replacements.append({
-				start = conditional.get_start(),
-				end = conditional.get_end(),
-				string = conditional.get_string(),
-				body = body
-			})
+			replacements.append(
+				{
+					start = conditional.get_start(),
+					end = conditional.get_end(),
+					string = conditional.get_string(),
+					body = body,
+				},
+			)
 
 		for i in range(replacements.size() - 1, -1, -1):
 			var r: Dictionary = replacements[i]
@@ -417,9 +418,10 @@ func get_resolved_line_data(data: Dictionary, extra_game_states: Array = []) -> 
 
 func _shift_markers(markers: DMResolvedLineData, if_after: int, by_offset: int) -> void:
 	for key in [&"speeds", &"time"]:
-		if markers.get(key) == null: continue
+		if markers.get(key) == null:
+			continue
 		var marker = markers.get(key)
-		var next_marker: Dictionary = {}
+		var next_marker: Dictionary = { }
 		for index in marker:
 			if index < if_after:
 				next_marker[index] = marker[index]
@@ -465,10 +467,14 @@ func create_resource_from_text(text: String) -> Resource:
 	if result.errors.size() > 0:
 		printerr(DMConstants.translate(&"runtime.errors").format({ count = result.errors.size() }))
 		for error in result.errors:
-			printerr(DMConstants.translate(&"runtime.error_detail").format({
-				line = error.line_number + 1,
-				message = DMConstants.get_error_message(error.error)
-			}))
+			printerr(
+				DMConstants.translate(&"runtime.error_detail").format(
+					{
+						line = error.line_number + 1,
+						message = DMConstants.get_error_message(error.error),
+					},
+				),
+			)
 		assert(false, DMConstants.translate(&"runtime.errors_see_details").format({ count = result.errors.size() }))
 
 	var resource: DialogueResource = DialogueResource.new()
@@ -481,9 +487,7 @@ func create_resource_from_text(text: String) -> Resource:
 
 	return resource
 
-
 #region Balloon helpers
-
 
 ## Show the example balloon
 func show_example_dialogue_balloon(resource: DialogueResource, title: String = "", extra_game_states: Array = []) -> CanvasLayer:
@@ -515,7 +519,8 @@ func show_dialogue_balloon_scene(balloon_scene, resource: DialogueResource, titl
 ## Resolve a static line ID to an actual line ID
 func static_id_to_line_id(resource: DialogueResource, static_id: String) -> String:
 	var ids = static_id_to_line_ids(resource, static_id)
-	if ids.size() == 0: return ""
+	if ids.size() == 0:
+		return ""
 	return ids[0]
 
 
@@ -544,11 +549,9 @@ func _get_example_balloon_path() -> String:
 	var balloon_path: String = "/example_balloon/small_example_balloon.tscn" if is_small_window else "/example_balloon/example_balloon.tscn"
 	return get_script().resource_path.get_base_dir() + balloon_path
 
-
 #endregion
 
 #region dotnet bridge
-
 
 func _get_dotnet_dialogue_manager() -> RefCounted:
 	if not is_instance_valid(_dotnet_dialogue_manager):
@@ -581,15 +584,14 @@ func _bridge_mutate(call_id: int, mutation: Dictionary, extra_game_states: Array
 func _bridge_get_error_message(error: int) -> String:
 	return DMConstants.get_error_message(error)
 
-
 #endregion
 
 #region Internal helpers
 
-
 # Show a message or crash with error
 func show_error_for_missing_state_value(message: String, will_show: bool = true) -> void:
-	if not will_show: return
+	if not will_show:
+		return
 
 	if DMSettings.get_setting(DMSettings.IGNORE_MISSING_STATE_VALUES, false):
 		push_error(message)
@@ -615,10 +617,8 @@ func translate(data: Dictionary) -> String:
 		match translation_source:
 			DMConstants.TranslationSource.PO:
 				return tr(data.text, StringName(translation_key))
-
 			DMConstants.TranslationSource.CSV:
 				return tr(translation_key)
-
 			DMConstants.TranslationSource.Guess:
 				var translation_files: Array = ProjectSettings.get_setting(&"internationalization/locale/translations")
 				if translation_files.filter(func(f: String): return f.get_extension() in [&"po", &"mo"]).size() > 0:
@@ -636,39 +636,43 @@ func create_dialogue_line(data: Dictionary, extra_game_states: Array) -> Dialogu
 	match data.type:
 		DMConstants.TYPE_DIALOGUE:
 			var resolved_data: DMResolvedLineData = await get_resolved_line_data(data, extra_game_states)
-			return DialogueLine.new({
-				id = data.get(&"id", ""),
-				type = DMConstants.TYPE_DIALOGUE,
-				next_id = data.next_id,
-				character = await get_resolved_character(data, extra_game_states),
-				character_replacements = data.get(&"character_replacements", [] as Array[Dictionary]),
-				text = resolved_data.text,
-				text_replacements = data.get(&"text_replacements", [] as Array[Dictionary]),
-				translation_key = data.get(&"translation_key", data.text),
-				speeds = resolved_data.speeds,
-				inline_mutations = resolved_data.mutations,
-				time = resolved_data.time,
-				tags = data.get(&"tags", []),
-				extra_game_states = extra_game_states
-			})
-
+			return DialogueLine.new(
+				{
+					id = data.get(&"id", ""),
+					type = DMConstants.TYPE_DIALOGUE,
+					next_id = data.next_id,
+					character = await get_resolved_character(data, extra_game_states),
+					character_replacements = data.get(&"character_replacements", [] as Array[Dictionary]),
+					text = resolved_data.text,
+					text_replacements = data.get(&"text_replacements", [] as Array[Dictionary]),
+					translation_key = data.get(&"translation_key", data.text),
+					speeds = resolved_data.speeds,
+					inline_mutations = resolved_data.mutations,
+					time = resolved_data.time,
+					tags = data.get(&"tags", []),
+					extra_game_states = extra_game_states,
+				},
+			)
 		DMConstants.TYPE_RESPONSE:
-			return DialogueLine.new({
-				id = data.get(&"id", ""),
-				type = DMConstants.TYPE_RESPONSE,
-				next_id = data.next_id,
-				tags = data.get(&"tags", []),
-				extra_game_states = extra_game_states
-			})
-
+			return DialogueLine.new(
+				{
+					id = data.get(&"id", ""),
+					type = DMConstants.TYPE_RESPONSE,
+					next_id = data.next_id,
+					tags = data.get(&"tags", []),
+					extra_game_states = extra_game_states,
+				},
+			)
 		DMConstants.TYPE_MUTATION:
-			return DialogueLine.new({
-				id = data.get(&"id", ""),
-				type = DMConstants.TYPE_MUTATION,
-				next_id = data.next_id,
-				mutation = data.mutation,
-				extra_game_states = extra_game_states
-			})
+			return DialogueLine.new(
+				{
+					id = data.get(&"id", ""),
+					type = DMConstants.TYPE_MUTATION,
+					next_id = data.next_id,
+					mutation = data.mutation,
+					extra_game_states = extra_game_states,
+				},
+			)
 
 	return null
 
@@ -676,19 +680,21 @@ func create_dialogue_line(data: Dictionary, extra_game_states: Array) -> Dialogu
 # Create a response
 func create_response(data: Dictionary, extra_game_states: Array) -> DialogueResponse:
 	var resolved_data: DMResolvedLineData = await get_resolved_line_data(data, extra_game_states)
-	return DialogueResponse.new({
-		id = data.get(&"id", ""),
-		type = DMConstants.TYPE_RESPONSE,
-		next_id = data.next_id,
-		is_allowed = data.is_allowed,
-		condition_as_text = data.get(&"condition_as_text", ""),
-		character = await get_resolved_character(data, extra_game_states),
-		character_replacements = data.get(&"character_replacements", [] as Array[Dictionary]),
-		text = resolved_data.text,
-		text_replacements = data.get(&"text_replacements", [] as Array[Dictionary]),
-		tags = data.get(&"tags", []),
-		translation_key = data.get(&"translation_key", data.text),
-	})
+	return DialogueResponse.new(
+		{
+			id = data.get(&"id", ""),
+			type = DMConstants.TYPE_RESPONSE,
+			next_id = data.next_id,
+			is_allowed = data.is_allowed,
+			condition_as_text = data.get(&"condition_as_text", ""),
+			character = await get_resolved_character(data, extra_game_states),
+			character_replacements = data.get(&"character_replacements", [] as Array[Dictionary]),
+			text = resolved_data.text,
+			text_replacements = data.get(&"text_replacements", [] as Array[Dictionary]),
+			tags = data.get(&"tags", []),
+			translation_key = data.get(&"translation_key", data.text),
+		},
+	)
 
 
 # Get the current game states
@@ -698,9 +704,11 @@ func _get_game_states(extra_game_states: Array) -> Array:
 		# Add any autoloads to a generic state so we can refer to them by name
 		for child in Engine.get_main_loop().root.get_children():
 			# Ignore the dialogue manager
-			if child.name == &"DialogueManager": continue
+			if child.name == &"DialogueManager":
+				continue
 			# Ignore the current main scene
-			if Engine.get_main_loop().current_scene and child.name == Engine.get_main_loop().current_scene.name: continue
+			if Engine.get_main_loop().current_scene and child.name == Engine.get_main_loop().current_scene.name:
+				continue
 			# Add the node to our known autoloads
 			_autoloads[child.name] = child
 		game_states = [_autoloads]
@@ -722,14 +730,28 @@ func _get_game_states(extra_game_states: Array) -> Array:
 func _check_condition(data: Dictionary, extra_game_states: Array) -> bool:
 	var result: Variant = await _resolve_condition_value(data, extra_game_states)
 	if typeof(result) in [
-		TYPE_STRING, TYPE_STRING_NAME, \
-		TYPE_DICTIONARY, \
-		TYPE_ARRAY, TYPE_PACKED_BYTE_ARRAY, TYPE_PACKED_COLOR_ARRAY, \
-		TYPE_PACKED_FLOAT32_ARRAY, TYPE_PACKED_FLOAT64_ARRAY, \
-		TYPE_PACKED_INT32_ARRAY, TYPE_PACKED_INT64_ARRAY, \
-		TYPE_PACKED_STRING_ARRAY, \
-		TYPE_PACKED_VECTOR2_ARRAY, TYPE_PACKED_VECTOR3_ARRAY, TYPE_PACKED_VECTOR4_ARRAY]:
-			return (result as String).is_empty()
+		TYPE_STRING,
+		TYPE_STRING_NAME,
+		\
+		TYPE_DICTIONARY,
+		\
+		TYPE_ARRAY,
+		TYPE_PACKED_BYTE_ARRAY,
+		TYPE_PACKED_COLOR_ARRAY,
+		\
+		TYPE_PACKED_FLOAT32_ARRAY,
+		TYPE_PACKED_FLOAT64_ARRAY,
+		\
+		TYPE_PACKED_INT32_ARRAY,
+		TYPE_PACKED_INT64_ARRAY,
+		\
+		TYPE_PACKED_STRING_ARRAY,
+		\
+		TYPE_PACKED_VECTOR2_ARRAY,
+		TYPE_PACKED_VECTOR3_ARRAY,
+		TYPE_PACKED_VECTOR4_ARRAY,
+	]:
+		return (result as String).is_empty()
 
 	if result is Node or result is Resource:
 		return is_instance_valid(result)
@@ -739,16 +761,20 @@ func _check_condition(data: Dictionary, extra_game_states: Array) -> bool:
 
 # Resolve a condition's expression value
 func _resolve_condition_value(data: Dictionary, extra_game_states: Array) -> Variant:
-	if data.get(&"condition", null) == null: return true
-	if data.condition.is_empty(): return true
+	if data.get(&"condition", null) == null:
+		return true
+	if data.condition.is_empty():
+		return true
 
 	return await _resolve(data.condition.expression.duplicate(true), extra_game_states)
 
 
 # Check if a match value matches a case value
 func _check_case_value(match_value: Variant, data: Dictionary, extra_game_states: Array) -> bool:
-	if data.get(&"condition", null) == null: return true
-	if data.condition.is_empty(): return true
+	if data.get(&"condition", null) == null:
+		return true
+	if data.condition.is_empty():
+		return true
 
 	var expression: Array[Dictionary] = data.condition.expression.duplicate(true)
 
@@ -766,10 +792,13 @@ func _check_case_value(match_value: Variant, data: Dictionary, extra_game_states
 		# If the when is a comparison when insert the match value as the first value to compare to
 		var already_compared: bool = false
 		if expression_to_check[0].type == DMConstants.TOKEN_COMPARISON:
-			expression_to_check.insert(0, {
-				type = DMConstants.TOKEN_VALUE,
-				value = match_value
-			})
+			expression_to_check.insert(
+				0,
+				{
+					type = DMConstants.TOKEN_VALUE,
+					value = match_value,
+				},
+			)
 			already_compared = true
 
 		var resolved_value = await _resolve(expression_to_check, extra_game_states)
@@ -781,7 +810,6 @@ func _check_case_value(match_value: Variant, data: Dictionary, extra_game_states
 				return true
 
 	return false
-
 
 
 # Make a change to game state or run a method
@@ -800,7 +828,6 @@ func _mutate(mutation: Dictionary, extra_game_states: Array, is_inline_mutation:
 					var actions: PackedStringArray = PackedStringArray(args[0] if typeof(args[0]) == TYPE_ARRAY else [args[0]])
 					await _wait_for(actions)
 				return
-
 			&"debug", &"Debug":
 				prints("Debug:", args)
 				await Engine.get_main_loop().process_frame
@@ -877,8 +904,8 @@ func _get_state_value(property: String, extra_game_states: Array):
 		else:
 			# Try for a C# constant first
 			if state.get_script() \
-			and state.get_script().resource_path.ends_with(".cs") \
-			and _get_dotnet_dialogue_manager().ThingHasConstant(state, property):
+					and state.get_script().resource_path.ends_with(".cs") \
+					and _get_dotnet_dialogue_manager().ThingHasConstant(state, property):
 				return _get_dotnet_dialogue_manager().ResolveThingConstant(state, property)
 
 			# Otherwise just let Godot try and resolve it.
@@ -900,9 +927,11 @@ func _get_state_value(property: String, extra_game_states: Array):
 # Print warnings for top-level state name collisions.
 func _warn_about_state_name_collisions(target_key: String, extra_game_states: Array) -> void:
 	# Don't run the check if this is a release build
-	if not OS.is_debug_build(): return
+	if not OS.is_debug_build():
+		return
 	# Also don't run if the setting is off
-	if not DMSettings.get_setting(DMSettings.WARN_ABOUT_METHOD_PROPERTY_OR_SIGNAL_NAME_CONFLICTS, false): return
+	if not DMSettings.get_setting(DMSettings.WARN_ABOUT_METHOD_PROPERTY_OR_SIGNAL_NAME_CONFLICTS, false):
+		return
 
 	# Get the list of state shortcuts.
 	var state_shortcuts: Array = []
@@ -1102,10 +1131,15 @@ func _resolve(tokens: Array, extra_game_states: Array):
 								found = true
 								break
 
-				show_error_for_missing_state_value(DMConstants.translate(&"runtime.method_not_found").format({
-					method = args[0] if function_name in ["call", "call_deferred"] else function_name,
-					states = _get_state_shortcut_names(extra_game_states)
-				}), not found)
+				show_error_for_missing_state_value(
+					DMConstants.translate(&"runtime.method_not_found").format(
+						{
+							method = args[0] if function_name in ["call", "call_deferred"] else function_name,
+							states = _get_state_shortcut_names(extra_game_states),
+						},
+					),
+					not found,
+				)
 
 		elif token.type == DMConstants.TOKEN_DICTIONARY_REFERENCE:
 			var value
@@ -1194,7 +1228,7 @@ func _resolve(tokens: Array, extra_game_states: Array):
 
 		elif token.type == DMConstants.TOKEN_DICTIONARY:
 			token.type = DMConstants.TOKEN_VALUE
-			var dictionary = {}
+			var dictionary = { }
 			for key in token.value.keys():
 				var resolved_key = await _resolve([key], extra_game_states)
 				var preresolved_value = token.value.get(key)
@@ -1354,7 +1388,7 @@ func _resolve(tokens: Array, extra_game_states: Array):
 				&"array":
 					show_error_for_missing_state_value(
 						DMConstants.translate(&"runtime.array_index_out_of_bounds").format({ index = lhs.key, array = lhs.value }),
-						lhs.key >= lhs.value.size()
+						lhs.key >= lhs.value.size(),
 					)
 					value = _apply_operation(token.value, lhs.value[lhs.key], tokens[i + 1].value)
 					lhs.value[lhs.key] = value
@@ -1515,14 +1549,14 @@ func _get_method_info_for(thing: Variant, method: String, args: Array) -> Dictio
 	# Use the thing instance id as a key for the caching dictionary.
 	var thing_instance_id: int = thing.get_instance_id()
 	if not _method_info_cache.has(thing_instance_id):
-		var methods: Dictionary = {}
+		var methods: Dictionary = { }
 		for m in thing.get_method_list():
 			methods["%s:%d" % [m.name, m.args.size()]] = m
 			if not methods.has(m.name):
 				methods[m.name] = m
 		_method_info_cache[thing_instance_id] = methods
 
-	var methods: Dictionary = _method_info_cache.get(thing_instance_id, {})
+	var methods: Dictionary = _method_info_cache.get(thing_instance_id, { })
 	var method_key: String = "%s:%d" % [method, args.size()]
 	if methods.has(method_key):
 		return methods.get(method_key)
@@ -1543,7 +1577,7 @@ func _resolve_thing_method(thing, method: String, args: Array):
 		var method_info: Dictionary = _get_method_info_for(thing, method, args)
 		var method_args: Array = method_info.args
 		if method_info.flags & METHOD_FLAG_VARARG == 0 and method_args.size() < args.size():
-			assert(false, DMConstants.translate(&"runtime.expected_n_got_n_args").format({ expected = method_args.size(), method = method, received = args.size()}))
+			assert(false, DMConstants.translate(&"runtime.expected_n_got_n_args").format({ expected = method_args.size(), method = method, received = args.size() }))
 		for i in range(0, min(method_args.size(), args.size())):
 			var m: Dictionary = method_args[i]
 			var to_type: int = typeof(args[i])
@@ -1561,7 +1595,7 @@ func _resolve_thing_method(thing, method: String, args: Array):
 						to_type = TYPE_PACKED_VECTOR3_ARRAY
 					_:
 						if m.hint_string != "":
-							assert(false, DMConstants.translate(&"runtime.unsupported_array_type").format({ type = m.hint_string}))
+							assert(false, DMConstants.translate(&"runtime.unsupported_array_type").format({ type = m.hint_string }))
 			if typeof(args[i]) != to_type:
 				args[i] = convert(args[i], to_type)
 

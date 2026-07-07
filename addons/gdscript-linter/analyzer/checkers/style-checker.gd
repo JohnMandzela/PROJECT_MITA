@@ -39,7 +39,7 @@ func _check_long_line(line: String, line_num: int) -> Variant:
 		"line": line_num,
 		"severity": "info",
 		"check_id": "long-line",
-		"message": "Line exceeds %d chars (%d)" % [config.max_line_length, line.length()]
+		"message": "Line exceeds %d chars (%d)" % [config.max_line_length, line.length()],
 	}
 
 
@@ -122,7 +122,7 @@ func check_magic_numbers(line: String, line_num: int) -> Variant:
 			"line": line_num,
 			"severity": "info",
 			"check_id": "magic-number",
-			"message": "Magic number %s (consider using a named constant)" % num_str
+			"message": "Magic number %s (consider using a named constant)" % num_str,
 		}
 
 	return null
@@ -136,7 +136,7 @@ func check_commented_code(line: String, line_num: int) -> Variant:
 				"line": line_num,
 				"severity": "info",
 				"check_id": "commented-code",
-				"message": "Commented-out code detected"
+				"message": "Commented-out code detected",
 			}
 	return null
 
@@ -156,14 +156,14 @@ func check_variable_type_hints(line: String, line_num: int) -> Variant:
 		return null
 
 	# Extract variable name
-	var after_var := line.strip_edges().substr(4)  # After "var "
+	var after_var := line.strip_edges().substr(4) # After "var "
 	var var_name := after_var.split("=")[0].split(":")[0].strip_edges()
 
 	return {
 		"line": line_num,
 		"severity": "info",
 		"check_id": "missing-type-hint",
-		"message": "Variable '%s' has no type annotation" % var_name
+		"message": "Variable '%s' has no type annotation" % var_name,
 	}
 
 
@@ -179,7 +179,7 @@ func check_todo_comments(trimmed: String, line_num: int) -> Variant:
 				"line": line_num,
 				"severity": severity,
 				"check_id": "todo-comment",
-				"message": "%s: %s" % [pattern, comment_text]
+				"message": "%s: %s" % [pattern, comment_text],
 			}
 	return null
 
@@ -199,6 +199,6 @@ func check_print_statements(trimmed: String, line_num: int) -> Variant:
 					"line": line_num,
 					"severity": "warning",
 					"check_id": "print-statement",
-					"message": "Debug print statement: %s" % trimmed.substr(0, mini(60, trimmed.length()))
+					"message": "Debug print statement: %s" % trimmed.substr(0, mini(60, trimmed.length())),
 				}
 	return null

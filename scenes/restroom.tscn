@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://kkonv1y4bjln" path="res://images/scene/Комната Отдыха-итог.png" id="1_svye3"]
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_u12yk"]
-[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/system/pause_menu.tscn" id="3_0ui6e"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="3_0ui6e"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="4_player"]
 
 [node name="Restroom" type="Node2D"]

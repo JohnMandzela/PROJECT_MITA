@@ -23,7 +23,7 @@ var _style_checker: GDLintStyleChecker
 var _attribute_checker: GDLintAttributeChecker
 
 # Sealed class registry (class_name -> file_path)
-var _sealed_classes: Dictionary = {}
+var _sealed_classes: Dictionary = { }
 
 
 func _init(p_config = null) -> void:
@@ -170,10 +170,14 @@ func _add_pinned_issue_from_checker(file_path: String, line_num: int, severity: 
 
 func _severity_from_string(severity: String) -> int:
 	match severity:
-		"critical": return IssueClass.Severity.CRITICAL
-		"warning": return IssueClass.Severity.WARNING
-		"info": return IssueClass.Severity.INFO
-		_: return IssueClass.Severity.INFO
+		"critical":
+			return IssueClass.Severity.CRITICAL
+		"warning":
+			return IssueClass.Severity.WARNING
+		"info":
+			return IssueClass.Severity.INFO
+		_:
+			return IssueClass.Severity.INFO
 
 
 func _add_issue(file_path: String, line_num: int, severity, check_id: String, message: String) -> void:
@@ -289,8 +293,13 @@ func _analyze_file_level(lines: Array, file_path: String, file_result) -> void:
 				var extends_target := trimmed.substr(8).split(" ")[0].strip_edges()
 				if _sealed_classes.has(extends_target):
 					var sealed_file: String = _sealed_classes[extends_target]
-					_add_issue(file_path, line_num, IssueClass.Severity.CRITICAL, "sealed-violation",
-						"Cannot extend '%s' - class is marked as #@Sealed (defined in %s)" % [extends_target, sealed_file])
+					_add_issue(
+						file_path,
+						line_num,
+						IssueClass.Severity.CRITICAL,
+						"sealed-violation",
+						"Cannot extend '%s' - class is marked as #@Sealed (defined in %s)" % [extends_target, sealed_file],
+					)
 
 		# Style checks (long lines, TODO, print, magic numbers, etc.)
 		var style_issues := _style_checker.check_line(line, trimmed, line_num, file_result)
@@ -307,13 +316,27 @@ func _analyze_file_level(lines: Array, file_path: String, file_result) -> void:
 func _check_file_length(file_path: String, line_count: int) -> void:
 	var context := "File"
 	if line_count > config.line_limit_hard:
-		_add_pinned_issue_from_checker(file_path, 1, "critical", "file-length",
+		_add_pinned_issue_from_checker(
+			file_path,
+			1,
+			"critical",
+			"file-length",
 			"File exceeds %d lines (%d)" % [config.line_limit_hard, line_count],
-			line_count, config.line_limit_hard, context)
+			line_count,
+			config.line_limit_hard,
+			context,
+		)
 	elif line_count > config.line_limit_soft:
-		_add_pinned_issue_from_checker(file_path, 1, "warning", "file-length",
+		_add_pinned_issue_from_checker(
+			file_path,
+			1,
+			"warning",
+			"file-length",
 			"File exceeds %d lines (%d)" % [config.line_limit_soft, line_count],
-			line_count, config.line_limit_soft, context)
+			line_count,
+			config.line_limit_soft,
+			context,
+		)
 
 
 func _check_god_class(file_path: String, file_result) -> void:
@@ -330,15 +353,29 @@ func _check_god_class(file_path: String, file_result) -> void:
 
 	# Check public functions limit
 	if public_funcs > config.god_class_functions:
-		_add_pinned_issue_from_checker(file_path, 1, "warning", "god-class-functions",
+		_add_pinned_issue_from_checker(
+			file_path,
+			1,
+			"warning",
+			"god-class-functions",
 			"God class: %d public functions (max %d)" % [public_funcs, config.god_class_functions],
-			public_funcs, config.god_class_functions, "Public functions")
+			public_funcs,
+			config.god_class_functions,
+			"Public functions",
+		)
 
 	# Check signals limit
 	if signal_count > config.god_class_signals:
-		_add_pinned_issue_from_checker(file_path, 1, "warning", "god-class-signals",
+		_add_pinned_issue_from_checker(
+			file_path,
+			1,
+			"warning",
+			"god-class-signals",
 			"God class: %d signals (max %d)" % [signal_count, config.god_class_signals],
-			signal_count, config.god_class_signals, "Signals")
+			signal_count,
+			config.god_class_signals,
+			"Signals",
+		)
 
 
 func _calculate_debt_score(file_result) -> void:

@@ -28,7 +28,7 @@ const ISSUE_TYPES := {
 	"naming-const": "Naming: Constant",
 	"naming-enum": "Naming: Enum",
 	"unused-variable": "Unused Variable",
-	"unused-parameter": "Unused Parameter"
+	"unused-parameter": "Unused Parameter",
 }
 
 
@@ -42,12 +42,15 @@ static func generate(result, issues: Array = [], context: String = "") -> String
 	var info: Array = []
 	for issue in all_issues:
 		match issue.severity:
-			IssueClass.Severity.CRITICAL: critical.append(issue)
-			IssueClass.Severity.WARNING: warnings.append(issue)
-			IssueClass.Severity.INFO: info.append(issue)
+			IssueClass.Severity.CRITICAL:
+				critical.append(issue)
+			IssueClass.Severity.WARNING:
+				warnings.append(issue)
+			IssueClass.Severity.INFO:
+				info.append(issue)
 
 	# Collect types by severity for linked filtering
-	var types_by_severity: Dictionary = {"all": {}, "critical": {}, "warning": {}, "info": {}}
+	var types_by_severity: Dictionary = { "all": { }, "critical": { }, "warning": { }, "info": { } }
 	for issue in all_issues:
 		types_by_severity["all"][issue.check_id] = true
 	for issue in critical:

@@ -1,6 +1,6 @@
 ## Tag data associated with a line of dialogue.
-class_name DMResolvedTagData extends RefCounted
-
+class_name DMResolvedTagData
+extends RefCounted
 
 ## The list of tags.
 var tags: PackedStringArray = []

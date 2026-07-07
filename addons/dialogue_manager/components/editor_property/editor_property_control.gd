@@ -1,11 +1,8 @@
 @tool
-
 extends HBoxContainer
-
 
 signal pressed()
 signal resource_changed(next_resource: DialogueResource)
-
 
 const ITEM_NEW: int = 100
 const ITEM_QUICK_LOAD: int = 200
@@ -13,7 +10,6 @@ const ITEM_LOAD: int = 201
 const ITEM_EDIT: int = 300
 const ITEM_CLEAR: int = 301
 const ITEM_FILESYSTEM: int = 400
-
 
 @onready var button: Button = $ResourceButton
 @onready var menu_button: Button = $MenuButton
@@ -54,9 +50,7 @@ func build_menu() -> void:
 
 	menu.size = Vector2.ZERO
 
-
 #region Signals
-
 
 func _on_new_dialog_file_selected(path: String) -> void:
 	DMPlugin.instance.main_view.new_file(path)
@@ -87,7 +81,7 @@ func _on_resource_button_pressed() -> void:
 		build_menu()
 		menu.position = get_viewport().position + Vector2i(
 			button.global_position.x + button.size.x - menu.size.x,
-			2 + menu_button.global_position.y + button.size.y
+			2 + menu_button.global_position.y + button.size.y,
 		)
 		menu.popup()
 
@@ -103,7 +97,7 @@ func _on_menu_button_pressed() -> void:
 		build_menu()
 		menu.position = get_viewport().position + Vector2i(
 			menu_button.global_position.x + menu_button.size.x - menu.size.x,
-			2 + menu_button.global_position.y + menu_button.size.y
+			2 + menu_button.global_position.y + menu_button.size.y,
 		)
 		menu.popup()
 
@@ -113,7 +107,6 @@ func _on_menu_id_pressed(id: int) -> void:
 		ITEM_NEW:
 			is_waiting_for_file = true
 			new_dialog.popup_centered()
-
 		ITEM_QUICK_LOAD:
 			quick_selected_file = ""
 			files_list.files = DMCache.get_files()
@@ -121,17 +114,13 @@ func _on_menu_id_pressed(id: int) -> void:
 				files_list.select_file(resource.resource_path)
 			quick_open_dialog.popup_centered()
 			files_list.focus_filter()
-
 		ITEM_LOAD:
 			is_waiting_for_file = true
 			open_dialog.popup_centered()
-
 		ITEM_EDIT:
 			EditorInterface.call_deferred("edit_resource", resource)
-
 		ITEM_CLEAR:
 			resource_changed.emit(null)
-
 		ITEM_FILESYSTEM:
 			EditorInterface.get_file_system_dock().navigate_to_path(resource.resource_path)
 
@@ -148,6 +137,5 @@ func _on_files_list_file_selected(file_path: String) -> void:
 func _on_quick_open_dialog_confirmed() -> void:
 	if quick_selected_file != "":
 		resource_changed.emit(load(quick_selected_file))
-
 
 #endregion

@@ -5,19 +5,19 @@ enum Direction {
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
 }
 
 # Режим вращения Npc
 enum RotationMode {
 	DEFAULT,
-	RANDOM
+	RANDOM,
 }
 
 # Допустимые эмоции персонажей. Задаются в диалогах через теги
 enum Emote {
-    HAPPY,
-    SAD,
-    ANGRY,
-    SHAME
+	HAPPY,
+	SAD,
+	ANGRY,
+	SHAME,
 }

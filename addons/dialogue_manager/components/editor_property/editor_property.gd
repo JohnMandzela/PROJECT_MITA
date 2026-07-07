@@ -1,10 +1,8 @@
 @tool
-
-class_name DMDialogueEditorProperty extends EditorProperty
-
+class_name DMDialogueEditorProperty
+extends EditorProperty
 
 const DialoguePropertyEditorControl: PackedScene = preload("./editor_property_control.tscn")
-
 
 var control = DialoguePropertyEditorControl.instantiate()
 var current_value: DialogueResource
@@ -27,19 +25,17 @@ func _update_property() -> void:
 		emit_changed(get_edited_property(), null)
 		return
 
-	if next_value == current_value: return
+	if next_value == current_value:
+		return
 
 	is_updating = true
 	current_value = next_value
 	control.resource = current_value
 	is_updating = false
 
-
 #region Signals
-
 
 func _on_resource_changed(next_resource: DialogueResource) -> void:
 	emit_changed(get_edited_property(), next_resource)
-
 
 #endregion

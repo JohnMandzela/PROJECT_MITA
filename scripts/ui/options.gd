@@ -1,6 +1,5 @@
 extends Control
 
-
 # Переменные к путям данных настроек
 @onready var fullscren_checkbox_path: CheckBox = $OptionsMenu/OptionsMenuVBox/FullscreenCheckBox
 @onready var music_value_path: HSlider = $OptionsMenu/OptionsMenuVBox/Music/MusicSlider/Slider
@@ -24,7 +23,7 @@ func _ready():
 	# Ставим галочку на Fullscreen
 	var mode = DisplayServer.window_get_mode()
 	var is_full = (mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
-		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN)
+			or mode == DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 	fullscren_checkbox_path.button_pressed = is_full
 
@@ -48,22 +47,25 @@ func _on_sounds_value_changed(value):
 	#ProjectSettings.set_setting("game/sounds_volume", value)
 	pass
 
+
 # Сигнал слайдера музыки
 func _on_music_value_changed(value):
 	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value / 100.0))
 	#ProjectSettings.set_setting("game/music_volume", value)
 	pass
 
+
 func _on_mouse_sensitivity_value_changed(value):
 	pass
+
 
 # Сигнал checkbox
 func _on_fullscreen_toggled(pressed):
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed 
-		else DisplayServer.WINDOW_MODE_WINDOWED
+		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed else DisplayServer.WINDOW_MODE_WINDOWED,
 	)
 	save_settings()
+
 
 # Применение всех настроек при запуске сцены
 func _apply_settings():
@@ -71,6 +73,7 @@ func _apply_settings():
 	_on_music_value_changed(music_value_path.value)
 	_on_sounds_value_changed(sounds_value_path.value)
 	_on_mouse_sensitivity_value_changed(mouse_sensitivity_value_path.value)
+
 
 # Кнопка "Назад"
 func _on_back_pressed():

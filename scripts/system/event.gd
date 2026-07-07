@@ -11,9 +11,12 @@ var player: CharacterBody2D = null
 func _ready() -> void:
 	label.visible = false
 
+
 # Игрок вошел в ивент-зону
 func _on_body_entered(body: CharacterBody2D) -> void:
 	player = body
+
+
 # Игрок вышел из ивент-зоны
 func _on_body_exited(body: CharacterBody2D) -> void:
 	if body == player:
@@ -41,7 +44,7 @@ func _is_correct_direction() -> bool:
 func _process(_delta: float) -> void:
 	if player == null:
 		return
-	
+
 	if _is_correct_direction():
 		label.visible = true
 		# Если игрок нажимает кнопку E или Enter

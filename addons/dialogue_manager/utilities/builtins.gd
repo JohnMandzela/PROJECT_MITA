@@ -1,6 +1,5 @@
 extends Object
 
-
 const DialogueConstants = preload("../constants.gd")
 
 const SUPPORTED_BUILTIN_TYPES = [
@@ -15,15 +14,15 @@ const SUPPORTED_BUILTIN_TYPES = [
 	TYPE_QUATERNION,
 	TYPE_COLOR,
 	TYPE_SIGNAL,
-	TYPE_CALLABLE
+	TYPE_CALLABLE,
 ]
-
 
 static var resolve_method_error: Error = OK
 
 
 static func is_supported(thing, with_method: String = "") -> bool:
-	if not typeof(thing) in SUPPORTED_BUILTIN_TYPES: return false
+	if not typeof(thing) in SUPPORTED_BUILTIN_TYPES:
+		return false
 
 	# If given a Dictionary and a method then make sure it's a known Dictionary method.
 	if typeof(thing) == TYPE_DICTIONARY and with_method != "":
@@ -45,7 +44,8 @@ static func is_supported(thing, with_method: String = "") -> bool:
 			&"merged",
 			&"recursive_equal",
 			&"size",
-			&"values"]
+			&"values",
+		]
 
 	return true
 
@@ -58,7 +58,6 @@ static func resolve_property(builtin, property: String):
 			return builtin[property]
 
 		# Some types have constants that we need to manually resolve
-
 		TYPE_VECTOR2:
 			return resolve_vector2_property(builtin, property)
 		TYPE_VECTOR3:
@@ -78,7 +77,6 @@ static func resolve_method(thing, method_name: String, args: Array):
 			match method_name:
 				"from_angle":
 					return Vector2.from_angle(args[0])
-
 		TYPE_COLOR:
 			match method_name:
 				"from_hsv":
@@ -89,7 +87,6 @@ static func resolve_method(thing, method_name: String, args: Array):
 					return Color.from_rgbe9995(args[0])
 				"from_string":
 					return Color.from_string(args[0], args[1])
-
 		TYPE_QUATERNION:
 			match method_name:
 				"from_euler":
@@ -432,7 +429,6 @@ static func resolve_vector2_property(vector: Vector2, property: String):
 			return Vector2.UP
 		"DOWN":
 			return Vector2.DOWN
-
 		"DOWN_LEFT":
 			return Vector2(-1, 1)
 		"DOWN_RIGHT":

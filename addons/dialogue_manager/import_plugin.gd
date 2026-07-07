@@ -1,9 +1,8 @@
 @tool
-class_name DMImportPlugin extends EditorImportPlugin
-
+class_name DMImportPlugin
+extends EditorImportPlugin
 
 signal compiled_resource(resource: Resource)
-
 
 const COMPILER_VERSION = 15
 
@@ -51,10 +50,12 @@ func _get_preset_name(preset_index: int) -> String:
 func _get_import_options(path: String, preset_index: int) -> Array:
 	# When the options array is empty there is a misleading error on export
 	# that actually means nothing so let's just have an invisible option.
-	return [{
-		name = "defaults",
-		default_value = true
-	}]
+	return [
+		{
+			name = "defaults",
+			default_value = true,
+		},
+	]
 
 
 func _get_option_visibility(path: String, option_name: StringName, options: Dictionary) -> bool:
@@ -63,7 +64,8 @@ func _get_option_visibility(path: String, option_name: StringName, options: Dict
 
 func _import(source_file: String, save_path: String, options: Dictionary, platform_variants: Array[String], gen_files: Array[String]) -> Error:
 	# Get the raw file contents
-	if not FileAccess.file_exists(source_file): return ERR_FILE_NOT_FOUND
+	if not FileAccess.file_exists(source_file):
+		return ERR_FILE_NOT_FOUND
 
 	var file: FileAccess = FileAccess.open(source_file, FileAccess.READ)
 	var raw_text: String = file.get_as_text()

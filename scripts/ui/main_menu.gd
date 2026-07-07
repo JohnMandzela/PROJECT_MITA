@@ -1,6 +1,5 @@
 extends Control
 
-
 @onready var title_label: Label = $TitleLabel
 @onready var menu_start: VBoxContainer = $ButtonsVBox
 @onready var menu_options: MarginContainer = $OptionsMenu
@@ -30,7 +29,7 @@ func _ready() -> void:
 
 	var mode := DisplayServer.window_get_mode()
 	var is_full := mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN \
-		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
+			or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscren_checkbox_path.button_pressed = is_full
 
 	var config := ConfigFile.new()
@@ -161,7 +160,7 @@ func _update_save_buttons_visibility() -> void:
 	var continue_button := menu_start.get_node_or_null("Continue") as Button
 	if continue_button:
 		continue_button.visible = has_saves
-		
+
 	var load_button := menu_start.get_node_or_null("Load") as Button
 	if load_button:
 		load_button.visible = has_saves
@@ -247,8 +246,7 @@ func _on_music_value_changed(value: float) -> void:
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed
-		else DisplayServer.WINDOW_MODE_WINDOWED
+		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed else DisplayServer.WINDOW_MODE_WINDOWED,
 	)
 	if not loading_settings:
 		save_settings()

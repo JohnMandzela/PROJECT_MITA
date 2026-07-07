@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dbg1xkfmi17eg"]
 
-[ext_resource type="Script" uid="uid://kkb06l5r6ctm" path="res://scripts/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://kkb06l5r6ctm" path="res://scripts/ui/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="AudioStream" uid="uid://cu5kywu66k4c2" path="res://audio/music/MiSide  - Ambient - Pause Evil.mp3" id="2_8ln24"]
 [ext_resource type="FontFile" uid="uid://s7nn80ucgm5h" path="res://fonts/haettenschweiler.otf" id="3_wu84c"]
 [ext_resource type="FontFile" uid="uid://6erdyfofurd1" path="res://fonts/Impact.otf" id="4_wu84c"]

@@ -15,7 +15,7 @@ func _init(p_config, naming_checker: GDLintNamingChecker) -> void:
 # Analyzes all functions in a file and returns issues array
 # Also populates file_result.functions with function metadata
 func analyze_functions(lines: Array, file_result, add_issue_callback: Callable, add_pinned_issue_callback: Callable = Callable()) -> void:
-	var current_func: Dictionary = {}
+	var current_func: Dictionary = { }
 	var in_function := false
 	var func_body_lines: Array[String] = []
 
@@ -46,11 +46,11 @@ func _parse_function_signature(line: String, line_num: int) -> Dictionary:
 		"name": "",
 		"line": line_num,
 		"params": 0,
-		"has_return_type": "->" in line
+		"has_return_type": "->" in line,
 	}
 
 	# Extract function name
-	var after_func := line.substr(5)  # After "func "
+	var after_func := line.substr(5) # After "func "
 	var paren_pos := after_func.find("(")
 	if paren_pos > 0:
 		func_data.name = after_func.substr(0, paren_pos).strip_edges()
@@ -67,7 +67,7 @@ func _parse_function_signature(line: String, line_num: int) -> Dictionary:
 
 
 func _finalize_function(func_data: Dictionary, body_lines: Array, file_result, add_issue_callback: Callable, add_pinned_issue_callback: Callable) -> void:
-	var line_count := body_lines.size() + 1  # +1 for signature
+	var line_count := body_lines.size() + 1 # +1 for signature
 	var max_nesting := _calculate_max_nesting(body_lines)
 	var is_empty := _is_empty_function(body_lines)
 	var complexity := _calculate_cyclomatic_complexity(body_lines)
@@ -94,38 +94,66 @@ func _check_function_length(func_data: Dictionary, line_count: int, add_pinned_c
 	var func_name: String = func_data.name
 	var context := "Function '%s'" % func_name
 	if line_count > config.function_line_critical:
-		add_pinned_callback.call(func_line, "critical", "long-function",
+		add_pinned_callback.call(
+			func_line,
+			"critical",
+			"long-function",
 			"Function '%s' exceeds %d lines (%d)" % [func_name, config.function_line_critical, line_count],
-			line_count, config.function_line_critical, context)
+			line_count,
+			config.function_line_critical,
+			context,
+		)
 	elif line_count > config.function_line_limit:
-		add_pinned_callback.call(func_line, "warning", "long-function",
+		add_pinned_callback.call(
+			func_line,
+			"warning",
+			"long-function",
 			"Function '%s' exceeds %d lines (%d)" % [func_name, config.function_line_limit, line_count],
-			line_count, config.function_line_limit, context)
+			line_count,
+			config.function_line_limit,
+			context,
+		)
 
 
 func _check_parameter_count(func_data: Dictionary, add_pinned_callback: Callable) -> void:
 	if not config.check_parameters or func_data.params <= config.max_parameters:
 		return
 	var context := "Function '%s'" % func_data.name
-	add_pinned_callback.call(func_data.line, "warning", "too-many-params",
+	add_pinned_callback.call(
+		func_data.line,
+		"warning",
+		"too-many-params",
 		"Function '%s' has %d parameters (max %d)" % [func_data.name, func_data.params, config.max_parameters],
-		func_data.params, config.max_parameters, context)
+		func_data.params,
+		config.max_parameters,
+		context,
+	)
 
 
 func _check_nesting_depth(func_data: Dictionary, max_nesting: int, add_pinned_callback: Callable) -> void:
 	if not config.check_nesting or max_nesting <= config.max_nesting:
 		return
 	var context := "Function '%s'" % func_data.name
-	add_pinned_callback.call(func_data.line, "warning", "deep-nesting",
+	add_pinned_callback.call(
+		func_data.line,
+		"warning",
+		"deep-nesting",
 		"Function '%s' has %d nesting levels (max %d)" % [func_data.name, max_nesting, config.max_nesting],
-		max_nesting, config.max_nesting, context)
+		max_nesting,
+		config.max_nesting,
+		context,
+	)
 
 
 func _check_empty_function(func_data: Dictionary, is_empty: bool, add_issue_callback: Callable) -> void:
 	if not config.check_empty_functions or not is_empty:
 		return
-	add_issue_callback.call(func_data.line, "info", "empty-function",
-		"Function '%s' is empty or contains only 'pass'" % func_data.name)
+	add_issue_callback.call(
+		func_data.line,
+		"info",
+		"empty-function",
+		"Function '%s' is empty or contains only 'pass'" % func_data.name,
+	)
 
 
 func _check_complexity(func_data: Dictionary, complexity: int, add_pinned_callback: Callable) -> void:
@@ -135,13 +163,25 @@ func _check_complexity(func_data: Dictionary, complexity: int, add_pinned_callba
 	var func_name: String = func_data.name
 	var context := "Function '%s'" % func_name
 	if complexity > config.cyclomatic_critical:
-		add_pinned_callback.call(func_line, "critical", "high-complexity",
+		add_pinned_callback.call(
+			func_line,
+			"critical",
+			"high-complexity",
 			"Function '%s' has complexity %d (max %d)" % [func_name, complexity, config.cyclomatic_critical],
-			complexity, config.cyclomatic_critical, context)
+			complexity,
+			config.cyclomatic_critical,
+			context,
+		)
 	elif complexity > config.cyclomatic_warning:
-		add_pinned_callback.call(func_line, "warning", "high-complexity",
+		add_pinned_callback.call(
+			func_line,
+			"warning",
+			"high-complexity",
 			"Function '%s' has complexity %d (warning at %d)" % [func_name, complexity, config.cyclomatic_warning],
-			complexity, config.cyclomatic_warning, context)
+			complexity,
+			config.cyclomatic_warning,
+			context,
+		)
 
 
 func _check_return_type(func_data: Dictionary, add_issue_callback: Callable) -> void:
@@ -149,8 +189,12 @@ func _check_return_type(func_data: Dictionary, add_issue_callback: Callable) -> 
 		return
 	# Skip _init, _ready, _process, etc. (built-in overrides)
 	if not func_data.name.begins_with("_"):
-		add_issue_callback.call(func_data.line, "info", "missing-return-type",
-			"Function '%s' has no return type annotation" % func_data.name)
+		add_issue_callback.call(
+			func_data.line,
+			"info",
+			"missing-return-type",
+			"Function '%s' has no return type annotation" % func_data.name,
+		)
 
 
 func _check_naming(func_data: Dictionary, add_issue_callback: Callable) -> void:
@@ -202,7 +246,7 @@ func _get_indent_level(line: String) -> int:
 
 # gdlint:ignore-next-line:high-complexity - Complexity calculation is naturally complex
 func _calculate_cyclomatic_complexity(body_lines: Array) -> int:
-	var complexity := 1  # Base complexity
+	var complexity := 1 # Base complexity
 
 	for line in body_lines:
 		var trimmed: String = line.strip_edges()

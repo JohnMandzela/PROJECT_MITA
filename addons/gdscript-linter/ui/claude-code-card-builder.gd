@@ -2,6 +2,7 @@
 # https://poplava.itch.io
 @tool
 extends RefCounted
+
 class_name GDLintClaudeCodeCardBuilder
 ## Creates the Claude Code integration settings card
 

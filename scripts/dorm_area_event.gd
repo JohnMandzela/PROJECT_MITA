@@ -14,6 +14,7 @@ var inspect_door3 := 0
 var inspect_door4 := 0
 var inspect_door5 := 0
 
+
 func _ready() -> void:
 	label.visible = false
 	var dialogue_manager = Engine.get_singleton("DialogueManager")

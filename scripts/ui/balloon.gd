@@ -36,7 +36,7 @@ var is_waiting_for_input: bool = false
 var will_hide_balloon: bool = false
 
 ## A dictionary to store any ephemeral variables
-var locals: Dictionary = {}
+var locals: Dictionary = { }
 
 var _locale: String = TranslationServer.get_locale()
 var _skip_advance_cooldown := 0.0
@@ -159,7 +159,7 @@ func _exit_tree() -> void:
 
 ## Start some dialogue
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
-	temporary_game_states = [ self ] + extra_game_states
+	temporary_game_states = [self] + extra_game_states
 	is_waiting_for_input = false
 	GameManager.disable_movement = true
 	_enter_dialogue_mouse_mode()
@@ -170,6 +170,7 @@ func start(with_dialogue_resource: DialogueResource = null, title: String = "", 
 		start_from_title = title
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(start_from_title, temporary_game_states)
 	show()
+
 
 func get_portrait_side(character: String) -> PortraitSide:
 	assert(character, "get_portrait_side() вызвана для строки диалога без персонажа")
@@ -187,9 +188,9 @@ func get_portrait_side(character: String) -> PortraitSide:
 	if current_side != null:
 		return current_side
 
-	if side == "left": 
+	if side == "left":
 		return PortraitSide.LEFT
-	elif side == "right": 
+	elif side == "right":
 		return PortraitSide.RIGHT
 	elif side:
 		push_warning("Некорректная сторона '%s' для персонажа '%s' в строке диалога '%s'" % [side, character, dialogue_line.id])
@@ -201,6 +202,7 @@ func get_portrait_side(character: String) -> PortraitSide:
 
 	push_warning("Оба портрета уже заняты, но в строке диалога '%s' нет тега со стороной для персонажа '%s'" % [dialogue_line.id, character])
 	return PortraitSide.LEFT
+
 
 ## Apply any changes to the balloon given a new [DialogueLine].
 func apply_dialogue_line() -> void:
@@ -215,7 +217,7 @@ func apply_dialogue_line() -> void:
 	var character := dialogue_line.character
 	character_label.visible = not character.is_empty()
 	character_label.text = tr(character, "dialogue")
-	
+
 	if character:
 		var emotion := &""
 		for emotion_name in Enums.Emote.keys():
@@ -225,14 +227,14 @@ func apply_dialogue_line() -> void:
 
 		var current_portrait: CharacterPortrait
 		var other_portrait: CharacterPortrait
-		
+
 		if get_portrait_side(character) == PortraitSide.LEFT:
 			current_portrait = left_portrait
 			other_portrait = right_portrait
 		else:
 			current_portrait = right_portrait
 			other_portrait = left_portrait
-		
+
 		current_portrait.set_character(character, emotion)
 		current_portrait.set_active()
 		other_portrait.set_inactive()
@@ -296,7 +298,7 @@ func next(next_id: String) -> void:
 # Затухание
 func fade_out(seconds: Variant = null) -> void:
 	GameManager.screen_fader.fade_out(seconds)
-	
+
 	# Если передана длительность, ставим диалог на паузу до конца плавного появления
 	# Если не передана, то продолжаем после конца затенения
 	if seconds != null:
@@ -304,10 +306,12 @@ func fade_out(seconds: Variant = null) -> void:
 	else:
 		await GameManager.screen_fader.fade_out_finished
 
+
 # Плавное появление
 func fade_in() -> void:
 	GameManager.screen_fader.fade_in()
 	await GameManager.screen_fader.fade_in_finished
+
 
 # Скрыть портрет персонажа по имени
 func hide_portrait(character: String) -> void:
@@ -365,6 +369,7 @@ func _get_line_emotion() -> String:
 			return emotion_name.to_lower()
 
 	return ""
+
 
 func _on_mutation_cooldown_timeout() -> void:
 	if will_hide_balloon:

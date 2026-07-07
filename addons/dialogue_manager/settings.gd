@@ -1,10 +1,8 @@
 @tool
-class_name DMSettings extends Node
-
+class_name DMSettings
+extends Node
 
 #region Editor
-
-
 
 ## Wrap lines in the dialogue editor.
 const WRAP_LONG_LINES = "editor/wrap_long_lines"
@@ -48,7 +46,6 @@ const IGNORE_MISSING_STATE_VALUES = "runtime/advanced/ignore_missing_state_value
 ## Whether or not the project is utilising dotnet.
 const USES_DOTNET = "runtime/advanced/uses_dotnet"
 
-
 static var SETTINGS_CONFIGURATION = {
 	WRAP_LONG_LINES: {
 		value = false,
@@ -59,11 +56,10 @@ static var SETTINGS_CONFIGURATION = {
 		type = TYPE_STRING,
 		hint = PROPERTY_HINT_MULTILINE_TEXT,
 	},
-
 	MISSING_TRANSLATIONS_ARE_ERRORS: {
 		value = false,
 		type = TYPE_BOOL,
-		is_advanced = true
+		is_advanced = true,
 	},
 	INCLUDE_CHARACTERS_IN_TRANSLATABLE_STRINGS_LIST: {
 		value = true,
@@ -73,7 +69,7 @@ static var SETTINGS_CONFIGURATION = {
 		value = "Comma",
 		type = TYPE_STRING,
 		hint = PROPERTY_HINT_ENUM,
-		hint_string = "Comma,Semicolon,Tab"
+		hint_string = "Comma,Semicolon,Tab",
 	},
 	DEFAULT_CSV_LOCALE: {
 		value = "en",
@@ -85,46 +81,43 @@ static var SETTINGS_CONFIGURATION = {
 		type = TYPE_PACKED_STRING_ARRAY,
 		hint = PROPERTY_HINT_TYPE_STRING,
 		hint_string = "%d:" % [TYPE_STRING],
-		is_advanced = true
+		is_advanced = true,
 	},
 	INCLUDE_CHARACTER_IN_TRANSLATION_EXPORTS: {
 		value = false,
 		type = TYPE_BOOL,
-		is_advanced = true
+		is_advanced = true,
 	},
 	INCLUDE_NOTES_IN_TRANSLATION_EXPORTS: {
 		value = false,
 		type = TYPE_BOOL,
-		is_advanced = true
+		is_advanced = true,
 	},
 	UPDATE_POT_FILES_AUTOMATICALLY: {
 		value = true,
 		type = TYPE_BOOL,
-		is_advanced = true
+		is_advanced = true,
 	},
-
 	DIALOGUE_PROCESSOR_PATH: {
 		value = "",
 		type = TYPE_STRING,
 		hint = PROPERTY_HINT_FILE,
 		hint_string = "*.gd,*.cs",
-		is_advanced = true
+		is_advanced = true,
 	},
-
 	CUSTOM_TEST_SCENE_PATH: {
 		value = preload("./test_scene.tscn").resource_path,
 		type = TYPE_STRING,
 		hint = PROPERTY_HINT_FILE,
-		is_advanced = true
+		is_advanced = true,
 	},
 	EXTRA_AUTO_COMPLETE_SCRIPT_SOURCES: {
 		value = [],
 		type = TYPE_PACKED_STRING_ARRAY,
 		hint = PROPERTY_HINT_TYPE_STRING,
 		hint_string = "%d/%d:*.*" % [TYPE_STRING, PROPERTY_HINT_FILE],
-		is_advanced = true
+		is_advanced = true,
 	},
-
 	BALLOON_PATH: {
 		value = "",
 		type = TYPE_STRING,
@@ -139,19 +132,18 @@ static var SETTINGS_CONFIGURATION = {
 	WARN_ABOUT_METHOD_PROPERTY_OR_SIGNAL_NAME_CONFLICTS: {
 		value = false,
 		type = TYPE_BOOL,
-		is_advanced = true
+		is_advanced = true,
 	},
-
 	IGNORE_MISSING_STATE_VALUES: {
 		value = false,
 		type = TYPE_BOOL,
-		is_advanced = true
+		is_advanced = true,
 	},
 	USES_DOTNET: {
 		value = false,
 		type = TYPE_BOOL,
-		is_hidden = true
-	}
+		is_hidden = true,
+	},
 }
 
 
@@ -175,7 +167,7 @@ static func prepare() -> void:
 		include_character_in_translation_exports = INCLUDE_CHARACTER_IN_TRANSLATION_EXPORTS,
 		include_notes_in_translation_exports = INCLUDE_NOTES_IN_TRANSLATION_EXPORTS,
 		uses_dotnet = USES_DOTNET,
-		try_suppressing_startup_unsaved_indicator = null
+		try_suppressing_startup_unsaved_indicator = null,
 	}
 
 	for legacy_key: String in legacy_map:
@@ -195,12 +187,14 @@ static func prepare() -> void:
 		if not ProjectSettings.has_setting(setting_name):
 			ProjectSettings.set_setting(setting_name, setting_config.value)
 		ProjectSettings.set_initial_value(setting_name, setting_config.value)
-		ProjectSettings.add_property_info({
-			"name" = setting_name,
-			"type" = setting_config.type,
-			"hint" = setting_config.get("hint", PROPERTY_HINT_NONE),
-			"hint_string" = setting_config.get("hint_string", "")
-		})
+		ProjectSettings.add_property_info(
+			{
+				"name" = setting_name,
+				"type" = setting_config.type,
+				"hint" = setting_config.get("hint", PROPERTY_HINT_NONE),
+				"hint_string" = setting_config.get("hint_string", ""),
+			},
+		)
 		ProjectSettings.set_as_basic(setting_name, not setting_config.has("is_advanced"))
 		ProjectSettings.set_as_internal(setting_name, setting_config.has("is_hidden"))
 
@@ -223,17 +217,15 @@ static func get_setting(key: String, default):
 
 
 static func get_settings(only_keys: PackedStringArray = []) -> Dictionary:
-	var settings: Dictionary = {}
+	var settings: Dictionary = { }
 	for key in SETTINGS_CONFIGURATION.keys():
 		if only_keys.is_empty() or key in only_keys:
 			settings[key] = get_setting(key, SETTINGS_CONFIGURATION[key].value)
 	return settings
 
-
 #endregion
 
 #region User
-
 
 static func get_user_config() -> Dictionary:
 	var user_config: Dictionary = {
@@ -242,12 +234,12 @@ static func get_user_config() -> Dictionary:
 		recent_files = [],
 		reopen_files = [],
 		most_recent_reopen_file = "",
-		file_meta = {},
+		file_meta = { },
 		run_title = "",
 		run_resource_path = "",
 		is_running_test_scene = false,
 		has_dotnet_solution = false,
-		open_in_external_editor = false
+		open_in_external_editor = false,
 	}
 
 	if FileAccess.file_exists(DMConstants.USER_CONFIG_PATH):
@@ -274,7 +266,7 @@ static func get_user_value(key: String, default = null) -> Variant:
 
 static func forget_path(path: String) -> void:
 	remove_recent_file(path)
-	var file_meta: Dictionary = get_user_value("file_meta", {})
+	var file_meta: Dictionary = get_user_value("file_meta", { })
 	file_meta.erase(path)
 	set_user_value("file_meta", file_meta)
 
@@ -308,17 +300,17 @@ static func get_recent_files() -> Array:
 
 static func clear_recent_files() -> void:
 	set_user_value("recent_files", [])
-	set_user_value("carets", {})
+	set_user_value("carets", { })
 
 
 static func set_caret(path: String, cursor: Vector2) -> void:
-	var file_meta: Dictionary = get_user_value("file_meta", {})
-	file_meta[path] = file_meta.get(path, {}).merged({ cursor = "%d,%d" % [cursor.x, cursor.y] }, true)
+	var file_meta: Dictionary = get_user_value("file_meta", { })
+	file_meta[path] = file_meta.get(path, { }).merged({ cursor = "%d,%d" % [cursor.x, cursor.y] }, true)
 	set_user_value("file_meta", file_meta)
 
 
 static func get_caret(path: String) -> Vector2:
-	var file_meta: Dictionary = get_user_value("file_meta", {})
+	var file_meta: Dictionary = get_user_value("file_meta", { })
 	if file_meta.has(path):
 		var cursor: PackedStringArray = file_meta.get(path).get("cursor", "0,0").split(",")
 		return Vector2(cursor[0].to_int(), cursor[1].to_int())
@@ -327,13 +319,13 @@ static func get_caret(path: String) -> Vector2:
 
 
 static func set_scroll(path: String, scroll_vertical: int) -> void:
-	var file_meta: Dictionary = get_user_value("file_meta", {})
-	file_meta[path] = file_meta.get(path, {}).merged({ scroll_vertical = scroll_vertical }, true)
+	var file_meta: Dictionary = get_user_value("file_meta", { })
+	file_meta[path] = file_meta.get(path, { }).merged({ scroll_vertical = scroll_vertical }, true)
 	set_user_value("file_meta", file_meta)
 
 
 static func get_scroll(path: String) -> int:
-	var file_meta: Dictionary = get_user_value("file_meta", {})
+	var file_meta: Dictionary = get_user_value("file_meta", { })
 	if file_meta.has(path):
 		return file_meta.get(path).get("scroll_vertical", 0)
 	else:
@@ -351,6 +343,5 @@ static func check_for_dotnet_solution() -> bool:
 		return has_dotnet_solution
 
 	return get_setting(DMSettings.USES_DOTNET, false)
-
 
 #endregion

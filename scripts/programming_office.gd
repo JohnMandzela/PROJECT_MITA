@@ -1,8 +1,6 @@
 extends PlayerSpawnScene
 
-
 const PUZZLE_COMPLETION_FLAG := "programming_office_samples_puzzle_completed"
-
 
 @export var puzzle_scene: PackedScene
 
@@ -78,10 +76,10 @@ func close_samples_puzzle() -> void:
 func is_samples_puzzle_open() -> bool:
 	# Возвращаем текущее состояние мини-игры, чтобы ивент-зона не запускала ее повторно.
 	return (
-		active_puzzle != null
-		and is_instance_valid(active_puzzle)
-		and active_puzzle.visible
-		and puzzle_container.visible
+			active_puzzle != null
+			and is_instance_valid(active_puzzle)
+			and active_puzzle.visible
+			and puzzle_container.visible
 	)
 
 
