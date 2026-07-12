@@ -18,9 +18,13 @@ const LOOK_AHEAD_SEC := 3.0
 const PERFECT_WINDOW_MS := 45.0
 const GOOD_WINDOW_MS := 110.0
 const NOTE_SIZE := Vector2(56, 56)
-const LANE_HEIGHT := 72.0
-const JUDGEMENT_X := 140.0
+const LANE_WIDTH := 120.0
+const JUDGEMENT_BOTTOM_MARGIN := 80.0
 const SPAWN_MARGIN := 80.0
+
+const HIT_RING_DURATION := 0.28
+const LANE_FLASH_DURATION := 0.14
+const NOTE_HIT_DURATION := 0.16
 
 const BG_COLOR := Color(0.08, 0.08, 0.1)
 const LANE_BG := Color(0.14, 0.14, 0.18)
@@ -46,6 +50,7 @@ const START_HINT := "Нажмите Пробел, чтобы начать"
 @onready var notes_root: Control = $Playfield/Notes
 @onready var judgement_line: ColorRect = $Playfield/JudgementLine
 @onready var lane_hints_root: Control = $Playfield/LaneHints
+@onready var effects_root: Control = $Playfield/Effects
 @onready var score_label: Label = $UI/TopBar/ScoreLabel
 @onready var combo_label: Label = $UI/TopBar/ComboLabel
 @onready var title_label: Label = $UI/TopBar/TitleLabel
@@ -66,11 +71,12 @@ var _chart: Dictionary = {}
 var _note_defs: Array[Dictionary] = []
 var _next_spawn_index := 0
 var _active_notes: Array[Dictionary] = []
-var _lane_y: Array[float] = []
+var _lane_x: Array[float] = []
+var _judgement_y := 0.0
 
 var _playing := false
 var _paused_time := 0.0
-var _started_at_usec := 0
+var _logic_start_usec := 0
 var _audio_offset := 0.0
 
 var _score := 0
@@ -82,8 +88,11 @@ var _miss_count := 0
 var _is_finished := false
 var _can_finish := false
 var _feedback_timer := 0.0
+var _last_hud_score := -1
+var _last_hud_combo := -1
 
 var _note_pool: Array[Control] = []
+var _lane_flash_nodes: Array[ColorRect] = []
 
 
 func _ready() -> void:
@@ -149,7 +158,7 @@ func _load_chart() -> void:
 func _reset_run() -> void:
 	_playing = false
 	_paused_time = 0.0
-	_started_at_usec = 0
+	_logic_start_usec = 0
 	_next_spawn_index = 0
 	_is_finished = false
 	_can_finish = false
@@ -160,6 +169,8 @@ func _reset_run() -> void:
 	_good_count = 0
 	_miss_count = 0
 	_feedback_timer = 0.0
+	_last_hud_score = -1
+	_last_hud_combo = -1
 
 	audio_player.stop()
 	_clear_active_notes()
@@ -185,7 +196,7 @@ func _start_song() -> void:
 	_clear_active_notes()
 	_despawn_all_pooled_notes()
 	_paused_time = 0.0
-	_started_at_usec = Time.get_ticks_usec()
+	_logic_start_usec = Time.get_ticks_usec()
 	_playing = true
 	if audio_player.stream != null:
 		audio_player.play()
@@ -194,13 +205,7 @@ func _start_song() -> void:
 func _get_song_time() -> float:
 	if not _playing:
 		return _paused_time
-	if audio_player.stream != null and audio_player.playing:
-		return (
-			audio_player.get_playback_position()
-			+ AudioServer.get_time_since_last_mix()
-			- _audio_offset
-		)
-	return float(Time.get_ticks_usec() - _started_at_usec) / 1_000_000.0 - _audio_offset
+	return float(Time.get_ticks_usec() - _logic_start_usec) / 1_000_000.0 - _audio_offset
 
 
 func _process(delta: float) -> void:
@@ -245,16 +250,18 @@ func _spawn_note(lane: int, note_time: float) -> void:
 
 
 func _update_note_positions(song_time: float) -> void:
-	var spawn_x := playfield.size.x + SPAWN_MARGIN
 	for entry in _active_notes:
 		if bool(entry.get("resolved", false)):
 			continue
 		var note_time := float(entry["time"])
 		var delta_time := note_time - song_time
-		var x_pos := JUDGEMENT_X + delta_time * SCROLL_SPEED
+		var y_pos := _judgement_y - delta_time * SCROLL_SPEED
+		var lane := int(entry["lane"])
 		var node: Control = entry["node"]
-		node.position = Vector2(x_pos - NOTE_SIZE.x * 0.5, _lane_y[int(entry["lane"])] - NOTE_SIZE.y * 0.5)
-		node.modulate = Color.WHITE if x_pos <= spawn_x else Color(1, 1, 1, 0)
+		var x_pos := floorf(_lane_x[lane] - NOTE_SIZE.x * 0.5)
+		var y_pos_snapped := floorf(y_pos - NOTE_SIZE.y * 0.5)
+		node.position = Vector2(x_pos, y_pos_snapped)
+		node.visible = y_pos >= -SPAWN_MARGIN and y_pos <= playfield.size.y + SPAWN_MARGIN
 
 
 func _check_missed_notes(song_time: float) -> void:
@@ -325,27 +332,35 @@ func _try_hit_lane(lane: int) -> void:
 		return
 
 	if best_abs_error <= PERFECT_WINDOW_MS:
-		_register_hit(best_entry, 300, "Perfect!", Color(1.0, 0.92, 0.35))
+		_register_hit(best_entry, 300, "Perfect!", Color(1.0, 0.92, 0.35), true)
 		_perfect_count += 1
 	elif best_abs_error <= GOOD_WINDOW_MS:
-		_register_hit(best_entry, 100, "Good", Color(0.55, 0.9, 0.55))
+		_register_hit(best_entry, 100, "Good", Color(0.55, 0.9, 0.55), false)
 		_good_count += 1
 
 
-func _register_hit(entry: Dictionary, points: int, text: String, color: Color) -> void:
+func _register_hit(entry: Dictionary, points: int, text: String, color: Color, is_perfect: bool) -> void:
 	entry["resolved"] = true
 	_score += points
 	_combo += 1
 	_max_combo = maxi(_max_combo, _combo)
 	_show_feedback(text, color)
-	_release_note_node(entry["node"])
+	var lane := int(entry["lane"])
+	_flash_lane(lane, color)
+	_spawn_hit_ring(lane, color, 1.0 if is_perfect else 0.82)
+	_pulse_judgement_line(color)
+	_play_note_hit_animation(entry["node"], color)
 
 
 func _register_miss(entry: Dictionary) -> void:
 	entry["resolved"] = true
 	_miss_count += 1
 	_break_combo()
-	_show_feedback("Miss", Color(0.95, 0.35, 0.35))
+	var miss_color := Color(0.95, 0.35, 0.35)
+	_show_feedback("Miss", miss_color)
+	var lane := int(entry["lane"])
+	_flash_lane(lane, miss_color)
+	_spawn_hit_ring(lane, miss_color, 0.55)
 	_release_note_node(entry["node"])
 
 
@@ -356,7 +371,71 @@ func _break_combo() -> void:
 func _show_feedback(text: String, color: Color) -> void:
 	feedback_label.text = text
 	feedback_label.add_theme_color_override("font_color", color)
+	feedback_label.scale = Vector2(1.2, 1.2)
+	feedback_label.modulate = Color.WHITE
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(feedback_label, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(feedback_label, "modulate:a", 0.0, 0.45).set_delay(0.12)
+	tween.chain().tween_callback(func() -> void:
+		feedback_label.modulate = Color.WHITE
+	)
 	_feedback_timer = 0.45
+
+
+func _play_note_hit_animation(note_node: Control, color: Color) -> void:
+	if not is_instance_valid(note_node):
+		return
+	note_node.modulate = color.lightened(0.25)
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(note_node, "scale", Vector2(1.35, 1.35), NOTE_HIT_DURATION * 0.45)
+	tween.tween_property(note_node, "modulate:a", 0.0, NOTE_HIT_DURATION)
+	tween.chain().tween_callback(func() -> void:
+		note_node.scale = Vector2.ONE
+		note_node.modulate = Color.WHITE
+		_release_note_node(note_node)
+	)
+
+
+func _flash_lane(lane: int, color: Color) -> void:
+	if lane < 0 or lane >= _lane_flash_nodes.size():
+		return
+	var flash: ColorRect = _lane_flash_nodes[lane]
+	flash.color = Color(color.r, color.g, color.b, 0.42)
+	flash.visible = true
+	var tween := create_tween()
+	tween.tween_property(flash, "color:a", 0.0, LANE_FLASH_DURATION)
+	tween.tween_callback(func() -> void: flash.visible = false)
+
+
+func _spawn_hit_ring(lane: int, color: Color, size_scale: float) -> void:
+	if lane < 0 or lane >= _lane_x.size():
+		return
+
+	var ring := ColorRect.new()
+	ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ring.color = Color(color.r, color.g, color.b, 0.75)
+	var base_size := NOTE_SIZE.x * size_scale
+	ring.size = Vector2(base_size, base_size)
+	ring.position = Vector2(
+		_lane_x[lane] - base_size * 0.5,
+		_judgement_y - base_size * 0.5
+	)
+	ring.pivot_offset = ring.size * 0.5
+	effects_root.add_child(ring)
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(ring, "scale", Vector2(1.8, 1.8), HIT_RING_DURATION)
+	tween.tween_property(ring, "modulate:a", 0.0, HIT_RING_DURATION)
+	tween.chain().tween_callback(ring.queue_free)
+
+
+func _pulse_judgement_line(color: Color) -> void:
+	judgement_line.modulate = color.lightened(0.15)
+	var tween := create_tween()
+	tween.tween_property(judgement_line, "modulate", Color.WHITE, 0.2)
 
 
 func _release_note_node(node: Control) -> void:
@@ -372,6 +451,9 @@ func _acquire_note_node(lane: int) -> Control:
 	else:
 		note_node = _note_pool.pop_back()
 		_style_note_node(note_node, lane)
+	note_node.scale = Vector2.ONE
+	note_node.modulate = Color.WHITE
+	note_node.visible = true
 	return note_node
 
 
@@ -449,8 +531,14 @@ func _finish_success() -> void:
 
 
 func _update_hud() -> void:
-	score_label.text = "Score: %d" % _score
-	combo_label.text = "Combo: %d" % _combo if _combo >= 2 else ""
+	if _score != _last_hud_score:
+		_last_hud_score = _score
+		score_label.text = "Score: %d" % _score
+
+	var combo_text := "Combo: %d" % _combo if _combo >= 2 else ""
+	if _combo != _last_hud_combo:
+		_last_hud_combo = _combo
+		combo_label.text = combo_text
 
 
 func _rebuild_lanes() -> void:
@@ -458,36 +546,49 @@ func _rebuild_lanes() -> void:
 		child.queue_free()
 	for child in lane_hints_root.get_children():
 		child.queue_free()
+	for child in effects_root.get_children():
+		child.queue_free()
+	_lane_flash_nodes.clear()
 
-	_lane_y.clear()
-	var total_height := playfield.size.y
-	var top := (total_height - LANE_COUNT * LANE_HEIGHT) * 0.5
+	_lane_x.clear()
+	var total_width := playfield.size.x
+	var left := (total_width - LANE_COUNT * LANE_WIDTH) * 0.5
+	_judgement_y = playfield.size.y - JUDGEMENT_BOTTOM_MARGIN
 
 	for lane in range(LANE_COUNT):
-		var y_center := top + LANE_HEIGHT * (float(lane) + 0.5)
-		_lane_y.append(y_center)
+		var x_center := left + LANE_WIDTH * (float(lane) + 0.5)
+		_lane_x.append(x_center)
 
 		var lane_bg := ColorRect.new()
 		lane_bg.color = LANE_BG if lane % 2 == 0 else LANE_BG.lightened(0.04)
-		lane_bg.position = Vector2(0, top + lane * LANE_HEIGHT)
-		lane_bg.size = Vector2(playfield.size.x, LANE_HEIGHT)
+		lane_bg.position = Vector2(left + lane * LANE_WIDTH, 0)
+		lane_bg.size = Vector2(LANE_WIDTH, playfield.size.y)
 		lanes_root.add_child(lane_bg)
+
+		var lane_flash := ColorRect.new()
+		lane_flash.visible = false
+		lane_flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		lane_flash.position = lane_bg.position
+		lane_flash.size = lane_bg.size
+		lane_flash.color = Color(1, 1, 1, 0)
+		lanes_root.add_child(lane_flash)
+		_lane_flash_nodes.append(lane_flash)
 
 		var divider := ColorRect.new()
 		divider.color = LANE_BORDER
-		divider.position = Vector2(0, top + (lane + 1) * LANE_HEIGHT - 1)
-		divider.size = Vector2(playfield.size.x, 2)
+		divider.position = Vector2(left + (lane + 1) * LANE_WIDTH - 1, 0)
+		divider.size = Vector2(2, playfield.size.y)
 		lanes_root.add_child(divider)
 
 		var hint := Label.new()
 		hint.text = LANE_LABELS[lane]
 		hint.add_theme_color_override("font_color", LANE_COLORS[lane])
 		hint.add_theme_font_size_override("font_size", 20)
-		hint.position = Vector2(24, y_center - 14)
+		hint.position = Vector2(x_center - 10, _judgement_y + 12)
 		lane_hints_root.add_child(hint)
 
-	judgement_line.position = Vector2(JUDGEMENT_X - 2, top - 8)
-	judgement_line.size = Vector2(4, LANE_COUNT * LANE_HEIGHT + 16)
+	judgement_line.position = Vector2(left - 8, _judgement_y - 2)
+	judgement_line.size = Vector2(LANE_COUNT * LANE_WIDTH + 16, 4)
 
 
 func _open_pause_overlay() -> void:
@@ -506,10 +607,9 @@ func _close_pause_overlay() -> void:
 	modal_blur.visible = success_overlay.visible
 	if _is_finished:
 		return
+	_logic_start_usec = Time.get_ticks_usec() - int(_paused_time * 1_000_000.0)
 	if audio_player.stream != null:
 		audio_player.stream_paused = false
-	else:
-		_started_at_usec = Time.get_ticks_usec() - int(_paused_time * 1_000_000.0)
 	_playing = true
 
 
