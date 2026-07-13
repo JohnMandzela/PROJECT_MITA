@@ -43,7 +43,7 @@ mouse_cursor/custom_image="uid://y5l7xcplapsp"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/gdscript-linter/plugin.cfg", "res://addons/glitch_intro/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/glitch_intro/plugin.cfg")
 
 [input]
 

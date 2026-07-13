@@ -45,17 +45,6 @@ shaders/         — GLSL shaders
 
 ## Critical Issues
 
-### 1. Massive Duplication of Interaction Pattern (HIGH PRIORITY)
-
-The `Area2D` interaction zone pattern (`last_scene.gd`, `next_scene.gd`, `event.gd`, `dorm_area_event.gd`, `dialogue_reception.gd`, `offices_coffee_zone.gd`, `programming_office_puzzle_zone.gd`, and 8 furniture scripts) is copy-pasted ~15 times with minor variations. This violates DRY at an extreme level.
-
-**Suggestion:** Extract a base class (e.g., `InteractionZone.gd`) with:
-- `required_direction`, `label`, `player` tracking
-- `_is_correct_direction()` (already duplicated identically 15+ times)
-- `_on_body_entered/_on_body_exited`
-- Virtual methods for `_on_interact()` and `_on_focused()`/`_on_unfocused()`
-- Subclass for dialogue interactions, scene transitions, item pickups, etc.
-
 ### 2. `npc.gd` and `character_portrait.gd` Use Issues
 
 - `npc.gd` (base class) has empty `_ready()` and `_process()` — useless boilerplate
@@ -146,7 +135,7 @@ Mouse mode is set in `PlayerSpawnScene._ready()`, `close_pause_menu()`, `_apply_
 
 ## Refactoring Priority List
 
-1. **Extract `InteractionZone` base class** — eliminates ~15 near-duplicate scripts
+1. **Extract `Event` base class** — eliminates ~15 near-duplicate scripts
 2. **Merge `last_scene.gd` / `next_scene.gd`** into one base with optional entrance animation
 3. **Fix `@export_enum`** in scene transition scripts
 4. **Fix `options.gd`** — implement volume slider handlers

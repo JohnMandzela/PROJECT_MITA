@@ -1,38 +1,38 @@
+class_name DialogueEventBase
 extends EventBase
 
-@export var dialogue_1: DialogueResource
-@export var dialogue_2: DialogueResource
+@export var dialogue: DialogueResource
+@export var dialogue_start := ""
 
 var is_dialogue_running := false
 
 
 func _ready() -> void:
 	super._ready()
+	if not dialogue:
+		return
+
+	var dm = Engine.get_singleton("DialogueManager")
+	if dm and not dm.dialogue_ended.is_connected(_on_dialogue_ended):
+		dm.dialogue_ended.connect(_on_dialogue_ended)
+
+	# TODO: уточнить, что это такое
 	if not Engine.is_embedded_in_editor:
 		var window: Window = get_viewport()
 		var screen_index: int = DisplayServer.get_primary_screen()
 		window.position = Vector2(DisplayServer.screen_get_position(screen_index)) + (DisplayServer.screen_get_size(screen_index) - window.size) * 0.5
 		window.mode = Window.MODE_WINDOWED
 
-	var dm = Engine.get_singleton("DialogueManager")
-	if dm and not dm.dialogue_ended.is_connected(_on_dialogue_ended):
-		dm.dialogue_ended.connect(_on_dialogue_ended)
-
 
 func _can_interact() -> bool:
-	return not is_dialogue_running
+	return not is_dialogue_running and dialogue != null
 
 
 func _on_interact() -> void:
 	is_dialogue_running = true
 	var dm = Engine.get_singleton("DialogueManager")
-	if not dm:
-		return
-	if not GameManager.is_done("2_mike_room_bed"):
-		dm.show_dialogue_balloon(dialogue_1)
-		GameManager.set_done("2_mike_room_bed")
-	else:
-		dm.show_dialogue_balloon(dialogue_2)
+	if dm:
+		dm.show_dialogue_balloon(dialogue, dialogue_start, [self])
 
 
 func _on_dialogue_ended(_resource: DialogueResource) -> void:

@@ -98,7 +98,7 @@ func _build_completed_quests_overlay() -> void:
 	completed_quest_scroll.name = "CompletedQuestScroll"
 	completed_quest_scroll.custom_minimum_size = Vector2(0, 300)
 	completed_quest_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	completed_quest_scroll.horizontal_scroll_mode = 0
+	completed_quest_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	completed_quest_vbox.add_child(completed_quest_scroll)
 
 	completed_quest_list = VBoxContainer.new()
@@ -665,13 +665,13 @@ func _load_item_icon(icon_path: String) -> Texture2D:
 	return fallback_icon
 
 
-func _is_position_over_inventory_widget(global_position: Vector2) -> bool:
+func _is_position_over_inventory_widget(pos: Vector2) -> bool:
 	for state in _inventory_rows.values():
 		var icon := state["icon"] as Control
 		var info := state["info"] as Control
-		if icon.get_global_rect().has_point(global_position):
+		if icon.get_global_rect().has_point(pos):
 			return true
-		if info.get_global_rect().has_point(global_position):
+		if info.get_global_rect().has_point(pos):
 			return true
 	return false
 
