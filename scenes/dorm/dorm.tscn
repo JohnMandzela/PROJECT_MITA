@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_km4w3"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_1vu13"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="3_cahr0"]
-[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="6_1vu13"]
-[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="7_1vu13"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/system/scene_transition_event.gd" id="6_1vu13"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="7_1vu13"]
 [ext_resource type="Texture2D" uid="uid://fe0mw8eak7ba" path="res://images/tilesets/scenes/$door.png" id="8_j5r5n"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="8_y5ma7"]
 

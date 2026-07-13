@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
 [ext_resource type="Script" uid="uid://bvad7pqaih7dl" path="res://scripts/programming_office_puzzle_zone.gd" id="5_zone"]
 [ext_resource type="PackedScene" uid="uid://cih1v2kckb6g3" path="res://scenes/samples_puzzle.tscn" id="6_puzzle"]
-[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="7_fapqt"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/system/scene_transition_event.gd" id="7_fapqt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
 size = Vector2(32, 48)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=44 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
-[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="5_uym5w"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="5_uym5w"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="5_wby07"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
 [ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="9_mv7xs"]

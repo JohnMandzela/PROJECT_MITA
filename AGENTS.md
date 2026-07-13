@@ -53,7 +53,7 @@ shaders/         — GLSL shaders
 
 ### 3. Inconsistent `@export_enum` Usage
 
-In `last_scene.gd` and `next_scene.gd`:
+In `scene_transition_event.gd` and `scene_transition_event.gd`:
 ```gdscript
 @export_enum("up", "down", "left", "right")
 var exit_direction: String
@@ -63,7 +63,7 @@ This creates an unused `@export_enum` decorator because it's applied to nothing 
 @export_enum("up", "down", "left", "right")
 var exit_direction: String
 ```
-— actually that IS how it looks, but the `@export_enum` must be directly above the variable it decorates. The issue is there's a comment between them or a blank line. Let me re-check: In `last_scene.gd` line 9 the `@export_enum` has no attached variable — it's followed by a comment line, then `var exit_direction`. So the decorator does nothing. Same in `next_scene.gd`.
+— actually that IS how it looks, but the `@export_enum` must be directly above the variable it decorates. The issue is there's a comment between them or a blank line. Let me re-check: In `scene_transition_event.gd` line 9 the `@export_enum` has no attached variable — it's followed by a comment line, then `var exit_direction`. So the decorator does nothing. Same in `scene_transition_event.gd`.
 
 ## Medium Issues
 
@@ -74,10 +74,6 @@ var exit_direction: String
 ### 5. Options Script Legacy Code
 
 `scripts/ui/options.gd` has volume sliders whose `_on_sounds_value_changed` and `_on_music_value_changed` are completely empty (`pass`). Audio settings don't work from the options screen. Only the pause menu options work properly.
-
-### 6. `last_scene.gd` vs `next_scene.gd` — Near-Identical Code
-
-These two files are essentially the same script with a minor difference (`last_scene` lacks `entrance_animation()`). One should inherit from the other, or both from a base `SceneTransition` class.
 
 ### 7. Direct DialogueManager Singleton Access
 
@@ -136,7 +132,7 @@ Mouse mode is set in `PlayerSpawnScene._ready()`, `close_pause_menu()`, `_apply_
 ## Refactoring Priority List
 
 1. **Extract `Event` base class** — eliminates ~15 near-duplicate scripts
-2. **Merge `last_scene.gd` / `next_scene.gd`** into one base with optional entrance animation
+2. **Merge `scene_transition_event.gd` / `scene_transition_event.gd`** into one base with optional entrance animation
 3. **Fix `@export_enum`** in scene transition scripts
 4. **Fix `options.gd`** — implement volume slider handlers
 5. **Replace direction strings with `Enums.Direction`** in player

@@ -26,7 +26,6 @@ func _process(_delta: float) -> void:
 				else:
 					interact()
 			else:
-				
 				interact()
 	else:
 		label.visible = false
@@ -36,12 +35,6 @@ func interact() -> void:
 	GameManager.saved_direction = exit_direction
 	GameManager.saved_flashlight_state = player.is_flashlight_on
 	GameManager.start_scene_transition(target_scene, target_spawn_point)
-
-
-func entrance_animation() -> void:
-	if animation:
-		animation.play("opening")
-		await get_tree().create_timer(0.7).timeout
 
 
 func _play_interact_sound() -> void:

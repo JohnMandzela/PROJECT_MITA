@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_3mhh6"]
 [ext_resource type="Texture2D" uid="uid://bgmeuks7pq83y" path="res://images/scene/Коридоры офисов-полный вариант.png" id="3_ddor0"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="4_xtt1d"]
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/next_scene.gd" id="5_3mhh6"]
+[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gdion_event.gd" id="5_3mhh6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0stv2"]
 size = Vector2(36.5, 20.5)
