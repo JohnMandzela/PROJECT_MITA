@@ -1,4 +1,4 @@
-extends EventBase
+extends Event
 
 @export var dialogue: DialogueResource
 @onready var toilet_sound := $Toilet_Sound

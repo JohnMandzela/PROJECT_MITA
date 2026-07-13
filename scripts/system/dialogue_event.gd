@@ -1,5 +1,5 @@
 class_name DialogueEvent
-extends EventBase
+extends Event
 
 @export var dialogue: DialogueResource
 @export var dialogue_start := ""

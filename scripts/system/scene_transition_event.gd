@@ -1,4 +1,4 @@
-extends EventBase
+extends Event
 
 @export var exit_direction: String
 @export var target_scene: String

@@ -1,4 +1,4 @@
-extends EventBase
+extends Event
 
 const PUZZLE_COMPLETION_FLAG := "programming_office_samples_puzzle_completed"
 

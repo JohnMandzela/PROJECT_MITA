@@ -1,4 +1,4 @@
-extends EventBase
+extends Event
 
 @export var dialogue_1: DialogueResource
 @export var dialogue_2: DialogueResource
