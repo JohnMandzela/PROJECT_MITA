@@ -64,7 +64,7 @@ func _physics_process(_delta: float) -> void:
 
 	# Проигрываем анимацию
 	var anim_prefix := "walk_" if velocity.length() > 0 else "idle_"
-	var direction_key: StringName = Enums.Direction.find_key(last_direction).lower()
+	var direction_key: StringName = Enums.Direction.find_key(last_direction).to_lower()
 	%Player_Tileset.play(anim_prefix + direction_key)
 
 	update_flashlight()

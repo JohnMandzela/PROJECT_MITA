@@ -42,18 +42,7 @@ func _can_interact() -> bool:
 
 
 func _is_correct_direction() -> bool:
-	if player == null:
-		return false
-	match required_direction:
-		Enums.Direction.UP:
-			return player.last_direction == "up"
-		Enums.Direction.DOWN:
-			return player.last_direction == "down"
-		Enums.Direction.LEFT:
-			return player.last_direction == "left"
-		Enums.Direction.RIGHT:
-			return player.last_direction == "right"
-	return false
+	return player != null and player.last_direction == required_direction
 
 
 func _on_focused() -> void:

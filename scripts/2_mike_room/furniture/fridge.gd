@@ -1,4 +1,4 @@
-extends DialogueEventBase
+extends DialogueEvent
 
 
 func take_item(item_name: String) -> void:

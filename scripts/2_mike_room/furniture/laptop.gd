@@ -1,4 +1,4 @@
-extends DialogueEventBase
+extends DialogueEvent
 
 @onready var audio: AudioStreamPlayer = $ItemGot
 
