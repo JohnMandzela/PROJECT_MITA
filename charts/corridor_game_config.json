@@ -1,0 +1,42 @@
+{
+	"corridor_duration": 30.0,
+	"warning_duration": 2.0,
+	"turn_duration": 1.5,
+	"levels": [
+		{
+			"name": "Ранг 1",
+			"interval_range": [4.0, 8.0],
+			"fall_force_range": [0.10, 0.25],
+			"player_force": 0.35,
+			"turn_count": 3
+		},
+		{
+			"name": "Ранг 2",
+			"interval_range": [4.0, 7.0],
+			"fall_force_range": [0.15, 0.35],
+			"player_force": 0.45,
+			"turn_count": 4
+		},
+		{
+			"name": "Ранг 3",
+			"interval_range": [3.0, 6.0],
+			"fall_force_range": [0.20, 0.45],
+			"player_force": 0.50,
+			"turn_count": 5
+		},
+		{
+			"name": "Ранг 4",
+			"interval_range": [2.0, 5.0],
+			"fall_force_range": [0.25, 0.50],
+			"player_force": 0.60,
+			"turn_count": 6
+		},
+		{
+			"name": "Ранг 5",
+			"interval_range": [1.0, 4.0],
+			"fall_force_range": [0.35, 0.60],
+			"player_force": 0.70,
+			"turn_count": 7
+		}
+	]
+}
