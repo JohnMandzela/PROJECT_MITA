@@ -1,0 +1,25 @@
+{
+	"levels": [
+		{
+			"name": "Лёгкий",
+			"dot_speed": 200.0,
+			"target_zone_width": 120.0,
+			"target_zone_color": [0.3, 0.85, 0.3],
+			"time_limit": 0.0
+		},
+		{
+			"name": "Средний",
+			"dot_speed": 350.0,
+			"target_zone_width": 70.0,
+			"target_zone_color": [0.95, 0.85, 0.2],
+			"time_limit": 0.0
+		},
+		{
+			"name": "Сложный",
+			"dot_speed": 500.0,
+			"target_zone_width": 35.0,
+			"target_zone_color": [0.95, 0.35, 0.35],
+			"time_limit": 0.0
+		}
+	]
+}
