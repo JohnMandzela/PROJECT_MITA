@@ -40,7 +40,7 @@ func _ready():
 	await get_tree().process_frame
 	_apply_settings()
 
-
+# TODO: реализовать настройки звука в меню опций. На данный момент они работают только в меню паузы
 # Сигнал слайдера эффектов
 func _on_sounds_value_changed(value):
 	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), linear_to_db(value / 100.0))

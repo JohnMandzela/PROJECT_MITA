@@ -18,9 +18,8 @@ func _ready() -> void:
 		window.position = Vector2(DisplayServer.screen_get_position(screen_index)) + (DisplayServer.screen_get_size(screen_index) - window.size) * 0.5
 		window.mode = Window.MODE_WINDOWED
 
-	var dm = Engine.get_singleton("DialogueManager")
-	if dm and not dm.dialogue_ended.is_connected(_on_dialogue_ended):
-		dm.dialogue_ended.connect(_on_dialogue_ended)
+	if DialogueManager.dialogue_ended.is_connected(_on_dialogue_ended):
+		DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 
 func _can_interact() -> bool:
@@ -31,9 +30,7 @@ func _on_interact() -> void:
 	if dialogue != null and not GameManager.is_done("4_shower_use"):
 		is_dialogue_running = true
 		GameManager.set_done("4_shower_use")
-		var dm = Engine.get_singleton("DialogueManager")
-		if dm:
-			dm.show_dialogue_balloon(dialogue, "start", [self])
+		DialogueManager.show_dialogue_balloon(dialogue, "start", [self])
 	else:
 		_play_toilet_sound()
 

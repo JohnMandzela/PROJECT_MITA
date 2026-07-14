@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://cj4habhql37v7"
+path="res://.godot/imported/mike_room_washing_machine_day_1.dialogue-5bb27c447b59869a9845ec7612bb80ff.tres"
+
+[deps]
+
+source_file="res://dialogues/2_mike_room/furniture/mike_room_washing_machine_day_1.dialogue"
+dest_files=["res://.godot/imported/mike_room_washing_machine_day_1.dialogue-5bb27c447b59869a9845ec7612bb80ff.tres"]
+
+[params]
+
+defaults=true

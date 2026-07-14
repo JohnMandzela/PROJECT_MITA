@@ -262,6 +262,7 @@ func _is_selection_click_position(position: Vector2) -> bool:
 	return false
 
 
+# TODO: сделать вместо этого сцену
 func _build_overlay() -> void:
 	root_control = Control.new()
 	root_control.name = "OverlayRoot"

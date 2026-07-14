@@ -12,9 +12,8 @@ func _ready() -> void:
 	if not dialogue:
 		return
 
-	var dm = Engine.get_singleton("DialogueManager")
-	if dm and not dm.dialogue_ended.is_connected(_on_dialogue_ended):
-		dm.dialogue_ended.connect(_on_dialogue_ended)
+	if not DialogueManager.dialogue_ended.is_connected(_on_dialogue_ended):
+		DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 	# TODO: уточнить, что это такое
 	if not Engine.is_embedded_in_editor:
@@ -30,9 +29,7 @@ func _can_interact() -> bool:
 
 func _on_interact() -> void:
 	is_dialogue_running = true
-	var dm = Engine.get_singleton("DialogueManager")
-	if dm:
-		dm.show_dialogue_balloon(dialogue, dialogue_start, [self])
+	DialogueManager.show_dialogue_balloon(dialogue, dialogue_start, [self])
 
 
 func _on_dialogue_ended(_resource: DialogueResource) -> void:

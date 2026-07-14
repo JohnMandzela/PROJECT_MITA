@@ -1,5 +1,9 @@
 extends Node
 
+# TODO: отрефакторить систему квестов
+# - Вынести квесты в отдельный ресурс
+# - Не вызывать sync_quest_progress() без необходимости
+
 const DEFAULT_QUESTS_INFO := {
 	"find_cola": {
 		"title": "Найти колу",

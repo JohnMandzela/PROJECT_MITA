@@ -14,9 +14,8 @@ func _ready() -> void:
 		window.position = Vector2(DisplayServer.screen_get_position(screen_index)) + (DisplayServer.screen_get_size(screen_index) - window.size) * 0.5
 		window.mode = Window.MODE_WINDOWED
 
-	var dm = Engine.get_singleton("DialogueManager")
-	if dm and not dm.dialogue_ended.is_connected(_on_dialogue_ended):
-		dm.dialogue_ended.connect(_on_dialogue_ended)
+	if DialogueManager.dialogue_ended.is_connected(_on_dialogue_ended):
+		DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 
 func _can_interact() -> bool:
@@ -25,14 +24,12 @@ func _can_interact() -> bool:
 
 func _on_interact() -> void:
 	is_dialogue_running = true
-	var dm = Engine.get_singleton("DialogueManager")
-	if not dm:
-		return
+
 	if not GameManager.is_done("2_mike_room_bed"):
-		dm.show_dialogue_balloon(dialogue_1)
+		DialogueManager.show_dialogue_balloon(dialogue_1)
 		GameManager.set_done("2_mike_room_bed")
 	else:
-		dm.show_dialogue_balloon(dialogue_2)
+		DialogueManager.show_dialogue_balloon(dialogue_2)
 
 
 func _on_dialogue_ended(_resource: DialogueResource) -> void:
