@@ -1,0 +1,56 @@
+{
+  "ranks": {
+    "1": {
+      "bpm": 120,
+      "keys": ["Q", "E", "Space"],
+      "hit_window_ms": 100,
+      "approach_beats": 2,
+      "hold_enabled": false,
+      "simultaneous_enabled": false,
+      "speed_multiplier": 0.0
+    },
+    "2": {
+      "bpm": 140,
+      "keys": ["Q", "E", "F", "Space"],
+      "hit_window_ms": 90,
+      "approach_beats": 2,
+      "hold_enabled": true,
+      "hold_range": [2, 4],
+      "simultaneous_enabled": false,
+      "speed_multiplier": 0.15
+    },
+    "3": {
+      "bpm": 160,
+      "keys": ["Q", "E", "F", "Z", "Space"],
+      "hit_window_ms": 80,
+      "approach_beats": 2,
+      "hold_enabled": true,
+      "hold_range": [2, 4],
+      "simultaneous_enabled": false,
+      "speed_multiplier": 0.30
+    },
+    "4": {
+      "bpm": 180,
+      "keys": ["Q", "E", "F", "Z", "X", "Space"],
+      "hit_window_ms": 65,
+      "approach_beats": 2,
+      "hold_enabled": true,
+      "hold_range": [2, 4],
+      "simultaneous_enabled": true,
+      "simultaneous_count": 2,
+      "speed_multiplier": 0.40
+    },
+    "5": {
+      "bpm": 200,
+      "keys": ["Q", "E", "F", "Z", "X", "Space", "I", "M"],
+      "hit_window_ms": 50,
+      "approach_beats": 2,
+      "hold_enabled": true,
+      "hold_range": [2, 4],
+      "simultaneous_enabled": true,
+      "simultaneous_count": 2,
+      "hold_during_hold": true,
+      "speed_multiplier": 0.50
+    }
+  }
+}
