@@ -279,7 +279,7 @@ shape = SubResource("RectangleShape2D_453ih")
 [node name="Elevator" type="Area2D" parent="AreaEvents"]
 position = Vector2(577, -438)
 script = ExtResource("9_qy5m8")
-exit_direction = "down"
+exit_direction = 1
 target_scene = "mihyung_offices/elevator_office"
 target_spawn_point = "Marker2D"
 

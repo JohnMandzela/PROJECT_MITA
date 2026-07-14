@@ -369,7 +369,7 @@ animations = [{
 
 [node name="Elevator_Office" type="Node2D"]
 script = ExtResource("1_voyuo")
-exit_direction = "down"
+exit_direction = 1
 target_scene = "mihyung_offices/corridors_offices"
 target_spawn_point = "Spawn_on_Left_Elevator"
 dialogue = ExtResource("2_pnnwi")

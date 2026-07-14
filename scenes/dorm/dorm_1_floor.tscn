@@ -35,7 +35,7 @@ position = Vector2(47, -16)
 
 [node name="EnterFloor2" type="Area2D" parent="."]
 script = ExtResource("5_iqv8y")
-exit_direction = "down"
+exit_direction = 1
 target_scene = "dorm/dorm"
 target_spawn_point = "SpawnOnStairs"
 
@@ -56,7 +56,7 @@ shape = SubResource("RectangleShape2D_30krv")
 [node name="ExitToStreet" type="Area2D" parent="."]
 script = ExtResource("6_iqv8y")
 required_direction = 1
-exit_direction = "up"
+exit_direction = 0
 target_scene = "mihyung_offices/reception_hall"
 target_spawn_point = "SpawnInHall"
 

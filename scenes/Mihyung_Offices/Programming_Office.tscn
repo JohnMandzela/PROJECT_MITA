@@ -69,7 +69,7 @@ mouse_filter = 1
 [node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("7_fapqt")
 required_direction = 1
-exit_direction = "down"
+exit_direction = 1
 target_scene = "mihyung_offices/corridors_offices"
 target_spawn_point = "Spawn_on_Programming"
 

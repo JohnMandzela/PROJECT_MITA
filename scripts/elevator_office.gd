@@ -6,8 +6,7 @@ extends Node2D
 # ЗАДАЕМ ПЕРЕМЕННЫЕ
 
 # Вводим в инспекторе:
-@export_enum("up", "down", "left", "right") # список для взгляда на выход
-var exit_direction: String # направление взгляда (на выходе)
+var exit_direction: Enums.Direction # направление взгляда (на выходе)
 @export var target_scene: String # предыдущую сцену
 @export var target_spawn_point: String # точку спавна в сцене
 @export var dialogue: DialogueResource

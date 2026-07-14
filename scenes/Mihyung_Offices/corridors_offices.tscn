@@ -60,7 +60,7 @@ position = Vector2(-78, -277)
 
 [node name="Enter_Programming_Office" type="Area2D" parent="."]
 script = ExtResource("5_3mhh6")
-exit_direction = "up"
+exit_direction = 0
 target_scene = "mihyung_offices/Programming_Office"
 target_spawn_point = "SpawnFromCorridors"
 
@@ -81,7 +81,7 @@ shape = SubResource("RectangleShape2D_0stv2")
 
 [node name="Enter_Manager_Cabinet" type="Area2D" parent="."]
 script = ExtResource("5_3mhh6")
-exit_direction = "up"
+exit_direction = 0
 target_scene = "mihyung_offices/manager's_cabinet"
 target_spawn_point = "SpawnFromCorridors"
 
@@ -102,7 +102,7 @@ shape = SubResource("RectangleShape2D_3mhh6")
 
 [node name="Enter_Conference_Room" type="Area2D" parent="."]
 script = ExtResource("5_3mhh6")
-exit_direction = "up"
+exit_direction = 0
 target_scene = "mihyung_offices/conference_room"
 target_spawn_point = "SpawnFromCorridors"
 
@@ -123,7 +123,7 @@ shape = SubResource("RectangleShape2D_xtt1d")
 
 [node name="Enter_Toilet" type="Area2D" parent="."]
 script = ExtResource("5_3mhh6")
-exit_direction = "up"
+exit_direction = 0
 target_scene = "mihyung_offices/mens_toilet"
 target_spawn_point = "SpawnFromCorridors"
 
@@ -145,7 +145,7 @@ shape = SubResource("RectangleShape2D_wx7r7")
 [node name="Enter_UtilityRoom" type="Area2D" parent="."]
 script = ExtResource("5_3mhh6")
 required_direction = 2
-exit_direction = "left"
+exit_direction = 2
 target_scene = "mihyung_offices/utility_room"
 target_spawn_point = "SpawnFromCorridors"
 

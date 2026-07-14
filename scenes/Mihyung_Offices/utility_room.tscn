@@ -27,7 +27,7 @@ position = Vector2(163, 129)
 [node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("5_l5utp")
 required_direction = 3
-exit_direction = "right"
+exit_direction = 3
 target_scene = "mihyung_offices/corridors_offices"
 target_spawn_point = "Spawn_on_Utility"
 

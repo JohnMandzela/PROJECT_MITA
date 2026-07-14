@@ -1,6 +1,6 @@
 extends Event
 
-@export var exit_direction: String
+@export var exit_direction: Enums.Direction
 @export var target_scene: String
 @export var target_spawn_point: String
 

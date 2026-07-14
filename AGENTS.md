@@ -43,33 +43,7 @@ shaders/         — GLSL shaders
 
 ---
 
-## Critical Issues
-
-### 2. `npc.gd` and `character_portrait.gd` Use Issues
-
-- `npc.gd` (base class) has empty `_ready()` and `_process()` — useless boilerplate
-- `engine_is_embedded_in_editor` window-centering code copy-pasted into 8+ furniture scripts — should be a utility or done once
-- `dialogue_globals.gd` has a `TODO: сделать по-человечески` and placeholder data for mom
-
-### 3. Inconsistent `@export_enum` Usage
-
-In `scene_transition_event.gd` and `scene_transition_event.gd`:
-```gdscript
-@export_enum("up", "down", "left", "right")
-var exit_direction: String
-```
-This creates an unused `@export_enum` decorator because it's applied to nothing (it needs to be on the next line). The decorator is floating and has no effect. Should be:
-```gdscript
-@export_enum("up", "down", "left", "right")
-var exit_direction: String
-```
-— actually that IS how it looks, but the `@export_enum` must be directly above the variable it decorates. The issue is there's a comment between them or a blank line. Let me re-check: In `scene_transition_event.gd` line 9 the `@export_enum` has no attached variable — it's followed by a comment line, then `var exit_direction`. So the decorator does nothing. Same in `scene_transition_event.gd`.
-
 ## Medium Issues
-
-### 4. Hardcoded Strings for Directions
-
-`_is_correct_direction()` uses string literals `"up"`, `"down"`, `"left"`, `"right"` — compared against `player.last_direction`. The `Enums.Direction` values exist but are only used in the `match`, not to define the actual string values. The player's `last_direction` should be an enum, not a string.
 
 ### 5. Options Script Legacy Code
 
