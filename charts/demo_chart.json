@@ -2,10 +2,10 @@
   "title": "Demo Track",
   "audio": "res://audio/music/Darkness Music.mp3",
   "offset": 0.0,
-  "lane_count": 3,
+  "lane_count": 5,
   "notes": [
 	{ "time": 1.0, "lane": 0 },
-	{ "time": 1.5, "lane": 1 },
+	{ "time": 1.5, "lane": 3 },
 	{ "time": 2.0, "lane": 2 },
 	{ "time": 3.0, "lane": 0 },
 	{ "time": 3.0, "lane": 2 },
