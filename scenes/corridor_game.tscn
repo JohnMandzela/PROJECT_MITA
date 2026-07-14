@@ -1,0 +1,324 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0rr1d0r_game"]
+
+[ext_resource type="Script" path="res://scripts/corridor_game.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/corridor_weld_draw.gd" id="2_weld"]
+[ext_resource type="FontFile" uid="uid://6erdyfofurd1" path="res://fonts/Impact.otf" id="3_font"]
+[ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="4_blur"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_modal"]
+shader = ExtResource("4_blur")
+shader_parameter/blur_amount = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.18, 0.18, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.75, 0.75, 0.75, 1)
+
+[node name="CorridorGame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameArea" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 64.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="WeldingDraw" type="Control" parent="GameArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_weld")
+
+[node name="TurnWarningLeft" type="Label" parent="GameArea"]
+visible = false
+layout_mode = 0
+offset_left = 80.0
+offset_top = 380.0
+offset_right = 280.0
+offset_bottom = 420.0
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.95, 0.35, 0.35, 1)
+text = "← Поворот!"
+
+[node name="TurnWarningRight" type="Label" parent="GameArea"]
+visible = false
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 380.0
+offset_right = 1200.0
+offset_bottom = 420.0
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.95, 0.35, 0.35, 1)
+text = "Поворот! →"
+horizontal_alignment = 2
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = -24.0
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_constants/separation = 24
+
+[node name="TitleLabel" type="Label" parent="UI/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 28
+text = "Фаза коридоров"
+
+[node name="TimeLabel" type="Label" parent="UI/TopBar"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 24
+text = "Осталось: 30с"
+horizontal_alignment = 2
+
+[node name="HintLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -72.0
+offset_right = 260.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 20
+text = "Удерживайте маячок по центру"
+horizontal_alignment = 1
+
+[node name="FeedbackLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -160.0
+offset_right = 120.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+
+[node name="ModalBlur" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_modal")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.35)
+
+[node name="LevelSelectOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="LevelSelectOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -170.0
+offset_right = 160.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="LevelSelectOverlay/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="LevelSelectOverlay/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="LevelSelectOverlay/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 24
+text = "Выберите ранг сложности"
+horizontal_alignment = 1
+
+[node name="ResultOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="ResultOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -120.0
+offset_right = 200.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="ResultOverlay/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="ResultOverlay/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ResultLabel" type="Label" parent="ResultOverlay/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 28
+text = "Коридор проварен!"
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="ResultOverlay/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Попробовать снова"
+
+[node name="MenuButton" type="Button" parent="ResultOverlay/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Выбор ранга"
+
+[node name="FinishButton" type="Button" parent="ResultOverlay/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Завершить"
+
+[node name="PauseOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="PauseOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -120.0
+offset_right = 260.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="PauseOverlay/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="PauseOverlay/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PauseLabel" type="Label" parent="PauseOverlay/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 22
+text = "Выйти?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="PauseExitButton" type="Button" parent="PauseOverlay/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Выйти"
+
+[node name="PauseContinueButton" type="Button" parent="PauseOverlay/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Продолжить"
