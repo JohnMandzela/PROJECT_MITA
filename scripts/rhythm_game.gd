@@ -3,14 +3,15 @@ extends Control
 signal exit_requested
 signal puzzle_completed
 
-const LANE_COUNT := 3
-const LANE_KEYS: Array[int] = [KEY_Z, KEY_X, KEY_C]
-const LANE_LABELS: Array[String] = ["Z", "X", "C"]
-const LANE_COLORS: Array[Color] = [
-	Color(0.95, 0.35, 0.35),
-	Color(0.35, 0.75, 0.95),
-	Color(0.45, 0.9, 0.45),
-	Color(0.95, 0.75, 0.25),
+var LANE_COUNT := 3
+var LANE_KEYS: Array[int] = [KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B] 
+var LANE_LABELS: Array[String] = ["Z", "X", "C", "V", "B"]     
+var LANE_COLORS: Array[Color] = [
+	Color(0.95, 0.35, 0.35), # 0
+	Color(0.35, 0.751, 0.947, 1.0), # 1
+	Color(0.45, 0.9, 0.45),  # 2
+	Color(0.95, 0.75, 0.25), # 3
+	Color(0.8, 0.4, 0.9),    # 4 
 ]
 
 const SCROLL_SPEED := 420.0
