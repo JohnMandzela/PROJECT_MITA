@@ -1,5 +1,5 @@
 ~ start
-set locals.cola_in_inventory = GameManager.items_inventory["buttle_cola"]
+set locals.cola_in_inventory = GameManager.items_inventory["bottle_cola"]
 set locals.cola_quest = GameManager.game_flags["3_cola_in_fridge"]
 if locals.cola_quest == false:
 	В холодильнике ничего, кроме пары дошираков, не осталось.
@@ -7,7 +7,7 @@ if locals.cola_quest == false:
 	if locals.cola_in_inventory == 1:
 		Ты держишь в руках бутылку колы.
 		- Положить в холодильник
-			do drop_item("buttle_cola")
+			do drop_item("bottle_cola")
 			do cola_in_fridge("3_cola_in_fridge")
 			Ты положил БУТЫЛКУ КОЛЫ
 			~ quest_end
@@ -16,7 +16,7 @@ if locals.cola_quest == false:
 		- Положить в микроволновку
 			Раздумывая о целесообразности такого решения, ты все же не решаешься класть газировку в микроволновку.
 			Ей там определенно не место.
-			do drop_item("buttle_cola")
+			do drop_item("bottle_cola")
 			do cola_in_fridge("3_cola_in_fridge")
 			Ты положил БУТЫЛКУ КОЛЫ в ХОЛОДИЛЬНИК
 			=> quest_end

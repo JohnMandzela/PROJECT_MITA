@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://74fei1t52gx6"]
+
+[ext_resource type="Script" uid="uid://dtwh37e3g8aw0" path="res://scripts/ui/game_interface_overlay.gd" id="1_eg0t7"]
+
+[node name="GameInterfaceOverlay" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_eg0t7")

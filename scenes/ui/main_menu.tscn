@@ -1,0 +1,269 @@
+[gd_scene load_steps=9 format=3 uid="uid://dbg1xkfmi17eg"]
+
+[ext_resource type="Script" uid="uid://kkb06l5r6ctm" path="res://scripts/ui/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="AudioStream" uid="uid://cu5kywu66k4c2" path="res://audio/music/MiSide  - Ambient - Pause Evil.mp3" id="2_8ln24"]
+[ext_resource type="FontFile" uid="uid://s7nn80ucgm5h" path="res://fonts/haettenschweiler.otf" id="3_wu84c"]
+[ext_resource type="FontFile" uid="uid://6erdyfofurd1" path="res://fonts/Impact.otf" id="4_wu84c"]
+[ext_resource type="Material" uid="uid://kset0hvp3paw" path="res://materials/glitch.tres" id="5_8ln24"]
+
+[sub_resource type="Animation" id="Animation_ekxnf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:mouse_filter")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_l6cm7"]
+resource_name = "main_menu_animation"
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"start",
+"time": 0.0
+}, {
+"color": Color(1, 1, 1, 1),
+"name": &"end",
+"time": 1.0
+}]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:mouse_filter")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.53333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bqqt6"]
+_data = {
+&"RESET": SubResource("Animation_ekxnf"),
+&"main_menu_animation": SubResource("Animation_l6cm7")
+}
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l6cm7")
+menu_theme = ExtResource("2_8ln24")
+
+[node name="TitleLabel" type="Label" parent="."]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -318.5
+offset_top = -219.0
+offset_right = 318.5
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_wu84c")
+theme_override_font_sizes/font_size = 142
+text = "PROJECT_MITA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonsVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -109.5
+offset_top = 21.0
+offset_right = 109.5
+offset_bottom = 188.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Continue" type="Button" parent="ButtonsVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 34
+text = "Продолжить"
+
+[node name="NewGame" type="Button" parent="ButtonsVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 34
+text = "Новая игра"
+
+[node name="Load" type="Button" parent="ButtonsVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 34
+text = "Загрузить"
+
+[node name="Options" type="Button" parent="ButtonsVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 34
+text = "Настройки"
+
+[node name="Exit" type="Button" parent="ButtonsVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 34
+text = "Выход"
+
+[node name="OptionsMenu" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -250.0
+offset_right = 400.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OptionsMenuVBox" type="VBoxContainer" parent="OptionsMenu"]
+layout_mode = 2
+alignment = 1
+
+[node name="SettingsText" type="Label" parent="OptionsMenu/OptionsMenuVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 32
+text = "Настройки"
+horizontal_alignment = 1
+
+[node name="Sounds" type="VBoxContainer" parent="OptionsMenu/OptionsMenuVBox"]
+layout_mode = 2
+
+[node name="SoundsText" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Sounds"]
+layout_mode = 2
+
+[node name="SoundsLabel" type="Label" parent="OptionsMenu/OptionsMenuVBox/Sounds/SoundsText"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 32
+text = "Звук"
+horizontal_alignment = 1
+
+[node name="SoundsSlider" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Sounds"]
+layout_mode = 2
+
+[node name="Slider" type="HSlider" parent="OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+
+[node name="Music" type="VBoxContainer" parent="OptionsMenu/OptionsMenuVBox"]
+layout_mode = 2
+
+[node name="MusicText" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Music"]
+layout_mode = 2
+
+[node name="MusicLabel" type="Label" parent="OptionsMenu/OptionsMenuVBox/Music/MusicText"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 32
+text = "Музыка"
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Music"]
+layout_mode = 2
+
+[node name="Slider" type="HSlider" parent="OptionsMenu/OptionsMenuVBox/Music/MusicSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="OptionsMenu/OptionsMenuVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 32
+text = "Полноэкранный режим"
+
+[node name="ExitToMainMenu" type="Button" parent="OptionsMenu/OptionsMenuVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_wu84c")
+theme_override_font_sizes/font_size = 32
+text = "Назад"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect"]
+libraries = {
+&"": SubResource("AnimationLibrary_bqqt6")
+}
+autoplay = "main_menu_animation"
+
+[node name="GlitchOverlay" type="ColorRect" parent="."]
+material = ExtResource("5_8ln24")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="pressed" from="ButtonsVBox/Continue" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="ButtonsVBox/NewGame" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="ButtonsVBox/Load" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="ButtonsVBox/Options" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="ButtonsVBox/Exit" to="." method="_on_exit_pressed"]
+[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider/Slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/Music/MusicSlider/Slider" to="." method="_on_music_value_changed"]
+[connection signal="toggled" from="OptionsMenu/OptionsMenuVBox/FullscreenCheckBox" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="OptionsMenu/OptionsMenuVBox/ExitToMainMenu" to="." method="_on_back_pressed"]

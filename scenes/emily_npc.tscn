@@ -173,13 +173,13 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Emily_NPC" type="CharacterBody2D"]
+[node name="EmilyNpc" type="CharacterBody2D"]
 
-[node name="Emily_Collision" type="CollisionShape2D" parent="."]
+[node name="EmilyCollision" type="CollisionShape2D" parent="."]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_2p6vp")
 
-[node name="Emily_Tileset" type="AnimatedSprite2D" parent="."]
+[node name="EmilyTileset" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(-1.0390625, -31.648438)
 sprite_frames = SubResource("SpriteFrames_dp53l")
