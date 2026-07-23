@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk3801i3m817b"
-path="res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"
+uid="uid://5hcfr6cotbmj"
+path="res://.godot/imported/teddy_bear.png-4f66aca6951d1bf181a00221f6612a2f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/characters/Emily_Shame.png"
-dest_files=["res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"]
+source_file="res://images/items/teddy_bear.png"
+dest_files=["res://.godot/imported/teddy_bear.png-4f66aca6951d1bf181a00221f6612a2f.ctex"]
 
 [params]
 

@@ -11,7 +11,7 @@ const DEFAULT_ITEMS_INVENTORY := {
 
 var items_inventory := DEFAULT_ITEMS_INVENTORY.duplicate(true)
 
-var item_catalog := {
+var real_item_catalog := {
 	"bottle_cola": {
 		"display_name": "Бутылка колы",
 		"description": "Освежающий напиток. Восстанавливает силы.",
@@ -29,6 +29,15 @@ var item_catalog := {
 	},
 }
 
+var virtual_item_catalog := {
+	"teddy_bear": {
+		"display_name": "Плюшевый мишка",
+		"description": "Мягкая игрушка",
+		"icon_path": "res://images/items/teddy_bear.png",
+		"use_effects": [],
+	},
+}
+
 var inventory_order: Array[String] = []
 
 
@@ -42,12 +51,26 @@ func item_check(item_name: String) -> int:
 
 func is_known_item(item_name: String) -> bool:
 	var id := str(item_name)
-	return DEFAULT_ITEMS_INVENTORY.has(id) or item_catalog.has(id)
+	return DEFAULT_ITEMS_INVENTORY.has(id) or real_item_catalog.has(id) or virtual_item_catalog.has(id)
 
 
 func has_any_items() -> bool:
 	for item_count in items_inventory.values():
 		if int(item_count) > 0:
+			return true
+	return false
+
+
+func has_any_real_items() -> bool:
+	for item_id in items_inventory.keys():
+		if real_item_catalog.has(item_id) and int(items_inventory[item_id]) > 0:
+			return true
+	return false
+
+
+func has_any_virtual_items() -> bool:
+	for item_id in items_inventory.keys():
+		if virtual_item_catalog.has(item_id) and int(items_inventory[item_id]) > 0:
 			return true
 	return false
 
@@ -80,7 +103,7 @@ func get_item_info(item_name: String) -> Dictionary:
 		"use_effects": { },
 		"icon_path": FALLBACK_ICON_PATH,
 	}
-	return item_catalog.get(item_name, fallback)
+	return real_item_catalog.get(item_name, virtual_item_catalog.get(item_name, fallback))
 
 
 func get_ordered_item_ids() -> Array[String]:
