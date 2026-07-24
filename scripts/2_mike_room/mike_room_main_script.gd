@@ -60,24 +60,22 @@ func off_screen_fader() -> void:
 func _wait_time(wait_time: float):
 	await get_tree().create_timer(wait_time).timeout
 
-
 func sleep_animation():
 	%Mike_Sleep_Tileset.play("sleep")
-
 
 func wake_up_animation():
 	%Mike_Sleep_Tileset.play("wake_up")
 	if not wake_up_sound.playing:
 		wake_up_sound.play()
 
-
 func phone_hand_animation():
 	%Mike_Sleep_Tileset.play("phone_on_hand")
-
 
 func shock():
 	%Mike_Sleep_Tileset.play("shock")
 
+func irritated():
+	%Mike_Sleep_Tileset.play("irritated")
 
 func _on_body_entered(_body: Node2D) -> void:
 	pass # Replace with function body.

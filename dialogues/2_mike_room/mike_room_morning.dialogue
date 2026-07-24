@@ -17,7 +17,7 @@ do phone_hand_animation()
 do _wait_time(0.8)
 do shock()
 Майк: Почти 7:40?!
-do phone_hand_animation()
+do irritated()
 Майк: Арххх… Почему ни один день не может начаться как надо?
 #Майк встает с кровати.
 

@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="7_glapv"]
 [ext_resource type="Script" uid="uid://dyjl1lpi8xtee" path="res://scripts/2_mike_room/furniture/bed.gd" id="8_glapv"]
 [ext_resource type="Resource" uid="uid://xfr1x7r1n7s5" path="res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue" id="8_tksu2"]
-[ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="9_dxssy"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_glapv"]
 [ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scripts/2_mike_room/furniture/laptop.gd" id="10_7co0a"]
 [ext_resource type="Resource" uid="uid://igbqwnik8w8l" path="res://dialogues/2_mike_room/furniture/mike_room_bed_day_1-1.dialogue" id="10_md5sy"]
@@ -24,13 +23,11 @@
 [ext_resource type="Script" uid="uid://blmybw3fqfnj1" path="res://scripts/2_mike_room/furniture/fridge.gd" id="14_mmqfk"]
 [ext_resource type="Resource" uid="uid://bhjvw8gdubary" path="res://dialogues/2_mike_room/furniture/mike_room_fridge_day_1.dialogue" id="15_nlhcy"]
 [ext_resource type="AudioStream" uid="uid://bpqa07dhdcffq" path="res://audio/sounds/item_got.mp3" id="16_1p2te"]
-[ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="16_ii5wq"]
-[ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="18_ii5wq"]
 [ext_resource type="Resource" uid="uid://dx10ur2ojuy7i" path="res://dialogues/2_mike_room/furniture/mike_room_sink_day_1.dialogue" id="19_u6sxl"]
 [ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="23_0i05t"]
-[ext_resource type="Texture2D" uid="uid://c51lp4wvmsp3m" path="res://images/tilesets/characters/$Mike_Sleep.png" id="24_md5sy"]
 [ext_resource type="Resource" uid="uid://b5lgjohkjrc2e" path="res://dialogues/2_mike_room/furniture/mike_room_hangers_day_1.dialogue" id="24_tksu2"]
 [ext_resource type="AudioStream" uid="uid://df1ev33k2aw70" path="res://audio/sounds/rustle.mp3" id="25_lg8j8"]
+[ext_resource type="Texture2D" uid="uid://dkf4x0afw4j51" path="res://images/tilesets/characters/Mike-Sleep.png" id="27_n83c8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uicif"]
 texture = ExtResource("3_pl8tl")
@@ -224,27 +221,47 @@ size = Vector2(46, 20.5)
 radius = 6.0
 height = 24.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lg8j8"]
-atlas = ExtResource("24_md5sy")
-region = Rect2(48, 96, 48, 96)
+[sub_resource type="AtlasTexture" id="AtlasTexture_n83c8"]
+atlas = ExtResource("27_n83c8")
+region = Rect2(96, 96, 48, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_md5sy"]
-atlas = ExtResource("24_md5sy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxu6u"]
+atlas = ExtResource("27_n83c8")
 region = Rect2(0, 96, 48, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_esg42"]
-atlas = ExtResource("24_md5sy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_kyxlb"]
+atlas = ExtResource("27_n83c8")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cw0qj"]
+atlas = ExtResource("27_n83c8")
 region = Rect2(0, 0, 48, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0i05t"]
-atlas = ExtResource("24_md5sy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvy3v"]
+atlas = ExtResource("27_n83c8")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1go8k"]
+atlas = ExtResource("27_n83c8")
 region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6pisp"]
+atlas = ExtResource("27_n83c8")
+region = Rect2(96, 0, 48, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tksu2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lg8j8")
+"texture": SubResource("AtlasTexture_n83c8")
+}],
+"loop": true,
+"name": &"irritated",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxu6u")
 }],
 "loop": true,
 "name": &"phone_on_hand",
@@ -252,7 +269,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_md5sy")
+"texture": SubResource("AtlasTexture_kyxlb")
 }],
 "loop": true,
 "name": &"shock",
@@ -260,7 +277,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_esg42")
+"texture": SubResource("AtlasTexture_cw0qj")
 }],
 "loop": true,
 "name": &"sleep",
@@ -268,11 +285,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0i05t")
+"texture": SubResource("AtlasTexture_mvy3v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1go8k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6pisp")
 }],
-"loop": true,
+"loop": false,
 "name": &"wake_up",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [node name="Mike_Room" type="Node2D"]
@@ -413,9 +436,9 @@ autoplay = "start_screen_fader"
 
 [node name="Bed_Left" type="Area2D" parent="Events"]
 script = ExtResource("8_glapv")
-required_direction = 3
 dialogue_1 = ExtResource("10_md5sy")
 dialogue_2 = ExtResource("11_1p2te")
+required_direction = 3
 
 [node name="Label" type="Label" parent="Events/Bed_Left"]
 z_index = 10
@@ -447,7 +470,7 @@ position = Vector2(47.5, -17.5)
 shape = SubResource("RectangleShape2D_qkv8r")
 
 [node name="Bedside_Table" type="Area2D" parent="Events"]
-script = ExtResource("9_dxssy")
+script = ExtResource("23_0i05t")
 dialogue = ExtResource("11_u5pas")
 
 [node name="Label" type="Label" parent="Events/Bedside_Table"]
@@ -464,8 +487,8 @@ shape = SubResource("RectangleShape2D_7co0a")
 
 [node name="Laptop" type="Area2D" parent="Events"]
 script = ExtResource("10_7co0a")
-required_direction = 2
 dialogue = ExtResource("13_ni8v6")
+required_direction = 2
 
 [node name="Label" type="Label" parent="Events/Laptop"]
 z_index = 10
@@ -486,8 +509,8 @@ playback_type = 1
 
 [node name="Fridge" type="Area2D" parent="Events"]
 script = ExtResource("14_mmqfk")
-required_direction = 3
 dialogue = ExtResource("15_nlhcy")
+required_direction = 3
 
 [node name="Label" type="Label" parent="Events/Fridge"]
 z_index = 10
@@ -501,9 +524,9 @@ text = "Холодильник"
 polygon = PackedVector2Array(0, 111, 0, 144, 15, 144, 16, 102, 10, 103, 4, 107)
 
 [node name="Sink" type="Area2D" parent="Events"]
-script = ExtResource("18_ii5wq")
-required_direction = 3
+script = ExtResource("23_0i05t")
 dialogue = ExtResource("19_u6sxl")
+required_direction = 3
 
 [node name="Label" type="Label" parent="Events/Sink"]
 z_index = 10
@@ -517,9 +540,9 @@ text = "Раковина"
 polygon = PackedVector2Array(14, 62, 6, 67, 5, 81, 5, 93, 16, 97, 18, 76, 22, 62)
 
 [node name="WashingMachine" type="Area2D" parent="Events"]
-script = ExtResource("16_ii5wq")
-required_direction = 2
+script = ExtResource("23_0i05t")
 dialogue = ExtResource("14_citmd")
+required_direction = 2
 
 [node name="Label" type="Label" parent="Events/WashingMachine"]
 z_index = 10
@@ -535,8 +558,8 @@ polygon = PackedVector2Array(3, 24, 8, 42, 11, 54, 26, 54, 26, 21, 11, 21)
 
 [node name="Hangers" type="Area2D" parent="Events"]
 script = ExtResource("23_0i05t")
-required_direction = 1
 dialogue = ExtResource("24_tksu2")
+required_direction = 1
 
 [node name="Label" type="Label" parent="Events/Hangers"]
 z_index = 10
@@ -551,10 +574,10 @@ position = Vector2(59, -6)
 polygon = PackedVector2Array(-130, 82, -130, 101, -99, 101, -91, 104, -90, 101, -93, 95, -99, 92, -104, 88, -109, 82)
 
 [node name="Exit_Mike_Room" parent="Events" instance=ExtResource("7_glapv")]
-required_direction = 1
 exit_direction = 1
 target_scene = "dorm/dorm"
 target_spawn_point = "Spawn_in_Corridor"
+required_direction = 1
 
 [node name="Label" type="Label" parent="Events/Exit_Mike_Room"]
 offset_left = -26.0
@@ -596,7 +619,7 @@ shape = SubResource("CapsuleShape2D_1p2te")
 unique_name_in_owner = true
 position = Vector2(0, -36)
 sprite_frames = SubResource("SpriteFrames_tksu2")
-animation = &"shock"
+animation = &"irritated"
 autoplay = "sleep"
 
 [node name="wake_up_sound" type="AudioStreamPlayer" parent="Mike_Sleep"]

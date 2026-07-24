@@ -6,7 +6,15 @@ enum PortraitSide {
 	RIGHT,
 }
 
+enum BalloonMode {
+	DEFAULT,
+	SIMPLE,
+}
+
 const SKIP_REPEAT_DELAY := 0.12
+const SIMPLE_LINE_COUNT := 4
+const SIMPLE_BLOCK_MARGIN := 100.0
+const SIMPLE_BALLOON_PATH := "res://scenes/ui/simple_balloon.tscn"
 
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource
@@ -45,6 +53,12 @@ var _is_skip_button_held := false
 var _skip_advance_after_typing := false
 var _previous_mouse_mode := Input.MOUSE_MODE_VISIBLE
 var _has_dialogue_mouse_mode := false
+var _balloon_mode: BalloonMode = BalloonMode.DEFAULT
+var _simple_lines_container: VBoxContainer = null
+var _simple_line_slots: Array[Control] = []
+var _simple_static_labels: Array[RichTextLabel] = []
+var _simple_displayed_texts: PackedStringArray = []
+var _simple_current_slot := -1
 
 ## The current line
 var dialogue_line: DialogueLine:
@@ -112,7 +126,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if is_instance_valid(dialogue_line):
 		_enter_dialogue_mouse_mode()
-		progress.visible = not dialogue_label.is_typing and dialogue_line.responses.is_empty() and not dialogue_line.has_tag("voice")
+		progress.visible = _balloon_mode != BalloonMode.SIMPLE and not dialogue_label.is_typing and dialogue_line.responses.is_empty() and not dialogue_line.has_tag("voice")
 		skip_button.disabled = _should_disable_skip_button()
 		if skip_button.disabled:
 			_is_skip_button_held = false
@@ -163,6 +177,7 @@ func start(with_dialogue_resource: DialogueResource = null, title: String = "", 
 	is_waiting_for_input = false
 	GameManager.disable_movement = true
 	_enter_dialogue_mouse_mode()
+	_reset_simple_lines()
 
 	if is_instance_valid(with_dialogue_resource):
 		dialogue_resource = with_dialogue_resource
@@ -170,6 +185,45 @@ func start(with_dialogue_resource: DialogueResource = null, title: String = "", 
 		start_from_title = title
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(start_from_title, temporary_game_states)
 	show()
+
+
+## Switch to simple centered text mode (no portraits, no background panel)
+func switch_to_simple_mode() -> void:
+	_balloon_mode = BalloonMode.SIMPLE
+	_reset_simple_lines()
+	_ensure_simple_lines_container()
+
+	left_portrait.hide()
+	right_portrait.hide()
+	character_label.hide()
+	progress.hide()
+	responses_menu.hide()
+
+	_move_dialogue_label_to_simple_slot(0)
+
+	var panel := balloon.find_child("PanelContainer", true, false)
+	if panel:
+		panel.hide()
+
+	var outer_margin := balloon.find_child("MarginContainer", false, false)
+	if outer_margin:
+		outer_margin.hide()
+
+	dialogue_label.add_theme_color_override("default_color", Color(0, 0, 0, 1))
+	dialogue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	dialogue_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	dialogue_label.fit_content = false
+	dialogue_label.scroll_active = false
+	dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+
+func switch_balloon(balloon_name: String) -> void:
+	if balloon_name == "simple":
+		switch_to_simple_mode()
+
+
+func wait(seconds: float) -> void:
+	await get_tree().create_timer(seconds).timeout
 
 
 func get_portrait_side(character: String) -> PortraitSide:
@@ -214,46 +268,61 @@ func apply_dialogue_line() -> void:
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
 
-	var character := dialogue_line.character
-	character_label.visible = not character.is_empty()
-	character_label.text = tr(character, "dialogue")
+	if _balloon_mode == BalloonMode.SIMPLE:
+		dialogue_label.hide()
+		_simple_current_slot = min(_simple_displayed_texts.size(), SIMPLE_LINE_COUNT - 1)
+		_move_dialogue_label_to_simple_slot(_simple_current_slot)
+		_refresh_simple_static_labels(_simple_current_slot)
+		dialogue_label.dialogue_line = dialogue_line
+		responses_menu.hide()
+		responses_menu.responses = dialogue_line.responses
+		skip_button.disabled = _should_disable_skip_button()
+		balloon.show()
+		will_hide_balloon = false
+		dialogue_label.show()
+	else:
+		var character := dialogue_line.character
+		character_label.visible = not character.is_empty()
+		character_label.text = tr(character, "dialogue")
 
-	if character:
-		var emotion := &""
-		for emotion_name in Enums.Emote.keys():
-			if emotion_name.to_lower() in dialogue_line.tags:
-				emotion = emotion_name.to_lower()
-				break
+		if character:
+			var emotion := &""
+			for emotion_name in Enums.Emote.keys():
+				if emotion_name.to_lower() in dialogue_line.tags:
+					emotion = emotion_name.to_lower()
+					break
 
-		var current_portrait: CharacterPortrait
-		var other_portrait: CharacterPortrait
+			var current_portrait: CharacterPortrait
+			var other_portrait: CharacterPortrait
 
-		if get_portrait_side(character) == PortraitSide.LEFT:
-			current_portrait = left_portrait
-			other_portrait = right_portrait
-		else:
-			current_portrait = right_portrait
-			other_portrait = left_portrait
+			if get_portrait_side(character) == PortraitSide.LEFT:
+				current_portrait = left_portrait
+				other_portrait = right_portrait
+			else:
+				current_portrait = right_portrait
+				other_portrait = left_portrait
 
-		current_portrait.set_character(character, emotion)
-		current_portrait.set_active()
-		other_portrait.set_inactive()
+			current_portrait.set_character(character, emotion)
+			current_portrait.set_active()
+			other_portrait.set_inactive()
 
-	dialogue_label.hide()
-	dialogue_label.dialogue_line = dialogue_line
+		dialogue_label.hide()
+		dialogue_label.dialogue_line = dialogue_line
 
-	responses_menu.hide()
-	responses_menu.responses = dialogue_line.responses
-	skip_button.disabled = _should_disable_skip_button()
+		responses_menu.hide()
+		responses_menu.responses = dialogue_line.responses
+		skip_button.disabled = _should_disable_skip_button()
 
-	balloon.show()
-	will_hide_balloon = false
+		balloon.show()
+		will_hide_balloon = false
 
-	dialogue_label.show()
+		dialogue_label.show()
+
 	if not dialogue_line.text.is_empty():
 		dialogue_label.type_out()
 		if dialogue_label.is_typing:
 			await dialogue_label.finished_typing
+		_record_simple_line_after_typing()
 
 	if dialogue_line.has_tag("voice"):
 		audio_stream_player.stream = load(dialogue_line.get_tag_value("voice"))
@@ -540,3 +609,93 @@ func _restore_dialogue_mouse_mode() -> void:
 
 	Input.set_mouse_mode(_previous_mouse_mode)
 	_has_dialogue_mouse_mode = false
+
+
+func _ensure_simple_lines_container() -> void:
+	if _simple_lines_container != null:
+		return
+
+	_simple_lines_container = VBoxContainer.new()
+	_simple_lines_container.name = "SimpleLinesContainer"
+	_simple_lines_container.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_simple_lines_container.offset_left = SIMPLE_BLOCK_MARGIN
+	_simple_lines_container.offset_top = SIMPLE_BLOCK_MARGIN
+	_simple_lines_container.offset_right = -SIMPLE_BLOCK_MARGIN
+	_simple_lines_container.offset_bottom = -SIMPLE_BLOCK_MARGIN
+	_simple_lines_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_simple_lines_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	balloon.add_child(_simple_lines_container)
+
+	for index in range(SIMPLE_LINE_COUNT):
+		var slot := MarginContainer.new()
+		slot.name = "SimpleLineSlot%d" % [index + 1]
+		slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_simple_lines_container.add_child(slot)
+		_simple_line_slots.append(slot)
+
+		var static_label := RichTextLabel.new()
+		static_label.name = "SimpleStaticLine%d" % [index + 1]
+		static_label.bbcode_enabled = true
+		static_label.fit_content = false
+		static_label.scroll_active = false
+		static_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		static_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		static_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		static_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		static_label.add_theme_color_override("default_color", Color(0, 0, 0, 1))
+		static_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		static_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+		slot.add_child(static_label)
+		_simple_static_labels.append(static_label)
+
+
+func _reset_simple_lines() -> void:
+	_simple_displayed_texts.clear()
+	_simple_current_slot = -1
+	if _simple_static_labels.is_empty():
+		return
+	for static_label in _simple_static_labels:
+		static_label.text = ""
+		static_label.hide()
+
+
+func _move_dialogue_label_to_simple_slot(slot_index: int) -> void:
+	if _simple_line_slots.is_empty():
+		return
+	slot_index = clampi(slot_index, 0, _simple_line_slots.size() - 1)
+	var target_slot := _simple_line_slots[slot_index]
+	if dialogue_label.get_parent() != target_slot:
+		var label_parent := dialogue_label.get_parent()
+		if label_parent:
+			label_parent.remove_child(dialogue_label)
+		target_slot.add_child(dialogue_label)
+	dialogue_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dialogue_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	dialogue_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dialogue_label.offset_left = 0
+	dialogue_label.offset_top = 0
+	dialogue_label.offset_right = 0
+	dialogue_label.offset_bottom = 0
+
+
+func _refresh_simple_static_labels(_active_slot: int = -1) -> void:
+	for index in range(_simple_static_labels.size()):
+		var static_label := _simple_static_labels[index]
+		static_label.text = ""
+		static_label.hide()
+
+
+func _record_simple_line_after_typing() -> void:
+	if _balloon_mode != BalloonMode.SIMPLE:
+		return
+	if _simple_current_slot < 0:
+		return
+	if _simple_current_slot < _simple_displayed_texts.size():
+		return
+	if _simple_displayed_texts.size() >= SIMPLE_LINE_COUNT:
+		return
+
+	_simple_displayed_texts.append(dialogue_line.text)
+	_refresh_simple_static_labels(_simple_current_slot)
