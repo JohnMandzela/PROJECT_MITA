@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Quest" load_steps=2 format=3 uid="uid://tnbx6bwt5hv7"]
+
+[ext_resource type="Script" uid="uid://jsbalard1kqg" path="res://scripts/resources/quest.gd" id="1_qikk5"]
+
+[resource]
+script = ExtResource("1_qikk5")
+title = "Найти колу"
+description = "Нужно найти бутылку колы и положить ее в холодильник."
+completion_flag = "3_cola_in_fridge"
+metadata/_custom_type_script = "uid://jsbalard1kqg"

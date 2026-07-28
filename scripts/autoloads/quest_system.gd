@@ -1,68 +1,67 @@
 extends Node
 
 # TODO: отрефакторить систему квестов
-# - Вынести квесты в отдельный ресурс
 # - Не вызывать sync_quest_progress() без необходимости
 
-const DEFAULT_QUESTS_INFO := {
-	"find_cola": {
-		"title": "Найти колу",
-		"description": "Нужно найти бутылку колы и положить ее в холодильник.",
-		"is_active": true,
-		"completion_flag": "3_cola_in_fridge",
-	},
-	"morning_routine": {
-		"title": "Утренние дела",
-		"description": "Нужно принять душ и привести себя в порядок.",
-		"is_active": true,
-		"completion_flag": "4_shower_use",
-	},
-	"debug_code": {
-		"title": "Отладить код",
-		"description": "Пройдите мини-игру \"Отладка кода\" в Programming Office.",
-		"is_active": true,
-		"completion_flag": "programming_office_samples_puzzle_completed",
-	},
-	"check_laptop": {
-		"title": "Проверить ноутбук",
-		"description": "Посмотреть сообщения и заметки на ноутбуке.",
-		"is_active": false,
-	},
+# Состояние квеста
+enum QuestState {
+	NOT_STARTED,
+	ACTIVE,
+	COMPLETED
 }
 
-const DEFAULT_GAME_FLAGS := {
-	"1_morning_quest": false,
-	"2_mike_room_bed": false,
-	"3_cola_in_fridge": false,
-	"4_shower_use": false,
-	"programming_office_samples_puzzle_completed": false,
-}
+# TODO удалить
+# const DEFAULT_GAME_FLAGS := {
+# 	"1_morning_quest": false,
+# 	"2_mike_room_bed": false,
+# 	"3_cola_in_fridge": false,
+# 	"4_shower_use": false,
+# 	"programming_office_samples_puzzle_completed": false,
+# }
 
-var quests_info: Dictionary = DEFAULT_QUESTS_INFO.duplicate(true)
-var game_flags: Dictionary = DEFAULT_GAME_FLAGS.duplicate(true)
+var quests_info: Dictionary
 
-
-func _ready() -> void:
-	sync_quest_progress()
-
-
-func is_done(flag_name: String) -> bool:
-	return bool(game_flags.get(flag_name, false))
+var quest_states: Dictionary[String, QuestState] = {}
+var game_flags: Dictionary[String, bool] = {}
 
 
-func set_done(flag_name: String) -> void:
-	game_flags[flag_name] = true
-	sync_quest_progress()
+func _set_quest_state(quest_id: String, state: int) -> void:
+	if not quests_info.has(quest_id):
+		push_error("Quest ID '%s' not found in quests_info." % quest_id)
+		return
+
+	match state:
+		QuestState.NOT_STARTED:
+			quests_info[quest_id]["is_active"] = false
+			quests_info[quest_id]["is_completed"] = false
+		QuestState.ACTIVE:
+			quests_info[quest_id]["is_active"] = true
+			quests_info[quest_id]["is_completed"] = false
+		QuestState.COMPLETED:
+			quests_info[quest_id]["is_active"] = false
+			quests_info[quest_id]["is_completed"] = true
+		_:
+			push_error("Invalid quest state: %d" % state)
+
+	sync_quest_progress(q)
+
+func get_quest_state(quest_id: )
 
 
-func reload(flag_name: String) -> void:
-	game_flags[flag_name] = false
+# Возвращает значение флага
+func get_flag(flag_name: String) -> bool:
+	return game_flags.get(flag_name, false)
+
+
+# Устанавливает значение флага на параметр value (по умолчанию true)
+func set_flag(flag_name: String, value := true) -> void:
+	game_flags[flag_name] = value
 	sync_quest_progress()
 
 
 func reset_game_state() -> void:
-	game_flags = DEFAULT_GAME_FLAGS.duplicate(true)
-	quests_info = DEFAULT_QUESTS_INFO.duplicate(true)
+	game_flags = {}
+	quests_info = {}
 	sync_quest_progress()
 
 

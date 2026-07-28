@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Quest" load_steps=2 format=3 uid="uid://cndf8b08ah5k3"]
+
+[ext_resource type="Script" uid="uid://jsbalard1kqg" path="res://scripts/resources/quest.gd" id="1_178kg"]
+
+[resource]
+script = ExtResource("1_178kg")
+title = "Утренние дела"
+description = "Нужно принять душ и привести себя в порядок."
+completion_flag = "4_shower_use"
+metadata/_custom_type_script = "uid://jsbalard1kqg"
