@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_bekuo")
 title = "Проверить ноутбук"
-description = "Посмотреть сообщения и заметки на ноутбуке."
+started_text = "Посмотреть сообщения и заметки на ноутбуке."
 metadata/_custom_type_script = "uid://jsbalard1kqg"

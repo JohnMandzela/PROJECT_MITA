@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://cu6hbvftbhbi2"]
+
+[ext_resource type="Script" uid="uid://bdxy3rlikau48" path="res://scripts/resources/item.gd" id="1_kufmq"]
+
+[resource]
+script = ExtResource("1_kufmq")
+display_name = "Стакан кофе"
+description = "Бумажный стакан горячего кофе."
+use_text = "Выпить кофе"
+vigor_modifier = 5
+metadata/_custom_type_script = "uid://bdxy3rlikau48"

@@ -1,0 +1,224 @@
+extends Node
+
+const QUESTS_PATH := "res://quests/"
+
+# Состояние квеста
+enum QuestState {
+	NOT_STARTED,
+	ACTIVE,
+	COMPLETED
+}
+
+signal quest_started(quest_id: String)
+signal quest_updated(quest_id: String)
+signal quest_completed(quest_id: String)
+signal flag_updated(flag_name: String, value: bool)
+
+var _quests: Dictionary[String, Quest] = {}
+
+# TODO
+const DEFAULT_GAME_FLAGS: Dictionary[String, bool] = {
+	"1_morning_quest": false,
+	"2_mike_room_bed": false,
+	"3_cola_in_fridge": false,
+	"4_shower_use": false,
+	"programming_office_samples_puzzle_completed": false,
+}
+
+var quest_data: Dictionary[String, Dictionary] = {}
+var game_flags: Dictionary[String, bool] = {}
+
+
+class JournalEntry:
+	var quest_id: String
+	var quest: Quest
+	var state: QuestState
+	var completed_stages: Array[String]
+
+	func _init(_quest_id: String, stages: Array[String]) -> void:
+		self.quest_id = _quest_id
+		self.quest = Quests._quests[_quest_id]
+		self.completed_stages = stages
+
+	func is_completed() -> bool:
+		return self.state == QuestState.COMPLETED
+
+
+func _ready() -> void:
+	_init_quests()
+	reset()
+
+
+func _init_quests() -> void:
+	var dir := DirAccess.open(QUESTS_PATH)
+	if not dir:
+		push_error("Не удалось открыть папку по пути: " + QUESTS_PATH)
+		return
+
+	dir.list_dir_begin()
+
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir():
+			var quest_id := file_name.get_basename()
+			var quest: Quest = ResourceLoader.load(QUESTS_PATH + file_name, "Quest")
+			_quests[quest_id] = quest
+		
+		file_name = dir.get_next()
+
+	dir.list_dir_end()
+
+
+# Возвращает список активных квестов с их состоянием и завершёнными этапами
+func get_journal_entries() -> Array[JournalEntry]:
+	var result := []
+
+	for quest_id in _quests.keys():
+		if not is_active(quest_id):
+			continue
+
+		var completed_stages := []
+		for stage_name in _quests[quest_id].stages.keys():
+			if get_quest_flag(quest_id, stage_name):
+				completed_stages.append(stage_name)
+
+		var entry := JournalEntry.new(quest_id, completed_stages)
+		result.append(entry)
+	
+	return result
+
+
+# Возвращает true, если квест с данным ID существует
+func quest_exists(quest_id: String) -> bool:
+	return _quests.has(quest_id)
+
+
+# Возвращает состояние квеста по его ID
+func get_quest_state(quest_id: String) -> QuestState:
+	if not quest_exists(quest_id):
+		push_error("Квест '%s' не найден." % quest_id)
+	
+	return quest_data.get(quest_id, {}).get("state", QuestState.NOT_STARTED)
+
+
+# Возвращает true, если квест начат или завершён
+func is_started(quest_id: String) -> bool:
+	return get_quest_state(quest_id) != QuestState.NOT_STARTED
+
+
+# Возвращает true, если квест начат, но ещё не завершён
+func is_active(quest_id: String) -> bool:
+	return get_quest_state(quest_id) == QuestState.ACTIVE
+
+
+# Возвращает true, если квест завершён
+func is_completed(quest_id: String) -> bool:
+	return get_quest_state(quest_id) == QuestState.COMPLETED
+
+
+func _set_quest_state(quest_id: String, state: QuestState) -> void:
+	if not quest_data.has(quest_id):
+		_init_quest_data(quest_id, state)
+	else:
+		quest_data[quest_id]["state"] = state
+
+
+# Начинает квест с данным ID
+func start_quest(quest_id: String) -> void:
+	if not quest_exists(quest_id):
+		push_error("Квест '%s' не найден." % quest_id)
+		return
+	
+	if is_started(quest_id):
+		push_warning("Квест '%s' уже начат." % quest_id)
+		return
+
+	_set_quest_state(quest_id, QuestState.ACTIVE)
+	quest_started.emit(quest_id)
+
+
+# Завершает квест с данным ID
+func complete_quest(quest_id: String) -> void:
+	if not quest_exists(quest_id):
+		push_error("Квест '%s' не найден." % quest_id)
+		return
+	
+	if is_completed(quest_id):
+		push_warning("Квест '%s' уже завершён." % quest_id)
+		return
+	
+	_set_quest_state(quest_id, QuestState.COMPLETED)
+	quest_completed.emit(quest_id)
+
+
+# Возвращает значение квестового флага
+func get_quest_flag(quest_id: String, flag_name: String) -> bool:
+	if not quest_exists(quest_id):
+		push_error("Квест '%s' не найден." % quest_id)
+		return false
+
+	if not quest_data.has(quest_id):
+		_init_quest_data(quest_id)
+
+	var flags = quest_data[quest_id]["flags"]
+	if not flags.has(flag_name):
+		push_warning("Флаг '%s' не найден в квесте '%s'." % [flag_name, quest_id])
+		return false
+
+	return flags[flag_name]
+
+
+# Устанавливает значение квестового флага на параметр value (по умолчанию true)
+func set_quest_flag(quest_id: String, flag_name: String, value := true) -> void:
+	if not quest_exists(quest_id):
+		push_error("Квест '%s' не найден." % quest_id)
+		return
+
+	if not quest_data.has(quest_id):
+		_init_quest_data(quest_id)
+
+	var flags = quest_data[quest_id]["flags"]
+	if not flags.has(flag_name):
+		push_warning("Флаг '%s' не найден в квесте '%s'." % [flag_name, quest_id])
+	elif flags[flag_name] != value:
+		quest_data["flags"][flag_name] = value
+		quest_updated.emit(quest_id)
+
+
+# Возвращает значение флага
+func get_flag(flag_name: String) -> bool:
+	if not game_flags.has(flag_name):
+		push_warning("Флаг '%s' не найден." % flag_name)
+		return false
+
+	return game_flags[flag_name]
+
+
+# Устанавливает значение флага на параметр value (по умолчанию true)
+func set_flag(flag_name: String, value := true) -> void:
+	if not game_flags.has(flag_name):
+		push_warning("Флаг '%s' не найден." % flag_name)
+	elif game_flags[flag_name] != value:
+		game_flags[flag_name] = value
+		flag_updated.emit(flag_name, value)
+
+
+func _init_quest_data(quest_id: String, state := QuestState.NOT_STARTED) -> void:
+	var flags := {}
+	for flag_name in _quests[quest_id].stages.keys():
+		flags[flag_name] = false
+
+	quest_data[quest_id] = { 
+		state = state,
+		flags = flags
+	}
+
+
+# Сбрасывает состояние игры (флаги и квесты) в дефолтное
+func reset() -> void:
+	quest_data.clear()
+
+	for quest_name in _quests.keys():
+		_init_quest_data(quest_name, QuestState.NOT_STARTED)
+
+	game_flags = DEFAULT_GAME_FLAGS.duplicate()

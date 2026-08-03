@@ -16,10 +16,11 @@ func _on_interact() -> void:
 	_start_interaction()
 
 
+# TODO убрать старые функции
 func take_coffee() -> void:
 	if GameManager.is_done(COFFEE_PICKUP_FLAG):
 		return
-	Items.item_was_took(COFFEE_ITEM_ID)
+	Inventory.item_was_took(COFFEE_ITEM_ID)
 	GameManager.set_done(COFFEE_PICKUP_FLAG)
 	_on_unfocused()
 

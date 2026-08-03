@@ -5,6 +5,5 @@
 [resource]
 script = ExtResource("1_kceo2")
 title = "Отладить код"
-description = "Пройдите мини-игру \"Отладка кода\" в Programming Office."
-completion_flag = "programming_office_samples_puzzle_completed"
+started_text = "Пройдите мини-игру \"Отладка кода\" в Programming Office."
 metadata/_custom_type_script = "uid://jsbalard1kqg"

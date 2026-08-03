@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_qikk5")
 title = "Найти колу"
-description = "Нужно найти бутылку колы и положить ее в холодильник."
-completion_flag = "3_cola_in_fridge"
+started_text = "Нужно найти бутылку колы и положить ее в холодильник."
+completed_text = "Я нашёл бутылку колы и положил её в холодильник!"
 metadata/_custom_type_script = "uid://jsbalard1kqg"

@@ -5,6 +5,5 @@
 [resource]
 script = ExtResource("1_178kg")
 title = "Утренние дела"
-description = "Нужно принять душ и привести себя в порядок."
-completion_flag = "4_shower_use"
+started_text = "Нужно принять душ и привести себя в порядок."
 metadata/_custom_type_script = "uid://jsbalard1kqg"

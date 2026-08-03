@@ -96,7 +96,7 @@ func _ready() -> void:
 	loading_settings = false
 	call_deferred("_apply_mouse_cursor_mode")
 
-	var items := get_node_or_null("/root/Items")
+	var items := get_node_or_null("/root/Inventory")
 	if items:
 		if items.has_signal("inventory_changed") and not items.inventory_changed.is_connected(_refresh_inventory):
 			items.inventory_changed.connect(_refresh_inventory)
@@ -677,7 +677,7 @@ func _refresh_inventory() -> void:
 
 	inventory_cell_items.clear()
 	var item_ids: Array[String] = []
-	var items_node := get_node_or_null("/root/Items")
+	var items_node := get_node_or_null("/root/Inventory")
 	if items_node:
 		for item_id in items_node.call("get_ordered_item_ids"):
 			if int(items_node.get("items_inventory").get(item_id, 0)) > 0:
@@ -740,7 +740,7 @@ func _select_inventory_item(item_id: String, cell: PanelContainer) -> void:
 		inventory_cell.add_theme_stylebox_override("panel", _style(Color(0.99, 0.99, 0.97, 1.0), Color(0.66, 0.66, 0.66, 1.0), 1))
 	cell.add_theme_stylebox_override("panel", _style(Color(0.92, 0.94, 0.98, 1.0), Color(0.18, 0.28, 0.42, 1.0), 2))
 
-	var items_node := get_node_or_null("/root/Items")
+	var items_node := get_node_or_null("/root/Inventory")
 	if items_node == null:
 		return
 
@@ -772,7 +772,7 @@ func _get_item_description(item_id: String, item_info: Dictionary) -> String:
 
 
 func _can_use_item(item_id: String) -> bool:
-	var items_node := get_node_or_null("/root/Items")
+	var items_node := get_node_or_null("/root/Inventory")
 	if items_node == null:
 		return false
 	var item_info: Dictionary = items_node.call("get_item_info", item_id)
@@ -783,7 +783,7 @@ func _on_use_item_pressed() -> void:
 	if selected_item_id.is_empty():
 		return
 
-	var items_node := get_node_or_null("/root/Items")
+	var items_node := get_node_or_null("/root/Inventory")
 	if items_node == null:
 		return
 

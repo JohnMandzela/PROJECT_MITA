@@ -3,6 +3,8 @@ extends Node
 const SETTINGS_PATH := "user://settings.cfg"
 const SCENE_ROOT := "res://scenes/"
 
+const SCREEN_FADER_PATH := "res://scenes/ui/screen_fader.tscn"
+
 var player_scene: PackedScene = preload("res://scenes/player.tscn")
 var player: CharacterBody2D
 var pending_spawn_point: String = ""
@@ -18,56 +20,10 @@ var disable_movement := false
 var is_minigame_active := false
 var minigame_pause_target: Node = null
 
-var items_inventory: Dictionary:
-	get:
-		return Items.items_inventory
-	set(value):
-		Items.apply_inventory_state(value, Items.inventory_order)
-
-var quests_info: Dictionary:
-	get:
-		return Quests.quests_info
-	set(value):
-		Quests.quests_info = value
-
-var game_flags: Dictionary:
-	get:
-		return Quests.game_flags
-	set(value):
-		Quests.game_flags = value
-
-
-func item_check(item_name: String) -> int:
-	return Items.item_check(item_name)
-
-
-func item_was_took(item_name: String) -> void:
-	Items.item_was_took(item_name)
-
-
-func item_was_dropped(item_name: String) -> void:
-	Items.item_was_dropped(item_name)
-
-
-func is_done(flag_name: String) -> bool:
-	return Quests.is_done(flag_name)
-
-
-func set_done(flag_name: String) -> void:
-	Quests.set_done(flag_name)
-
-
-func reload(flag_name: String) -> void:
-	Quests.reload(flag_name)
-
 
 func reset_game_state() -> void:
-	Quests.reset_game_state()
-	Items.apply_inventory_state(Items.DEFAULT_ITEMS_INVENTORY.duplicate(true), [])
-
-
-func sync_quest_progress() -> void:
-	Quests.sync_quest_progress()
+	Quests.reset()
+	Inventory.reset()
 
 
 func load_settings() -> void:
@@ -99,16 +55,13 @@ func _ready() -> void:
 	music_player.bus = "Music"
 	music_player.autoplay = false
 
-	sync_quest_progress()
+	reset_game_state()
 	load_settings()
 
-	const screen_fader_path := "res://scenes/ui/screen_fader.tscn"
-	screen_fader = preload(screen_fader_path).instantiate()
+	screen_fader = preload(SCREEN_FADER_PATH).instantiate()
 	add_child(screen_fader)
 
 	screen_fader.fade_out_finished.connect(_on_fade_out_finished)
-
-#---------------------------------------------------------------------------------------------------------------
 
 
 func resolve_scene_path(scene_reference: String) -> String:
@@ -133,7 +86,6 @@ func _on_fade_out_finished() -> void:
 
 	get_tree().change_scene_to_file(_pending_scene_path) # смена локации
 	_pending_scene_path = ""
-#---------------------------------------------------------------------------------------------------------------
 
 
 func play_music(stream: AudioStream) -> void:

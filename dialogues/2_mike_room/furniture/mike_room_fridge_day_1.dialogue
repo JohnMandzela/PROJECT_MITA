@@ -1,30 +1,30 @@
 ~ start
-set locals.cola_in_inventory = GameManager.items_inventory["bottle_cola"]
-set locals.cola_quest = GameManager.game_flags["3_cola_in_fridge"]
-if locals.cola_quest == false:
+if not Quests.is_completed("find_cola"):
 	В холодильнике ничего, кроме пары дошираков, не осталось.
 	Да и в микроволновке сверху ничего нет.
-	if locals.cola_in_inventory == 1:
+	
+	if Inventory.has_item("cola"):
 		Ты держишь в руках бутылку колы.
-		- Положить в холодильник
-			do drop_item("bottle_cola")
-			do cola_in_fridge("3_cola_in_fridge")
-			Ты положил БУТЫЛКУ КОЛЫ
-			~ quest_end
-			Майк: За день успеет охладиться.
-			Майк: Надо будет выпить после работы.
+		- Положить в холодильник => quest_end
 		- Положить в микроволновку
 			Раздумывая о целесообразности такого решения, ты все же не решаешься класть газировку в микроволновку.
 			Ей там определенно не место.
-			do drop_item("bottle_cola")
-			do cola_in_fridge("3_cola_in_fridge")
-			Ты положил БУТЫЛКУ КОЛЫ в ХОЛОДИЛЬНИК
 			=> quest_end
 		- Уйти => END
-	if locals.cola_in_inventory == 0:
+	else:
 		Майк: Боже, до чего я дожил... питаюсь одними полуфабрикатами.
 		Майк: По крайней мере, денег хватает хотя бы на это.
-if locals.cola_quest == true:
+else:
 	Бутылка колы стоит и охлаждается в холодильнике.
 	Она ждет своего часа...
+=> END
+	
+~ quest_end
+do Inventory.remove_item("cola")
+do Quests.complete_quest("find_cola")
+
+Ты положил БУТЫЛКУ КОЛЫ в холодильник.
+
+Майк: За день успеет охладиться.
+Майк: Надо будет выпить после работы.
 => END
