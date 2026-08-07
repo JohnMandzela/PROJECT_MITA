@@ -40,6 +40,43 @@ func lighten_screen_backwards() -> void:
 	await get_tree().create_timer(1.0).timeout
 
 
+func wait(time: float) -> void:
+	await get_tree().create_timer(time).timeout
+
+
+func hide_portrait(character_name: String) -> void:
+	if not has_node("CanvasLayer"):
+		return
+	var balloon = _find_active_balloon()
+	if balloon and balloon.has_method("hide_portrait"):
+		await balloon.hide_portrait(character_name)
+
+
+func switch_balloon(balloon_name: String) -> void:
+	if balloon_name != "simple":
+		return
+
+	var active_balloon = _find_active_balloon()
+	if not active_balloon:
+		push_warning("switch_balloon: не найден активный balloon в сцене")
+		return
+
+	if active_balloon.has_method("switch_to_simple_mode"):
+		active_balloon.switch_to_simple_mode()
+
+
+func _find_active_balloon() -> Node:
+	var current_scene = get_tree().current_scene
+	if current_scene:
+		for child in current_scene.get_children():
+			if child is CanvasLayer and child.has_method("switch_to_simple_mode"):
+				return child
+	for child in get_tree().root.get_children():
+		if child is CanvasLayer and child.has_method("switch_to_simple_mode"):
+			return child
+	return null
+
+
 func _process(delta):
 	if mom_moving:
 		Mom.position.y += speed * delta
