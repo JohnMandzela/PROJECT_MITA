@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bo81jhf38pbxp"
-path="res://.godot/imported/Mike_happy.png-7f1601e3e994aec45b31d3fb637bd3f7.ctex"
+uid="uid://b1tfs4ji6v8lo"
+path="res://.godot/imported/Mike_webcam.png-b095d36adf11f5051db88770d5cb47b7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/characters/Mike_happy.png"
-dest_files=["res://.godot/imported/Mike_happy.png-7f1601e3e994aec45b31d3fb637bd3f7.ctex"]
+source_file="res://images/characters/Mike_webcam.png"
+dest_files=["res://.godot/imported/Mike_webcam.png-b095d36adf11f5051db88770d5cb47b7.ctex"]
 
 [params]
 
