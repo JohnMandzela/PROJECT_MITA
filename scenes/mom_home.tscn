@@ -404,5 +404,3 @@ libraries = {
 libraries = {
 &"": SubResource("AnimationLibrary_5yqmt")
 }
-
-[connection signal="timeout" from="Sleep_Flashback/MikeNpc/Timer" to="Sleep_Flashback/MikeNpc" method="_on_timer_timeout"]

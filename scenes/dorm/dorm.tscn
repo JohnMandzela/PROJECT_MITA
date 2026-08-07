@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bsvxh1s8ha4cv"]
+[gd_scene load_steps=22 format=3 uid="uid://bsvxh1s8ha4cv"]
 
 [ext_resource type="Texture2D" uid="uid://bnjaciec2avpf" path="res://images/scene/corridor.png" id="1_a6q5q"]
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_km4w3"]
@@ -8,9 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="7_1vu13"]
 [ext_resource type="Texture2D" uid="uid://fe0mw8eak7ba" path="res://images/tilesets/scenes/$door.png" id="8_j5r5n"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="8_y5ma7"]
+[ext_resource type="Script" uid="uid://c7vxk9r2t4n6m" path="res://scripts/goshivon_area_event.gd" id="9_t4d35"]
+[ext_resource type="Resource" uid="uid://chj85jqy72sxr" path="res://dialogues/Этап2.dialogue" id="10_wtblu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_km4w3"]
 size = Vector2(46, 28.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3pc1"]
+size = Vector2(44, 24.5625)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y5ma7"]
 atlas = ExtResource("8_j5r5n")
@@ -170,3 +175,106 @@ playback_type = 1
 
 [connection signal="body_entered" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_entered"]
 [connection signal="body_exited" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_exited"]
+
+[node name="Door_Inspect_Events" type="Node2D" parent="."]
+
+[node name="Inspect_Door_1" type="Area2D" parent="Door_Inspect_Events"]
+position = Vector2(-385, 110)
+script = ExtResource("9_t4d35")
+dialogue = ExtResource("10_wtblu")
+dialogue_start = &"inspect_door1"
+
+[node name="Label" type="Label" parent="Door_Inspect_Events/Inspect_Door_1"]
+offset_left = -43.0
+offset_top = -168.0
+offset_right = 46.0
+offset_bottom = -145.0
+text = "Осмотреть"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_1"]
+position = Vector2(1, 1.0625)
+shape = SubResource("RectangleShape2D_p3pc1")
+
+[node name="Inspect_Door_2" type="Area2D" parent="Door_Inspect_Events"]
+position = Vector2(384, 118)
+script = ExtResource("9_t4d35")
+dialogue = ExtResource("10_wtblu")
+dialogue_start = &"inspect_door2"
+
+[node name="Label" type="Label" parent="Door_Inspect_Events/Inspect_Door_2"]
+offset_left = -44.0
+offset_top = -172.0
+offset_right = 45.0
+offset_bottom = -149.0
+text = "Осмотреть"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_2"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_p3pc1")
+
+[node name="Inspect_Door_3" type="Area2D" parent="Door_Inspect_Events"]
+position = Vector2(-192, 111.25)
+script = ExtResource("9_t4d35")
+dialogue = ExtResource("10_wtblu")
+dialogue_start = &"inspect_door3"
+
+[node name="Label" type="Label" parent="Door_Inspect_Events/Inspect_Door_3"]
+offset_left = -40.0
+offset_top = -167.25
+offset_right = 49.0
+offset_bottom = -144.25
+text = "Осмотреть"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_3"]
+position = Vector2(0, -0.25)
+shape = SubResource("RectangleShape2D_p3pc1")
+
+[node name="Inspect_Door_4" type="Area2D" parent="Door_Inspect_Events"]
+position = Vector2(192, 111.25)
+script = ExtResource("9_t4d35")
+dialogue = ExtResource("10_wtblu")
+dialogue_start = &"inspect_door4"
+
+[node name="Label" type="Label" parent="Door_Inspect_Events/Inspect_Door_4"]
+offset_left = -45.0
+offset_top = -169.25
+offset_right = 44.0
+offset_bottom = -146.25
+text = "Осмотреть"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_4"]
+position = Vector2(0, -1.25)
+shape = SubResource("RectangleShape2D_p3pc1")
+
+[node name="Inspect_Door_5" type="Area2D" parent="Door_Inspect_Events"]
+position = Vector2(529, 111)
+script = ExtResource("9_t4d35")
+dialogue = ExtResource("10_wtblu")
+dialogue_start = &"inspect_door5"
+
+[node name="Label" type="Label" parent="Door_Inspect_Events/Inspect_Door_5"]
+offset_left = 2.0
+offset_top = -168.0
+offset_right = 91.0
+offset_bottom = -145.0
+text = "Осмотреть"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door_Inspect_Events/Inspect_Door_5"]
+position = Vector2(48, -0.25)
+shape = SubResource("RectangleShape2D_p3pc1")
+
+[connection signal="body_entered" from="Door_Inspect_Events/Inspect_Door_1" to="Door_Inspect_Events/Inspect_Door_1" method="_on_body_entered"]
+[connection signal="body_exited" from="Door_Inspect_Events/Inspect_Door_1" to="Door_Inspect_Events/Inspect_Door_1" method="_on_body_exited"]
+[connection signal="body_entered" from="Door_Inspect_Events/Inspect_Door_2" to="Door_Inspect_Events/Inspect_Door_2" method="_on_body_entered"]
+[connection signal="body_exited" from="Door_Inspect_Events/Inspect_Door_2" to="Door_Inspect_Events/Inspect_Door_2" method="_on_body_exited"]
+[connection signal="body_entered" from="Door_Inspect_Events/Inspect_Door_3" to="Door_Inspect_Events/Inspect_Door_3" method="_on_body_entered"]
+[connection signal="body_exited" from="Door_Inspect_Events/Inspect_Door_3" to="Door_Inspect_Events/Inspect_Door_3" method="_on_body_exited"]
+[connection signal="body_entered" from="Door_Inspect_Events/Inspect_Door_4" to="Door_Inspect_Events/Inspect_Door_4" method="_on_body_entered"]
+[connection signal="body_exited" from="Door_Inspect_Events/Inspect_Door_4" to="Door_Inspect_Events/Inspect_Door_4" method="_on_body_exited"]
+[connection signal="body_entered" from="Door_Inspect_Events/Inspect_Door_5" to="Door_Inspect_Events/Inspect_Door_5" method="_on_body_entered"]
+[connection signal="body_exited" from="Door_Inspect_Events/Inspect_Door_5" to="Door_Inspect_Events/Inspect_Door_5" method="_on_body_exited"]

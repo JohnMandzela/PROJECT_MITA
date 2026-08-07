@@ -423,5 +423,3 @@ frame_progress = 0.08197742
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(-435.99512, 35.22281)
-
-[connection signal="timeout" from="MikeNpc/Timer" to="MikeNpc" method="_on_timer_timeout"]
