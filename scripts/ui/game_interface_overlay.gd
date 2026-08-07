@@ -6,18 +6,22 @@ signal main_menu_requested
 signal exit_requested
 signal hud_dialogue_finished
 
-const PANEL_COLOR := Color(0.965, 0.96, 0.94, 1.0)
-const DOT_COLOR := Color(0.62, 0.62, 0.62, 0.55)
-const INK_COLOR := Color(0.08, 0.08, 0.08, 1.0)
-const BORDER_COLOR := Color(0.12, 0.12, 0.12, 1.0)
+const PANEL_COLOR := Color(0.0, 0.0, 0.0, 1.0)
+const DOT_COLOR := Color(0.7, 0.7, 0.7, 0.4)
+const METALLIC_COLOR := Color(0.15, 0.15, 0.15, 1.0)
+const INK_COLOR := Color(1.0, 1.0, 1.0, 1.0)
+const BORDER_COLOR := Color(1.0, 1.0, 1.0, 1.0)
+const BORDER_WIDTH := 2
 const CENTER_RECT := Rect2(18.0, 22.0, 862.0, 478.0)
 const RIGHT_PANEL_RECT := Rect2(880.0, 0.0, 272.0, 648.0)
-const INVENTORY_OPEN_HEIGHT := 150.0
+const INVENTORY_OPEN_HEIGHT := 236.0
 const INVENTORY_CLOSED_HEIGHT := 0.0
 const SETTINGS_OPEN_HEIGHT := 178.0
 const SETTINGS_CLOSED_HEIGHT := 0.0
 const INVENTORY_COLUMNS := 4
-const INVENTORY_ROWS := 3
+const INVENTORY_ROWS := 4
+const INVENTORY_TAB_NORMAL := "normal"
+const INVENTORY_TAB_VIRTUAL := "virtual"
 const WEBCAM_TEXTURE_PATH := "res://images/characters/Mike_webcam.png"
 const MAIN_MENU_PATH := "res://scenes/ui/main_menu.tscn"
 
@@ -56,6 +60,9 @@ var selected_item_id := ""
 var selected_item_cell: PanelContainer
 var inventory_open := false
 var inventory_tween: Tween
+var inventory_normal_tab_button: Button
+var inventory_virtual_tab_button: Button
+var active_inventory_tab := INVENTORY_TAB_NORMAL
 var settings_button: Button
 var settings_drawer: Panel
 var fullscreen_checkbox: CheckBox
@@ -72,8 +79,8 @@ var screen_fader_rect: ColorRect
 class DottedPanel:
 	extends Control
 
-	var fill_color := Color(0.965, 0.96, 0.94, 1.0)
-	var dot_color := Color(0.62, 0.62, 0.62, 0.55)
+	var fill_color := PANEL_COLOR
+	var dot_color := DOT_COLOR
 
 
 	func _draw() -> void:
@@ -353,7 +360,7 @@ func _build_right_panel(parent: Control) -> void:
 	webcam_frame.name = "WebcamFrame"
 	webcam_frame.position = Vector2(8.0, 110.0)
 	webcam_frame.size = Vector2(244.0, 194.0)
-	webcam_frame.add_theme_stylebox_override("panel", _style(Color(1, 1, 1, 1), BORDER_COLOR, 4))
+	webcam_frame.add_theme_stylebox_override("panel", _style(METALLIC_COLOR, BORDER_COLOR, 4))
 	parent.add_child(webcam_frame)
 
 	var webcam := TextureRect.new()
@@ -370,6 +377,7 @@ func _build_right_panel(parent: Control) -> void:
 	_build_system_status(parent)
 	_build_settings_drawer(parent)
 	_build_system_buttons(parent)
+	inventory_drawer.move_to_front()
 
 
 func _build_status_bar(parent: Control, node_name: String, label_text: String, position: Vector2, color: Color) -> void:
@@ -377,7 +385,7 @@ func _build_status_bar(parent: Control, node_name: String, label_text: String, p
 	track.name = node_name
 	track.position = position
 	track.size = Vector2(244.0, 14.0)
-	track.add_theme_stylebox_override("panel", _style(Color(0.02, 0.02, 0.02, 1.0), BORDER_COLOR, 1))
+	track.add_theme_stylebox_override("panel", _style(Color(0.02, 0.02, 0.02, 1.0), BORDER_COLOR, BORDER_WIDTH))
 	parent.add_child(track)
 
 	var fill := ColorRect.new()
@@ -410,7 +418,7 @@ func _build_inventory(parent: Control) -> void:
 	header.name = "InventoryHeader"
 	header.position = Vector2(6.0, 316.0)
 	header.size = Vector2(248.0, 28.0)
-	header.add_theme_stylebox_override("panel", _style(Color(0.98, 0.98, 0.96, 1.0), Color(0.58, 0.58, 0.58, 1.0), 1))
+	header.add_theme_stylebox_override("panel", _style(METALLIC_COLOR, BORDER_COLOR, BORDER_WIDTH))
 	parent.add_child(header)
 
 	inventory_button = Button.new()
@@ -437,21 +445,38 @@ func _build_inventory(parent: Control) -> void:
 	inventory_drawer.size = Vector2(244.0, INVENTORY_CLOSED_HEIGHT)
 	inventory_drawer.visible = false
 	inventory_drawer.clip_contents = true
-	inventory_drawer.add_theme_stylebox_override("panel", _style(Color(0.94, 0.94, 0.91, 1.0), BORDER_COLOR, 2))
+	inventory_drawer.add_theme_stylebox_override("panel", _style(Color(0.60, 0.60, 0.57, 1.0), BORDER_COLOR, 2))
 	parent.add_child(inventory_drawer)
 
-	var tray_line := ColorRect.new()
-	tray_line.name = "DriveSlot"
-	tray_line.position = Vector2(12.0, 8.0)
-	tray_line.size = Vector2(220.0, 3.0)
-	tray_line.color = Color(0.2, 0.2, 0.2, 1.0)
-	inventory_drawer.add_child(tray_line)
+	var tab_bar_line := ColorRect.new()
+	tab_bar_line.name = "InventoryTabSeparator"
+	tab_bar_line.position = Vector2(0.0, 34.0)
+	tab_bar_line.size = Vector2(244.0, 1.0)
+	tab_bar_line.color = BORDER_COLOR
+	inventory_drawer.add_child(tab_bar_line)
+
+	inventory_normal_tab_button = _add_inventory_tab_button(
+		inventory_drawer,
+		"InventoryNormalTab",
+		"Обычные вещи",
+		INVENTORY_TAB_NORMAL,
+		Vector2(2.0, 2.0),
+		Vector2(120.0, 32.0)
+	)
+	inventory_virtual_tab_button = _add_inventory_tab_button(
+		inventory_drawer,
+		"InventoryVirtualTab",
+		"Виртуальное",
+		INVENTORY_TAB_VIRTUAL,
+		Vector2(122.0, 2.0),
+		Vector2(120.0, 32.0)
+	)
 
 	inventory_grid = GridContainer.new()
 	inventory_grid.name = "InventoryGrid"
 	inventory_grid.columns = INVENTORY_COLUMNS
-	inventory_grid.position = Vector2(12.0, 20.0)
-	inventory_grid.size = Vector2(220.0, 118.0)
+	inventory_grid.position = Vector2(12.0, 42.0)
+	inventory_grid.size = Vector2(220.0, 184.0)
 	inventory_grid.add_theme_constant_override("h_separation", 7)
 	inventory_grid.add_theme_constant_override("v_separation", 7)
 	inventory_drawer.add_child(inventory_grid)
@@ -459,12 +484,27 @@ func _build_inventory(parent: Control) -> void:
 	for index in range(INVENTORY_COLUMNS * INVENTORY_ROWS):
 		var cell := PanelContainer.new()
 		cell.name = "ItemCell_%02d" % index
-		cell.custom_minimum_size = Vector2(49.0, 34.0)
-		cell.add_theme_stylebox_override("panel", _style(Color(0.99, 0.99, 0.97, 1.0), Color(0.66, 0.66, 0.66, 1.0), 1))
+		cell.custom_minimum_size = Vector2(49.0, 40.0)
+		cell.add_theme_stylebox_override("panel", _style(METALLIC_COLOR, BORDER_COLOR, BORDER_WIDTH))
 		cell.mouse_filter = Control.MOUSE_FILTER_STOP
 		cell.gui_input.connect(_on_inventory_cell_gui_input.bind(cell))
 		inventory_grid.add_child(cell)
 		inventory_cells.append(cell)
+
+	_update_inventory_tab_visuals()
+
+
+func _add_inventory_tab_button(parent: Control, node_name: String, label_text: String, tab_id: String, tab_position: Vector2, tab_size: Vector2) -> Button:
+	var button := Button.new()
+	button.name = node_name
+	button.position = tab_position
+	button.size = tab_size
+	button.text = label_text
+	button.focus_mode = Control.FOCUS_NONE
+	button.add_theme_font_size_override("font_size", 12)
+	button.pressed.connect(_set_inventory_tab.bind(tab_id))
+	parent.add_child(button)
+	return button
 
 
 func _build_system_status(parent: Control) -> void:
@@ -472,7 +512,7 @@ func _build_system_status(parent: Control) -> void:
 	status_panel.name = "SystemStatus"
 	status_panel.position = Vector2(8.0, 508.0)
 	status_panel.size = Vector2(244.0, 66.0)
-	status_panel.add_theme_stylebox_override("panel", _style(Color(0.98, 0.98, 0.96, 1.0), Color(0.43, 0.72, 0.51, 1.0), 1))
+	status_panel.add_theme_stylebox_override("panel", _style(METALLIC_COLOR, BORDER_COLOR, BORDER_WIDTH))
 	parent.add_child(status_panel)
 
 	var status_text := Label.new()
@@ -494,7 +534,7 @@ func _build_settings_drawer(parent: Control) -> void:
 	settings_drawer.size = Vector2(244.0, SETTINGS_CLOSED_HEIGHT)
 	settings_drawer.visible = false
 	settings_drawer.clip_contents = true
-	settings_drawer.add_theme_stylebox_override("panel", _style(Color(0.94, 0.94, 0.91, 1.0), BORDER_COLOR, 2))
+	settings_drawer.add_theme_stylebox_override("panel", _style(Color(0.60, 0.60, 0.57, 1.0), BORDER_COLOR, 2))
 	parent.add_child(settings_drawer)
 
 	var margin := MarginContainer.new()
@@ -596,14 +636,14 @@ func _build_screen_fader() -> void:
 
 
 func _add_frame(rect: Rect2) -> void:
-	_add_line(Rect2(rect.position.x, rect.position.y, rect.size.x, 2.0), BORDER_COLOR)
-	_add_line(Rect2(rect.position.x, rect.end.y - 2.0, rect.size.x, 2.0), BORDER_COLOR)
-	_add_line(Rect2(rect.position.x, rect.position.y, 2.0, rect.size.y), BORDER_COLOR)
-	_add_line(Rect2(rect.end.x - 2.0, rect.position.y, 2.0, rect.size.y), BORDER_COLOR)
+	_add_line(Rect2(rect.position.x, rect.position.y, rect.size.x, float(BORDER_WIDTH)), BORDER_COLOR)
+	_add_line(Rect2(rect.position.x, rect.end.y - float(BORDER_WIDTH), rect.size.x, float(BORDER_WIDTH)), BORDER_COLOR)
+	_add_line(Rect2(rect.position.x, rect.position.y, float(BORDER_WIDTH), rect.size.y), BORDER_COLOR)
+	_add_line(Rect2(rect.end.x - float(BORDER_WIDTH), rect.position.y, float(BORDER_WIDTH), rect.size.y), BORDER_COLOR)
 
 
 func _add_vertical_separator(x_position: float) -> void:
-	_add_line(Rect2(x_position - 2.0, 0.0, 2.0, 648.0), Color(0.45, 0.45, 0.45, 1.0))
+	_add_line(Rect2(x_position - BORDER_WIDTH, 0.0, float(BORDER_WIDTH), 648.0), BORDER_COLOR)
 
 
 func _add_line(rect: Rect2, color: Color) -> void:
@@ -673,18 +713,80 @@ func _refresh_inventory() -> void:
 	for cell in inventory_cells:
 		for child in cell.get_children():
 			child.queue_free()
-		cell.add_theme_stylebox_override("panel", _style(Color(0.99, 0.99, 0.97, 1.0), Color(0.66, 0.66, 0.66, 1.0), 1))
+		cell.add_theme_stylebox_override("panel", _style(METALLIC_COLOR, BORDER_COLOR, BORDER_WIDTH))
+		cell.tooltip_text = ""
 
 	inventory_cell_items.clear()
 	var item_ids: Array[String] = []
 	var items_node := get_node_or_null("/root/Items")
 	if items_node:
 		for item_id in items_node.call("get_ordered_item_ids"):
-			if int(items_node.get("items_inventory").get(item_id, 0)) > 0:
+			if int(items_node.get("items_inventory").get(item_id, 0)) <= 0:
+				continue
+			var item_info: Dictionary = items_node.call("get_item_info", item_id)
+			if _item_matches_inventory_tab(str(item_id), item_info):
 				item_ids.append(str(item_id))
 
 	for index in range(min(item_ids.size(), inventory_cells.size())):
 		_fill_inventory_cell(inventory_cells[index], item_ids[index], items_node)
+
+
+func _set_inventory_tab(tab_id: String) -> void:
+	if active_inventory_tab == tab_id:
+		return
+
+	active_inventory_tab = tab_id
+	_clear_item_selection()
+	_update_inventory_tab_visuals()
+	_refresh_inventory()
+
+
+func _update_inventory_tab_visuals() -> void:
+	if inventory_normal_tab_button == null or inventory_virtual_tab_button == null:
+		return
+
+	_apply_inventory_tab_button_theme(inventory_normal_tab_button, active_inventory_tab == INVENTORY_TAB_NORMAL)
+	_apply_inventory_tab_button_theme(inventory_virtual_tab_button, active_inventory_tab == INVENTORY_TAB_VIRTUAL)
+
+
+func _item_matches_inventory_tab(item_id: String, item_info: Dictionary) -> bool:
+	var is_virtual := _is_virtual_inventory_item(item_id, item_info)
+	if active_inventory_tab == INVENTORY_TAB_VIRTUAL:
+		return is_virtual
+	return not is_virtual
+
+
+func _is_virtual_inventory_item(item_id: String, item_info: Dictionary) -> bool:
+	var items_node := get_node_or_null("/root/Items")
+	if items_node and items_node.has_method("is_virtual_item"):
+		return bool(items_node.call("is_virtual_item", item_id))
+
+	if item_info.has("is_virtual"):
+		return bool(item_info.get("is_virtual"))
+	if item_info.has("virtual"):
+		return bool(item_info.get("virtual"))
+
+	var class_text := _normalized_item_info_text(item_info, ["item_class", "class"])
+	if class_text in ["virtual", "virtual_item", "virtual_items", "digital", "виртуальное", "виртуальные", "виртуальная вещь"]:
+		return true
+
+	var tab_text := _normalized_item_info_text(item_info, ["inventory_tab", "tab"])
+	if tab_text in ["virtual", "virtual_items", "digital", "виртуальное", "виртуальные", "виртуальные вещи"]:
+		return true
+
+	var category_text := _normalized_item_info_text(item_info, ["category", "item_category", "type", "kind"])
+	if category_text in ["virtual", "virtual_item", "virtual_items", "digital", "digital_item", "виртуальное", "виртуальные", "виртуальная вещь"]:
+		return true
+
+	var normalized_id := item_id.to_lower()
+	return normalized_id.begins_with("virtual_") or normalized_id.begins_with("digital_")
+
+
+func _normalized_item_info_text(item_info: Dictionary, keys: Array[String]) -> String:
+	for key in keys:
+		if item_info.has(key):
+			return str(item_info.get(key)).strip_edges().to_lower()
+	return ""
 
 
 func _fill_inventory_cell(cell: PanelContainer, item_id: String, items_node: Node) -> void:
@@ -737,7 +839,7 @@ func _select_inventory_item(item_id: String, cell: PanelContainer) -> void:
 	selected_item_cell = cell
 
 	for inventory_cell in inventory_cells:
-		inventory_cell.add_theme_stylebox_override("panel", _style(Color(0.99, 0.99, 0.97, 1.0), Color(0.66, 0.66, 0.66, 1.0), 1))
+		inventory_cell.add_theme_stylebox_override("panel", _style(METALLIC_COLOR, BORDER_COLOR, BORDER_WIDTH))
 	cell.add_theme_stylebox_override("panel", _style(Color(0.92, 0.94, 0.98, 1.0), Color(0.18, 0.28, 0.42, 1.0), 2))
 
 	var items_node := get_node_or_null("/root/Items")
@@ -759,7 +861,7 @@ func _clear_item_selection() -> void:
 	selected_item_id = ""
 	selected_item_cell = null
 	for inventory_cell in inventory_cells:
-		inventory_cell.add_theme_stylebox_override("panel", _style(Color(0.99, 0.99, 0.97, 1.0), Color(0.66, 0.66, 0.66, 1.0), 1))
+		inventory_cell.add_theme_stylebox_override("panel", _style(METALLIC_COLOR, BORDER_COLOR, BORDER_WIDTH))
 	if dialogue_label:
 		dialogue_label.text = ""
 		_clear_dialogue_responses()
@@ -924,10 +1026,25 @@ func _apply_inventory_button_theme(button: Button) -> void:
 	button.add_theme_color_override("font_focus_color", INK_COLOR)
 
 
+func _apply_inventory_tab_button_theme(button: Button, active: bool) -> void:
+	var normal_bg := Color(0.65, 0.65, 0.62, 1.0) if active else Color(0.58, 0.58, 0.55, 1.0)
+	var hover_bg := Color(0.60, 0.60, 0.57, 1.0) if active else Color(0.53, 0.53, 0.50, 1.0)
+	var pressed_bg := Color(0.52, 0.52, 0.49, 1.0)
+	var border := BORDER_COLOR
+	button.add_theme_stylebox_override("normal", _style(normal_bg, border, 1))
+	button.add_theme_stylebox_override("hover", _style(hover_bg, border, 1))
+	button.add_theme_stylebox_override("pressed", _style(pressed_bg, border, 1))
+	button.add_theme_stylebox_override("focus", _style(normal_bg, border, 1))
+	button.add_theme_color_override("font_color", INK_COLOR)
+	button.add_theme_color_override("font_hover_color", INK_COLOR)
+	button.add_theme_color_override("font_pressed_color", INK_COLOR)
+	button.add_theme_color_override("font_focus_color", INK_COLOR)
+
+
 func _apply_hover_darken_button_theme(button: BaseButton) -> void:
-	var normal := _style(Color(0.98, 0.98, 0.96, 1.0), Color(0.58, 0.58, 0.58, 1.0), 1)
-	var hover := _style(Color(0.88, 0.88, 0.84, 1.0), Color(0.42, 0.42, 0.42, 1.0), 1)
-	var pressed := _style(Color(0.78, 0.78, 0.74, 1.0), Color(0.28, 0.28, 0.28, 1.0), 1)
+	var normal := _style(Color(0.65, 0.65, 0.62, 1.0), BORDER_COLOR, BORDER_WIDTH)
+	var hover := _style(Color(0.58, 0.58, 0.55, 1.0), BORDER_COLOR, BORDER_WIDTH)
+	var pressed := _style(Color(0.50, 0.50, 0.47, 1.0), BORDER_COLOR, BORDER_WIDTH)
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed)
