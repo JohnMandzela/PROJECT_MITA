@@ -1,0 +1,253 @@
+[gd_scene load_steps=14 format=3 uid="uid://by5g757amqv6j"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_ghaul"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_61clx"]
+[ext_resource type="Texture2D" uid="uid://bgmeuks7pq83y" path="res://images/scene/Коридоры офисов-полный вариант.png" id="3_q8dse"]
+[ext_resource type="Texture2D" uid="uid://kkonv1y4bjln" path="res://images/scene/Комната Отдыха-итог.png" id="4_michm"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="5_aagw8"]
+[ext_resource type="Script" uid="uid://cb0ntoak1xjkg" path="res://scripts/room_presence_manager.gd" id="6_6qvbr"]
+[ext_resource type="Script" uid="uid://b3bg4bruhhvmw" path="res://scripts/room_slice_config.gd" id="7_0qie4"]
+[ext_resource type="Script" uid="uid://b3qa1v6bmmowk" path="res://scripts/room_presence_zone.gd" id="8_3cv8q"]
+[ext_resource type="Texture2D" uid="uid://cvplu6xupd0wm" path="res://images/scene/Подсобка-итог.png" id="9_v5oik"]
+[ext_resource type="Texture2D" uid="uid://c2u2wi05tpfe5" path="res://images/scene/Конференц зал-итог.png" id="10_6yjef"]
+[ext_resource type="Texture2D" uid="uid://d14sestydoyk3" path="res://images/scene/Programming_Office (1).png" id="11_ya48n"]
+[ext_resource type="Texture2D" uid="uid://bp412kfso4t1y" path="res://images/scene/Кабинет Менеджер-итог.png" id="12_fuipo"]
+[ext_resource type="Texture2D" uid="uid://b5hjidapfgdrd" path="res://images/scene/ТуалетМ-итог.png" id="13_pp2xy"]
+
+[node name="CoridorsOffices" type="Node2D"]
+script = ExtResource("1_ghaul")
+player_scene = ExtResource("2_61clx")
+default_spawn_point = "spawn_marker"
+
+[node name="КоридорыОфисовПолныйВариант" type="Sprite2D" parent="."]
+texture = ExtResource("3_q8dse")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="КоридорыОфисовПолныйВариант"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="КоридорыОфисовПолныйВариант/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-822.31757, -136.88062, -845.21936, -50.93232, -391.47754, -50.295666, -391.47754, 142.6105, -583.9957, 142.6105, -583.9957, 113.32441, -699.9361, 113.32441, -699.9361, 22.28289, -805.8569, 22.28289, -805.8569, 143.24716, -823.7489, 143.24716, -845.935, 217.73569, -406.50684, 217.73569, -406.50684, 395.99878, -823.7489, 395.99878, -850.94476, 486.40366, -850.94476, 487.67697, -4.2940674, 487.67697, -3.5783691, 487.67697, -3.5783691, 415.73508, -3.5783691, 415.73508, 32.921326, 415.73508, 32.921326, 381.35574, -2.1470337, 381.35574, -2.1470337, 256.57156, 539.62354, 256.57156, 540.33923, 487.67697, 577.5547, 487.67697, 577.5547, 258.48154, 793.6903, 258.48154, 793.6903, 151.52367, 509.56494, 151.52367, 509.56494, -330.42343, 454.45752, -330.42343, 454.45752, 150.88701, 137, 151, 137, 126, 97, 126, 97, 151, 2.1470337, 150.88701, 2.1470337, -126.057495, 314.89966, -126.057495, 314.89966, -154.70692, 349.25232, -154.70692, 349.25232, -189.72289, 314.18396, -189.72289, 314.18396, -206.91255, -0.7156372, -206.91255, -0.7156372, -331.69675, -67.27399, -331.69675, -67.27399, -292.86087, -98.04828, -292.86087, -98.04828, -251.47833, -67.989685, -251.47833, -67.27399, 208.82253, -183, 208, -183, 182, -217, 183, -217, 208, -339.23282, 208.82253, -339.23282, -136.88062, -384, -137, -384, -167, -421, -167, -421, -137, -732, -137, -732, -173, -769, -173, -769, -137)
+
+[node name="КомнатаОтдыхаИтог" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(259, 343)
+texture = ExtResource("4_michm")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="КомнатаОтдыхаИтог"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="КомнатаОтдыхаИтог/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-260.20166, 38.39775, -260.20166, 74.484535, -225.1354, 74.484535, -224.966, 145.41371, 96.051025, 145.59149, 96.051025, -29.509386, -23.038666, -29.509386, -23.038666, 21.332087, -31.00058, 21.332087, -31.00058, -29.509386, -224.966, -29.509386, -224.966, 38.39775)
+
+[node name="spawn_marker" type="Marker2D" parent="."]
+position = Vector2(-303, 298)
+
+[node name="Spawn_on_Left_Elevator" type="Marker2D" parent="."]
+position = Vector2(-441, 169)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("5_aagw8")]
+
+[node name="RoomPresence" type="Node" parent="."]
+script = ExtResource("6_6qvbr")
+
+[node name="SliceCorridors" type="Node" parent="RoomPresence"]
+script = ExtResource("7_0qie4")
+slice_id = &"corridors"
+drawable_path = NodePath("../../КоридорыОфисовПолныйВариант")
+collision_polygon_paths = Array[NodePath]([NodePath("../../КоридорыОфисовПолныйВариант/StaticBody2D/CollisionPolygon2D")])
+
+[node name="SliceRest" type="Node" parent="RoomPresence"]
+script = ExtResource("7_0qie4")
+slice_id = &"rest"
+drawable_path = NodePath("../../КомнатаОтдыхаИтог")
+collision_polygon_paths = Array[NodePath]([NodePath("../../КомнатаОтдыхаИтог/StaticBody2D/CollisionPolygon2D")])
+
+[node name="SliceUtil" type="Node" parent="RoomPresence"]
+script = ExtResource("7_0qie4")
+slice_id = &"Util"
+drawable_path = NodePath("../../ПодсобкаИтог")
+collision_polygon_paths = Array[NodePath]([NodePath("../../ПодсобкаИтог/StaticBody2D/CollisionPolygon2D")])
+
+[node name="SliceOfPr" type="Node" parent="RoomPresence"]
+script = ExtResource("7_0qie4")
+slice_id = &"OfPr"
+drawable_path = NodePath("../../Programming_Office_Texture")
+collision_polygon_paths = Array[NodePath]([NodePath("../../Programming_Office_Texture/StaticBody2D/CollisionPolygon2D3"), NodePath("../../Programming_Office_Texture/StaticBody2D/CollisionPolygon2D"), NodePath("../../Programming_Office_Texture/StaticBody2D/CollisionPolygon2D2")])
+
+[node name="SliceConf" type="Node" parent="RoomPresence"]
+script = ExtResource("7_0qie4")
+slice_id = &"conf"
+drawable_path = NodePath("../../КонференцЗалИтог")
+collision_polygon_paths = Array[NodePath]([NodePath("../../КонференцЗалИтог/StaticBody2D/CollisionPolygon2D"), NodePath("../../КонференцЗалИтог/StaticBody2D/CollisionPolygon2D2")])
+
+[node name="SliceCabm" type="Node" parent="RoomPresence"]
+script = ExtResource("7_0qie4")
+slice_id = &"Cabm"
+drawable_path = NodePath("../../КабинетМенеджерИтог")
+collision_polygon_paths = Array[NodePath]([NodePath("../../КабинетМенеджерИтог/StaticBody2D/CollisionPolygon2D")])
+
+[node name="SliceTom" type="Node" parent="RoomPresence"]
+script = ExtResource("7_0qie4")
+slice_id = &"Tom"
+drawable_path = NodePath("../../Toilet_Man_Texture")
+collision_polygon_paths = Array[NodePath]([NodePath("../../Toilet_Man_Texture/Wall_Collision/Wall_Collision")])
+
+[node name="ZoneCorridors" type="Area2D" parent="RoomPresence"]
+position = Vector2(-150, 280)
+collision_layer = 0
+monitorable = false
+script = ExtResource("8_3cv8q")
+room_id = &"corridors"
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="RoomPresence/ZoneCorridors"]
+position = Vector2(150, -279)
+polygon = PackedVector2Array(-822.31757, -136.88062, -845.21936, -50.93232, -391.47754, -50.295666, -391.47754, 142.6105, -583.9957, 142.6105, -583.9957, 113.32441, -699.9361, 113.32441, -699.9361, 22.28289, -805.8569, 22.28289, -805.8569, 143.24716, -823.7489, 143.24716, -845.935, 217.73569, -406.50684, 217.73569, -406.50684, 395.99878, -823.7489, 395.99878, -850.94476, 486.40366, -850.94476, 487.67697, -4.2940674, 487.67697, -3.5783691, 487.67697, -3.5783691, 415.73508, -3.5783691, 415.73508, 32.921326, 415.73508, 32.921326, 381.35574, -2.1470337, 381.35574, -2.1470337, 256.57156, 539.62354, 256.57156, 540.33923, 487.67697, 577.5547, 487.67697, 577.5547, 258.48154, 793.6903, 258.48154, 793.6903, 151.52367, 509.56494, 151.52367, 509.56494, -330.42343, 454.45752, -330.42343, 454.45752, 150.88701, -28, 151, -26, -127, 314.89966, -126.057495, 314.89966, -154.70692, 349.25232, -154.70692, 349.25232, -189.72289, 314.18396, -189.72289, 314.18396, -206.91255, -0.7156372, -206.91255, -0.7156372, -331.69675, -67.27399, -331.69675, -68, -285, -79, -285, -79, -250, -68, -250, -67.27399, 208.82253, -183, 209, -183, 181, -219, 181, -219, 209, -339.23282, 208.82253, -339.23282, -136.88062)
+
+[node name="ZoneRest" type="Area2D" parent="RoomPresence"]
+visible = false
+position = Vector2(175, 400)
+collision_layer = 0
+monitorable = false
+script = ExtResource("8_3cv8q")
+room_id = &"rest"
+overlap_priority = 1
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RoomPresence/ZoneRest"]
+position = Vector2(84, -57)
+polygon = PackedVector2Array(-225, 75, -224.966, 145.41371, 96.051025, 145.59149, 96.051025, -29.509386, -23.038666, -29.509386, -23.038666, 21.332087, -31.00058, 21.332087, -31.00058, -29.509386, -224.966, -29.509386, -225, 38, -229, 38, -229.00003, 48.76101, -229, 75)
+
+[node name="ZoneConf" type="Area2D" parent="RoomPresence"]
+visible = false
+position = Vector2(175, 400)
+collision_layer = 0
+monitorable = false
+script = ExtResource("8_3cv8q")
+room_id = &"conf"
+overlap_priority = 1
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="RoomPresence/ZoneConf"]
+position = Vector2(-325, -411)
+polygon = PackedVector2Array(-183, 193, -68, 193, -68, 206, -33, 206, -32, 193, 79, 193, 78, -229, -184, -229)
+
+[node name="ZoneOfPr" type="Area2D" parent="RoomPresence"]
+visible = false
+position = Vector2(175, 400)
+collision_layer = 0
+monitorable = false
+script = ExtResource("8_3cv8q")
+room_id = &"OfPr"
+overlap_priority = 1
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="RoomPresence/ZoneOfPr"]
+position = Vector2(-780, -574)
+polygon = PackedVector2Array(-200, 0, -164, 0, -164, 25, -128, 25, -128, 0, 161, 0, 161, -229, -200, -229)
+
+[node name="ZoneUtil" type="Area2D" parent="RoomPresence"]
+visible = false
+position = Vector2(175, 400)
+collision_layer = 0
+monitorable = false
+script = ExtResource("8_3cv8q")
+room_id = &"Util"
+overlap_priority = 1
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="RoomPresence/ZoneUtil"]
+visible = false
+position = Vector2(-402, -624)
+polygon = PackedVector2Array(-132, -22, 117, -22, 117, -25, 132, -25, 132, -60, 117, -60, 117, -104, -132, -104)
+
+[node name="ZoneCabm" type="Area2D" parent="RoomPresence"]
+visible = false
+position = Vector2(175, 400)
+collision_layer = 0
+monitorable = false
+script = ExtResource("8_3cv8q")
+room_id = &"Cabm"
+overlap_priority = 1
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="RoomPresence/ZoneCabm"]
+position = Vector2(-578, -569)
+polygon = PackedVector2Array(-54, -7, -17, -7, -17, 11, 18, 11, 19, -7, 68, -7, 65, -225, -54, -223)
+
+[node name="ZoneTom" type="Area2D" parent="RoomPresence"]
+position = Vector2(175, 400)
+collision_layer = 0
+monitorable = false
+script = ExtResource("8_3cv8q")
+room_id = &"Tom"
+overlap_priority = 1
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="RoomPresence/ZoneTom"]
+position = Vector2(-124, -321)
+polygon = PackedVector2Array(-49, 47, 45, 47, 45, 58, 85, 58, 85, 46, 103, 46, 104, -197, -48, -197)
+
+[node name="ПодсобкаИтог" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-224, -353)
+texture = ExtResource("9_v5oik")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ПодсобкаИтог"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ПодсобкаИтог/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-136, 108, -136, 24, 115, 24, 115, 69, 156, 69, 156, 104, 115, 104, 115, 108)
+
+[node name="КонференцЗалИтог" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-121, 111)
+texture = ExtResource("10_6yjef")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="КонференцЗалИтог"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="КонференцЗалИтог/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(50.885574, -349.8977, 51.1577, 69.31935, -63.130783, 69.31935, -63, 95, -97, 95, -96.05675, 69.97954, -227.7606, 69.97954, -227.81653, -16.318573, -228.03271, -349.8977)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="КонференцЗалИтог/StaticBody2D"]
+scale = Vector2(1.0000001, 1)
+polygon = PackedVector2Array(-200.54906, -337.0241, -171.16058, -258.46216, -2.9932709, -258.46216, 24.762497, -336.3639, 24.762497, -343.95605, -200.54906, -343.95605)
+
+[node name="Programming_Office_Texture" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-620.99994, -332.99997)
+scale = Vector2(0.251, 0.251)
+texture = ExtResource("11_ya48n")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Programming_Office_Texture"]
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+polygon = PackedVector2Array(26, 505, 25, 352, 222, 352, 222, 222, 27, 222, 27, -106, 166, -106, 166, 65, 363, 65, 364, 505)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-732, -279, 708, -279, 708, -198, 566, -198, 565, 582, 708, 582, 708, 635, -444, 635, -444, 780, -589, 780, -589, 635, -732, 635)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+polygon = PackedVector2Array(-544, 335, -544, -106, -207, -106, -207, 47, -403, 47, -403, 181, -207, 181, -207, 505, -348, 505, -347, 335)
+
+[node name="КабинетМенеджерИтог" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-371.99997, -239)
+scale = Vector2(0.985, 0.985)
+texture = ExtResource("12_fuipo")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="КабинетМенеджерИтог"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="КабинетМенеджерИтог/StaticBody2D"]
+position = Vector2(-3.2186508e-05, 0)
+build_mode = 1
+polygon = PackedVector2Array(-86, 64, -86, -158, 37, -158, 37, 64, -13, 64, -13, 102, -49, 102, -49, 64)
+
+[node name="Toilet_Man_Texture" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(68, -85)
+texture = ExtResource("13_pp2xy")
+
+[node name="Wall_Collision" type="StaticBody2D" parent="Toilet_Man_Texture"]
+position = Vector2(-28.77193, -22.45614)
+scale = Vector2(0.7017544, 0.7017544)
+
+[node name="Wall_Collision" type="CollisionPolygon2D" parent="Toilet_Man_Texture/Wall_Collision"]
+position = Vector2(-1, -1)
+build_mode = 1
+polygon = PackedVector2Array(-101, 334, -101, -73, 163, -73, 163, 334, 137, 334, 137, 371, 84, 371, 84, 334)

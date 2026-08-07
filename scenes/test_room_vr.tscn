@@ -1,0 +1,110 @@
+[gd_scene load_steps=11 format=3 uid="uid://b5ygrxojb8mb6"]
+
+[ext_resource type="Script" uid="uid://c1s5cauc13234" path="res://scripts/offices.gd" id="1_hjh00"]
+[ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="2_ms455"]
+[ext_resource type="Texture2D" uid="uid://xh0sxrfauuqa" path="res://images/scene/test_room_VR.png" id="3_ms455"]
+[ext_resource type="Script" uid="uid://dkk675v4puc0n" path="res://scripts/offices_coffee_zone.gd" id="4_4js0q"]
+[ext_resource type="Resource" uid="uid://valtm4offpne" path="res://dialogues/offices_coffee.dialogue" id="5_43lyh"]
+[ext_resource type="PackedScene" uid="uid://74fei1t52gx6" path="res://scenes/ui/game_interface_overlay.tscn" id="6_ro5hb"]
+[ext_resource type="Script" uid="uid://b2jgd8nsuavya" path="res://scripts/teddy_bear_zone.gd" id="7_n8x9p"]
+[ext_resource type="Resource" uid="uid://dtgwjhxt1xepi" path="res://dialogues/teddy_bear.dialogue" id="8_q2t6r"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="9_glapv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_km4w3"]
+size = Vector2(54, 36)
+
+[node name="Test_Room_VR" type="Node2D"]
+script = ExtResource("1_hjh00")
+player_scene = ExtResource("2_ms455")
+default_spawn_point = "spawn_marker"
+
+[node name="Test_Room_Texture" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_ms455")
+
+[node name="spawn_marker" type="Marker2D" parent="."]
+position = Vector2(0, 80)
+
+[node name="Spawn_from_Living_room" type="Marker2D" parent="."]
+position = Vector2(0, 151)
+
+[node name="Ivents" type="Node2D" parent="."]
+
+[node name="Coffee_Zone" type="Area2D" parent="Ivents"]
+script = ExtResource("4_4js0q")
+required_direction = 3
+dialogue = ExtResource("5_43lyh")
+
+[node name="Label" type="Label" parent="Ivents/Coffee_Zone"]
+offset_left = 173.0
+offset_top = 47.0
+offset_right = 300.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Получить кофе"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Coffee_Zone"]
+position = Vector2(-28, -29)
+polygon = PackedVector2Array(139, 98, 146, 145, 145, 150, 121, 150, 119, 94, 133, 94)
+
+[node name="Teddy_Bear" type="Area2D" parent="Ivents"]
+script = ExtResource("7_n8x9p")
+required_direction = 2
+dialogue = ExtResource("8_q2t6r")
+
+[node name="Label" type="Label" parent="Ivents/Teddy_Bear"]
+offset_left = -302.0
+offset_top = 87.0
+offset_right = -172.0
+offset_bottom = 110.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Поднять мишку"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ivents/Teddy_Bear"]
+position = Vector2(-119, 100)
+polygon = PackedVector2Array(-22, 2, 30, 0, 30, 30, -30, 30)
+
+[node name="Exit_Zone" parent="Ivents" instance=ExtResource("9_glapv")]
+required_direction = 1
+exit_direction = 1
+target_scene = "test_room_vr2"
+target_spawn_point = "Spawn_from_Bedroom"
+
+[node name="Label" type="Label" parent="Ivents/Exit_Zone"]
+offset_left = -29.0
+offset_top = 170.0
+offset_right = 31.0
+offset_bottom = 193.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Exit_Zone"]
+position = Vector2(1, 151)
+shape = SubResource("RectangleShape2D_km4w3")
+
+[node name="Game_Interface_Overlay" parent="." instance=ExtResource("6_ro5hb")]
+psyche = 41.0
+
+[node name="Collision_Wall" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collision_Wall"]
+position = Vector2(0, -15)
+scale = Vector2(0.9, 0.9)
+build_mode = 1
+polygon = PackedVector2Array(-52.222225, 26.666668, -85.55556, 26.666668, -85.55556, 93.33334, -92.22223, 103.33334, -96.66667, 123.33334, -120.00001, 124.44446, -155.55556, 125.55556, -164.44446, 133.33334, -168.8889, 163.33334, -30.000002, 163.33334, -30.000002, 205.55557, 32.222225, 205.55557, 32.222225, 163.33334, 131.11111, 163.33334, 133.33334, 148.8889, 125.555565, 100, 126.66667, 51.111115, 131.11111, 47.77778, 151.11111, 46.66667, 148.8889, 31.111113, 88.88889, 31.111113, 81.111115, 21.111113, 61.111115, 21.111113, 30.000002, 27.777779, 16.666668, 30.000002, 8.888889, 37.77778, -5.555556, 38.888893, -21.111113, 34.444447, -26.666668, 30.000002)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.2, 1.2)
+
+[connection signal="body_entered" from="Ivents/Coffee_Zone" to="Ivents/Coffee_Zone" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Coffee_Zone" to="Ivents/Coffee_Zone" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Teddy_Bear" to="Ivents/Teddy_Bear" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Teddy_Bear" to="Ivents/Teddy_Bear" method="_on_body_exited"]
