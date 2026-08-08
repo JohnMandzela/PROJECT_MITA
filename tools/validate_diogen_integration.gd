@@ -7,7 +7,7 @@ const MOCKUP_SCENES := [
 	"res://scenes/Mihyung_Offices/conference_room.tscn",
 	"res://scenes/Mihyung_Offices/utility_room.tscn",
 	"res://scenes/Mihyung_Offices/reception_hall.tscn",
-	"res://scenes/Mihyung_Offices/toilet_man.tscn",
+	"res://scenes/Mihyung_Offices/mens_toilet.tscn",
 ]
 
 const DIALOGUES := [

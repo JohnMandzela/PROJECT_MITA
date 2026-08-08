@@ -23,7 +23,7 @@ const INVENTORY_ROWS := 4
 const INVENTORY_TAB_NORMAL := "normal"
 const INVENTORY_TAB_VIRTUAL := "virtual"
 const WEBCAM_TEXTURE_PATH := "res://images/characters/Mike_webcam.png"
-const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
+const MAIN_MENU_PATH := "res://scenes/ui/main_menu.tscn"
 
 @export_range(0.0, 100.0, 1.0) var vigor := 72.0:
 	set(value):

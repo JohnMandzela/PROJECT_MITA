@@ -103,5 +103,5 @@ func _find_active_balloon() -> Node:
 
 
 func dialogue_end():
-	var mike_room_scene = load("res://scenes/Goshivon/mike_room.tscn")
+	var mike_room_scene = load("res://scenes/dorm/mike_room.tscn")
 	get_tree().change_scene_to_packed(mike_room_scene)

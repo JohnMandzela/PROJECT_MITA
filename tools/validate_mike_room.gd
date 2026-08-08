@@ -1,7 +1,7 @@
 extends SceneTree
 
 
-const MIKE_ROOM_SCENE_PATH := "res://scenes/Goshivon/mike_room.tscn"
+const MIKE_ROOM_SCENE_PATH := "res://scenes/dorm/mike_room.tscn"
 const BED_SCRIPT_PATH := "res://scripts/2_mike_room/furniture/bed.gd"
 const FRIDGE_SCRIPT_PATH := "res://scripts/2_mike_room/furniture/fridge.gd"
 const SHOWER_SCRIPT_PATH := "res://scripts/2_mike_room/furniture/shower.gd"

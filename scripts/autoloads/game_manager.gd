@@ -104,7 +104,7 @@ func _ready() -> void:
 	sync_quest_progress()
 	load_settings()
 
-	screen_fader = preload("res://scenes/system/screen_fader.tscn").instantiate()
+	screen_fader = preload("res://scenes/ui/screen_fader.tscn").instantiate()
 	add_child(screen_fader)
 	screen_fader.fade_finished.connect(_on_fade_finished)
 

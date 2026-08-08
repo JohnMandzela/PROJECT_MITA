@@ -40,7 +40,7 @@ func _validate_save_round_trip() -> bool:
 
 	var fake_scene := Node2D.new()
 	fake_scene.name = "FakeCurrentScene"
-	fake_scene.scene_file_path = "res://scenes/Goshivon/mike_room.tscn"
+	fake_scene.scene_file_path = "res://scenes/dorm/mike_room.tscn"
 	root.add_child(fake_scene)
 	current_scene = fake_scene
 
@@ -102,20 +102,20 @@ func _validate_save_round_trip() -> bool:
 
 
 func _validate_player_spawn_scene() -> bool:
-	var script := load("res://scripts/autoloads/PlayerSpawn.gd") as Script
+	var script := load("res://scripts/autoloads/player_spawn_scene.gd") as Script
 	if script == null:
-		push_error("PlayerSpawn.gd failed to load")
+		push_error("player_spawn_scene.gd failed to load")
 		return false
 
 	if not script.can_instantiate():
-		push_error("PlayerSpawn.gd cannot instantiate")
+		push_error("player_spawn_scene.gd cannot instantiate")
 		return false
 
 	return true
 
 
 func _validate_main_menu_slots() -> bool:
-	var main_menu_scene: PackedScene = load("res://scenes/main_menu.tscn")
+	var main_menu_scene: PackedScene = load("res://scenes/ui/main_menu.tscn")
 	if main_menu_scene == null:
 		push_error("main_menu.tscn failed to load")
 		return false

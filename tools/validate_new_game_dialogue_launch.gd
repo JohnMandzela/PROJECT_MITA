@@ -8,7 +8,7 @@ const RESPONSE_DIALOGUE_PATH := "res://dialogues/test.dialogue"
 func _initialize() -> void:
 	root.size = Vector2i(1152, 648)
 
-	change_scene_to_file("res://scenes/main_menu.tscn")
+	change_scene_to_file("res://scenes/ui/main_menu.tscn")
 	await process_frame
 	await process_frame
 

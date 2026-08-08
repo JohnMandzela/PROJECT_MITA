@@ -4,8 +4,8 @@ extends SceneTree
 const BALLOON_SCENE_PATH := "res://scenes/ui/balloon.tscn"
 const MIKE_DIALOGUE_PATH := "res://dialogues/1_mom_home/sleep_flashback.dialogue"
 const EMILY_DIALOGUE_PATH := "res://dialogues/elevator_office.dialogue"
-const SCREEN_FADER_SCENE_PATH := "res://scenes/system/screen_fader.tscn"
-const PAUSE_MENU_SCENE_PATH := "res://scenes/system/pause_menu.tscn"
+const SCREEN_FADER_SCENE_PATH := "res://scenes/ui/screen_fader.tscn"
+const PAUSE_MENU_SCENE_PATH := "res://scenes/ui/pause_menu.tscn"
 
 
 func _initialize() -> void:

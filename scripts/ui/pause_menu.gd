@@ -331,7 +331,7 @@ func _on_exit_to_main_menu_pressed() -> void:
 	anim_exit.play("exit_to_main_menu")
 	await get_tree().create_timer(0.7).timeout
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 
 func _on_inventory_pressed() -> void:

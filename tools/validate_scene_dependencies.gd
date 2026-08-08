@@ -3,23 +3,23 @@ extends SceneTree
 
 const SCENES_TO_VALIDATE := [
 	"res://scenes/mom_home.tscn",
-	"res://scenes/Goshivon/mike_room.tscn",
-	"res://scenes/Goshivon/goshivon.tscn",
-	"res://scenes/Goshivon/goshivon_1_floor.tscn",
+	"res://scenes/dorm/mike_room.tscn",
+	"res://scenes/dorm/dorm.tscn",
+	"res://scenes/dorm/dorm_1_floor.tscn",
 	"res://scenes/Mihyung_Offices/reception_hall.tscn",
 	"res://scenes/Mihyung_Offices/elevator_office.tscn",
 	"res://scenes/Mihyung_Offices/corridors_offices.tscn",
 	"res://scenes/Mihyung_Offices/Programming_Office.tscn",
 	"res://scenes/Mihyung_Offices/manager's_cabinet.tscn",
 	"res://scenes/Mihyung_Offices/conference_room.tscn",
-	"res://scenes/Mihyung_Offices/toilet_man.tscn",
+	"res://scenes/Mihyung_Offices/mens_toilet.tscn",
 	"res://scenes/Mihyung_Offices/utility_room.tscn",
 ]
 
 const SCENE_RESOLUTION_CASES := {
-	"Goshivon/mike_room": "res://scenes/Goshivon/mike_room.tscn",
-	"Mike_Room": "res://scenes/Goshivon/mike_room.tscn",
-	"res://scenes/mike_room.tscn": "res://scenes/Goshivon/mike_room.tscn",
+	"Goshivon/mike_room": "res://scenes/dorm/mike_room.tscn",
+	"Mike_Room": "res://scenes/dorm/mike_room.tscn",
+	"res://scenes/mike_room.tscn": "res://scenes/dorm/mike_room.tscn",
 	"Mihyung_Offices/corridors_offices": "res://scenes/Mihyung_Offices/corridors_offices.tscn",
 	"Corridors_Offices": "res://scenes/Mihyung_Offices/corridors_offices.tscn",
 }
