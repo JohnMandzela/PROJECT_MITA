@@ -1,19 +1,39 @@
-extends Event
+extends Area2D
+
+
+enum LookDirection {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+}
+
 
 const TEDDY_BEAR_PICKUP_FLAG := "test_room_vr_teddy_bear_picked_up"
 const TEDDY_BEAR_ITEM_ID := "teddy_bear"
 
+
+@export var required_direction: LookDirection = LookDirection.DOWN
 @export var dialogue: DialogueResource
 
+@onready var label: Label = $Label
+
+var player: CharacterBody2D = null
 var dialogue_open := false
 
 
-func _can_interact() -> bool:
-	return not dialogue_open and not GameManager.is_done(TEDDY_BEAR_PICKUP_FLAG)
+func _ready() -> void:
+	label.visible = false
 
 
-func _on_interact() -> void:
-	_start_interaction()
+func _process(_delta: float) -> void:
+	if player == null or dialogue_open or GameManager.is_done(TEDDY_BEAR_PICKUP_FLAG):
+		label.visible = false
+		return
+
+	label.visible = _is_correct_direction()
+	if label.visible and Input.is_action_just_pressed("interact"):
+		_start_interaction()
 
 
 func take_teddy_bear() -> void:
@@ -21,7 +41,7 @@ func take_teddy_bear() -> void:
 		return
 	Items.item_was_took(TEDDY_BEAR_ITEM_ID)
 	GameManager.set_done(TEDDY_BEAR_PICKUP_FLAG)
-	_on_unfocused()
+	label.visible = false
 
 
 func _start_interaction() -> void:
@@ -42,6 +62,33 @@ func _start_interaction() -> void:
 
 func _on_hud_dialogue_finished() -> void:
 	dialogue_open = false
+
+
+func _on_body_entered(body: CharacterBody2D) -> void:
+	player = body
+
+
+func _on_body_exited(body: CharacterBody2D) -> void:
+	if body != player:
+		return
+	player = null
+	label.visible = false
+
+
+func _is_correct_direction() -> bool:
+	if player == null:
+		return false
+
+	match required_direction:
+		LookDirection.UP:
+			return player.last_direction == "up"
+		LookDirection.DOWN:
+			return player.last_direction == "down"
+		LookDirection.LEFT:
+			return player.last_direction == "left"
+		LookDirection.RIGHT:
+			return player.last_direction == "right"
+	return false
 
 
 func _find_overlay() -> CanvasLayer:

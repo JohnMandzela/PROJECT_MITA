@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
 [ext_resource type="Script" uid="uid://bvad7pqaih7dl" path="res://scripts/programming_office_puzzle_zone.gd" id="5_zone"]
 [ext_resource type="PackedScene" uid="uid://cih1v2kckb6g3" path="res://scenes/samples_puzzle.tscn" id="6_puzzle"]
-[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/system/scene_transition_event.gd" id="7_fapqt"]
+[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/last_scene.gd" id="7_fapqt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
 size = Vector2(32, 48)
@@ -18,23 +18,35 @@ size = Vector2(43, 38)
 script = ExtResource("1_root")
 puzzle_scene = ExtResource("6_puzzle")
 player_scene = ExtResource("2_player")
-default_spawn_point = "SpawnMarker"
+default_spawn_point = "spawn_marker"
 
-[node name="Programming_OfficeTexture" type="Sprite2D" parent="."]
+[node name="Programming_Office_Texture" type="Sprite2D" parent="."]
 scale = Vector2(0.38085538, 0.38085544)
 texture = ExtResource("3_bg")
 
-[node name="PauseMenu" parent="." instance=ExtResource("4_pause")]
+[node name="StaticBody2D" type="StaticBody2D" parent="Programming_Office_Texture"]
 
-[node name="SpawnMarker" type="Marker2D" parent="."]
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+polygon = PackedVector2Array(26, 505, 25, 352, 222, 352, 222, 222, 27, 222, 27, -106, 166, -106, 166, 65, 363, 65, 364, 505)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-732, -279, 708, -279, 708, -198, 566, -198, 565, 582, 708, 582, 708, 635, -444, 635, -444, 780, -589, 780, -589, 635, -732, 635)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Programming_Office_Texture/StaticBody2D"]
+polygon = PackedVector2Array(-544, 335, -544, -106, -207, -106, -207, 47, -403, 47, -403, 181, -207, 181, -207, 505, -348, 505, -347, 335)
+
+[node name="Pause_Menu" parent="." instance=ExtResource("4_pause")]
+
+[node name="spawn_marker" type="Marker2D" parent="."]
 position = Vector2(-35, 45)
 
-[node name="Events" type="Node2D" parent="."]
+[node name="Ivents" type="Node2D" parent="."]
 
-[node name="Samples_Puzzle_Zone" type="Area2D" parent="Events"]
+[node name="Samples_Puzzle_Zone" type="Area2D" parent="Ivents"]
 script = ExtResource("5_zone")
 
-[node name="Label" type="Label" parent="Events/Samples_Puzzle_Zone"]
+[node name="Label" type="Label" parent="Ivents/Samples_Puzzle_Zone"]
 offset_left = -225.0
 offset_top = -65.0
 offset_right = -61.0
@@ -45,7 +57,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Samples_Puzzle_Zone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ivents/Samples_Puzzle_Zone"]
 position = Vector2(-137, 44)
 shape = SubResource("RectangleShape2D_zone")
 
@@ -66,14 +78,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="ExitToCorridors" type="Area2D" parent="."]
+[node name="Exit_to_Corridors" type="Area2D" parent="."]
 script = ExtResource("7_fapqt")
 required_direction = 1
-exit_direction = 1
-target_scene = "mihyung_offices/corridors_offices"
+exit_direction = "down"
+target_scene = "Mihyung_Offices/corridors_offices"
 target_spawn_point = "Spawn_on_Programming"
 
-[node name="Label" type="Label" parent="ExitToCorridors"]
+[node name="Label" type="Label" parent="Exit_to_Corridors"]
 offset_left = -351.0
 offset_top = 244.0
 offset_right = -283.0
@@ -83,14 +95,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCorridors"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_to_Corridors"]
 position = Vector2(-256.5, 261)
 shape = SubResource("RectangleShape2D_td11o")
 
-[node name="SpawnFromCorridors" type="Marker2D" parent="."]
+[node name="Spawn_from_Corridors" type="Marker2D" parent="."]
 position = Vector2(-256, 231)
 
-[connection signal="body_entered" from="Events/Samples_Puzzle_Zone" to="Events/Samples_Puzzle_Zone" method="_on_body_entered"]
-[connection signal="body_exited" from="Events/Samples_Puzzle_Zone" to="Events/Samples_Puzzle_Zone" method="_on_body_exited"]
-[connection signal="body_entered" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_entered"]
-[connection signal="body_exited" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_exited"]
+[connection signal="body_entered" from="Ivents/Samples_Puzzle_Zone" to="Ivents/Samples_Puzzle_Zone" method="_on_body_entered"]
+[connection signal="body_exited" from="Ivents/Samples_Puzzle_Zone" to="Ivents/Samples_Puzzle_Zone" method="_on_body_exited"]
+[connection signal="body_entered" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_entered"]
+[connection signal="body_exited" from="Exit_to_Corridors" to="Exit_to_Corridors" method="_on_body_exited"]

@@ -56,7 +56,7 @@ _data = {
 &"fade_out": SubResource("Animation_l5asu")
 }
 
-[node name="ScreenFader" type="CanvasLayer"]
+[node name="Screen_Fader" type="CanvasLayer"]
 script = ExtResource("1_pkxgp")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -75,5 +75,3 @@ libraries = {
 &"": SubResource("AnimationLibrary_dk3du")
 }
 blend_times = [&"fade_in", &"fade_in", 1.0]
-
-[node name="Timer" type="Timer" parent="."]

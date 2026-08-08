@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://dqnbt308odq82"]
+
+[ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="1_vei0x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ix3ym"]
+atlas = ExtResource("1_vei0x")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgku3"]
+atlas = ExtResource("1_vei0x")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_coroo"]
+atlas = ExtResource("1_vei0x")
+region = Rect2(96, 0, 48, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_462gm"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ix3ym")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgku3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_coroo")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vei0x"]
+radius = 6.0
+height = 38.0
+
+[node name="Персонаж для тестов анимаций" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_462gm")
+animation = &"new_animation"
+frame = 1
+frame_progress = 0.33028933
+
+[node name="Player_Collision" type="CollisionShape2D" parent="."]
+visible = false
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_vei0x")

@@ -1,11 +1,12 @@
 extends Control
 
+
 @onready var title_label: Label = $TitleLabel
-@onready var menu_start: VBoxContainer = $ButtonsVBox
-@onready var menu_options: MarginContainer = $OptionsMenu
-@onready var fullscren_checkbox_path: CheckBox = $OptionsMenu/OptionsMenuVBox/FullscreenCheckBox
-@onready var music_value_path: HSlider = $OptionsMenu/OptionsMenuVBox/Music/MusicSlider/Slider
-@onready var sounds_value_path: HSlider = $OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider/Slider
+@onready var menu_start: VBoxContainer = $Buttons_VBox
+@onready var menu_options: MarginContainer = $Options_Menu
+@onready var fullscren_checkbox_path: CheckBox = $Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox
+@onready var music_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider
+@onready var sounds_value_path: HSlider = $Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/sounds_slider
 
 @export var menu_theme: AudioStream
 
@@ -13,8 +14,6 @@ var loading_settings := true
 var save_slots_overlay: Panel
 var save_slots_list: VBoxContainer
 
-# TODO: почистить нейрослоп
-# TODO: проверить корректность сохранения конфига
 
 func _ready() -> void:
 	_ensure_continue_button()
@@ -31,7 +30,7 @@ func _ready() -> void:
 
 	var mode := DisplayServer.window_get_mode()
 	var is_full := mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN \
-			or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
+		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscren_checkbox_path.button_pressed = is_full
 
 	var config := ConfigFile.new()
@@ -51,7 +50,7 @@ func _ensure_continue_button() -> void:
 	var continue_button := menu_start.get_node_or_null("Continue") as Button
 	if continue_button == null:
 		continue_button = _create_menu_button("Continue", "Продолжить")
-		var new_game_button := menu_start.get_node_or_null("NewGame") as Button
+		var new_game_button := menu_start.get_node_or_null("New_Game") as Button
 		var target_index := new_game_button.get_index() + 1 if new_game_button else 0
 		menu_start.add_child(continue_button)
 		menu_start.move_child(continue_button, target_index)
@@ -79,7 +78,7 @@ func _create_menu_button(button_name: String, button_text: String) -> Button:
 	button.text = button_text
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
-	var source_button := menu_start.get_node_or_null("NewGame") as Button
+	var source_button := menu_start.get_node_or_null("New_Game") as Button
 	if source_button:
 		button.add_theme_font_override("font", source_button.get_theme_font("font"))
 		button.add_theme_font_size_override("font_size", source_button.get_theme_font_size("font_size"))
@@ -157,13 +156,11 @@ func _build_slot_button_text(slot_info: Dictionary) -> String:
 
 
 func _update_save_buttons_visibility() -> void:
-	var has_saves: bool = not SaveSystem.get_all_save_files().is_empty()
-
+	var has_saves := SaveSystem.save_exists()
 	var continue_button := menu_start.get_node_or_null("Continue") as Button
+	var load_button := menu_start.get_node_or_null("Load") as Button
 	if continue_button:
 		continue_button.visible = has_saves
-
-	var load_button := menu_start.get_node_or_null("Load") as Button
 	if load_button:
 		load_button.visible = has_saves
 
@@ -177,7 +174,15 @@ func _on_new_game_button_pressed() -> void:
 
 func _on_continue_button_pressed() -> void:
 	GameManager.stop_music()
-	SaveSystem.load_latest_save()
+	SaveSystem.load_game()
+
+
+func _on_continue_tree_entered() -> void:
+	_update_save_buttons_visibility()
+
+
+func _on_load_button_tree_entered() -> void:
+	_update_save_buttons_visibility()
 
 
 func _on_load_button_pressed() -> void:
@@ -248,7 +253,8 @@ func _on_music_value_changed(value: float) -> void:
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed else DisplayServer.WINDOW_MODE_WINDOWED,
+		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed
+		else DisplayServer.WINDOW_MODE_WINDOWED
 	)
 	if not loading_settings:
 		save_settings()

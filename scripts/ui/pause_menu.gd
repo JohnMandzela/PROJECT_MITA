@@ -1,45 +1,45 @@
 extends Control
 
-@onready var pause_label: Label = $Panel/PauseLabel
-@onready var pause_menu_ui: Panel = $Panel/StartDisplay
+@onready var pause_label: Label = $Panel/Pause_Label
+@onready var pause_menu_ui: Panel = $Panel/Start_Display
 @onready var inventory_view: Panel = $Panel/InventoryView
-@onready var quest_view: Panel = $Panel/QuestContainer
+@onready var quest_view: Panel = $Panel/Quest_Container
 @onready var menu_options: VBoxContainer = $Panel/VBoxOptions
 
 @onready var inventory_scroll: ScrollContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll
 @onready var inventory_items_list: VBoxContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList
-@onready var inventory_item_template: HBoxContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRowTemplate
+@onready var inventory_item_template: HBoxContainer = $Panel/InventoryView/InventoryVBox/InventoryScroll/ItemsList/ItemRow_Example
 @onready var inventory_description: Label = $Panel/InventoryView/InventoryVBox/ItemDescriptionPanel/ItemDescription
 
-@onready var quest_vbox: VBoxContainer = $Panel/QuestContainer/QuestVBox
-@onready var quest_scroll: ScrollContainer = $Panel/QuestContainer/QuestVBox/QuestScroll
-@onready var quest_list: VBoxContainer = $Panel/QuestContainer/QuestVBox/QuestScroll/QuestList
-@onready var quest_row_template: Button = $Panel/QuestContainer/QuestVBox/QuestScroll/QuestList/QuestRowTemplate
-@onready var quest_buttons: HBoxContainer = $Panel/QuestContainer/QuestVBox/QuestButtons
-@onready var quest_details: Panel = $Panel/QuestContainer/QuestDetails
-@onready var quest_details_title: Label = $Panel/QuestContainer/QuestDetails/QuestDetailsVBox/QuestDetailsTitle
-@onready var quest_details_text: Label = $Panel/QuestContainer/QuestDetails/QuestDetailsVBox/QuestDetailsText
+@onready var quest_vbox: VBoxContainer = $Panel/Quest_Container/QuestVBox
+@onready var quest_scroll: ScrollContainer = $Panel/Quest_Container/QuestVBox/QuestScroll
+@onready var quest_list: VBoxContainer = $Panel/Quest_Container/QuestVBox/QuestScroll/QuestList
+@onready var quest_row_template: Button = $Panel/Quest_Container/QuestVBox/QuestScroll/QuestList/QuestRow_Example
+@onready var quest_buttons: HBoxContainer = $Panel/Quest_Container/QuestVBox/QuestButtons
+@onready var quest_details: Panel = $Panel/Quest_Container/QuestDetails
+@onready var quest_details_title: Label = $Panel/Quest_Container/QuestDetails/QuestDetailsVBox/QuestDetailsTitle
+@onready var quest_details_text: Label = $Panel/Quest_Container/QuestDetails/QuestDetailsVBox/QuestDetailsText
 
-@onready var fullscren_checkbox_path: CheckBox = $Panel/VBoxOptions/FullscreenCheckBox
-@onready var music_value_path: HSlider = $Panel/VBoxOptions/Music/MusicSlider/Slider
-@onready var sounds_value_path: HSlider = $Panel/VBoxOptions/Sounds/SoundsSlider/Slider
+@onready var fullscren_checkbox_path: CheckBox = $Panel/VBoxOptions/Fullscreen_CheckBox
+@onready var music_value_path: HSlider = $Panel/VBoxOptions/Music/Music_slider/music_slider
+@onready var sounds_value_path: HSlider = $Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider
 
-@onready var anim_on_off: AnimationPlayer = $ScreenFaderAnimation/OnOffScreenFader/AnimationPlayer
-@onready var anim_exit: AnimationPlayer = $ScreenFaderAnimation/ExitScreenFader/AnimationPlayer
+@onready var anim_on_off: AnimationPlayer = $Screen_Fader_Animation/OnOff_Screen_Fader/AnimationPlayer
+@onready var anim_exit: AnimationPlayer = $Screen_Fader_Animation/Exit_Screen_Fader/AnimationPlayer
 @onready var anim_phone: AnimationPlayer = $Panel/AnimationPlayer
-@onready var anim_blur: AnimationPlayer = $ScreenFaderAnimation/BlurRect/AnimationPlayer
+@onready var anim_blur: AnimationPlayer = $Screen_Fader_Animation/Blur_Rect/AnimationPlayer
 
 @onready var messenger: Panel = $Panel/Messenger
 @onready var tutorial: Panel = $Panel/Tutorial
 
 var menu_open := 0
 var loading_settings := true
-var _inventory_rows := { }
+var _inventory_rows := {}
 var _selected_item_id := ""
-var _active_quest_rows := { }
-var _completed_quest_rows := { }
+var _active_quest_rows := {}
+var _completed_quest_rows := {}
 var _quest_details_source := "active_quests"
-var _scroll_states := { }
+var _scroll_states := {}
 var completed_quests_overlay: Panel
 var completed_quest_vbox: VBoxContainer
 var completed_quest_scroll: ScrollContainer
@@ -98,7 +98,7 @@ func _build_completed_quests_overlay() -> void:
 	completed_quest_scroll.name = "CompletedQuestScroll"
 	completed_quest_scroll.custom_minimum_size = Vector2(0, 300)
 	completed_quest_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	completed_quest_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	completed_quest_scroll.horizontal_scroll_mode = 0
 	completed_quest_vbox.add_child(completed_quest_scroll)
 
 	completed_quest_list = VBoxContainer.new()
@@ -112,9 +112,9 @@ func _build_completed_quests_overlay() -> void:
 	completed_quest_row_template.text = "Quest"
 	completed_quest_list.add_child(completed_quest_row_template)
 
-	var source_back_button := quest_buttons.get_node("CloseQuest") as Button
+	var source_back_button := quest_buttons.get_node("Back_from_Quests") as Button
 	var back_button := Button.new()
-	back_button.name = "BackFromCompleted_Quests"
+	back_button.name = "Back_from_Completed_Quests"
 	back_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	back_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	back_button.text = source_back_button.text
@@ -144,7 +144,7 @@ func save_settings() -> void:
 func _ready() -> void:
 	var mode := DisplayServer.window_get_mode()
 	var is_full := mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN \
-			or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
+		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscren_checkbox_path.button_pressed = is_full
 
 	visible = false
@@ -242,7 +242,7 @@ func toggle() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
-func _on_continue_button_pressed() -> void:
+func _on_continue_pressed() -> void:
 	if menu_open == 1:
 		menu_open -= 1
 	close_pause_menu()
@@ -292,7 +292,8 @@ func _on_music_value_changed(value: float) -> void:
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed else DisplayServer.WINDOW_MODE_WINDOWED,
+		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed
+		else DisplayServer.WINDOW_MODE_WINDOWED
 	)
 	if not loading_settings:
 		save_settings()
@@ -412,14 +413,13 @@ func _on_back_from_tutorial_pressed() -> void:
 	messenger.visible = true
 
 
-# TODO: добавить диалог выбора слота сохранения в телефоне
 func _on_save_pressed() -> void:
-	SaveSystem.save_game(SaveSystem.Mode.QUICK)
+	SaveSystem.save_game()
 
 
 func _on_load_pressed() -> void:
 	toggle()
-	SaveSystem.load_game(SaveSystem.Mode.QUICK)
+	SaveSystem.load_game()
 
 
 func _on_items_inventory_changed() -> void:
@@ -439,7 +439,6 @@ func _refresh_inventory_ui() -> void:
 	for item_id in ordered_ids:
 		if not Items.is_known_item(item_id):
 			continue
-
 		if Items.is_virtual_item(item_id):
 			continue
 
@@ -668,13 +667,13 @@ func _load_item_icon(icon_path: String) -> Texture2D:
 	return fallback_icon
 
 
-func _is_position_over_inventory_widget(pos: Vector2) -> bool:
+func _is_position_over_inventory_widget(global_position: Vector2) -> bool:
 	for state in _inventory_rows.values():
 		var icon := state["icon"] as Control
 		var info := state["info"] as Control
-		if icon.get_global_rect().has_point(pos):
+		if icon.get_global_rect().has_point(global_position):
 			return true
-		if info.get_global_rect().has_point(pos):
+		if info.get_global_rect().has_point(global_position):
 			return true
 	return false
 
@@ -745,7 +744,7 @@ func _on_scroll_gui_input(event: InputEvent, scroll_id: String) -> void:
 	if event is InputEventMouseMotion and bool(state["dragging"]):
 		state["target"] = _clamp_scroll_target(
 			scroll_id,
-			float(state["target"]) - event.relative.y * DRAG_SCROLL_MULTIPLIER,
+			float(state["target"]) - event.relative.y * DRAG_SCROLL_MULTIPLIER
 		)
 		state["velocity"] = -event.relative.y * SCROLL_INERTIA_SCALE
 		get_viewport().set_input_as_handled()
@@ -763,7 +762,7 @@ func _on_scroll_gui_input(event: InputEvent, scroll_id: String) -> void:
 	if event is InputEventScreenDrag and bool(state["dragging"]):
 		state["target"] = _clamp_scroll_target(
 			scroll_id,
-			float(state["target"]) - event.relative.y * DRAG_SCROLL_MULTIPLIER,
+			float(state["target"]) - event.relative.y * DRAG_SCROLL_MULTIPLIER
 		)
 		state["velocity"] = -event.relative.y * SCROLL_INERTIA_SCALE
 		get_viewport().set_input_as_handled()
@@ -779,7 +778,7 @@ func _update_scroll(scroll_id: String, delta: float) -> void:
 		state["velocity"] = move_toward(
 			float(state["velocity"]),
 			0.0,
-			SCROLL_INERTIA_DAMP * SCROLL_INERTIA_SCALE * delta,
+			SCROLL_INERTIA_DAMP * SCROLL_INERTIA_SCALE * delta
 		)
 		if absf(float(state["velocity"])) < SCROLL_INERTIA_CUTOFF:
 			state["velocity"] = 0.0
@@ -791,7 +790,7 @@ func _update_scroll(scroll_id: String, delta: float) -> void:
 	var next_scroll := lerpf(
 		current_scroll,
 		float(state["target"]),
-		minf(1.0, SCROLL_FOLLOW_SPEED * delta),
+		minf(1.0, SCROLL_FOLLOW_SPEED * delta)
 	)
 	scroll.scroll_vertical = int(round(next_scroll))
 
@@ -808,7 +807,7 @@ func _is_scroll_area_visible(scroll_id: String) -> bool:
 
 
 func _clamp_scroll_target(scroll_id: String, value: float) -> float:
-	var state: Dictionary = _scroll_states.get(scroll_id, { })
+	var state: Dictionary = _scroll_states.get(scroll_id, {})
 	var scroll := state.get("scroll", null) as ScrollContainer
 	if scroll == null:
 		return 0.0

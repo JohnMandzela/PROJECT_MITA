@@ -3,7 +3,7 @@
 # res://dialogues/mike_room_bed_day_1.dialogue
 # res://dialogues/mike_room_bedside_table_day_1.dialogue
 # res://dialogues/mike_room_laptop_day_1.dialogue
-# res://dialogues/mike_room_washing_machine_day_1.dialogue
+# res://dialogues/mike_room_washmashine_day_1.dialogue
 # res://dialogues/mike_room_fridge_day_1.dialogue
 # res://dialogues/mike_room_sink_day_1.dialogue
 # res://dialogues/sleep_flashback.dialogue
@@ -107,11 +107,11 @@ msgstr ""
 msgid "У меня сейчас нет времени работать за ноутбуком."
 msgstr ""
 
-#: dialogues/mike_room_washing_machine_day_1.dialogue
+#: dialogues/mike_room_washmashine_day_1.dialogue
 msgid "Стиралка заполнена бельем и полотенцами."
 msgstr ""
 
-#: dialogues/mike_room_washing_machine_day_1.dialogue
+#: dialogues/mike_room_washmashine_day_1.dialogue
 msgid "Но стиральный порошок закончился, поэтому стирать тебе нечем."
 msgstr ""
 

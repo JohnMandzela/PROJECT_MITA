@@ -7,14 +7,14 @@ const FALLBACK_ICON_PATH := "res://images/items/cola.png"
 const ITEM_CLASS_REAL := "real"
 const ITEM_CLASS_VIRTUAL := "virtual"
 const DEFAULT_REAL_ITEMS_INVENTORY := {
-	"bottle_cola": 0,
+	"buttle_cola": 0,
 	"coffee_cup": 0,
 }
 const DEFAULT_VIRTUAL_ITEMS_INVENTORY := {
 	"teddy_bear": 0,
 }
 const DEFAULT_ITEMS_INVENTORY := {
-	"bottle_cola": 0,
+	"buttle_cola": 0,
 	"coffee_cup": 0,
 	"teddy_bear": 0,
 }
@@ -22,7 +22,7 @@ const DEFAULT_ITEMS_INVENTORY := {
 var items_inventory := DEFAULT_ITEMS_INVENTORY.duplicate(true)
 
 var real_item_catalog := {
-	"bottle_cola": {
+	"buttle_cola": {
 		"item_class": ITEM_CLASS_REAL,
 		"display_name": "Бутылка колы",
 		"description": "Освежающий напиток. Восстанавливает силы.",
@@ -142,7 +142,7 @@ func get_item_info(item_name: String) -> Dictionary:
 		"description": "Описание предмета пока не добавлено.",
 		"use_text": "",
 		"action": "Действие пока не назначено.",
-		"use_effects": { },
+		"use_effects": {},
 		"icon_path": FALLBACK_ICON_PATH,
 	}
 	return item_catalog.get(item_name, fallback)
@@ -238,7 +238,7 @@ func _normalize_inventory_order() -> void:
 		for item_id in items_inventory.keys():
 			inventory_order.append(str(item_id))
 
-	var existing := { }
+	var existing := {}
 	for item_id in items_inventory.keys():
 		existing[str(item_id)] = true
 
@@ -253,6 +253,15 @@ func _normalize_inventory_order() -> void:
 			normalized.append(id)
 
 	inventory_order = normalized
+
+
+func _get_ordered_item_ids_by_class(item_class: String) -> Array[String]:
+	_normalize_inventory_order()
+	var result: Array[String] = []
+	for item_id in inventory_order:
+		if get_item_class(item_id) == item_class:
+			result.append(item_id)
+	return result
 
 
 func _ensure_item_in_order(item_name: String) -> void:
@@ -282,15 +291,6 @@ func _ensure_known_item_slot(item_name: String) -> bool:
 
 func _emit_inventory_changed() -> void:
 	inventory_changed.emit()
-
-
-func _get_ordered_item_ids_by_class(item_class: String) -> Array[String]:
-	_normalize_inventory_order()
-	var result: Array[String] = []
-	for item_id in inventory_order:
-		if get_item_class(item_id) == item_class:
-			result.append(item_id)
-	return result
 
 
 func _rebuild_item_catalog() -> void:

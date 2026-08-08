@@ -1,7 +1,7 @@
 ~ start
 do sleep_animation()
 do _wait_time(1.0)
-do wake_up_animation()
+do unsleep_animation()
 #уставший 
 Майк: Ах… сколько я спал?..
 Пробуждаясь ото сна, ты через силу открываешь глаза.

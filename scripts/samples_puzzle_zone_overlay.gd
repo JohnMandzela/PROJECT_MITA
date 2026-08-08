@@ -1,10 +1,12 @@
 extends Control
 
+
 const DEFAULT_FILL_COLOR := Color(1.0, 0.3764706, 0.40392157, 0.2)
 const DEFAULT_BORDER_COLOR := Color(0.8509804, 0.27058825, 0.28627452, 0.85)
 const DASH_LENGTH := 8.0
 const GAP_LENGTH := 5.0
 const LINE_WIDTH := 2.0
+
 
 var zone_rects: Array[Rect2] = []
 var fill_color := DEFAULT_FILL_COLOR

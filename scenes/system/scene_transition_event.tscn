@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://5uikow1evl7d"]
-
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="1_w4f8e"]
-
-[node name="NextScene" type="Area2D"]
-script = ExtResource("1_w4f8e")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="body_exited" from="." to="." method="_on_body_exited"]

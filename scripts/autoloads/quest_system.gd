@@ -1,8 +1,5 @@
 extends Node
 
-# TODO: отрефакторить систему квестов
-# - Вынести квесты в отдельный ресурс
-# - Не вызывать sync_quest_progress() без необходимости
 
 const DEFAULT_QUESTS_INFO := {
 	"find_cola": {
@@ -71,7 +68,7 @@ func sync_quest_progress() -> void:
 		if not game_flags.has(flag_name):
 			game_flags[flag_name] = DEFAULT_GAME_FLAGS[flag_name]
 
-	var synced_quests: Dictionary = { }
+	var synced_quests: Dictionary = {}
 	for quest_id in DEFAULT_QUESTS_INFO.keys():
 		var merged_info: Dictionary = DEFAULT_QUESTS_INFO[quest_id].duplicate(true)
 		if quests_info.has(quest_id):

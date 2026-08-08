@@ -1,44 +1,68 @@
-extends Event
+extends Area2D
 
+enum LookDirection {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+}
+
+@export var required_direction: LookDirection = LookDirection.UP
 @export var dialogue: DialogueResource
 @export var dialogue_start: StringName = &"start"
 
-var dialogue_open := false
+@onready var label: Label = $Label
+
+var player: CharacterBody2D = null
+var is_dialogue_running := false
+var inspect_door1 := 0
+var inspect_door2 := 0
+var inspect_door3 := 0
+var inspect_door4 := 0
+var inspect_door5 := 0
+
+func _ready() -> void:
+	label.visible = false
+	var dialogue_manager = Engine.get_singleton("DialogueManager")
+	if not dialogue_manager.dialogue_ended.is_connected(_on_dialogue_ended):
+		dialogue_manager.dialogue_ended.connect(_on_dialogue_ended)
 
 
-func _can_interact() -> bool:
-	return not dialogue_open
-
-
-func _on_interact() -> void:
-	_start_interaction()
-
-
-func _start_interaction() -> void:
-	if dialogue == null:
-		push_warning("Goshivon inspect dialogue is not assigned.")
+func _process(_delta: float) -> void:
+	if player == null or is_dialogue_running:
+		label.visible = false
 		return
 
-	var overlay := _find_overlay()
-	if overlay == null or not overlay.has_method("start_dialogue"):
-		push_warning("Game interface overlay with dialogue support was not found.")
-		return
-
-	dialogue_open = true
-	if overlay.has_signal("hud_dialogue_finished") and not overlay.hud_dialogue_finished.is_connected(_on_hud_dialogue_finished):
-		overlay.hud_dialogue_finished.connect(_on_hud_dialogue_finished)
-	overlay.call("start_dialogue", dialogue, dialogue_start, [self])
+	label.visible = _is_correct_direction()
+	if label.visible and Input.is_action_just_pressed("interact"):
+		is_dialogue_running = true
+		var dialogue_manager = Engine.get_singleton("DialogueManager")
+		dialogue_manager.show_dialogue_balloon(dialogue, dialogue_start, [self])
 
 
-func _on_hud_dialogue_finished() -> void:
-	dialogue_open = false
+func _on_body_entered(body: CharacterBody2D) -> void:
+	player = body
 
 
-func _find_overlay() -> CanvasLayer:
-	var current: Node = self
-	while current != null:
-		var overlay := current.get_node_or_null("Game_Interface_Overlay") as CanvasLayer
-		if overlay:
-			return overlay
-		current = current.get_parent()
-	return null
+func _on_body_exited(body: CharacterBody2D) -> void:
+	if body == player:
+		player = null
+		label.visible = false
+
+
+func _is_correct_direction() -> bool:
+	match required_direction:
+		LookDirection.UP:
+			return player.last_direction == "up"
+		LookDirection.DOWN:
+			return player.last_direction == "down"
+		LookDirection.LEFT:
+			return player.last_direction == "left"
+		LookDirection.RIGHT:
+			return player.last_direction == "right"
+	return false
+
+
+func _on_dialogue_ended(_resource: DialogueResource) -> void:
+	await get_tree().create_timer(0.1).timeout
+	is_dialogue_running = false

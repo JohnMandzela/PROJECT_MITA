@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_saqej")
 
-[node name="OptionsMenu" type="MarginContainer" parent="."]
+[node name="Options_Menu" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -25,88 +25,85 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="OptionsMenuVBox" type="VBoxContainer" parent="OptionsMenu"]
+[node name="Options_Menu_VBox" type="VBoxContainer" parent="Options_Menu"]
 layout_mode = 2
 alignment = 1
 
-[node name="SettingsText" type="Label" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Settings_Text" type="Label" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Настройки"
 horizontal_alignment = 1
 
-[node name="Sounds" type="VBoxContainer" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Sounds" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 
-[node name="SoundsText" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Sounds"]
+[node name="Sounds_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
 layout_mode = 2
 
-[node name="SoundsLabel" type="Label" parent="OptionsMenu/OptionsMenuVBox/Sounds/SoundsText"]
+[node name="Sounds_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Sounds/Sounds_Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Звук"
 horizontal_alignment = 1
 
-[node name="SoundsSlider" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Sounds"]
+[node name="sounds_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
 layout_mode = 2
 
-[node name="SoundsSlider" type="HSlider" parent="OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider"]
+[node name="sounds_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Sounds/sounds_slider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="Music" type="VBoxContainer" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Music" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 
-[node name="MusicText" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Music"]
+[node name="Music_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
 layout_mode = 2
 
-[node name="MusicLabel" type="Label" parent="OptionsMenu/OptionsMenuVBox/Music/MusicText"]
+[node name="Music_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Music/Music_Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Музыка"
 horizontal_alignment = 1
 
-[node name="MusicSlider" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Music"]
+[node name="Music_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
 layout_mode = 2
 
-[node name="Slider" type="HSlider" parent="OptionsMenu/OptionsMenuVBox/Music/MusicSlider"]
+[node name="music_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Music/Music_slider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="MouseSensitivity" type="VBoxContainer" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Mouse_Sensitivity" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 
-[node name="MouseText" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/MouseSensitivity"]
+[node name="Mouse_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensitivity"]
 layout_mode = 2
 
-[node name="MouseLabel" type="Label" parent="OptionsMenu/OptionsMenuVBox/MouseSensitivity/MouseText"]
+[node name="Mouse_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensitivity/Mouse_Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Чувствительность мыши"
 horizontal_alignment = 1
 
-[node name="MouseSlider" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/MouseSensitivity"]
+[node name="Mouse_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensitivity"]
 layout_mode = 2
 
-[node name="MouseSensitivitySlider" type="HSlider" parent="OptionsMenu/OptionsMenuVBox/MouseSensitivity/MouseSlider"]
+[node name="mouse_sensitivity_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Mouse_Sensitivity/Mouse_slider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="FullscreenCheckBox" type="CheckBox" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Fullscreen_CheckBox" type="CheckBox" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Полноэкранный режим"
 
-[node name="ExitToMainMenu" type="Button" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Exit_to_MainMenu" type="Button" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Назад"
 
-[connection signal="toggled" from="OptionsMenu/OptionsMenuVBox/FullscreenCheckBox" to="." method="_on_fullscreen_toggled"]
-[connection signal="pressed" from="OptionsMenu/OptionsMenuVBox/ExitToMainMenu" to="." method="_on_back_pressed"]
-[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider/SoundsSlider" to="." method="_on_sounds_value_changed"]
-[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/Music/MusicSlider/Slider" to="." method="_on_music_value_changed"]
-[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/MouseSensitivity/MouseSlider/MouseSensitivitySlider" to="." method="_on_mouse_sensitivity_value_changed"]
+[connection signal="toggled" from="Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Options_Menu/Options_Menu_VBox/Exit_to_MainMenu" to="." method="_on_back_pressed"]

@@ -63,9 +63,9 @@ must:
   - [X] has `.gitignore` (see [example](https://raw.githubusercontent.com/aaronfranke/gitignore/godot/Godot.gitignore)).
   - [X] no submodules.
   - [X] license file.
-    - [X] repo license matches the one in the asset library.
-    - [X] named `LICENSE` or `LICENSE.md`.
-    - [X] contains: license text, copy right statement, year, copyright holder.
+	- [X] repo license matches the one in the asset library.
+	- [X] named `LICENSE` or `LICENSE.md`.
+	- [X] contains: license text, copy right statement, year, copyright holder.
   - [X] proper English (name and description).
   - [X] icon has direct link ("raw.githubusercontent.com" not "github.com").
 
@@ -75,19 +75,19 @@ can:
   - [X] (!!!) fix or suppress all script warnings.
   - [X] use gdscript style guide (see [web](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html#doc-gdscript-styleguide)).
   - [X] screenshots.
-    - [X] add screenshots to subfolder.
-    - [X] screenshot subfolder has `.gdignore`
+	- [X] add screenshots to subfolder.
+	- [X] screenshot subfolder has `.gdignore`
   - [X] add `.gitattributes` for excluding files and directories (with `export-ignore`)
   - [X] create copy of LICENSE and README in `<git-root>/addons/asset_name/`.
-    - [X] LICENSE
-    - [X] README
+	- [X] LICENSE
+	- [X] README
   - [X] host addon on Github.
 
 submission data:
 
   - [X] asset name.
-    - [X] unique.
-    - [X] descriptive.
+	- [X] unique.
+	- [X] descriptive.
   - [X] category: addon (= in-editor) or project (= in-project-manager, meaning template, demo, project).
   - [X] godot version.
   - [X] asset version number.
@@ -96,11 +96,11 @@ submission data:
   - [X] issue url: `https://github.com/<user>/<project>/issues`.
   - [X] (!!!) download hash (git commit hash).
   - [X] url to asset icon and assetlib thumbnail.
-    - [X] PNG or JPG.
-    - [X] 1:1 ratio.
-    - [X] minimum resolution of 128x128.
-    - [X] url format: `https://raw.githubusercontent.com/<user>/<project>/<branch>/<filename>.png`
-      - [X] https://raw.githubusercontent.com/kraasch/godot-glitch-intro/main/info/icon/glitch_icon.png
+	- [X] PNG or JPG.
+	- [X] 1:1 ratio.
+	- [X] minimum resolution of 128x128.
+	- [X] url format: `https://raw.githubusercontent.com/<user>/<project>/<branch>/<filename>.png`
+	  - [X] https://raw.githubusercontent.com/kraasch/godot-glitch-intro/main/info/icon/glitch_icon.png
   - [X] license.
   - [X] description.
   - [X] videos (type, image or youtube url, thumbnail url).
@@ -134,4 +134,3 @@ example gitattributes:
 /addons    !export-ignore
 /addons/** !export-ignore
 ```
-

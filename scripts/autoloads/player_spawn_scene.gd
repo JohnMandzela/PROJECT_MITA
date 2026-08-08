@@ -1,6 +1,7 @@
 class_name PlayerSpawnScene
 extends Node2D
 
+
 @export var player_scene: PackedScene
 @export var default_spawn_point: String
 

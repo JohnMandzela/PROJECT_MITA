@@ -1,5 +1,6 @@
 extends Node
 
+
 const SETTINGS_PATH := "user://settings.cfg"
 const SCENE_ROOT := "res://scenes/"
 
@@ -7,7 +8,7 @@ var player_scene: PackedScene = preload("res://scenes/player.tscn")
 var player: CharacterBody2D
 var pending_spawn_point: String = ""
 
-var screen_fader: ScreenFader
+var screen_fader
 var _pending_scene_path: String
 var saved_direction = null
 var saved_flashlight_state = null
@@ -81,16 +82,17 @@ func load_settings() -> void:
 	var sounds_vol: float = config.get_value("audio", "sounds_volume", 100.0)
 
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED,
+		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen
+		else DisplayServer.WINDOW_MODE_WINDOWED
 	)
 
 	AudioServer.set_bus_volume_db(
 		AudioServer.get_bus_index("Music"),
-		linear_to_db(music_vol / 100.0),
+		linear_to_db(music_vol / 100.0)
 	)
 	AudioServer.set_bus_volume_db(
 		AudioServer.get_bus_index("Sounds"),
-		linear_to_db(sounds_vol / 100.0),
+		linear_to_db(sounds_vol / 100.0)
 	)
 
 
@@ -102,20 +104,11 @@ func _ready() -> void:
 	sync_quest_progress()
 	load_settings()
 
-	const screen_fader_path := "res://scenes/ui/screen_fader.tscn"
-	screen_fader = preload(screen_fader_path).instantiate()
+	screen_fader = preload("res://scenes/system/screen_fader.tscn").instantiate()
 	add_child(screen_fader)
-
-	screen_fader.fade_out_finished.connect(_on_fade_out_finished)
-
-#---------------------------------------------------------------------------------------------------------------
+	screen_fader.fade_finished.connect(_on_fade_finished)
 
 
-func resolve_scene_path(scene_reference: String) -> String:
-	return "res://scenes/" + scene_reference + ".tscn"
-
-
-# Начинаем перемещение в другую локацию
 func start_scene_transition(scene_reference: String, spawn_point: String) -> void:
 	_pending_scene_path = resolve_scene_path(scene_reference)
 	if _pending_scene_path.is_empty() or not ResourceLoader.exists(_pending_scene_path):
@@ -123,17 +116,75 @@ func start_scene_transition(scene_reference: String, spawn_point: String) -> voi
 		return
 
 	pending_spawn_point = spawn_point
-	screen_fader.fade_out(0.5) # затемняем экран
+	screen_fader.fade_out()
 
 
-# Меняем локацию после затемнения экрана
-func _on_fade_out_finished() -> void:
+func resolve_scene_path(scene_reference: String) -> String:
+	var reference := scene_reference.strip_edges()
+	if reference.is_empty():
+		return ""
+
+	reference = reference.replace("\\", "/")
+	if reference.begins_with("res://") and ResourceLoader.exists(reference):
+		return reference
+
+	if reference.begins_with(SCENE_ROOT):
+		reference = reference.trim_prefix(SCENE_ROOT)
+	if reference.ends_with(".tscn"):
+		reference = reference.trim_suffix(".tscn")
+
+	var direct_path := "%s%s.tscn" % [SCENE_ROOT, reference]
+	if ResourceLoader.exists(direct_path):
+		return direct_path
+
+	var found_path := _find_scene_by_name(reference.get_file().get_basename())
+	if not found_path.is_empty():
+		return found_path
+
+	push_warning("Unknown scene transition target: %s" % scene_reference)
+	return direct_path
+
+
+func _find_scene_by_name(scene_name: String) -> String:
+	return _find_scene_by_name_in_dir(SCENE_ROOT, scene_name.to_lower())
+
+
+func _find_scene_by_name_in_dir(directory_path: String, scene_name: String) -> String:
+	var directory := DirAccess.open(directory_path)
+	if directory == null:
+		return ""
+
+	directory.list_dir_begin()
+	var file_name := directory.get_next()
+	while file_name != "":
+		var path := directory_path.path_join(file_name)
+		if directory.current_is_dir():
+			if not file_name.begins_with("."):
+				var nested_result := _find_scene_by_name_in_dir(path, scene_name)
+				if not nested_result.is_empty():
+					directory.list_dir_end()
+					return nested_result
+		elif file_name.get_extension() == "tscn" and file_name.get_basename().to_lower() == scene_name:
+			directory.list_dir_end()
+			return path
+
+		file_name = directory.get_next()
+
+	directory.list_dir_end()
+	return ""
+
+
+func _on_fade_finished() -> void:
 	if SaveSystem.is_loading:
-		SaveSystem.load_game_state()
+		SaveSystem.load_game_data()
 
-	get_tree().change_scene_to_file(_pending_scene_path) # смена локации
-	_pending_scene_path = ""
-#---------------------------------------------------------------------------------------------------------------
+	if _pending_scene_path.is_empty():
+		push_warning("No pending scene path for fade transition")
+		screen_fader.fade_in()
+		return
+
+	get_tree().change_scene_to_file(_pending_scene_path)
+	screen_fader.fade_in()
 
 
 func play_music(stream: AudioStream) -> void:

@@ -75,7 +75,7 @@ _data = {
 &"main_menu_animation": SubResource("Animation_l6cm7")
 }
 
-[node name="MainMenu" type="Control"]
+[node name="Main_Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,7 +105,7 @@ text = "PROJECT_MITA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonsVBox" type="VBoxContainer" parent="."]
+[node name="Buttons_VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -119,37 +119,25 @@ offset_bottom = 188.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Continue" type="Button" parent="ButtonsVBox"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_wu84c")
-theme_override_font_sizes/font_size = 34
-text = "Продолжить"
-
-[node name="NewGame" type="Button" parent="ButtonsVBox"]
+[node name="New_Game" type="Button" parent="Buttons_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
 theme_override_font_sizes/font_size = 34
 text = "Новая игра"
 
-[node name="Load" type="Button" parent="ButtonsVBox"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_wu84c")
-theme_override_font_sizes/font_size = 34
-text = "Загрузить"
-
-[node name="Options" type="Button" parent="ButtonsVBox"]
+[node name="Options" type="Button" parent="Buttons_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
 theme_override_font_sizes/font_size = 34
 text = "Настройки"
 
-[node name="Exit" type="Button" parent="ButtonsVBox"]
+[node name="Exit" type="Button" parent="Buttons_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
 theme_override_font_sizes/font_size = 34
 text = "Выход"
 
-[node name="OptionsMenu" type="MarginContainer" parent="."]
+[node name="Options_Menu" type="MarginContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -164,68 +152,68 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="OptionsMenuVBox" type="VBoxContainer" parent="OptionsMenu"]
+[node name="Options_Menu_VBox" type="VBoxContainer" parent="Options_Menu"]
 layout_mode = 2
 alignment = 1
 
-[node name="SettingsText" type="Label" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Settings_Text" type="Label" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
 theme_override_font_sizes/font_size = 32
 text = "Настройки"
 horizontal_alignment = 1
 
-[node name="Sounds" type="VBoxContainer" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Sounds" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 
-[node name="SoundsText" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Sounds"]
+[node name="Sounds_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
 layout_mode = 2
 
-[node name="SoundsLabel" type="Label" parent="OptionsMenu/OptionsMenuVBox/Sounds/SoundsText"]
+[node name="Sounds_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Sounds/Sounds_Text"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
 theme_override_font_sizes/font_size = 32
 text = "Звук"
 horizontal_alignment = 1
 
-[node name="SoundsSlider" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Sounds"]
+[node name="Sounds_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Sounds"]
 layout_mode = 2
 
-[node name="Slider" type="HSlider" parent="OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider"]
+[node name="sounds_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 step = 5.0
 
-[node name="Music" type="VBoxContainer" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Music" type="VBoxContainer" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 
-[node name="MusicText" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Music"]
+[node name="Music_Text" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
 layout_mode = 2
 
-[node name="MusicLabel" type="Label" parent="OptionsMenu/OptionsMenuVBox/Music/MusicText"]
+[node name="Music_Label" type="Label" parent="Options_Menu/Options_Menu_VBox/Music/Music_Text"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
 theme_override_font_sizes/font_size = 32
 text = "Музыка"
 horizontal_alignment = 1
 
-[node name="MusicSlider" type="HBoxContainer" parent="OptionsMenu/OptionsMenuVBox/Music"]
+[node name="Music_slider" type="HBoxContainer" parent="Options_Menu/Options_Menu_VBox/Music"]
 layout_mode = 2
 
-[node name="Slider" type="HSlider" parent="OptionsMenu/OptionsMenuVBox/Music/MusicSlider"]
+[node name="music_slider" type="HSlider" parent="Options_Menu/Options_Menu_VBox/Music/Music_slider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 step = 5.0
 
-[node name="FullscreenCheckBox" type="CheckBox" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Fullscreen_CheckBox" type="CheckBox" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
 theme_override_font_sizes/font_size = 32
 text = "Полноэкранный режим"
 
-[node name="ExitToMainMenu" type="Button" parent="OptionsMenu/OptionsMenuVBox"]
+[node name="Exit_to_MainMenu" type="Button" parent="Options_Menu/Options_Menu_VBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_wu84c")
 theme_override_font_sizes/font_size = 32
@@ -258,12 +246,10 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[connection signal="pressed" from="ButtonsVBox/Continue" to="." method="_on_continue_button_pressed"]
-[connection signal="pressed" from="ButtonsVBox/NewGame" to="." method="_on_new_game_button_pressed"]
-[connection signal="pressed" from="ButtonsVBox/Load" to="." method="_on_load_button_pressed"]
-[connection signal="pressed" from="ButtonsVBox/Options" to="." method="_on_options_button_pressed"]
-[connection signal="pressed" from="ButtonsVBox/Exit" to="." method="_on_exit_pressed"]
-[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/Sounds/SoundsSlider/Slider" to="." method="_on_sounds_value_changed"]
-[connection signal="value_changed" from="OptionsMenu/OptionsMenuVBox/Music/MusicSlider/Slider" to="." method="_on_music_value_changed"]
-[connection signal="toggled" from="OptionsMenu/OptionsMenuVBox/FullscreenCheckBox" to="." method="_on_fullscreen_toggled"]
-[connection signal="pressed" from="OptionsMenu/OptionsMenuVBox/ExitToMainMenu" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Buttons_VBox/New_Game" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="Buttons_VBox/Options" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="Buttons_VBox/Exit" to="." method="_on_exit_pressed"]
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Sounds/Sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Options_Menu/Options_Menu_VBox/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
+[connection signal="toggled" from="Options_Menu/Options_Menu_VBox/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Options_Menu/Options_Menu_VBox/Exit_to_MainMenu" to="." method="_on_back_pressed"]

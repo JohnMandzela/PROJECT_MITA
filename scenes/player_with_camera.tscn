@@ -10,5 +10,5 @@ visibility_layer = 3
 position = Vector2(0, -45)
 zoom = Vector2(1.7, 1.7)
 
-[node name="PhoneFlashlight" parent="." index="3"]
+[node name="Phone_Flashlight" parent="." index="3"]
 shadow_enabled = true

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://74fei1t52gx6" path="res://scenes/ui/game_interface_overlay.tscn" id="6_ro5hb"]
 [ext_resource type="Script" uid="uid://b2jgd8nsuavya" path="res://scripts/teddy_bear_zone.gd" id="7_n8x9p"]
 [ext_resource type="Resource" uid="uid://dtgwjhxt1xepi" path="res://dialogues/teddy_bear.dialogue" id="8_q2t6r"]
-[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="9_glapv"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="9_glapv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_km4w3"]
 size = Vector2(54, 36)
@@ -72,7 +72,7 @@ polygon = PackedVector2Array(-22, 2, 30, 0, 30, 30, -30, 30)
 
 [node name="Exit_Zone" parent="Ivents" instance=ExtResource("9_glapv")]
 required_direction = 1
-exit_direction = 1
+exit_direction = "down"
 target_scene = "test_room_vr2"
 target_spawn_point = "Spawn_from_Bedroom"
 

@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://c7lnwl3foh5fg" path="res://scripts/ui/pause_menu.gd" id="1_myx47"]
 [ext_resource type="Texture2D" uid="uid://y0mm0pljq1fd" path="res://images/phone/phone.png" id="1_n87rw"]
-[ext_resource type="Texture2D" path="res://images/phone/31312.jpg" id="3_h5v6u"]
+[ext_resource type="Texture2D" uid="uid://ocwn2npqb3yx" path="res://images/phone/31312.jpg" id="3_h5v6u"]
 [ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="3_kukqi"]
-[ext_resource type="Texture2D" path="res://images/phone/4343433.jpg" id="4_2yjx4"]
+[ext_resource type="Texture2D" uid="uid://blbelkkqbfq2d" path="res://images/phone/4343433.jpg" id="4_2yjx4"]
 [ext_resource type="Texture2D" uid="uid://dxon1hookl4t0" path="res://images/phone/432425555.jpg" id="5_1tr3n"]
-[ext_resource type="Texture2D" path="res://images/phone/5554545454.png" id="6_18ave"]
+[ext_resource type="Texture2D" uid="uid://bypi1st6pt3od" path="res://images/phone/5554545454.png" id="6_18ave"]
 [ext_resource type="Texture2D" uid="uid://bfa7un6ymab0a" path="res://images/phone/434.jpg" id="7_yimwq"]
 [ext_resource type="Texture2D" uid="uid://eou3q6pmmkjb" path="res://images/phone/435123.jpg" id="8_a57rx"]
 
@@ -184,7 +184,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../../Panel/PauseLabel:theme_override_colors/font_color")
+tracks/2/path = NodePath("../../Panel/Pause_Label:theme_override_colors/font_color")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -239,7 +239,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../Panel/PauseLabel:theme_override_colors/font_color")
+tracks/1/path = NodePath("../../Panel/Pause_Label:theme_override_colors/font_color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -285,7 +285,7 @@ _data = {
 &"open_pause_menu": SubResource("Animation_myx47")
 }
 
-[node name="PauseMenu" type="Control"]
+[node name="pause_menu" type="Control"]
 process_mode = 3
 z_index = 20
 layout_mode = 3
@@ -323,7 +323,7 @@ position = Vector2(135, 271)
 scale = Vector2(0.57170546, 0.59375)
 texture = ExtResource("1_n87rw")
 
-[node name="PauseLabel" type="Label" parent="Panel"]
+[node name="Pause_Label" type="Label" parent="Panel"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 10
@@ -356,10 +356,10 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 columns = 4
 
-[node name="ContinueContainer" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+[node name="Continue_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
 layout_mode = 2
 
-[node name="Continue" type="Button" parent="Panel/VBoxStart/GridContainer/ContinueContainer"]
+[node name="Continue" type="Button" parent="Panel/VBoxStart/GridContainer/Continue_Container"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
@@ -367,7 +367,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
 icon = ExtResource("3_h5v6u")
 
-[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/ContinueContainer/Continue"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Continue_Container/Continue"]
 layout_mode = 0
 offset_left = -3.0
 offset_top = 41.0
@@ -376,10 +376,10 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 7
 text = "Продолжить"
 
-[node name="OptionsContainer" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+[node name="Options_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
 layout_mode = 2
 
-[node name="Options" type="Button" parent="Panel/VBoxStart/GridContainer/OptionsContainer"]
+[node name="Options" type="Button" parent="Panel/VBoxStart/GridContainer/Options_Container"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
@@ -387,7 +387,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
 icon = ExtResource("4_2yjx4")
 
-[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/OptionsContainer/Options"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Options_Container/Options"]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 40.0
@@ -396,10 +396,10 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 8
 text = "Настройки"
 
-[node name="InventoryContainer" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+[node name="Inventory_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
 layout_mode = 2
 
-[node name="Inventory" type="Button" parent="Panel/VBoxStart/GridContainer/InventoryContainer"]
+[node name="Inventory" type="Button" parent="Panel/VBoxStart/GridContainer/Inventory_Container"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_nwcfo")
@@ -407,7 +407,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_05uyy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_p81d2")
 icon = ExtResource("5_1tr3n")
 
-[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/InventoryContainer/Inventory"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Inventory_Container/Inventory"]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 40.0
@@ -416,10 +416,10 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 8
 text = "Инвентарь"
 
-[node name="ExitToMainMenuContainer" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+[node name="Exit_to_Main_Menu_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
 layout_mode = 2
 
-[node name="ExitToMainMenu" type="Button" parent="Panel/VBoxStart/GridContainer/ExitToMainMenuContainer"]
+[node name="Exit_to_Main_Menu" type="Button" parent="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_2nc7s")
@@ -427,7 +427,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_d3xb4")
 theme_override_styles/hover = SubResource("StyleBoxFlat_mxa3g")
 icon = ExtResource("6_18ave")
 
-[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/ExitToMainMenuContainer/ExitToMainMenu"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container/Exit_to_Main_Menu"]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 40.0
@@ -436,14 +436,14 @@ offset_bottom = 53.0
 theme_override_font_sizes/font_size = 9
 text = "Выйти"
 
-[node name="MessengerContainer" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
+[node name="Messenger_Container" type="AspectRatioContainer" parent="Panel/VBoxStart/GridContainer"]
 layout_mode = 2
 
-[node name="Messenger" type="Button" parent="Panel/VBoxStart/GridContainer/MessengerContainer"]
+[node name="Messenger" type="Button" parent="Panel/VBoxStart/GridContainer/Messenger_Container"]
 layout_mode = 2
 icon = ExtResource("7_yimwq")
 
-[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/MessengerContainer/Messenger"]
+[node name="Label" type="Label" parent="Panel/VBoxStart/GridContainer/Messenger_Container/Messenger"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 45.0
@@ -478,19 +478,19 @@ horizontal_alignment = 1
 [node name="Sounds" type="VBoxContainer" parent="Panel/VBoxOptions"]
 layout_mode = 2
 
-[node name="SoundsText" type="HBoxContainer" parent="Panel/VBoxOptions/Sounds"]
+[node name="Sounds_Text" type="HBoxContainer" parent="Panel/VBoxOptions/Sounds"]
 layout_mode = 2
 
-[node name="SoundsLabel" type="Label" parent="Panel/VBoxOptions/Sounds/SoundsText"]
+[node name="Sounds_Label" type="Label" parent="Panel/VBoxOptions/Sounds/Sounds_Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Звук"
 horizontal_alignment = 1
 
-[node name="SoundsSlider" type="HBoxContainer" parent="Panel/VBoxOptions/Sounds"]
+[node name="sounds_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Sounds"]
 layout_mode = 2
 
-[node name="SoundsSlider" type="HSlider" parent="Panel/VBoxOptions/Sounds/SoundsSlider"]
+[node name="sounds_slider" type="HSlider" parent="Panel/VBoxOptions/Sounds/sounds_slider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -499,30 +499,30 @@ step = 5.0
 [node name="Music" type="VBoxContainer" parent="Panel/VBoxOptions"]
 layout_mode = 2
 
-[node name="MusicText" type="HBoxContainer" parent="Panel/VBoxOptions/Music"]
+[node name="Music_Text" type="HBoxContainer" parent="Panel/VBoxOptions/Music"]
 layout_mode = 2
 
-[node name="MusicLabel" type="Label" parent="Panel/VBoxOptions/Music/MusicText"]
+[node name="Music_Label" type="Label" parent="Panel/VBoxOptions/Music/Music_Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Музыка"
 horizontal_alignment = 1
 
-[node name="MusicSlider" type="HBoxContainer" parent="Panel/VBoxOptions/Music"]
+[node name="Music_slider" type="HBoxContainer" parent="Panel/VBoxOptions/Music"]
 layout_mode = 2
 
-[node name="Slider" type="HSlider" parent="Panel/VBoxOptions/Music/MusicSlider"]
+[node name="music_slider" type="HSlider" parent="Panel/VBoxOptions/Music/Music_slider"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 step = 5.0
 
-[node name="FullscreenCheckBox" type="CheckBox" parent="Panel/VBoxOptions"]
+[node name="Fullscreen_CheckBox" type="CheckBox" parent="Panel/VBoxOptions"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Полноэкранный режим"
 
-[node name="BackFromOptions" type="Button" parent="Panel/VBoxOptions"]
+[node name="Back_from_Options" type="Button" parent="Panel/VBoxOptions"]
 process_mode = 3
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_3ccjd")
@@ -547,7 +547,7 @@ offset_right = 245.0
 offset_bottom = 54.0
 text = "Туториал"
 
-[node name="BackFromMessenger" type="Button" parent="Panel/Messenger"]
+[node name="Back_from_Messenger" type="Button" parent="Panel/Messenger"]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 391.0
@@ -564,7 +564,7 @@ offset_top = 35.0
 offset_right = 263.0
 offset_bottom = 503.0
 
-[node name="TutorialText" type="Label" parent="Panel/Tutorial"]
+[node name="Tutorial_Text" type="Label" parent="Panel/Tutorial"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 15.0
@@ -577,7 +577,7 @@ text = "Ходить стрелками
 Взаимодействовать E
 Меню-пауза ESC"
 
-[node name="WriteMessenger" type="Label" parent="Panel/Tutorial"]
+[node name="Write_Messenger" type="Label" parent="Panel/Tutorial"]
 layout_mode = 0
 offset_top = 428.0
 offset_right = 254.0
@@ -585,7 +585,7 @@ offset_bottom = 468.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_hksts")
 text = "Написать сообщение..."
 
-[node name="BackFromTutorial" type="Button" parent="Panel/Tutorial"]
+[node name="Back_from_Tutorial" type="Button" parent="Panel/Tutorial"]
 layout_mode = 0
 offset_left = 213.0
 offset_top = 428.0
@@ -593,7 +593,7 @@ offset_right = 254.0
 offset_bottom = 468.0
 text = "🔙"
 
-[node name="ScreenFaderAnimation" type="Control" parent="."]
+[node name="Screen_Fader_Animation" type="Control" parent="."]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -603,7 +603,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="BlurRect" type="ColorRect" parent="ScreenFaderAnimation"]
+[node name="Blur_Rect" type="ColorRect" parent="Screen_Fader_Animation"]
 z_index = 20
 material = SubResource("ShaderMaterial_kukqi")
 layout_mode = 1
@@ -614,12 +614,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenFaderAnimation/BlurRect"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/Blur_Rect"]
 libraries = {
 &"": SubResource("AnimationLibrary_ofnjo")
 }
 
-[node name="OnOffScreenFader" type="ColorRect" parent="ScreenFaderAnimation"]
+[node name="OnOff_Screen_Fader" type="ColorRect" parent="Screen_Fader_Animation"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -630,12 +630,12 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenFaderAnimation/OnOffScreenFader"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/OnOff_Screen_Fader"]
 libraries = {
 &"": SubResource("AnimationLibrary_v4r4p")
 }
 
-[node name="ExitScreenFader" type="ColorRect" parent="ScreenFaderAnimation"]
+[node name="Exit_Screen_Fader" type="ColorRect" parent="Screen_Fader_Animation"]
 z_index = 21
 layout_mode = 1
 anchors_preset = 15
@@ -646,19 +646,19 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenFaderAnimation/ExitScreenFader"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Screen_Fader_Animation/Exit_Screen_Fader"]
 libraries = {
 &"": SubResource("AnimationLibrary_v4r4p")
 }
 
-[connection signal="pressed" from="Panel/VBoxStart/GridContainer/ContinueContainer/Continue" to="." method="_on_continue_button_pressed"]
-[connection signal="pressed" from="Panel/VBoxStart/GridContainer/OptionsContainer/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Panel/VBoxStart/GridContainer/ExitToMainMenuContainer/ExitToMainMenu" to="." method="_on_exit_to_main_menu_pressed"]
-[connection signal="pressed" from="Panel/VBoxStart/GridContainer/MessengerContainer/Messenger" to="." method="_on_messenger_pressed"]
-[connection signal="value_changed" from="Panel/VBoxOptions/Sounds/SoundsSlider/SoundsSlider" to="." method="_on_sounds_value_changed"]
-[connection signal="value_changed" from="Panel/VBoxOptions/Music/MusicSlider/Slider" to="." method="_on_music_value_changed"]
-[connection signal="toggled" from="Panel/VBoxOptions/FullscreenCheckBox" to="." method="_on_fullscreen_toggled"]
-[connection signal="pressed" from="Panel/VBoxOptions/BackFromOptions" to="." method="_on_back_from_options_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Continue_Container/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Options_Container/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Exit_to_Main_Menu_Container/Exit_to_Main_Menu" to="." method="_on_exit_to_main_menu_pressed"]
+[connection signal="pressed" from="Panel/VBoxStart/GridContainer/Messenger_Container/Messenger" to="." method="_on_messenger_pressed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Sounds/sounds_slider/sounds_slider" to="." method="_on_sounds_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxOptions/Music/Music_slider/music_slider" to="." method="_on_music_value_changed"]
+[connection signal="toggled" from="Panel/VBoxOptions/Fullscreen_CheckBox" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Panel/VBoxOptions/Back_from_Options" to="." method="_on_back_from_options_pressed"]
 [connection signal="pressed" from="Panel/Messenger/Tutorial" to="." method="_on_tutorial_pressed"]
-[connection signal="pressed" from="Panel/Messenger/BackFromMessenger" to="." method="_on_back_from_messenger_pressed"]
-[connection signal="pressed" from="Panel/Tutorial/BackFromTutorial" to="." method="_on_back_from_tutorial_pressed"]
+[connection signal="pressed" from="Panel/Messenger/Back_from_Messenger" to="." method="_on_back_from_messenger_pressed"]
+[connection signal="pressed" from="Panel/Tutorial/Back_from_Tutorial" to="." method="_on_back_from_tutorial_pressed"]

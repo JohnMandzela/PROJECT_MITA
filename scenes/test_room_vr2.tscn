@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="2_ms455"]
 [ext_resource type="Texture2D" uid="uid://b7rrb133ujv0b" path="res://images/scene/test_room_vr2.png" id="3_ms455"]
 [ext_resource type="PackedScene" uid="uid://74fei1t52gx6" path="res://scenes/ui/game_interface_overlay.tscn" id="6_ro5hb"]
-[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="9_glapv"]
+[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/next_scene.tscn" id="9_glapv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_km4w3"]
 size = Vector2(56, 20.25)
@@ -27,7 +27,7 @@ position = Vector2(-97, 6)
 [node name="Ivents" type="Node2D" parent="."]
 
 [node name="Enter_Zone" parent="Ivents" instance=ExtResource("9_glapv")]
-exit_direction = 0
+exit_direction = "up"
 target_scene = "test_room_vr"
 target_spawn_point = "Spawn_from_Living_room"
 

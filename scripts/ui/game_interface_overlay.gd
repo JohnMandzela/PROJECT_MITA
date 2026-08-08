@@ -23,7 +23,7 @@ const INVENTORY_ROWS := 4
 const INVENTORY_TAB_NORMAL := "normal"
 const INVENTORY_TAB_VIRTUAL := "virtual"
 const WEBCAM_TEXTURE_PATH := "res://images/characters/Mike_webcam.png"
-const MAIN_MENU_PATH := "res://scenes/ui/main_menu.tscn"
+const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
 
 @export_range(0.0, 100.0, 1.0) var vigor := 72.0:
 	set(value):
@@ -53,21 +53,21 @@ var vigor_fill: ColorRect
 var psyche_fill: ColorRect
 var inventory_button: Button
 var inventory_drawer: Panel
+var inventory_normal_tab_button: Button
+var inventory_virtual_tab_button: Button
 var inventory_grid: GridContainer
 var inventory_cells: Array[PanelContainer] = []
-var inventory_cell_items := { }
+var inventory_cell_items := {}
+var active_inventory_tab := INVENTORY_TAB_NORMAL
 var selected_item_id := ""
 var selected_item_cell: PanelContainer
 var inventory_open := false
 var inventory_tween: Tween
-var inventory_normal_tab_button: Button
-var inventory_virtual_tab_button: Button
-var active_inventory_tab := INVENTORY_TAB_NORMAL
 var settings_button: Button
 var settings_drawer: Panel
 var fullscreen_checkbox: CheckBox
-var MusicSlider: HSlider
-var SoundsSlider: HSlider
+var music_slider: HSlider
+var sounds_slider: HSlider
 var settings_open := false
 var settings_tween: Tween
 var loading_settings := true
@@ -81,7 +81,6 @@ class DottedPanel:
 
 	var fill_color := PANEL_COLOR
 	var dot_color := DOT_COLOR
-
 
 	func _draw() -> void:
 		draw_rect(Rect2(Vector2.ZERO, size), fill_color, true)
@@ -269,7 +268,6 @@ func _is_selection_click_position(position: Vector2) -> bool:
 	return false
 
 
-# TODO: сделать вместо этого сцену
 func _build_overlay() -> void:
 	root_control = Control.new()
 	root_control.name = "OverlayRoot"
@@ -572,10 +570,10 @@ func _build_settings_drawer(parent: Control) -> void:
 	fullscreen_checkbox.toggled.connect(_on_fullscreen_toggled)
 	vbox.add_child(fullscreen_checkbox)
 
-	MusicSlider = _add_settings_slider(vbox, "Музыка")
-	MusicSlider.value_changed.connect(_on_music_value_changed)
-	SoundsSlider = _add_settings_slider(vbox, "Звуки")
-	SoundsSlider.value_changed.connect(_on_sounds_value_changed)
+	music_slider = _add_settings_slider(vbox, "Музыка")
+	music_slider.value_changed.connect(_on_music_value_changed)
+	sounds_slider = _add_settings_slider(vbox, "Звуки")
+	sounds_slider.value_changed.connect(_on_sounds_value_changed)
 
 
 func _add_settings_slider(parent: VBoxContainer, label_text: String) -> HSlider:
@@ -878,7 +876,7 @@ func _can_use_item(item_id: String) -> bool:
 	if items_node == null:
 		return false
 	var item_info: Dictionary = items_node.call("get_item_info", item_id)
-	return not Dictionary(item_info.get("use_effects", { })).is_empty()
+	return not Dictionary(item_info.get("use_effects", {})).is_empty()
 
 
 func _on_use_item_pressed() -> void:
@@ -890,15 +888,10 @@ func _on_use_item_pressed() -> void:
 		return
 
 	var item_info: Dictionary = items_node.call("get_item_info", selected_item_id)
-	var effects := Dictionary(item_info.get("use_effects", { }))
-	
+	var effects := Dictionary(item_info.get("use_effects", {}))
 	var vigor_bonus := float(effects.get("vigor", 0.0))
 	if vigor_bonus != 0.0:
 		vigor = vigor + vigor_bonus
-
-	var psyche_bonus := float(effects.get("psyche", 0.0))
-	if psyche_bonus != 0.0:
-		psyche = psyche + psyche_bonus
 
 	if items_node and items_node.has_method("item_was_dropped"):
 		items_node.call("item_was_dropped", selected_item_id)
@@ -925,31 +918,31 @@ func _on_settings_pressed() -> void:
 func _load_settings() -> void:
 	var mode := DisplayServer.window_get_mode()
 	var is_fullscreen := mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN \
-			or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
+		or mode == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscreen_checkbox.button_pressed = is_fullscreen
 
 	var config := ConfigFile.new()
 	var err := config.load(GameManager.SETTINGS_PATH)
 	if err == OK:
-		MusicSlider.value = float(config.get_value("audio", "music_volume", 100.0))
-		SoundsSlider.value = float(config.get_value("audio", "sounds_volume", 100.0))
+		music_slider.value = float(config.get_value("audio", "music_volume", 100.0))
+		sounds_slider.value = float(config.get_value("audio", "sounds_volume", 100.0))
 	else:
-		MusicSlider.value = 100.0
-		SoundsSlider.value = 100.0
+		music_slider.value = 100.0
+		sounds_slider.value = 100.0
 
 
 func _save_settings() -> void:
 	var config := ConfigFile.new()
 	config.set_value("video", "fullscreen", fullscreen_checkbox.button_pressed)
-	config.set_value("audio", "music_volume", MusicSlider.value)
-	config.set_value("audio", "sounds_volume", SoundsSlider.value)
+	config.set_value("audio", "music_volume", music_slider.value)
+	config.set_value("audio", "sounds_volume", sounds_slider.value)
 	config.save(GameManager.SETTINGS_PATH)
 
 
 func _apply_settings() -> void:
 	_apply_fullscreen(fullscreen_checkbox.button_pressed)
-	_apply_bus_volume("Music", MusicSlider.value)
-	_apply_bus_volume("Sounds", SoundsSlider.value)
+	_apply_bus_volume("Music", music_slider.value)
+	_apply_bus_volume("Sounds", sounds_slider.value)
 
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
@@ -972,7 +965,8 @@ func _on_sounds_value_changed(value: float) -> void:
 
 func _apply_fullscreen(enabled: bool) -> void:
 	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED,
+		DisplayServer.WINDOW_MODE_FULLSCREEN if enabled
+		else DisplayServer.WINDOW_MODE_WINDOWED
 	)
 
 
@@ -1030,7 +1024,7 @@ func _apply_inventory_tab_button_theme(button: Button, active: bool) -> void:
 	var normal_bg := Color(0.65, 0.65, 0.62, 1.0) if active else Color(0.58, 0.58, 0.55, 1.0)
 	var hover_bg := Color(0.60, 0.60, 0.57, 1.0) if active else Color(0.53, 0.53, 0.50, 1.0)
 	var pressed_bg := Color(0.52, 0.52, 0.49, 1.0)
-	var border := BORDER_COLOR
+	var border := BORDER_COLOR if active else BORDER_COLOR
 	button.add_theme_stylebox_override("normal", _style(normal_bg, border, 1))
 	button.add_theme_stylebox_override("hover", _style(hover_bg, border, 1))
 	button.add_theme_stylebox_override("pressed", _style(pressed_bg, border, 1))
