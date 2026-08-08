@@ -135,7 +135,7 @@ shape = SubResource("RectangleShape2D_xtt1d")
 [node name="Enter_Toilet" type="Area2D" parent="."]
 script = ExtResource("5_3mhh6")
 exit_direction = "up"
-target_scene = "Mihyung_Offices/toilet_man"
+target_scene = "Mihyung_Offices/mens_toilet"
 target_spawn_point = "Spawn_from_Corridors"
 
 [node name="Label" type="Label" parent="Enter_Toilet"]

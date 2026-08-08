@@ -553,7 +553,7 @@ polygon = PackedVector2Array(-130, 82, -130, 101, -99, 101, -91, 104, -90, 101, 
 [node name="Exit_Mike_Room" parent="Ivents" instance=ExtResource("7_glapv")]
 required_direction = 1
 exit_direction = "down"
-target_scene = "Goshivon/goshivon"
+target_scene = "dorm/dorm"
 target_spawn_point = "Spawn_in_Corridor"
 
 [node name="Label" type="Label" parent="Ivents/Exit_Mike_Room"]

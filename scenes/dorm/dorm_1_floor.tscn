@@ -36,7 +36,7 @@ position = Vector2(47, -16)
 [node name="Enter_2_floor" type="Area2D" parent="."]
 script = ExtResource("5_iqv8y")
 exit_direction = "down"
-target_scene = "Goshivon/goshivon"
+target_scene = "dorm/dorm"
 target_spawn_point = "Spawn_on_Stairs"
 
 [node name="Label" type="Label" parent="Enter_2_floor"]
