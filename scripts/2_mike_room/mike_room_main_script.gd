@@ -10,7 +10,7 @@ func _ready():
 	_start_game()
 	super._ready()
 
-	if not GameManager.is_done("1_morning_quest"):
+	if not Quests.is_started("morning_routine"):
 		mike_visible_false()
 		_new_game()
 
@@ -20,7 +20,7 @@ func _new_game():
 	mike_sleep.visible = true
 	start_screen_fader()
 	DialogueManager.show_dialogue_balloon(dialogue, "start", [self])
-	GameManager.set_done("1_morning_quest")
+	Quests.start_quest("morning_routine")
 
 
 func _start_game():

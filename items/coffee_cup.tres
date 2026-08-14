@@ -8,4 +8,5 @@ display_name = "Стакан кофе"
 description = "Бумажный стакан горячего кофе."
 use_text = "Выпить кофе"
 vigor_modifier = 5
+psyche_modifier = 0
 metadata/_custom_type_script = "uid://bdxy3rlikau48"

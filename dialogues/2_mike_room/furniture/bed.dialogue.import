@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://igbqwnik8w8l"
+path="res://.godot/imported/bed.dialogue-1e83bddf8c2d218e008082b636b0f69b.tres"
+
+[deps]
+
+source_file="res://dialogues/2_mike_room/furniture/bed.dialogue"
+dest_files=["res://.godot/imported/bed.dialogue-1e83bddf8c2d218e008082b636b0f69b.tres"]
+
+[params]
+
+defaults=true

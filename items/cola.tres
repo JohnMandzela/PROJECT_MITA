@@ -6,4 +6,7 @@
 script = ExtResource("1_4a2pt")
 display_name = "Бутылка колы"
 description = "Освежающий напиток. Восстанавливает силы."
+use_text = ""
+vigor_modifier = 0
+psyche_modifier = 0
 metadata/_custom_type_script = "uid://bdxy3rlikau48"

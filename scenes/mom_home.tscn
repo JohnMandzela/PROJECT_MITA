@@ -1,15 +1,14 @@
-[gd_scene load_steps=44 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=43 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="5_uym5w"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="5_wby07"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
 [ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="9_mv7xs"]
-[ext_resource type="Script" uid="uid://x3lul8lxsod2" path="res://scripts/system/npc.gd" id="10_01ivo"]
-[ext_resource type="Script" uid="uid://b43v0n8hepw2c" path="res://scripts/1_mom_home/test_event.gd" id="10_fovv4"]
+[ext_resource type="Script" uid="uid://b43v0n8hepw2c" path="res://scripts/1_mom_home/sleep_flashback_cutscene.gd" id="10_fovv4"]
 [ext_resource type="Texture2D" uid="uid://d0qo818q4j022" path="res://images/tilesets/characters/$Mike.png" id="10_mv7xs"]
 [ext_resource type="Resource" uid="uid://but1myuxismw1" path="res://dialogues/1_mom_home/sleep_flashback.dialogue" id="11_sm1ot"]
-[ext_resource type="Script" uid="uid://cqfjj73x6lml4" path="res://scripts/system/npc.gd" id="13_d8v55"]
+[ext_resource type="Script" uid="uid://b2b6nrclmnwb7" path="res://scripts/system/npc.gd" id="13_d8v55"]
 [ext_resource type="Texture2D" uid="uid://cii171lcyvvi8" path="res://images/tilesets/characters/$Mom.png" id="14_sm1ot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jacmr"]
@@ -321,10 +320,10 @@ polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -55.5
 
 [node name="Exit_Mom_Home" parent="Sleep_Flashback" instance=ExtResource("5_uym5w")]
 visible = false
-required_direction = 1
 exit_direction = 1
 target_scene = "Mike_Room"
 target_spawn_point = "Spawn_Mike_Room"
+required_direction = 1
 
 [node name="Exit_Mom_Home" type="CollisionShape2D" parent="Sleep_Flashback/Exit_Mom_Home"]
 position = Vector2(48, 256.5)
@@ -350,7 +349,7 @@ zoom = Vector2(2, 2)
 
 [node name="MikeNpc" type="CharacterBody2D" parent="Sleep_Flashback"]
 position = Vector2(69.047035, 110.66194)
-script = ExtResource("10_01ivo")
+script = ExtResource("13_d8v55")
 
 [node name="MikeCollision" type="CollisionShape2D" parent="Sleep_Flashback/MikeNpc"]
 rotation = 1.5707964

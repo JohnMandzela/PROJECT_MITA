@@ -422,7 +422,7 @@ func _on_load_pressed() -> void:
 	SaveSystem.load_game(SaveSystem.Mode.QUICK)
 
 
-func _on_items_inventory_changed() -> void:
+func _on_items_inventory_changed(_item: String, _count: int) -> void:
 	_refresh_inventory_ui()
 
 
@@ -492,14 +492,14 @@ func _refresh_active_quests_ui() -> void:
 	_active_quest_rows.clear()
 
 	var has_active_quests := false
-	for entry in Quests.get_journal_entries():
+	for entry in Quests.get_journal_entries(Quests.QuestState.ACTIVE):
 		has_active_quests = true
 
 		var row := quest_row_template.duplicate() as Button
 		row.visible = true
 		row.name = "QuestRow_%s" % entry.quest_id
 		row.text = _build_quest_row_text(entry)
-		row.pressed.connect(_on_quest_row_pressed.bind(entry.quest_id, SCROLL_ACTIVE_QUESTS))
+		row.pressed.connect(_on_quest_row_pressed.bind(entry, SCROLL_ACTIVE_QUESTS))
 		quest_list.add_child(row)
 		_active_quest_rows[entry.quest_id] = row
 
@@ -513,7 +513,6 @@ func _refresh_active_quests_ui() -> void:
 	_reset_scroll_state(SCROLL_ACTIVE_QUESTS)
 
 
-# TODO
 func _refresh_completed_quests_ui() -> void:
 	for child in completed_quest_list.get_children():
 		if child != completed_quest_row_template:
@@ -522,19 +521,16 @@ func _refresh_completed_quests_ui() -> void:
 	_completed_quest_rows.clear()
 
 	var has_completed_quests := false
-	for quest_id in GameManager.quests_info.keys():
-		var info: Dictionary = GameManager.quests_info[quest_id]
-		if not bool(info.get("is_completed", false)):
-			continue
-
+	for entry in Quests.get_journal_entries(Quests.QuestState.COMPLETED):
 		has_completed_quests = true
+
 		var row := completed_quest_row_template.duplicate() as Button
 		row.visible = true
-		row.name = "CompletedQuestRow_%s" % quest_id
-		row.text = _build_quest_row_text(info, quest_id)
-		row.pressed.connect(_on_quest_row_pressed.bind(quest_id, SCROLL_COMPLETED_QUESTS))
+		row.name = "CompletedQuestRow_%s" % entry.quest_id
+		row.text = _build_quest_row_text(entry)
+		row.pressed.connect(_on_quest_row_pressed.bind(entry, SCROLL_COMPLETED_QUESTS))
 		completed_quest_list.add_child(row)
-		_completed_quest_rows[quest_id] = row
+		_completed_quest_rows[entry.quest_id] = row
 
 	if not has_completed_quests:
 		var empty_label := Label.new()
@@ -546,12 +542,9 @@ func _refresh_completed_quests_ui() -> void:
 	_reset_scroll_state(SCROLL_COMPLETED_QUESTS)
 
 
-func _on_quest_row_pressed(quest_id: String, source: String) -> void:
-	if not GameManager.quests_info.has(quest_id):
-		return
-	var info: Dictionary = GameManager.quests_info[quest_id]
-	quest_details_title.text = str(info.get("title", quest_id))
-	quest_details_text.text = _build_quest_details_text(info)
+func _on_quest_row_pressed(entry: Quests.JournalEntry, source: String) -> void:
+	quest_details_title.text = entry.quest.title
+	quest_details_text.text = _build_quest_details_text(entry)
 	_quest_details_source = source
 	quest_details.visible = true
 	quest_vbox.visible = false
@@ -563,9 +556,9 @@ func _build_quest_row_text(entry: Quests.JournalEntry) -> String:
 	return prefix + entry.quest.title
 
 
-func _build_quest_details_text(info: Dictionary) -> String:
-	var description := str(info.get("description", ""))
-	var status := QUEST_STATUS_DONE if bool(info.get("is_completed", false)) else QUEST_STATUS_TODO
+func _build_quest_details_text(entry: Quests.JournalEntry) -> String:
+	var description := str(entry.quest.description)
+	var status := QUEST_STATUS_DONE if entry.is_completed() else QUEST_STATUS_TODO
 	if description.is_empty():
 		return status
 	return "%s\n\n%s" % [description, status]

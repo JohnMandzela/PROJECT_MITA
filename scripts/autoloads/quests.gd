@@ -18,10 +18,9 @@ var _quests: Dictionary[String, Quest] = {}
 
 # TODO
 const DEFAULT_GAME_FLAGS: Dictionary[String, bool] = {
-	"1_morning_quest": false,
-	"2_mike_room_bed": false,
-	"3_cola_in_fridge": false,
-	"4_shower_use": false,
+	"bed_interacted": false,
+	"shower_used": false,
+	"offices_coffee_picked_up": false,
 	"programming_office_samples_puzzle_completed": false,
 }
 
@@ -38,6 +37,7 @@ class JournalEntry:
 	func _init(_quest_id: String, stages: Array[String]) -> void:
 		self.quest_id = _quest_id
 		self.quest = Quests._quests[_quest_id]
+		self.state = Quests.get_quest_state(_quest_id)
 		self.completed_stages = stages
 
 	func is_completed() -> bool:
@@ -69,15 +69,15 @@ func _init_quests() -> void:
 	dir.list_dir_end()
 
 
-# Возвращает список активных квестов с их состоянием и завершёнными этапами
-func get_journal_entries() -> Array[JournalEntry]:
-	var result := []
+# Возвращает список записей журнала для квестов с указанным состоянием
+func get_journal_entries(state: QuestState) -> Array[JournalEntry]:
+	var result: Array[JournalEntry] = []
 
 	for quest_id in _quests.keys():
-		if not is_active(quest_id):
+		if get_quest_state(quest_id) != state:
 			continue
 
-		var completed_stages := []
+		var completed_stages: Array[String] = []
 		for stage_name in _quests[quest_id].stages.keys():
 			if get_quest_flag(quest_id, stage_name):
 				completed_stages.append(stage_name)
@@ -152,7 +152,7 @@ func complete_quest(quest_id: String) -> void:
 
 
 # Возвращает значение квестового флага
-func get_quest_flag(quest_id: String, flag_name: String) -> bool:
+func get_quest_flag(quest_id: String, flag_id: String) -> bool:
 	if not quest_exists(quest_id):
 		push_error("Квест '%s' не найден." % quest_id)
 		return false
@@ -161,15 +161,15 @@ func get_quest_flag(quest_id: String, flag_name: String) -> bool:
 		_init_quest_data(quest_id)
 
 	var flags = quest_data[quest_id]["flags"]
-	if not flags.has(flag_name):
-		push_warning("Флаг '%s' не найден в квесте '%s'." % [flag_name, quest_id])
+	if not flags.has(flag_id):
+		push_warning("Флаг '%s' не найден в квесте '%s'." % [flag_id, quest_id])
 		return false
 
-	return flags[flag_name]
+	return flags[flag_id]
 
 
 # Устанавливает значение квестового флага на параметр value (по умолчанию true)
-func set_quest_flag(quest_id: String, flag_name: String, value := true) -> void:
+func set_quest_flag(quest_id: String, flag_id: String, value := true) -> void:
 	if not quest_exists(quest_id):
 		push_error("Квест '%s' не найден." % quest_id)
 		return
@@ -177,36 +177,36 @@ func set_quest_flag(quest_id: String, flag_name: String, value := true) -> void:
 	if not quest_data.has(quest_id):
 		_init_quest_data(quest_id)
 
-	var flags = quest_data[quest_id]["flags"]
-	if not flags.has(flag_name):
-		push_warning("Флаг '%s' не найден в квесте '%s'." % [flag_name, quest_id])
-	elif flags[flag_name] != value:
-		quest_data["flags"][flag_name] = value
+	var flags: Dictionary[String, bool] = quest_data[quest_id]["flags"]
+	if not flags.has(flag_id):
+		push_error("Флаг '%s' не найден в квесте '%s'." % [flag_id, quest_id])
+	elif flags[flag_id] != value:
+		flags[flag_id] = value
 		quest_updated.emit(quest_id)
 
 
 # Возвращает значение флага
-func get_flag(flag_name: String) -> bool:
-	if not game_flags.has(flag_name):
-		push_warning("Флаг '%s' не найден." % flag_name)
+func get_flag(flag_id: String) -> bool:
+	if not game_flags.has(flag_id):
+		push_error("Флаг '%s' не найден." % flag_id)
 		return false
 
-	return game_flags[flag_name]
+	return game_flags[flag_id]
 
 
 # Устанавливает значение флага на параметр value (по умолчанию true)
-func set_flag(flag_name: String, value := true) -> void:
-	if not game_flags.has(flag_name):
-		push_warning("Флаг '%s' не найден." % flag_name)
-	elif game_flags[flag_name] != value:
-		game_flags[flag_name] = value
-		flag_updated.emit(flag_name, value)
+func set_flag(flag_id: String, value := true) -> void:
+	if not game_flags.has(flag_id):
+		push_error("Флаг '%s' не найден." % flag_id)
+	elif game_flags[flag_id] != value:
+		game_flags[flag_id] = value
+		flag_updated.emit(flag_id, value)
 
 
 func _init_quest_data(quest_id: String, state := QuestState.NOT_STARTED) -> void:
 	var flags := {}
-	for flag_name in _quests[quest_id].stages.keys():
-		flags[flag_name] = false
+	for flag_id in _quests[quest_id].stages.keys():
+		flags[flag_id] = false
 
 	quest_data[quest_id] = { 
 		state = state,

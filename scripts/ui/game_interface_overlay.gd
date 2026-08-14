@@ -98,8 +98,8 @@ func _ready() -> void:
 
 	var items := get_node_or_null("/root/Inventory")
 	if items:
-		if items.has_signal("inventory_changed") and not items.inventory_changed.is_connected(_refresh_inventory):
-			items.inventory_changed.connect(_refresh_inventory)
+		if items.has_signal("inventory_changed") and not items.inventory_changed.is_connected(_on_inventory_changed):
+			items.inventory_changed.connect(_on_inventory_changed)
 
 
 func _process(_delta: float) -> void:
@@ -664,6 +664,10 @@ func set_settings_open(open: bool) -> void:
 	settings_tween.set_parallel(false)
 	if not settings_open:
 		settings_tween.tween_callback(func(): settings_drawer.visible = false)
+
+
+func _on_inventory_changed(_item: String, _count: int) -> void:
+	_refresh_inventory()
 
 
 func _refresh_inventory() -> void:

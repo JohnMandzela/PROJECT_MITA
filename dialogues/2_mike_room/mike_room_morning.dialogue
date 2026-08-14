@@ -1,4 +1,10 @@
 ~ start
+
+if GameManager.DEBUG_SKIP_INTRO
+	do wake_up_animation()
+	do mike_visible_true()
+	=> END
+
 do sleep_animation()
 do _wait_time(1.0)
 do wake_up_animation()

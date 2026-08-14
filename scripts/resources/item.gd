@@ -10,10 +10,6 @@ extends Resource
 # Текст, который будет отображаться при использовании предмета
 @export var use_text: String
 
-# TODO: генерировать динамически из свойств
-# Описание действия, которое будет выполнено при использовании предмета
-@export var action: String
-
 # Восстановление бодрости
 @export var vigor_modifier: int = 0
 
@@ -58,7 +54,7 @@ func get_use_text(use_effects: Dictionary) -> String:
     if use_effects.has("psyche"):
         effect_descriptions.append("Психика: %+d" % use_effects["psyche"])
 
-    return use_text if use_text != "" else "Использовать"
+    return "Использовать: " + ", ".join(effect_descriptions)
 
 
 # TODO: удалить, когда будет рефакторинг UI
@@ -70,12 +66,9 @@ func to_dictionary() -> Dictionary:
         "icon_path": icon_path,
     }
 
-    var use_effects := get_use_effects()
-
+    var use_effects := _get_use_effects()
     if use_effects:
-        
-
         dict["use_effects"] = use_effects
-        dict["action"] = "Использовать: " + ", ".join(effect_descriptions)
+        dict["action"] = get_use_text(use_effects)
 
     return dict
