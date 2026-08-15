@@ -9,14 +9,14 @@ enum Mode {
 const SLOT_COUNT := 3
 const LEGACY_SAVE_PATH := "user://save.bin"
 
-const GAME_MANAGER_PROPERTIES_TO_SAVE: PackedStringArray = [
+
+const QUESTS_PROPERTIES_TO_SAVE: PackedStringArray = [
+	"quest_data",
 	"game_flags",
-	"quests_info",
 ]
 
-const ITEMS_PROPERTIES_TO_SAVE: PackedStringArray = [
-	"items_inventory",
-	"inventory_order",
+const INVENTORY_PROPERTIES_TO_SAVE: PackedStringArray = [
+	"contents"
 ]
 
 const PLAYER_PROPERTIES_TO_SAVE: PackedStringArray = [
@@ -98,14 +98,14 @@ func save_game(mode: Mode, slot := 0) -> void:
 		"scene_file_path" = get_tree().current_scene.scene_file_path,
 	}
 
-	for property in GAME_MANAGER_PROPERTIES_TO_SAVE:
-		save_data[property] = GameManager.get(property)
+	for property in QUESTS_PROPERTIES_TO_SAVE:
+		save_data[property] = Quests.get(property)
 
 	for property in PLAYER_PROPERTIES_TO_SAVE:
 		save_data[property] = player.get(property)
 
-	for property in ITEMS_PROPERTIES_TO_SAVE:
-		save_data[property] = Items.get(property)
+	for property in INVENTORY_PROPERTIES_TO_SAVE:
+		save_data[property] = Inventory.get(property)
 
 	file.store_var(save_data)
 	file.close()
@@ -148,21 +148,15 @@ func load_game_state() -> void:
 
 	assert(_save_data != null, "Нет данных для загрузки")
 
-	for property in GAME_MANAGER_PROPERTIES_TO_SAVE:
+	for property in QUESTS_PROPERTIES_TO_SAVE:
 		if _save_data.has(property):
-			GameManager.set(property, _save_data[property])
+			Quests.set(property, _save_data[property])
 
-	GameManager.sync_quest_progress()
+	for property in INVENTORY_PROPERTIES_TO_SAVE:
+		if _save_data.has(property):
+			Inventory.set(property, _save_data[property])
 
-	var loaded_inventory := Items.items_inventory
-	if _save_data.has("items_inventory"):
-		loaded_inventory = _save_data["items_inventory"]
-
-	var loaded_order := Items.inventory_order
-	if _save_data.has("inventory_order"):
-		loaded_order = _save_data["inventory_order"]
-
-	Items.apply_inventory_state(loaded_inventory, loaded_order)
+	# TODO
 	GameManager._pending_scene_path = str(_save_data["scene_file_path"])
 
 	print("Загружены данные GameManager")
@@ -193,21 +187,6 @@ func save_exists(mode = null, slot := 0) -> bool:
 		return not get_all_save_files().is_empty()
 
 	return FileAccess.file_exists(get_save_file_path(mode, slot))
-
-
-func get_save_slot_infos() -> Array[Dictionary]:
-	var slots: Array[Dictionary] = []
-
-	slots.append(_build_slot_info("quick", "Быстрое сохранение", Mode.QUICK, 0))
-	slots.append(_build_slot_info("auto", "Автосохранение", Mode.AUTO, 0))
-
-	for slot in range(SLOT_COUNT):
-		slots.append(_build_slot_info("manual_%d" % slot, "Слот %d" % (slot + 1), Mode.MANUAL, slot))
-
-	if FileAccess.file_exists(LEGACY_SAVE_PATH):
-		slots.append(_build_path_info("legacy", "Старое сохранение", LEGACY_SAVE_PATH))
-
-	return slots
 
 
 func get_save_summary(path: String) -> Dictionary:

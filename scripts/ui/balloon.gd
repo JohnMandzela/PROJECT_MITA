@@ -176,9 +176,9 @@ func get_portrait_side(character: String) -> PortraitSide:
 	assert(character, "get_portrait_side() вызвана для строки диалога без персонажа")
 
 	var current_side = null
-	if left_portrait._character == character:
+	if left_portrait.character == character:
 		current_side = PortraitSide.LEFT
-	elif right_portrait._character == character:
+	elif right_portrait.character == character:
 		current_side = PortraitSide.RIGHT
 
 	var side := dialogue_line.get_tag_value("side")
@@ -195,9 +195,9 @@ func get_portrait_side(character: String) -> PortraitSide:
 	elif side:
 		push_warning("Некорректная сторона '%s' для персонажа '%s' в строке диалога '%s'" % [side, character, dialogue_line.id])
 
-	if not left_portrait._character:
+	if not left_portrait.character:
 		return PortraitSide.LEFT
-	elif not right_portrait._character:
+	elif not right_portrait.character:
 		return PortraitSide.RIGHT
 
 	push_warning("Оба портрета уже заняты, но в строке диалога '%s' нет тега со стороной для персонажа '%s'" % [dialogue_line.id, character])
@@ -315,9 +315,9 @@ func fade_in() -> void:
 
 # Скрыть портрет персонажа по имени
 func hide_portrait(character: String) -> void:
-	if left_portrait._character == character:
+	if left_portrait.character == character:
 		await left_portrait.hide_character()
-	elif right_portrait._character == character:
+	elif right_portrait.character == character:
 		await right_portrait.hide_character()
 	else:
 		push_warning("Функция hide_portrait() вызвана с персонажем '%s', который не участвует в диалоге" % [character])
@@ -348,12 +348,12 @@ func _update_portraits(character: String) -> void:
 			current_portrait = right_portrait
 			other_portrait = left_portrait
 
-	if current_portrait._character != character and not current_portrait._character.is_empty():
+	if current_portrait.character != character and not current_portrait.character.is_empty():
 		await current_portrait.hide_character()
 
 	await current_portrait.set_character(character, emotion)
 	current_portrait.set_active()
-	if not other_portrait._character.is_empty():
+	if not other_portrait.character.is_empty():
 		other_portrait.set_inactive()
 	else:
 		other_portrait.visible = false

@@ -1,8 +1,11 @@
 class_name DialogueEvent
 extends Event
 
+# Ресурс диалога, который будет отображаться при взаимодействии с объектом
 @export var dialogue: DialogueResource
-@export var dialogue_start := ""
+
+# Точка входа в диалог
+@export var dialogue_start := "start"
 
 var is_dialogue_running := false
 

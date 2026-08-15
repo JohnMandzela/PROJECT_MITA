@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://b31wvq37hxrae"]
+
+[ext_resource type="Script" uid="uid://bdxy3rlikau48" path="res://scripts/resources/item.gd" id="1_4a2pt"]
+
+[resource]
+script = ExtResource("1_4a2pt")
+display_name = "Бутылка колы"
+description = "Освежающий напиток. Восстанавливает силы."
+use_text = ""
+vigor_modifier = 0
+psyche_modifier = 0
+metadata/_custom_type_script = "uid://bdxy3rlikau48"

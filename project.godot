@@ -24,12 +24,13 @@ buses/default_bus_layout="res://audio/default_bus_layout.tres"
 
 [autoload]
 
-Items="*res://scripts/autoloads/inventory_system.gd"
-Quests="*res://scripts/autoloads/quest_system.gd"
+Inventory="*res://scripts/autoloads/inventory.gd"
+Quests="*res://scripts/autoloads/quests.gd"
 GameManager="*res://scripts/autoloads/game_manager.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 SaveSystem="*res://scripts/autoloads/save_system.gd"
 DialogueGlobals="*res://scripts/autoloads/dialogue_globals.gd"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [dialogue_manager]
 
@@ -43,7 +44,7 @@ mouse_cursor/custom_image="uid://y5l7xcplapsp"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/glitch_intro/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/glitch_intro/plugin.cfg", "res://addons/godot_ai/plugin.cfg")
 
 [input]
 
@@ -127,7 +128,7 @@ skip_dialogue={
 [internationalization]
 
 locale/translations=PackedStringArray("res://lang/chars.en.translation")
-locale/translations_pot_files=PackedStringArray("res://dialogues/1_mom_home/sleep_flashback.dialogue", "res://dialogues/2_mike_room/mike_room_morning.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_bedside_table_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_fridge_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_laptop_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_sink_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_washing_machine_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_bed_day_1-1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_bed_day_1-2.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_hangers_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue", "res://dialogues/elevator_office.dialogue", "res://dialogues/offices_coffee.dialogue", "res://dialogues/Этап2.dialogue", "res://dialogues/Этап3.dialogue", "res://dialogues/Этап4.dialogue", "res://dialogues/Этап5.dialogue", "res://dialogues/Этап6.dialogue")
+locale/translations_pot_files=PackedStringArray("res://dialogues/1_mom_home/sleep_flashback.dialogue", "res://dialogues/2_mike_room/mike_room_morning.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_bedside_table_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_laptop_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_sink_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_washing_machine_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_bed_day_1-2.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_hangers_day_1.dialogue", "res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue", "res://dialogues/elevator_office.dialogue", "res://dialogues/offices_coffee.dialogue", "res://dialogues/Этап2.dialogue", "res://dialogues/Этап3.dialogue", "res://dialogues/Этап4.dialogue", "res://dialogues/Этап5.dialogue", "res://dialogues/Этап6.dialogue", "res://dialogues/2_mike_room/furniture/bed.dialogue", "res://dialogues/2_mike_room/furniture/fridge.dialogue")
 
 [layer_names]
 

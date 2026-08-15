@@ -1,7 +1,6 @@
 extends Event
 
 const COFFEE_PICKUP_FLAG := "offices_coffee_picked_up"
-const COFFEE_ITEM_ID := "coffee_cup"
 
 @export var dialogue: DialogueResource
 
@@ -9,20 +8,11 @@ var dialogue_open := false
 
 
 func _can_interact() -> bool:
-	return not dialogue_open and not GameManager.is_done(COFFEE_PICKUP_FLAG)
+	return not dialogue_open and not GameManager.get_flag(COFFEE_PICKUP_FLAG)
 
 
 func _on_interact() -> void:
 	_start_interaction()
-
-
-func take_coffee() -> void:
-	if GameManager.is_done(COFFEE_PICKUP_FLAG):
-		return
-	Items.item_was_took(COFFEE_ITEM_ID)
-	GameManager.set_done(COFFEE_PICKUP_FLAG)
-	_on_unfocused()
-
 
 func _start_interaction() -> void:
 	if dialogue == null:

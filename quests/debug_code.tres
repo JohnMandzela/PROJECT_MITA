@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Quest" load_steps=2 format=3 uid="uid://qijk42p0lujl"]
+
+[ext_resource type="Script" uid="uid://jsbalard1kqg" path="res://scripts/resources/quest.gd" id="1_kceo2"]
+
+[resource]
+script = ExtResource("1_kceo2")
+title = "Отладить код"
+started_text = "Пройдите мини-игру \"Отладка кода\" в Programming Office."
+metadata/_custom_type_script = "uid://jsbalard1kqg"

@@ -18,7 +18,7 @@ lang/            — Translations
 materials/       — Shader materials
 scenes/          — .tscn scene files (main_menu, mom_home, mike_room, offices, etc.)
 scripts/         — All GDScript source
-   autoloads/    — Singletons (GameManager, SaveSystem, Quests, Items, etc.)
+   autoloads/    — Singletons (GameManager, SaveSystem, Quests, Inventory, etc.)
    system/       — Base classes (Npc, Event, NextScene)
    ui/           — HUD overlays, menus, dialogue balloon, portraits
    1_mom_home/   — Scene-specific scripts for chapter 1

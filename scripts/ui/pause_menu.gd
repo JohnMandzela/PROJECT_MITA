@@ -171,8 +171,8 @@ func _ready() -> void:
 	_register_scroll_area(SCROLL_ACTIVE_QUESTS, quest_scroll)
 	_register_scroll_area(SCROLL_COMPLETED_QUESTS, completed_quest_scroll)
 
-	if not Items.inventory_changed.is_connected(_on_items_inventory_changed):
-		Items.inventory_changed.connect(_on_items_inventory_changed)
+	if not Inventory.inventory_changed.is_connected(_on_items_inventory_changed):
+		Inventory.inventory_changed.connect(_on_items_inventory_changed)
 
 	var config := ConfigFile.new()
 	var err := config.load(GameManager.SETTINGS_PATH)
@@ -330,7 +330,7 @@ func _on_exit_to_main_menu_pressed() -> void:
 	anim_exit.play("exit_to_main_menu")
 	await get_tree().create_timer(0.7).timeout
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 
 func _on_inventory_pressed() -> void:
@@ -422,7 +422,7 @@ func _on_load_pressed() -> void:
 	SaveSystem.load_game(SaveSystem.Mode.QUICK)
 
 
-func _on_items_inventory_changed() -> void:
+func _on_items_inventory_changed(_item: String, _count: int) -> void:
 	_refresh_inventory_ui()
 
 
@@ -433,21 +433,18 @@ func _refresh_inventory_ui() -> void:
 
 	_inventory_rows.clear()
 	_clear_inventory_selection()
+	
+	if Inventory.is_empty():
+		var empty_label := Label.new()
+		empty_label.text = EMPTY_LIST_TEXT
+		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		empty_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		inventory_items_list.add_child(empty_label)
 
-	var has_items := false
-	var ordered_ids := Items.get_ordered_item_ids()
-	for item_id in ordered_ids:
-		if not Items.is_known_item(item_id):
-			continue
-
-		var item_count := int(Items.items_inventory.get(item_id, 0))
-		if item_count <= 0:
-			continue
-
-		has_items = true
+	for stack in Inventory.contents:
 		var row := inventory_item_template.duplicate() as HBoxContainer
 		row.visible = true
-		row.name = "ItemRow_%s" % item_id
+		row.name = "ItemRow_%s" % stack.item_id
 
 		var icon := row.get_node("ItemIcon") as TextureRect
 		var info_block := row.get_node("ItemInfoBlock") as PanelContainer
@@ -457,33 +454,26 @@ func _refresh_inventory_ui() -> void:
 		icon.mouse_filter = Control.MOUSE_FILTER_STOP
 		info_block.mouse_filter = Control.MOUSE_FILTER_STOP
 
-		var item_info: Dictionary = Items.get_item_info(item_id)
-		item_name.text = str(item_info.get("display_name", item_id))
-		item_count_label.text = "x%d" % item_count
+		var item_info: Dictionary = stack.item.to_dictionary()
+		item_name.text = str(item_info.get("display_name", stack.item_id))
+		item_count_label.text = "x%d" % stack.count
 		icon.texture = _load_item_icon(str(item_info.get("icon_path", "")))
 
-		icon.gui_input.connect(_on_item_cell_gui_input.bind(item_id))
-		info_block.gui_input.connect(_on_item_cell_gui_input.bind(item_id))
-		icon.mouse_entered.connect(_on_item_hover_entered.bind(item_id))
-		info_block.mouse_entered.connect(_on_item_hover_entered.bind(item_id))
-		icon.mouse_exited.connect(_on_item_hover_exited.bind(item_id))
-		info_block.mouse_exited.connect(_on_item_hover_exited.bind(item_id))
+		icon.gui_input.connect(_on_item_cell_gui_input.bind(stack.item_id))
+		info_block.gui_input.connect(_on_item_cell_gui_input.bind(stack.item_id))
+		icon.mouse_entered.connect(_on_item_hover_entered.bind(stack.item_id))
+		info_block.mouse_entered.connect(_on_item_hover_entered.bind(stack.item_id))
+		icon.mouse_exited.connect(_on_item_hover_exited.bind(stack.item_id))
+		info_block.mouse_exited.connect(_on_item_hover_exited.bind(stack.item_id))
 
 		inventory_items_list.add_child(row)
-		_inventory_rows[item_id] = {
+		_inventory_rows[stack.item_id] = {
 			"icon": icon,
 			"info": info_block,
 			"hovered": false,
 			"pressed": false,
 		}
-		_apply_row_visual(item_id)
-
-	if not has_items:
-		var empty_label := Label.new()
-		empty_label.text = EMPTY_LIST_TEXT
-		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		empty_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		inventory_items_list.add_child(empty_label)
+		_apply_row_visual(stack.item_id)
 
 	_reset_scroll_state(SCROLL_INVENTORY)
 
@@ -502,19 +492,16 @@ func _refresh_active_quests_ui() -> void:
 	_active_quest_rows.clear()
 
 	var has_active_quests := false
-	for quest_id in GameManager.quests_info.keys():
-		var info: Dictionary = GameManager.quests_info[quest_id]
-		if not bool(info.get("is_active", false)) or bool(info.get("is_completed", false)):
-			continue
-
+	for entry in Quests.get_journal_entries(Quests.QuestState.ACTIVE):
 		has_active_quests = true
+
 		var row := quest_row_template.duplicate() as Button
 		row.visible = true
-		row.name = "QuestRow_%s" % quest_id
-		row.text = _build_quest_row_text(info, quest_id)
-		row.pressed.connect(_on_quest_row_pressed.bind(quest_id, SCROLL_ACTIVE_QUESTS))
+		row.name = "QuestRow_%s" % entry.quest_id
+		row.text = _build_quest_row_text(entry)
+		row.pressed.connect(_on_quest_row_pressed.bind(entry, SCROLL_ACTIVE_QUESTS))
 		quest_list.add_child(row)
-		_active_quest_rows[quest_id] = row
+		_active_quest_rows[entry.quest_id] = row
 
 	if not has_active_quests:
 		var empty_label := Label.new()
@@ -534,19 +521,16 @@ func _refresh_completed_quests_ui() -> void:
 	_completed_quest_rows.clear()
 
 	var has_completed_quests := false
-	for quest_id in GameManager.quests_info.keys():
-		var info: Dictionary = GameManager.quests_info[quest_id]
-		if not bool(info.get("is_completed", false)):
-			continue
-
+	for entry in Quests.get_journal_entries(Quests.QuestState.COMPLETED):
 		has_completed_quests = true
+
 		var row := completed_quest_row_template.duplicate() as Button
 		row.visible = true
-		row.name = "CompletedQuestRow_%s" % quest_id
-		row.text = _build_quest_row_text(info, quest_id)
-		row.pressed.connect(_on_quest_row_pressed.bind(quest_id, SCROLL_COMPLETED_QUESTS))
+		row.name = "CompletedQuestRow_%s" % entry.quest_id
+		row.text = _build_quest_row_text(entry)
+		row.pressed.connect(_on_quest_row_pressed.bind(entry, SCROLL_COMPLETED_QUESTS))
 		completed_quest_list.add_child(row)
-		_completed_quest_rows[quest_id] = row
+		_completed_quest_rows[entry.quest_id] = row
 
 	if not has_completed_quests:
 		var empty_label := Label.new()
@@ -558,29 +542,29 @@ func _refresh_completed_quests_ui() -> void:
 	_reset_scroll_state(SCROLL_COMPLETED_QUESTS)
 
 
-func _on_quest_row_pressed(quest_id: String, source: String) -> void:
-	if not GameManager.quests_info.has(quest_id):
-		return
-	var info: Dictionary = GameManager.quests_info[quest_id]
-	quest_details_title.text = str(info.get("title", quest_id))
-	quest_details_text.text = _build_quest_details_text(info)
+func _on_quest_row_pressed(entry: Quests.JournalEntry, source: String) -> void:
+	quest_details_title.text = entry.quest.title
+	quest_details_text.text = _build_quest_details_text(entry)
 	_quest_details_source = source
 	quest_details.visible = true
 	quest_vbox.visible = false
 	completed_quests_overlay.visible = false
 
 
-func _build_quest_row_text(info: Dictionary, quest_id: String) -> String:
-	var prefix := QUEST_DONE_PREFIX if bool(info.get("is_completed", false)) else QUEST_TODO_PREFIX
-	return prefix + str(info.get("title", quest_id))
+func _build_quest_row_text(entry: Quests.JournalEntry) -> String:
+	var prefix := QUEST_DONE_PREFIX if entry.is_completed() else QUEST_TODO_PREFIX
+	return prefix + entry.quest.title
 
 
-func _build_quest_details_text(info: Dictionary) -> String:
-	var description := str(info.get("description", ""))
-	var status := QUEST_STATUS_DONE if bool(info.get("is_completed", false)) else QUEST_STATUS_TODO
-	if description.is_empty():
-		return status
-	return "%s\n\n%s" % [description, status]
+func _build_quest_details_text(entry: Quests.JournalEntry) -> String:
+	var lines := [entry.quest.started_text] + entry.completed_stages
+
+	if entry.is_completed():
+		lines.append(entry.quest.completed_text)
+
+	var status_str := QUEST_STATUS_DONE if entry.is_completed() else QUEST_STATUS_TODO
+	
+	return "%s\n\n%s" % ['\n'.join(lines), status_str]
 
 
 func _on_item_cell_gui_input(event: InputEvent, item_id: String) -> void:
@@ -643,7 +627,7 @@ func _apply_row_visual(item_id: String) -> void:
 
 func _select_inventory_item(item_id: String) -> void:
 	_selected_item_id = item_id
-	var item_info: Dictionary = Items.get_item_info(item_id)
+	var item_info: Dictionary = Inventory.get_item_info(item_id)
 	inventory_description.text = str(item_info.get("description", ""))
 	inventory_description.visible = true
 

@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://bhjvw8gdubary"
+path="res://.godot/imported/fridge.dialogue-1ccb049cbdae0a3c3ace419c153218bb.tres"
+
+[deps]
+
+source_file="res://dialogues/2_mike_room/furniture/fridge.dialogue"
+dest_files=["res://.godot/imported/fridge.dialogue-1ccb049cbdae0a3c3ace419c153218bb.tres"]
+
+[params]
+
+defaults=true

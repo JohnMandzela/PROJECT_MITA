@@ -27,9 +27,9 @@ func _can_interact() -> bool:
 
 
 func _on_interact() -> void:
-	if dialogue != null and not GameManager.is_done("4_shower_use"):
+	if dialogue != null and not GameManager.get_flag("shower_used"):
 		is_dialogue_running = true
-		GameManager.set_done("4_shower_use")
+		GameManager.set_flag("shower_used")
 		DialogueManager.show_dialogue_balloon(dialogue, "start", [self])
 	else:
 		_play_toilet_sound()

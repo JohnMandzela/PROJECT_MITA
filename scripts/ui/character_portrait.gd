@@ -18,7 +18,7 @@ const INACTIVE_SCALE := Vector2(0.9, 0.9)
 
 @export var flipped := false
 
-var _character := &""
+var character := &""
 var _emotion := &""
 
 
@@ -32,18 +32,18 @@ func set_inactive() -> void:
 	self.scale = INACTIVE_SCALE
 
 
-func set_character(character: String, emotion := &"") -> void:
-	var char_changed = character != self._character
+func set_character(char: String, emotion := &"") -> void:
+	var char_changed = char != self.character
 
 	if char_changed:
 		hide_character()
 	elif emotion == self._emotion:
 		return
 
-	self._character = character
+	self.character = char
 	self._emotion = emotion
 
-	var prefix = DialogueGlobals.PORTRAIT_PREFIXES[character]
+	var prefix = DialogueGlobals.PORTRAIT_PREFIXES[char]
 	var portrait_name = (prefix + "_" + emotion) if emotion else prefix
 
 	var anchor := Control.LayoutPreset.PRESET_BOTTOM_RIGHT if flipped else Control.LayoutPreset.PRESET_BOTTOM_LEFT
@@ -60,12 +60,12 @@ func set_character(character: String, emotion := &"") -> void:
 
 
 func hide_character() -> void:
-	if not self._character:
+	if not self.character:
 		return
 
 	anim_player.play("leave_right" if flipped else "leave_left")
 	await anim_player.animation_finished
 
-	self._character = ""
+	self.character = ""
 	self._emotion = ""
 	self.texture_rect.texture = null
