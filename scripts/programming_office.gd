@@ -23,7 +23,7 @@ func open_samples_puzzle() -> void:
 	# Повторно не открываем пазл, если он уже активен, завершен или если сцена мини-игры не назначена.
 	if is_samples_puzzle_open():
 		return
-	if Quests.get_flag(PUZZLE_COMPLETION_FLAG):
+	if GameManager.get_flag(PUZZLE_COMPLETION_FLAG):
 		return
 	if puzzle_scene == null:
 		push_warning("Puzzle scene is not assigned for Programming Office.")
@@ -97,4 +97,4 @@ func _on_puzzle_exit_requested() -> void:
 
 func _on_puzzle_completed() -> void:
 	# Успешное завершение пазла фиксируем во флагах GameManager, чтобы его нельзя было запускать повторно.
-	Quests.set_flag(PUZZLE_COMPLETION_FLAG)
+	GameManager.set_flag(PUZZLE_COMPLETION_FLAG)

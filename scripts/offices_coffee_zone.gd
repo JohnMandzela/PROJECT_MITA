@@ -8,7 +8,7 @@ var dialogue_open := false
 
 
 func _can_interact() -> bool:
-	return not dialogue_open and not Quests.get_flag(COFFEE_PICKUP_FLAG)
+	return not dialogue_open and not GameManager.get_flag(COFFEE_PICKUP_FLAG)
 
 
 func _on_interact() -> void:

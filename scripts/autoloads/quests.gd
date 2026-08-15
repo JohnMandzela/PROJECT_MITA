@@ -12,21 +12,10 @@ enum QuestState {
 signal quest_started(quest_id: String)
 signal quest_updated(quest_id: String)
 signal quest_completed(quest_id: String)
-signal flag_updated(flag_name: String, value: bool)
 
 var _quests: Dictionary[String, Quest] = {}
 
-# TODO
-const DEFAULT_GAME_FLAGS: Dictionary[String, bool] = {
-	"bed_interacted": false,
-	"shower_used": false,
-	"offices_coffee_picked_up": false,
-	"programming_office_samples_puzzle_completed": false,
-}
-
 var quest_data: Dictionary[String, Dictionary] = {}
-var game_flags: Dictionary[String, bool] = {}
-
 
 class JournalEntry:
 	var quest_id: String
@@ -185,24 +174,6 @@ func set_quest_flag(quest_id: String, flag_id: String, value := true) -> void:
 		quest_updated.emit(quest_id)
 
 
-# Возвращает значение флага
-func get_flag(flag_id: String) -> bool:
-	if not game_flags.has(flag_id):
-		push_error("Флаг '%s' не найден." % flag_id)
-		return false
-
-	return game_flags[flag_id]
-
-
-# Устанавливает значение флага на параметр value (по умолчанию true)
-func set_flag(flag_id: String, value := true) -> void:
-	if not game_flags.has(flag_id):
-		push_error("Флаг '%s' не найден." % flag_id)
-	elif game_flags[flag_id] != value:
-		game_flags[flag_id] = value
-		flag_updated.emit(flag_id, value)
-
-
 func _init_quest_data(quest_id: String, state := QuestState.NOT_STARTED) -> void:
 	var flags := {}
 	for flag_id in _quests[quest_id].stages.keys():
@@ -220,5 +191,3 @@ func reset() -> void:
 
 	for quest_name in _quests.keys():
 		_init_quest_data(quest_name, QuestState.NOT_STARTED)
-
-	game_flags = DEFAULT_GAME_FLAGS.duplicate()

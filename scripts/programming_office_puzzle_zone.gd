@@ -4,11 +4,11 @@ const PUZZLE_COMPLETION_FLAG := "programming_office_samples_puzzle_completed"
 
 
 func _can_interact() -> bool:
-	return not Quests.get_flag(PUZZLE_COMPLETION_FLAG) and not _is_puzzle_busy()
+	return not GameManager.get_flag(PUZZLE_COMPLETION_FLAG) and not _is_puzzle_busy()
 
 
 func _on_interact() -> void:
-	if Quests.get_flag(PUZZLE_COMPLETION_FLAG):
+	if GameManager.get_flag(PUZZLE_COMPLETION_FLAG):
 		return
 	var interaction_root := _find_interaction_root()
 	if interaction_root == null:

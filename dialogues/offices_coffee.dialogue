@@ -4,7 +4,7 @@
 Майк: Кажется, его никто не допил. Не лучшая идея, но бодрость сейчас лишней не будет.
 - Поднять кофе
 	do Inventory.give_item("coffee_cup")
-	do Quests.set_flag("offices_coffee_picked_up")
+	do GameManager.set_flag("offices_coffee_picked_up")
 	Майк: Заберу. В офисе кофе считается почти валютой.
 	=> END
 - Оставить

@@ -330,7 +330,7 @@ func _on_exit_to_main_menu_pressed() -> void:
 	anim_exit.play("exit_to_main_menu")
 	await get_tree().create_timer(0.7).timeout
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
 
 func _on_inventory_pressed() -> void:
@@ -557,11 +557,14 @@ func _build_quest_row_text(entry: Quests.JournalEntry) -> String:
 
 
 func _build_quest_details_text(entry: Quests.JournalEntry) -> String:
-	var description := str(entry.quest.description)
-	var status := QUEST_STATUS_DONE if entry.is_completed() else QUEST_STATUS_TODO
-	if description.is_empty():
-		return status
-	return "%s\n\n%s" % [description, status]
+	var lines := [entry.quest.started_text] + entry.completed_stages
+
+	if entry.is_completed():
+		lines.append(entry.quest.completed_text)
+
+	var status_str := QUEST_STATUS_DONE if entry.is_completed() else QUEST_STATUS_TODO
+	
+	return "%s\n\n%s" % ['\n'.join(lines), status_str]
 
 
 func _on_item_cell_gui_input(event: InputEvent, item_id: String) -> void:

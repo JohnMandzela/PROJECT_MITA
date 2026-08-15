@@ -5,6 +5,17 @@ const SCENE_ROOT := "res://scenes/"
 
 const SCREEN_FADER_PATH := "res://scenes/ui/screen_fader.tscn"
 
+const DEFAULT_GAME_FLAGS: Dictionary[String, bool] = {
+	"bed_interacted": false,
+	"shower_used": false,
+	"offices_coffee_picked_up": false,
+	"programming_office_samples_puzzle_completed": false,
+}
+
+signal flag_updated(flag_name: String, value: bool)
+
+var game_flags: Dictionary[String, bool] = {}
+
 var player_scene: PackedScene = preload("res://scenes/player.tscn")
 var player: CharacterBody2D
 var pending_spawn_point: String = ""
@@ -25,8 +36,28 @@ const DEBUG_SKIP_INTRO := true
 
 
 func reset_game_state() -> void:
+	game_flags = DEFAULT_GAME_FLAGS.duplicate()
 	Quests.reset()
 	Inventory.reset()
+
+	
+
+# Возвращает значение флага
+func get_flag(flag_id: String) -> bool:
+	if not game_flags.has(flag_id):
+		push_error("Флаг '%s' не найден." % flag_id)
+		return false
+
+	return game_flags[flag_id]
+
+
+# Устанавливает значение флага на параметр value (по умолчанию true)
+func set_flag(flag_id: String, value := true) -> void:
+	if not game_flags.has(flag_id):
+		push_error("Флаг '%s' не найден." % flag_id)
+	elif game_flags[flag_id] != value:
+		game_flags[flag_id] = value
+		flag_updated.emit(flag_id, value)
 
 
 func load_settings() -> void:
