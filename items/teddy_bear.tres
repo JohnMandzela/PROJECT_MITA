@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://ltnecpx7tnkx"]
+
+[ext_resource type="Script" uid="uid://bdxy3rlikau48" path="res://scripts/resources/item.gd" id="1_dboi0"]
+
+[resource]
+script = ExtResource("1_dboi0")
+display_name = "Плюшевый мишка"
+description = "Мягкая игрушка."
+metadata/_custom_type_script = "uid://bdxy3rlikau48"

@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="8_42cvc"]
 [ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="9_qy5m8"]
 [ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="10_xyr6m"]
-[ext_resource type="Resource" uid="uid://c1fhlrkknmd25" path="res://dialogues/Этап4.dialogue" id="11_pjjs5"]
+[ext_resource type="Resource" uid="uid://c1fhlrkknmd25" path="res://dialogues/stage_4.dialogue" id="11_pjjs5"]
 [ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="12_bcki3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ciswt"]
