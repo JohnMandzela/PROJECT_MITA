@@ -20,8 +20,12 @@ class ItemStack:
 		self.item = Inventory._items[id]
 		self.count = n
 
+var real_world_inventory: Array[ItemStack] = []
+var virtual_world_inventory: Array[ItemStack] = []
 
-var contents: Array[ItemStack] = []
+var current_inventory: Array[ItemStack]:
+	get:
+		return virtual_world_inventory if GameManager.is_virtual_world else real_world_inventory
 
 
 func _ready() -> void:
@@ -53,7 +57,7 @@ func _init_items() -> void:
 
 # Возвращает количество предметов с указанным ID в инвентаре
 func get_item_count(item_id: String) -> int:
-	for stack in contents:
+	for stack in current_inventory:
 		if stack.item_id == item_id:
 			return stack.count
 
@@ -71,14 +75,14 @@ func give_item(item_id: String, count := 1) -> void:
 		push_warning("Функция give_item вызвана с count <= 0")
 		return
 
-	for stack in contents:
+	for stack in current_inventory:
 		if stack.item_id == item_id:
 			stack.count += count
 			inventory_changed.emit(stack.item_id, count)
 			return
 
 	var stack := ItemStack.new(item_id, count)
-	contents.append(stack)
+	current_inventory.append(stack)
 	inventory_changed.emit(stack.item_id, count)
 
 # Убирает из инвентаря предмет с указанным ID в количестве count (по умолчанию 1)
@@ -88,33 +92,33 @@ func remove_item(item_id: String, count := 1) -> void:
 		push_warning("Функция remove_item вызвана с count <= 0")
 		return
 
-	for stack in contents:
+	for stack in current_inventory:
 		if stack.item_id == item_id:
 			var change: int = min(count, stack.count)
 			stack.count -= change
 			if stack.count <= 0:
-				contents.erase(stack)
+				current_inventory.erase(stack)
 			inventory_changed.emit(stack.item_id, -change)
 			return
 
 
 # Убирает из инвентаря все предметы с указанным ID
 func remove_all(item_id: String) -> void:
-	for stack in contents:
+	for stack in current_inventory:
 		if stack.item_id == item_id:
-			contents.erase(stack)
+			current_inventory.erase(stack)
 			inventory_changed.emit(stack.item_id, stack.count)
 			return
 
 
 # Возвращает true, если инвентарь пуст
 func is_empty() -> bool:
-	return contents.size() == 0
+	return current_inventory.size() == 0
 
 
 # Сбрасывает инвентарь к дефолтному состоянию
 func reset() -> void:
-	contents.clear()
+	current_inventory.clear()
 
 
 # TODO: отрефакторить UI, где используется эта функция

@@ -16,7 +16,8 @@ const QUESTS_PROPERTIES_TO_SAVE: PackedStringArray = [
 ]
 
 const INVENTORY_PROPERTIES_TO_SAVE: PackedStringArray = [
-	"contents"
+	"real_world_inventory",
+	"virtual_world_inventory"
 ]
 
 const PLAYER_PROPERTIES_TO_SAVE: PackedStringArray = [

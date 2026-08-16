@@ -20,6 +20,8 @@ var player_scene: PackedScene = preload("res://scenes/player.tscn")
 var player: CharacterBody2D
 var pending_spawn_point: String = ""
 
+var is_virtual_world := false
+
 var screen_fader: ScreenFader
 var _pending_scene_path: String
 var saved_direction = null

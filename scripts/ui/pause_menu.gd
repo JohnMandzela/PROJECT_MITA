@@ -441,7 +441,7 @@ func _refresh_inventory_ui() -> void:
 		empty_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		inventory_items_list.add_child(empty_label)
 
-	for stack in Inventory.contents:
+	for stack in Inventory.current_inventory:
 		var row := inventory_item_template.duplicate() as HBoxContainer
 		row.visible = true
 		row.name = "ItemRow_%s" % stack.item_id
