@@ -28,23 +28,19 @@ func _ready():
 
 
 func _input(event: InputEvent) -> void:
-	# Проверка нажатия кнопки бега (например, "shift")
-	if event.is_action_pressed("run"):
-		current_speed = run_speed
-	# Проверка нажатия кнопки бега (например, "c")
-	elif event.is_action_pressed("steals"):
-		current_speed = steals_speed
-	else:
-		current_speed = speed
-		
-	# Сохранение и загрузка
-	# TODO: перенести в меню
 	if event.is_action_pressed("save"):
 		SaveSystem.save_game(SaveSystem.Mode.QUICK)
 	elif event.is_action_pressed("load"):
 		SaveSystem.load_game(SaveSystem.Mode.QUICK)
 
 func _physics_process(_delta: float) -> void:
+	if Input.is_action_pressed("run"):
+		current_speed = run_speed
+	elif Input.is_action_pressed("steals"):
+		current_speed = steals_speed
+	else:
+		current_speed = speed
+
 	# Движение
 	if not GameManager.disable_movement:
 		direction_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")

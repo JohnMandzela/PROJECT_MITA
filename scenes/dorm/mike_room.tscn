@@ -22,9 +22,9 @@
 [ext_resource type="AudioStream" uid="uid://bpqa07dhdcffq" path="res://audio/sounds/item_got.mp3" id="16_1p2te"]
 [ext_resource type="Resource" uid="uid://dx10ur2ojuy7i" path="res://dialogues/2_mike_room/furniture/mike_room_sink_day_1.dialogue" id="19_u6sxl"]
 [ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="23_0i05t"]
-[ext_resource type="Texture2D" uid="uid://c51lp4wvmsp3m" path="res://images/tilesets/characters/$Mike_Sleep.png" id="24_md5sy"]
 [ext_resource type="Resource" uid="uid://b5lgjohkjrc2e" path="res://dialogues/2_mike_room/furniture/mike_room_hangers_day_1.dialogue" id="24_tksu2"]
 [ext_resource type="AudioStream" uid="uid://df1ev33k2aw70" path="res://audio/sounds/rustle.mp3" id="25_lg8j8"]
+[ext_resource type="Texture2D" uid="uid://dkf4x0afw4j51" path="res://images/tilesets/characters/Mike-Sleep.png" id="27_n83c8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uicif"]
 texture = ExtResource("3_pl8tl")
@@ -218,27 +218,47 @@ size = Vector2(46, 20.5)
 radius = 6.0
 height = 24.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lg8j8"]
-atlas = ExtResource("24_md5sy")
-region = Rect2(48, 96, 48, 96)
+[sub_resource type="AtlasTexture" id="AtlasTexture_n83c8"]
+atlas = ExtResource("27_n83c8")
+region = Rect2(96, 96, 48, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_md5sy"]
-atlas = ExtResource("24_md5sy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxu6u"]
+atlas = ExtResource("27_n83c8")
 region = Rect2(0, 96, 48, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_esg42"]
-atlas = ExtResource("24_md5sy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_kyxlb"]
+atlas = ExtResource("27_n83c8")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cw0qj"]
+atlas = ExtResource("27_n83c8")
 region = Rect2(0, 0, 48, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0i05t"]
-atlas = ExtResource("24_md5sy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvy3v"]
+atlas = ExtResource("27_n83c8")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1go8k"]
+atlas = ExtResource("27_n83c8")
 region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6pisp"]
+atlas = ExtResource("27_n83c8")
+region = Rect2(96, 0, 48, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tksu2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lg8j8")
+"texture": SubResource("AtlasTexture_n83c8")
+}],
+"loop": true,
+"name": &"irritated",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxu6u")
 }],
 "loop": true,
 "name": &"phone_on_hand",
@@ -246,7 +266,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_md5sy")
+"texture": SubResource("AtlasTexture_kyxlb")
 }],
 "loop": true,
 "name": &"shock",
@@ -254,7 +274,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_esg42")
+"texture": SubResource("AtlasTexture_cw0qj")
 }],
 "loop": true,
 "name": &"sleep",
@@ -262,11 +282,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0i05t")
+"texture": SubResource("AtlasTexture_mvy3v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1go8k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6pisp")
 }],
-"loop": true,
+"loop": false,
 "name": &"wake_up",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [node name="Mike_Room" type="Node2D"]
@@ -406,8 +432,14 @@ libraries = {
 autoplay = "start_screen_fader"
 
 [node name="Bed_Left" type="Area2D" parent="Events"]
+<<<<<<< HEAD
 script = ExtResource("23_0i05t")
 dialogue = ExtResource("10_md5sy")
+=======
+script = ExtResource("8_glapv")
+dialogue_1 = ExtResource("10_md5sy")
+dialogue_2 = ExtResource("11_1p2te")
+>>>>>>> feature/debug-UI-VR-phase5
 required_direction = 3
 
 [node name="Label" type="Label" parent="Events/Bed_Left"]
@@ -477,7 +509,11 @@ bus = &"Sounds"
 playback_type = 1
 
 [node name="Fridge" type="Area2D" parent="Events"]
+<<<<<<< HEAD
 script = ExtResource("23_0i05t")
+=======
+script = ExtResource("14_mmqfk")
+>>>>>>> feature/debug-UI-VR-phase5
 dialogue = ExtResource("15_nlhcy")
 required_direction = 3
 
@@ -588,7 +624,7 @@ shape = SubResource("CapsuleShape2D_1p2te")
 unique_name_in_owner = true
 position = Vector2(0, -36)
 sprite_frames = SubResource("SpriteFrames_tksu2")
-animation = &"shock"
+animation = &"irritated"
 autoplay = "sleep"
 
 [node name="wake_up_sound" type="AudioStreamPlayer" parent="Mike_Sleep"]

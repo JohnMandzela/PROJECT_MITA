@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://47ghfyvdt5nj"
-path="res://.godot/imported/Mike.png-2d4b7317177030044b68836da4125abe.ctex"
+uid="uid://dgy2scp5bckwj"
+path="res://.godot/imported/Mike-Necktie.png-53ec9cfad8b6034c19cc44e4abec7f05.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/characters/Mike.png"
-dest_files=["res://.godot/imported/Mike.png-2d4b7317177030044b68836da4125abe.ctex"]
+source_file="res://images/tilesets/characters/Mike-Necktie.png"
+dest_files=["res://.godot/imported/Mike-Necktie.png-53ec9cfad8b6034c19cc44e4abec7f05.ctex"]
 
 [params]
 

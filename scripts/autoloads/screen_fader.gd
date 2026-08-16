@@ -21,6 +21,7 @@ func fade_out(seconds = null):
 func fade_in():
 	_fade_seconds = null
 	anim.play("fade_in")
+	timer.stop()
 
 
 func _ready():

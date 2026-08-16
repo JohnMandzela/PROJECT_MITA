@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c51lp4wvmsp3m"
-path="res://.godot/imported/$Mike_Sleep.png-4a314537885165acde59f6b02ffdf0c2.ctex"
+uid="uid://dkf4x0afw4j51"
+path="res://.godot/imported/Mike-Sleep.png-3f7492ec091a807fe9a12fe5abc7d8e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/tilesets/characters/$Mike_Sleep.png"
-dest_files=["res://.godot/imported/$Mike_Sleep.png-4a314537885165acde59f6b02ffdf0c2.ctex"]
+source_file="res://images/tilesets/characters/Mike-Sleep.png"
+dest_files=["res://.godot/imported/Mike-Sleep.png-3f7492ec091a807fe9a12fe5abc7d8e9.ctex"]
 
 [params]
 

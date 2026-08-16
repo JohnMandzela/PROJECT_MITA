@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cii171lcyvvi8"
-path="res://.godot/imported/$Mom.png-9216b7fa069b17107b495453dd15fa5d.ctex"
+uid="uid://buarkom5rcr6n"
+path="res://.godot/imported/Mom.png-1d6666d69bd3f5967ff9d5cc4b784be7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/tilesets/characters/$Mom.png"
-dest_files=["res://.godot/imported/$Mom.png-9216b7fa069b17107b495453dd15fa5d.ctex"]
+source_file="res://images/tilesets/characters/Mom.png"
+dest_files=["res://.godot/imported/Mom.png-1d6666d69bd3f5967ff9d5cc4b784be7.ctex"]
 
 [params]
 
