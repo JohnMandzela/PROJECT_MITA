@@ -208,6 +208,10 @@ func load_game_state() -> void:
 		if _save_data.has(property):
 			Inventory.set(property, _save_data[property])
 
+	# Обратная совместимость со старыми сохранениями
+	if _save_data.has("contents"):
+		Inventory.set("real_world_inventory", _save_data["contents"])
+
 	# TODO
 	GameManager._pending_scene_path = str(_save_data["scene_file_path"])
 

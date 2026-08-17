@@ -432,15 +432,9 @@ libraries = {
 autoplay = "start_screen_fader"
 
 [node name="Bed_Left" type="Area2D" parent="Events"]
-<<<<<<< HEAD
 script = ExtResource("23_0i05t")
-dialogue = ExtResource("10_md5sy")
-=======
-script = ExtResource("8_glapv")
-dialogue_1 = ExtResource("10_md5sy")
-dialogue_2 = ExtResource("11_1p2te")
->>>>>>> feature/debug-UI-VR-phase5
 required_direction = 3
+dialogue = ExtResource("10_md5sy")
 
 [node name="Label" type="Label" parent="Events/Bed_Left"]
 z_index = 10
@@ -509,11 +503,7 @@ bus = &"Sounds"
 playback_type = 1
 
 [node name="Fridge" type="Area2D" parent="Events"]
-<<<<<<< HEAD
 script = ExtResource("23_0i05t")
-=======
-script = ExtResource("14_mmqfk")
->>>>>>> feature/debug-UI-VR-phase5
 dialogue = ExtResource("15_nlhcy")
 required_direction = 3
 

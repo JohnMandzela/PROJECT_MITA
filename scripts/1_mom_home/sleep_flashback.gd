@@ -1,8 +1,8 @@
 extends Node2D
 
 @export var dialogue: DialogueResource
-@onready var Mike: CharacterBody2D = $MikeNpc
-@onready var Mom: CharacterBody2D = $MomNpc
+@onready var mike: CharacterBody2D = $MikeNpc
+@onready var mom: CharacterBody2D = $MomNpc
 @onready var animation_darken: AnimationPlayer = $CanvasLayer/AnimationDarken
 @onready var animation_lighten: AnimationPlayer = $CanvasLayer/AnimationLighten
 
@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func mom_move(distance: float):
-	target_y = Mom.position.y + distance
+	target_y = mom.position.y + distance
 	mom_moving = true
 
 
@@ -42,13 +42,13 @@ func lighten_screen_backwards() -> void:
 
 func _process(delta):
 	if mom_moving:
-		Mom.position.y += speed * delta
+		mom.position.y += speed * delta
 
-		if Mom.position.y >= target_y:
-			Mom.position.y = target_y
+		if mom.position.y >= target_y:
+			mom.position.y = target_y
 			mom_moving = false
 
 
 func dialogue_end():
-	var mike_room_scene = load("res://scenes/Dorm/mike_room.tscn")
+	var mike_room_scene = load("res://scenes/dorm/mike_room.tscn")
 	get_tree().change_scene_to_packed(mike_room_scene)
