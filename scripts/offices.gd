@@ -6,9 +6,7 @@ const OVERLAY_CENTER_RECT := Rect2(68.0, 78.0, 862.0, 478.0)
 func _ready() -> void:
 	super._ready()
 
-	if GameManager.player:
-		GameManager.player.z_index = 5
-		call_deferred("_center_player_camera_on_overlay_window")
+	call_deferred("_center_player_camera_on_overlay_window")
 
 
 func _center_player_camera_on_overlay_window() -> void:
