@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk3801i3m817b"
-path="res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"
+uid="uid://484qawrqfw85"
+path="res://.godot/imported/Lift.png-d41df1f88de65de14e5f44820eda2d7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/characters/Emily_Shame.png"
-dest_files=["res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"]
+source_file="res://images/tilesets/scenes/Office/Lift.png"
+dest_files=["res://.godot/imported/Lift.png-d41df1f88de65de14e5f44820eda2d7f.ctex"]
 
 [params]
 

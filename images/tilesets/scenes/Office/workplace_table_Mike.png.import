@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk3801i3m817b"
-path="res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"
+uid="uid://ba1xahgoputou"
+path="res://.godot/imported/workplace_table_Mike.png-fa459b4e511be350c10ea6b8b46c2b3e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/characters/Emily_Shame.png"
-dest_files=["res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"]
+source_file="res://images/tilesets/scenes/Office/workplace_table_Mike.png"
+dest_files=["res://.godot/imported/workplace_table_Mike.png-fa459b4e511be350c10ea6b8b46c2b3e.ctex"]
 
 [params]
 

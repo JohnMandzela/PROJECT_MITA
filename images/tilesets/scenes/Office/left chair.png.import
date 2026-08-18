@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk3801i3m817b"
-path="res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"
+uid="uid://0tfj2acyps3v"
+path="res://.godot/imported/left chair.png-579ddabf18315590c9980ff6e90a0ffa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/characters/Emily_Shame.png"
-dest_files=["res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"]
+source_file="res://images/tilesets/scenes/Office/left chair.png"
+dest_files=["res://.godot/imported/left chair.png-579ddabf18315590c9980ff6e90a0ffa.ctex"]
 
 [params]
 

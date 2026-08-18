@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk3801i3m817b"
-path="res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"
+uid="uid://c0p31j8qcrts7"
+path="res://.godot/imported/corner sofa.png-99e47f4c7410ee40d3d1a6d1aa3e0014.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/characters/Emily_Shame.png"
-dest_files=["res://.godot/imported/Emily_Shame.png-d92d7df08e52dcf28ec7589fe5da90ba.ctex"]
+source_file="res://images/tilesets/scenes/Office/corner sofa.png"
+dest_files=["res://.godot/imported/corner sofa.png-99e47f4c7410ee40d3d1a6d1aa3e0014.ctex"]
 
 [params]
 
