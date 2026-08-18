@@ -57,7 +57,7 @@ size = Vector2(34, 21)
 size = Vector2(34, 19)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wx7r7"]
-size = Vector2(46.75, 20)
+size = Vector2(43.5, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lgbt0"]
 size = Vector2(33, 44)
@@ -265,7 +265,7 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Toilet"]
-position = Vector2(117.625, 162)
+position = Vector2(115, 162)
 shape = SubResource("RectangleShape2D_wx7r7")
 
 [node name="Enter_UtilityRoom" type="Area2D" parent="."]

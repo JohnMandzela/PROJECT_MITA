@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://bp4l7s6fdptfu"]
+[gd_scene load_steps=19 format=4 uid="uid://bp4l7s6fdptfu"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_u12yk"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="3_0ui6e"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://c4h8keyn2pjdi" path="res://images/tilesets/scenes/Office/right_chair.png" id="7_xwpyu"]
 [ext_resource type="Texture2D" uid="uid://0tfj2acyps3v" path="res://images/tilesets/scenes/Office/left chair.png" id="8_5aad3"]
 [ext_resource type="Texture2D" uid="uid://m4qvgm0q2fqv" path="res://images/tilesets/scenes/Office/coffee table.png" id="9_rb2dd"]
-[ext_resource type="Script" uid="uid://d18x1pbflx5n0" path="res://scripts/system/y_sort.gd" id="10_ysort"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tu18y"]
 texture = ExtResource("3_obrjd")
@@ -76,13 +75,12 @@ player_scene = ExtResource("4_player")
 default_spawn_point = "SpawnMarker"
 
 [node name="RestroomFinal" type="Sprite2D" parent="."]
-position = Vector2(37, 54)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RestroomFinal/StaticBody2D"]
 build_mode = 1
-polygon = PackedVector2Array(-257, 36, -257, 68, -225, 68, -225, 148, 95, 148, 95, 96, 36, 96, 36, 14, -1, 14, -1, -28, -65, -28, -65, 20, -81, 20, -81, -28, -225, -28, -225, 36)
+polygon = PackedVector2Array(-257, 36, -257, 68, -225, 68, -225, 148, 95, 148, 95, -28, -65, -28, -65, 20, -81, 20, -81, -28, -225, -28, -225, 36)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="RestroomFinal"]
 position = Vector2(-225, -204)
@@ -97,12 +95,11 @@ tile_set = SubResource("TileSet_45cgs")
 position = Vector2(-258, -343)
 
 [node name="CornerSofa" type="Sprite2D" parent="RestroomFinal/furniture"]
-script = ExtResource("10_ysort")
 position = Vector2(305, 367)
 texture = ExtResource("4_llbyi")
 
 [node name="TheDiningTable" type="Sprite2D" parent="RestroomFinal/furniture"]
-script = ExtResource("10_ysort")
+z_index = 4
 position = Vector2(120, 446)
 texture = ExtResource("5_4u6k0")
 
@@ -113,12 +110,11 @@ position = Vector2(0, 13)
 shape = SubResource("RectangleShape2D_ho8k7")
 
 [node name="DrinkMachine" type="Sprite2D" parent="RestroomFinal/furniture"]
-script = ExtResource("10_ysort")
 position = Vector2(142, 282)
 texture = ExtResource("6_mswi8")
 
 [node name="RightChair" type="Sprite2D" parent="RestroomFinal/furniture"]
-script = ExtResource("10_ysort")
+z_index = 4
 position = Vector2(162, 444)
 texture = ExtResource("7_xwpyu")
 
@@ -129,7 +125,7 @@ position = Vector2(-3, 20)
 shape = SubResource("RectangleShape2D_4ri8f")
 
 [node name="LeftChair" type="Sprite2D" parent="RestroomFinal/furniture"]
-script = ExtResource("10_ysort")
+z_index = 4
 position = Vector2(80, 444)
 texture = ExtResource("8_5aad3")
 
@@ -140,7 +136,7 @@ position = Vector2(1.5, 20.5)
 shape = SubResource("RectangleShape2D_4of8d")
 
 [node name="CoffeeTable" type="Sprite2D" parent="RestroomFinal/furniture"]
-script = ExtResource("10_ysort")
+z_index = 4
 position = Vector2(269, 398)
 texture = ExtResource("9_rb2dd")
 
@@ -151,6 +147,6 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_xo6jo")
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
-position = Vector2(-122, 83)
+position = Vector2(-217, 55)
 
 [node name="PauseMenu" parent="." instance=ExtResource("3_0ui6e")]
