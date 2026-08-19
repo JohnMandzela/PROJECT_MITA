@@ -111,6 +111,7 @@ polygon = PackedVector2Array(-647.99646, -9.527039, -647.99646, 24.472961, -599.
 [node name="PauseMenu" parent="." instance=ExtResource("3_cahr0")]
 
 [node name="EnterFloor1" parent="." instance=ExtResource("7_1vu13")]
+exit_direction = 1
 target_scene = "dorm/dorm_1_floor"
 target_spawn_point = "SpawnOnStairs"
 
