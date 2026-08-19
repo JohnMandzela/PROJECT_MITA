@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://bp4l7s6fdptfu"]
+
+[ext_resource type="Texture2D" uid="uid://kkonv1y4bjln" path="res://images/scene/Комната Отдыха-итог.png" id="1_svye3"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_u12yk"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="3_0ui6e"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="4_player"]
+[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="5_ysort"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(40, 36)
+
+[node name="Restroom" type="Node2D"]
+script = ExtResource("1_u12yk")
+player_scene = ExtResource("4_player")
+default_spawn_point = "SpawnFromCorridors"
+
+[node name="RestroomFinal" type="Sprite2D" parent="."]
+texture = ExtResource("1_svye3")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RestroomFinal/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-260.20166, 38.39775, -260.20166, 74.484535, -225.1354, 74.484535, -224.966, 145.41371, 96.051025, 145.59149, 96.051025, -29.509386, -23.038666, -29.509386, -23.038666, 21.332087, -31.00058, 21.332087, -31.00058, -29.509386, -224.966, -29.509386, -224.966, 38.39775)
+
+[node name="SpawnMarker" type="Marker2D" parent="."]
+position = Vector2(-92, 53)
+
+[node name="PauseMenu" parent="." instance=ExtResource("3_0ui6e")]
+
+[node name="SpawnFromCorridors" type="Marker2D" parent="."]
+position = Vector2(-209, 58)
+
+[node name="ExitToCorridors" type="Area2D" parent="."]
+position = Vector2(-6, 1)
+script = ExtResource("5_ysort")
+exit_direction = 2
+target_scene = "mihyung_offices/corridors_offices"
+target_spawn_point = "Spawn_on_Restroom"
+required_direction = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCorridors"]
+position = Vector2(-237, 55)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="Label" type="Label" parent="ExitToCorridors"]
+offset_left = -324.0
+offset_top = -17.0
+offset_right = -256.0
+offset_bottom = 6.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="body_entered" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_entered"]
+[connection signal="body_exited" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_exited"]
