@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 [gd_scene load_steps=22 format=4 uid="uid://dtcpain5ajg7r"]
+=======
+[gd_scene load_steps=12 format=3 uid="uid://dtcpain5ajg7r"]
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_w585l"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_3mhh6"]
@@ -6,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://boghgd0wtk1gl" path="res://images/tilesets/scenes/Office/wooden_door_front.png" id="4_8fj5o"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="4_xtt1d"]
 [ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="5_3mhh6"]
+<<<<<<< HEAD
 [ext_resource type="Texture2D" uid="uid://dsml067cy8i4y" path="res://images/tilesets/scenes/Office/side_wall_offices.png" id="5_nbj35"]
 [ext_resource type="Texture2D" uid="uid://2h2tw53qck02" path="res://images/tilesets/scenes/Office/side_wall_offices2.png" id="6_gk3vy"]
 [ext_resource type="Texture2D" uid="uid://dksw2nyvy4etf" path="res://images/tilesets/scenes/Office/top_wall.png" id="7_iyqtf"]
@@ -46,6 +51,8 @@ texture = ExtResource("3_f15g6")
 
 [sub_resource type="TileSet" id="TileSet_vura5"]
 sources/0 = SubResource("TileSetAtlasSource_ye2mr")
+=======
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0stv2"]
 size = Vector2(36.5, 20.5)
@@ -61,6 +68,9 @@ size = Vector2(43.5, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lgbt0"]
 size = Vector2(21.5, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_restroom"]
+size = Vector2(33, 37)
 
 [node name="Corridors_Offices" type="Node2D"]
 script = ExtResource("1_w585l")
@@ -183,7 +193,11 @@ position = Vector2(-747, -128)
 position = Vector2(-200, 217)
 
 [node name="Spawn_on_Toilet" type="Marker2D" parent="."]
+<<<<<<< HEAD
 position = Vector2(113, 164)
+=======
+position = Vector2(129, 159)
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 
 [node name="Spawn_on_Utility" type="Marker2D" parent="."]
 position = Vector2(-78, -277)
@@ -194,10 +208,17 @@ target_scene = "mihyung_offices/Programming_Office"
 target_spawn_point = "SpawnFromCorridors"
 
 [node name="Label" type="Label" parent="Enter_Programming_Office"]
+<<<<<<< HEAD
 offset_left = -779.0
 offset_top = -237.0
 offset_right = -711.0
 offset_bottom = -214.0
+=======
+offset_left = -782.0
+offset_top = -241.0
+offset_right = -714.0
+offset_bottom = -218.0
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Войти"
 horizontal_alignment = 1
@@ -214,9 +235,15 @@ target_scene = "mihyung_offices/manager's_cabinet"
 target_spawn_point = "SpawnFromCorridors"
 
 [node name="Label" type="Label" parent="Enter_Manager_Cabinet"]
+<<<<<<< HEAD
 offset_left = -440.0
 offset_top = -241.0
 offset_right = -372.0
+=======
+offset_left = -432.0
+offset_top = -241.0
+offset_right = -364.0
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 offset_bottom = -218.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Войти"
@@ -234,10 +261,17 @@ target_scene = "mihyung_offices/conference_room"
 target_spawn_point = "SpawnFromCorridors"
 
 [node name="Label" type="Label" parent="Enter_Conference_Room"]
+<<<<<<< HEAD
 offset_left = -231.0
 offset_top = 93.0
 offset_right = -163.0
 offset_bottom = 116.0
+=======
+offset_left = -236.0
+offset_top = 104.0
+offset_right = -168.0
+offset_bottom = 127.0
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Войти"
 horizontal_alignment = 1
@@ -254,9 +288,15 @@ target_scene = "mihyung_offices/mens_toilet"
 target_spawn_point = "SpawnFromCorridors"
 
 [node name="Label" type="Label" parent="Enter_Toilet"]
+<<<<<<< HEAD
 offset_left = 90.0
 offset_top = 47.0
 offset_right = 158.0
+=======
+offset_left = 81.0
+offset_top = 47.0
+offset_right = 149.0
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 offset_bottom = 70.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Войти"
@@ -265,7 +305,11 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Toilet"]
+<<<<<<< HEAD
 position = Vector2(115, 162)
+=======
+position = Vector2(117, 161)
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 shape = SubResource("RectangleShape2D_wx7r7")
 
 [node name="Enter_UtilityRoom" type="Area2D" parent="."]
@@ -276,10 +320,17 @@ target_spawn_point = "SpawnFromCorridors"
 required_direction = 2
 
 [node name="Label" type="Label" parent="Enter_UtilityRoom"]
+<<<<<<< HEAD
 offset_left = -175.0
 offset_top = -353.0
 offset_right = -107.0
 offset_bottom = -330.0
+=======
+offset_left = -165.0
+offset_top = -291.0
+offset_right = -97.0
+offset_bottom = -268.0
+>>>>>>> 6d701f7 (Переходы между сценами-комнатами)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Войти"
 horizontal_alignment = 1
@@ -289,6 +340,31 @@ metadata/_edit_use_anchors_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_UtilityRoom"]
 position = Vector2(-88.75, -274)
 shape = SubResource("RectangleShape2D_lgbt0")
+
+[node name="Spawn_on_Restroom" type="Marker2D" parent="."]
+position = Vector2(11, 396)
+
+[node name="Enter_Restroom" type="Area2D" parent="."]
+script = ExtResource("5_3mhh6")
+exit_direction = 3
+target_scene = "mihyung_offices/restroom"
+target_spawn_point = "SpawnFromCorridors"
+required_direction = 3
+
+[node name="Label" type="Label" parent="Enter_Restroom"]
+offset_left = 39.0
+offset_top = 327.0
+offset_right = 107.0
+offset_bottom = 350.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Войти"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Restroom"]
+position = Vector2(16, 400)
+shape = SubResource("RectangleShape2D_restroom")
 
 [connection signal="body_entered" from="Enter_Programming_Office" to="Enter_Programming_Office" method="_on_body_entered"]
 [connection signal="body_exited" from="Enter_Programming_Office" to="Enter_Programming_Office" method="_on_body_exited"]
@@ -300,3 +376,5 @@ shape = SubResource("RectangleShape2D_lgbt0")
 [connection signal="body_exited" from="Enter_Toilet" to="Enter_Toilet" method="_on_body_exited"]
 [connection signal="body_entered" from="Enter_UtilityRoom" to="Enter_UtilityRoom" method="_on_body_entered"]
 [connection signal="body_exited" from="Enter_UtilityRoom" to="Enter_UtilityRoom" method="_on_body_exited"]
+[connection signal="body_entered" from="Enter_Restroom" to="Enter_Restroom" method="_on_body_entered"]
+[connection signal="body_exited" from="Enter_Restroom" to="Enter_Restroom" method="_on_body_exited"]
