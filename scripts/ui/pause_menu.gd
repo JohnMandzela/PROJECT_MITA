@@ -288,6 +288,10 @@ func _on_options_pressed() -> void:
 	_dim_wallpaper()
 
 
+func _on_call_button_pressed() -> void:
+	pass
+
+
 func _on_quests_pressed() -> void:
 	_refresh_quests_ui()
 	pause_menu_ui.visible = false
@@ -298,6 +302,7 @@ func _on_quests_pressed() -> void:
 	pause_label.visible = false
 	quest_view.visible = true
 	_show_active_quests_page()
+	_dim_wallpaper()
 
 
 func _on_sounds_value_changed(value: float) -> void:
@@ -374,6 +379,7 @@ func _on_inventory_pressed() -> void:
 	tutorial.visible = false
 	pause_label.visible = false
 	inventory_view.visible = true
+	_dim_wallpaper()
 
 
 func _on_back_from_inventory_pressed() -> void:
@@ -381,6 +387,7 @@ func _on_back_from_inventory_pressed() -> void:
 	pause_menu_ui.visible = true
 	pause_label.visible = true
 	_clear_inventory_selection()
+	_undim_wallpaper()
 
 
 func _on_back_from_quests_pressed() -> void:
@@ -388,6 +395,7 @@ func _on_back_from_quests_pressed() -> void:
 	quest_view.visible = false
 	pause_menu_ui.visible = true
 	pause_label.visible = true
+	_undim_wallpaper()
 
 
 func _on_back_from_quest_details_pressed() -> void:
@@ -412,6 +420,7 @@ func _on_messenger_pressed() -> void:
 	menu_options.visible = false
 	pause_label.visible = false
 	messenger.visible = true
+	_dim_wallpaper()
 
 
 func _on_tutorial_pressed() -> void:
@@ -438,6 +447,7 @@ func _on_back_from_messenger_pressed() -> void:
 	quest_view.visible = false
 	pause_label.visible = true
 	messenger.visible = false
+	_undim_wallpaper()
 
 
 func _on_back_from_tutorial_pressed() -> void:
