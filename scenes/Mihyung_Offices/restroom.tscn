@@ -1,18 +1,19 @@
-[gd_scene load_steps=19 format=4 uid="uid://bp4l7s6fdptfu"]
+[gd_scene load_steps=21 format=4 uid="uid://bp4l7s6fdptfu"]
 
-[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_u12yk"]
-[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="3_0ui6e"]
-[ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="3_obrjd"]
-[ext_resource type="Texture2D" uid="uid://c0p31j8qcrts7" path="res://images/tilesets/scenes/Office/corner sofa.png" id="4_llbyi"]
-[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="4_player"]
-[ext_resource type="Texture2D" uid="uid://c7b1bbi2ofx4p" path="res://images/tilesets/scenes/Office/The dining table.png" id="5_4u6k0"]
-[ext_resource type="Texture2D" uid="uid://cem2uj77bkyxc" path="res://images/tilesets/scenes/Office/drink machine.png" id="6_mswi8"]
-[ext_resource type="Texture2D" uid="uid://c4h8keyn2pjdi" path="res://images/tilesets/scenes/Office/right_chair.png" id="7_xwpyu"]
-[ext_resource type="Texture2D" uid="uid://0tfj2acyps3v" path="res://images/tilesets/scenes/Office/left chair.png" id="8_5aad3"]
-[ext_resource type="Texture2D" uid="uid://m4qvgm0q2fqv" path="res://images/tilesets/scenes/Office/coffee table.png" id="9_rb2dd"]
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_06xhh"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_sta68"]
+[ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="3_gxevg"]
+[ext_resource type="Texture2D" uid="uid://c0p31j8qcrts7" path="res://images/tilesets/scenes/Office/corner sofa.png" id="4_sml5k"]
+[ext_resource type="Texture2D" uid="uid://c7b1bbi2ofx4p" path="res://images/tilesets/scenes/Office/The dining table.png" id="5_ffixf"]
+[ext_resource type="Texture2D" uid="uid://cem2uj77bkyxc" path="res://images/tilesets/scenes/Office/drink machine.png" id="6_poqd8"]
+[ext_resource type="Texture2D" uid="uid://c4h8keyn2pjdi" path="res://images/tilesets/scenes/Office/right_chair.png" id="7_axk3k"]
+[ext_resource type="Texture2D" uid="uid://0tfj2acyps3v" path="res://images/tilesets/scenes/Office/left chair.png" id="8_ms7op"]
+[ext_resource type="Texture2D" uid="uid://m4qvgm0q2fqv" path="res://images/tilesets/scenes/Office/coffee table.png" id="9_ujdaq"]
+[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="10_wc3ks"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="11_p1pm5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tu18y"]
-texture = ExtResource("3_obrjd")
+texture = ExtResource("3_gxevg")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -35,7 +36,7 @@ texture = ExtResource("3_obrjd")
 sources/8 = SubResource("TileSetAtlasSource_tu18y")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u2r2n"]
-texture = ExtResource("3_obrjd")
+texture = ExtResource("3_gxevg")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -69,9 +70,12 @@ size = Vector2(33, 25)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xo6jo"]
 size = Vector2(20, 44)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4u6k0"]
+size = Vector2(23.0625, 30.75)
+
 [node name="Restroom" type="Node2D"]
-script = ExtResource("1_u12yk")
-player_scene = ExtResource("4_player")
+script = ExtResource("1_06xhh")
+player_scene = ExtResource("2_sta68")
 default_spawn_point = "SpawnMarker"
 
 [node name="RestroomFinal" type="Sprite2D" parent="."]
@@ -95,12 +99,12 @@ position = Vector2(-258, -343)
 
 [node name="CornerSofa" type="Sprite2D" parent="RestroomFinal/furniture"]
 position = Vector2(305, 367)
-texture = ExtResource("4_llbyi")
+texture = ExtResource("4_sml5k")
 
 [node name="TheDiningTable" type="Sprite2D" parent="RestroomFinal/furniture"]
 z_index = 4
 position = Vector2(120, 446)
-texture = ExtResource("5_4u6k0")
+texture = ExtResource("5_ffixf")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal/furniture/TheDiningTable"]
 
@@ -110,12 +114,12 @@ shape = SubResource("RectangleShape2D_ho8k7")
 
 [node name="DrinkMachine" type="Sprite2D" parent="RestroomFinal/furniture"]
 position = Vector2(142, 282)
-texture = ExtResource("6_mswi8")
+texture = ExtResource("6_poqd8")
 
 [node name="RightChair" type="Sprite2D" parent="RestroomFinal/furniture"]
 z_index = 4
 position = Vector2(162, 444)
-texture = ExtResource("7_xwpyu")
+texture = ExtResource("7_axk3k")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal/furniture/RightChair"]
 
@@ -126,7 +130,7 @@ shape = SubResource("RectangleShape2D_4ri8f")
 [node name="LeftChair" type="Sprite2D" parent="RestroomFinal/furniture"]
 z_index = 4
 position = Vector2(80, 444)
-texture = ExtResource("8_5aad3")
+texture = ExtResource("8_ms7op")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal/furniture/LeftChair"]
 
@@ -137,7 +141,7 @@ shape = SubResource("RectangleShape2D_4of8d")
 [node name="CoffeeTable" type="Sprite2D" parent="RestroomFinal/furniture"]
 z_index = 4
 position = Vector2(269, 398)
-texture = ExtResource("9_rb2dd")
+texture = ExtResource("9_ujdaq")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal/furniture/CoffeeTable"]
 
@@ -145,7 +149,34 @@ texture = ExtResource("9_rb2dd")
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_xo6jo")
 
-[node name="SpawnMarker" type="Marker2D" parent="."]
-position = Vector2(-217, 55)
+[node name="ExitToCorridors" type="Area2D" parent="RestroomFinal"]
+position = Vector2(-150, -29)
+script = ExtResource("10_wc3ks")
+exit_direction = 2
+target_scene = "mihyung_offices/corridors_offices"
+target_spawn_point = "Spawn_on_Restroom"
+required_direction = 2
 
-[node name="PauseMenu" parent="." instance=ExtResource("3_0ui6e")]
+[node name="Label" type="Label" parent="RestroomFinal/ExitToCorridors"]
+offset_left = -181.0
+offset_top = -23.0
+offset_right = -113.0
+text = "Выход"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RestroomFinal/ExitToCorridors"]
+position = Vector2(-94.53125, 79.375)
+shape = SubResource("RectangleShape2D_4u6k0")
+
+[node name="SpawnMarker" type="Marker2D" parent="."]
+position = Vector2(-220, 47)
+
+[node name="PauseMenu" parent="." instance=ExtResource("11_p1pm5")]
+
+[node name="SpawnFromCorridors" type="Marker2D" parent="."]
+position = Vector2(-234, 50)
+
+[connection signal="body_entered" from="RestroomFinal/ExitToCorridors" to="RestroomFinal/ExitToCorridors" method="_on_body_entered"]
+[connection signal="body_exited" from="RestroomFinal/ExitToCorridors" to="RestroomFinal/ExitToCorridors" method="_on_body_exited"]

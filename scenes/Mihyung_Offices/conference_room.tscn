@@ -81,10 +81,10 @@ target_spawn_point = "Spawn_on_Conference"
 required_direction = 1
 
 [node name="Label" type="Label" parent="ExitToCorridors"]
-offset_left = -6.0
-offset_top = 489.0
-offset_right = 62.0
-offset_bottom = 512.0
+offset_left = -116.0
+offset_top = 122.0
+offset_right = -48.0
+offset_bottom = 145.0
 text = "Выход"
 horizontal_alignment = 1
 vertical_alignment = 1
