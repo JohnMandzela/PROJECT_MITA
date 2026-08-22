@@ -66,6 +66,10 @@ func load_settings() -> void:
 	var config := ConfigFile.new()
 	var err := config.load(SETTINGS_PATH)
 	if err != OK:
+		config.set_value("audio", "music_volume", 100.0)
+		config.set_value("audio", "sounds_volume", 100.0)
+		config.set_value("video", "fullscreen", false)
+		config.save(SETTINGS_PATH)
 		return
 
 	var fullscreen: bool = config.get_value("video", "fullscreen", false)
