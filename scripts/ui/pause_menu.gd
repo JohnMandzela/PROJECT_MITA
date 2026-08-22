@@ -31,6 +31,7 @@ extends Control
 
 @onready var messenger: Panel = $Panel/Messenger
 @onready var tutorial: Panel = $Panel/Tutorial
+@onready var wallpaper: Sprite2D = $Panel/Wallpaper
 
 var menu_open := 0
 var loading_settings := true
@@ -49,6 +50,8 @@ var completed_quest_row_template: Button
 const VISUAL_NORMAL := Color(1, 1, 1, 1)
 const VISUAL_HOVER := Color(0.94, 0.94, 0.94, 1)
 const VISUAL_PRESSED := Color(0.82, 0.82, 0.82, 1)
+const WALLPAPER_DIM := Color(0.35, 0.35, 0.35, 1)
+const WALLPAPER_TRANSITION := 0.2
 
 const SCROLL_INVENTORY := "inventory"
 const SCROLL_ACTIVE_QUESTS := "active_quests"
@@ -242,6 +245,34 @@ func toggle() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
+func _dim_wallpaper() -> void:
+	var tw := create_tween()
+	tw.tween_property(wallpaper, "modulate", WALLPAPER_DIM, WALLPAPER_TRANSITION)
+	_set_options_text_color(Color.WHITE)
+
+
+func _undim_wallpaper() -> void:
+	var tw := create_tween()
+	tw.tween_property(wallpaper, "modulate", VISUAL_NORMAL, WALLPAPER_TRANSITION)
+	_set_options_text_color(Color(0.2784314, 0.2784314, 0.2784314, 1))
+
+
+func _set_options_text_color(color: Color) -> void:
+	for child in menu_options.get_children():
+		if child is Label:
+			child.add_theme_color_override("font_color", color)
+		elif child is Button:
+			child.add_theme_color_override("font_color", color)
+		elif child is CheckBox:
+			child.add_theme_color_override("font_color", color)
+		elif child is VBoxContainer:
+			for sub in child.get_children():
+				if sub is HBoxContainer:
+					for label in sub.get_children():
+						if label is Label:
+							label.add_theme_color_override("font_color", color)
+
+
 func _on_continue_button_pressed() -> void:
 	if menu_open == 1:
 		menu_open -= 1
@@ -254,6 +285,11 @@ func _on_options_pressed() -> void:
 	quest_view.visible = false
 	pause_label.visible = false
 	menu_options.visible = true
+	_dim_wallpaper()
+
+
+func _on_call_button_pressed() -> void:
+	pass
 
 
 func _on_quests_pressed() -> void:
@@ -266,6 +302,7 @@ func _on_quests_pressed() -> void:
 	pause_label.visible = false
 	quest_view.visible = true
 	_show_active_quests_page()
+	_dim_wallpaper()
 
 
 func _on_sounds_value_changed(value: float) -> void:
@@ -342,6 +379,7 @@ func _on_inventory_pressed() -> void:
 	tutorial.visible = false
 	pause_label.visible = false
 	inventory_view.visible = true
+	_dim_wallpaper()
 
 
 func _on_back_from_inventory_pressed() -> void:
@@ -349,6 +387,7 @@ func _on_back_from_inventory_pressed() -> void:
 	pause_menu_ui.visible = true
 	pause_label.visible = true
 	_clear_inventory_selection()
+	_undim_wallpaper()
 
 
 func _on_back_from_quests_pressed() -> void:
@@ -356,6 +395,7 @@ func _on_back_from_quests_pressed() -> void:
 	quest_view.visible = false
 	pause_menu_ui.visible = true
 	pause_label.visible = true
+	_undim_wallpaper()
 
 
 func _on_back_from_quest_details_pressed() -> void:
@@ -380,6 +420,7 @@ func _on_messenger_pressed() -> void:
 	menu_options.visible = false
 	pause_label.visible = false
 	messenger.visible = true
+	_dim_wallpaper()
 
 
 func _on_tutorial_pressed() -> void:
@@ -397,6 +438,7 @@ func _on_back_from_options_pressed() -> void:
 	quest_view.visible = false
 	pause_label.visible = true
 	menu_options.visible = false
+	_undim_wallpaper()
 
 
 func _on_back_from_messenger_pressed() -> void:
@@ -405,6 +447,7 @@ func _on_back_from_messenger_pressed() -> void:
 	quest_view.visible = false
 	pause_label.visible = true
 	messenger.visible = false
+	_undim_wallpaper()
 
 
 func _on_back_from_tutorial_pressed() -> void:
