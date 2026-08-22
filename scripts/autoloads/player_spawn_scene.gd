@@ -39,6 +39,6 @@ func _spawn_player() -> void:
 	if spawn_name == "":
 		spawn_name = default_spawn_point
 
-	var spawn = get_node_or_null(spawn_name)
+	var spawn = find_child(spawn_name, true, false)
 	if spawn:
 		GameManager.player.global_position = spawn.global_position

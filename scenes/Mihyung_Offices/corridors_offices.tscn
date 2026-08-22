@@ -168,28 +168,7 @@ texture = ExtResource("10_8fj5o")
 position = Vector2(-442, 102)
 texture = ExtResource("10_8fj5o")
 
-[node name="SpawnMarker" type="Marker2D" parent="."]
-position = Vector2(-234, 301)
-
 [node name="PauseMenu" parent="." instance=ExtResource("4_xtt1d")]
-
-[node name="Spawn_on_Left_Elevator" type="Marker2D" parent="."]
-position = Vector2(-587, 150)
-
-[node name="Spawn_on_Manager" type="Marker2D" parent="."]
-position = Vector2(-403, -124)
-
-[node name="Spawn_on_Programming" type="Marker2D" parent="."]
-position = Vector2(-747, -128)
-
-[node name="Spawn_on_Conference" type="Marker2D" parent="."]
-position = Vector2(-200, 217)
-
-[node name="Spawn_on_Toilet" type="Marker2D" parent="."]
-position = Vector2(129, 159)
-
-[node name="Spawn_on_Utility" type="Marker2D" parent="."]
-position = Vector2(-78, -277)
 
 [node name="Enter_Programming_Office" type="Area2D" parent="."]
 script = ExtResource("5_3mhh6")
@@ -293,9 +272,6 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(-88.75, -274)
 shape = SubResource("RectangleShape2D_lgbt0")
 
-[node name="Spawn_on_Restroom" type="Marker2D" parent="."]
-position = Vector2(11, 396)
-
 [node name="Enter_Restroom" type="Area2D" parent="."]
 script = ExtResource("5_3mhh6")
 exit_direction = 3
@@ -317,6 +293,32 @@ metadata/_edit_use_anchors_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enter_Restroom"]
 position = Vector2(16, 400)
 shape = SubResource("RectangleShape2D_restroom")
+
+[node name="spawn_points" type="Node2D" parent="."]
+
+[node name="SpawnMarker" type="Marker2D" parent="spawn_points"]
+position = Vector2(-234, 301)
+
+[node name="Spawn_on_Left_Elevator" type="Marker2D" parent="spawn_points"]
+position = Vector2(-587, 150)
+
+[node name="Spawn_on_Manager" type="Marker2D" parent="spawn_points"]
+position = Vector2(-403, -124)
+
+[node name="Spawn_on_Programming" type="Marker2D" parent="spawn_points"]
+position = Vector2(-747, -128)
+
+[node name="Spawn_on_Conference" type="Marker2D" parent="spawn_points"]
+position = Vector2(-200, 217)
+
+[node name="Spawn_on_Toilet" type="Marker2D" parent="spawn_points"]
+position = Vector2(129, 159)
+
+[node name="Spawn_on_Utility" type="Marker2D" parent="spawn_points"]
+position = Vector2(-78, -277)
+
+[node name="Spawn_on_Restroom" type="Marker2D" parent="spawn_points"]
+position = Vector2(11, 396)
 
 [connection signal="body_entered" from="Enter_Programming_Office" to="Enter_Programming_Office" method="_on_body_entered"]
 [connection signal="body_exited" from="Enter_Programming_Office" to="Enter_Programming_Office" method="_on_body_exited"]

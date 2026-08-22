@@ -5,6 +5,7 @@
 [node name="PlayerWithCamera" instance=ExtResource("1_uahj1")]
 light_mask = 1
 visibility_layer = 3
+z_index = 4
 
 [node name="Camera2D" type="Camera2D" parent="." index="0"]
 position = Vector2(0, -45)
