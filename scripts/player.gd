@@ -81,7 +81,5 @@ func update_flashlight() -> void:
 			flashlight.rotation = PI/2       # 90°
 
 func _process(_delta: float) -> void:
-	z_index = int(global_position.y)
-
 	if Input.is_action_just_pressed("flashlight"):
 		is_flashlight_on = not is_flashlight_on
