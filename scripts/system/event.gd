@@ -1,6 +1,8 @@
 class_name Event
 extends Area2D
 
+# TODO: Event -> ZoneEvent
+
 @export var required_direction := Enums.Direction.UP
 
 @onready var label: Label = $Label

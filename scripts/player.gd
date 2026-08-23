@@ -9,6 +9,25 @@ var direction_vector := Vector2.ZERO
 
 @onready var flashlight = $PhoneFlashlight
 
+@onready var interaction_vectors: Dictionary[Enums.Direction, RayCast2D] = {
+	Enums.Direction.UP: $InteractionVectors/Up,
+	Enums.Direction.DOWN: $InteractionVectors/Down,
+	Enums.Direction.LEFT: $InteractionVectors/Left,
+	Enums.Direction.RIGHT: $InteractionVectors/Right
+}
+
+var _focused_event = null:
+	set(value):
+		if _focused_event == value:
+			return
+		if _focused_event:
+			_focused_event.on_unfocused()
+		if value:
+			value.on_focused()
+
+		_focused_event = value
+
+
 var is_flashlight_on := false:
 	set(value):
 		flashlight.enabled = value
@@ -32,6 +51,8 @@ func _input(event: InputEvent) -> void:
 		SaveSystem.save_game(SaveSystem.Mode.QUICK)
 	elif event.is_action_pressed("load"):
 		SaveSystem.load_game(SaveSystem.Mode.QUICK)
+	elif event.is_action_pressed("interact") and _focused_event:
+		_focused_event.on_interact()
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_pressed("run"):
@@ -79,6 +100,18 @@ func update_flashlight() -> void:
 			flashlight.rotation = -PI/2      # -90°
 		Enums.Direction.DOWN:
 			flashlight.rotation = PI/2       # 90°
+
+# TODO
+func _get_highlighted_object() -> Variant:
+	var raycast := interaction_vectors[last_direction]
+	if raycast.is_colliding():
+		var collider := raycast.get_collider()
+		if collider is ObjectEvent:
+			return collider
+
+	return null
+
+
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("flashlight"):
