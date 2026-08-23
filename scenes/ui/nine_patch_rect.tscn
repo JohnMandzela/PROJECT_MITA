@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkraqjqcssfck"]
+
+[ext_resource type="Texture2D" uid="uid://i4b7ub2olqdi" path="res://images/tilesets/scenes/NinePatchRect_Test_sprite-4.0.png" id="1_4s3y1"]
+
+[node name="NinePatchRect" type="NinePatchRect"]
+offset_left = 327.0
+offset_top = 86.0
+offset_right = 916.0
+offset_bottom = 496.0
+texture = ExtResource("1_4s3y1")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
