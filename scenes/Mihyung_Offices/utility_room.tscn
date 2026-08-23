@@ -1,13 +1,45 @@
-[gd_scene load_steps=7 format=3 uid="uid://b63ww5t8n7jkj"]
+[gd_scene load_steps=11 format=4 uid="uid://b63ww5t8n7jkj"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_twrgn"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_52r6e"]
-[ext_resource type="Texture2D" uid="uid://cvplu6xupd0wm" path="res://images/scene/Подсобка-итог.png" id="3_peam7"]
+[ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="3_peam7"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="4_d0j2m"]
-[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/system/scene_transition_event.gd" id="5_l5utp"]
+[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="5_l5utp"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_he8wg"]
+texture = ExtResource("3_peam7")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_kx01t"]
+sources/0 = SubResource("TileSetAtlasSource_he8wg")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wdli2"]
+texture = ExtResource("3_peam7")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ib3ew"]
+sources/0 = SubResource("TileSetAtlasSource_wdli2")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0gxbx"]
-size = Vector2(65, 60)
+size = Vector2(27.5, 32)
 
 [node name="UtilityRoom" type="Node2D"]
 script = ExtResource("1_twrgn")
@@ -16,40 +48,50 @@ default_spawn_point = "SpawnFromCorridors"
 
 [node name="UtilityRoomTexture" type="Sprite2D" parent="."]
 position = Vector2(-21.000002, -31)
-scale = Vector2(1.73, 1.73)
-texture = ExtResource("3_peam7")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="UtilityRoomTexture"]
+position = Vector2(6, -3)
+tile_map_data = PackedByteArray("AAAFAAQAAAAAAAEAAAAEAAQAAAAAAAEAAAADAAQAAAAAAAEAAAACAAQAAAAAAAEAAAABAAQAAAAAAAEAAAAAAAQAAAAAAAEAAAD//wQAAAAAAAEAAAAFAAMAAAAAAAEAAAAEAAMAAAAAAAEAAAADAAMAAAAAAAEAAAACAAMAAAAAAAEAAAAEAAIAAAAAAAEAAAAEAAEAAAAAAAEAAAAEAAAAAAAAAAEAAAADAAAAAAAAAAEAAAACAAAAAAAAAAEAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAD//wAAAAAAAAEAAAD+/wAAAAAAAAEAAAD9/wAAAAAAAAEAAAD8/wAAAAAAAAEAAAD7/wAAAAAAAAEAAAD6/wAAAAAAAAEAAAD5/wAAAAAAAAEAAAD5/wEAAAAAAAEAAAD5/wIAAAAAAAEAAAD5/wMAAAAAAAEAAAD5/wQAAAAAAAEAAAD6/wQAAAAAAAEAAAD7/wQAAAAAAAEAAAD8/wQAAAAAAAEAAAD9/wQAAAAAAAEAAAD+/wQAAAAAAAEAAAAAAAMAAAAAAAEAAAABAAMAAAAAAAEAAAD//wMAAAAAAAEAAAD+/wMAAAAAAAEAAAD9/wMAAAAAAAEAAAD8/wMAAAAAAAEAAAD7/wMAAAAAAAEAAAD6/wMAAAAAAAEAAAD6/wIAAAAAAAEAAAD7/wIAAAAAAAEAAAD8/wIAAAAAAAEAAAD9/wIAAAAAAAEAAAD+/wIAAAAAAAEAAAD//wIAAAAAAAEAAAAAAAIAAAAAAAEAAAABAAIAAAAAAAEAAAACAAIAAAAAAAEAAAADAAIAAAAAAAEAAAADAAEAAAAAAAEAAAACAAEAAAAAAAEAAAABAAEAAAAAAAEAAAAAAAEAAAAAAAEAAAD//wEAAAAAAAEAAAD+/wEAAAAAAAEAAAD9/wEAAAAAAAEAAAD8/wEAAAAAAAEAAAD7/wEAAAAAAAEAAAD6/wEAAAAAAAEAAAD4/wAAAAAAAAEAAAD4/wEAAAAAAAEAAAD4/wIAAAAAAAEAAAD4/wMAAAAAAAEAAAD4/wQAAAAAAAEAAAD4/wUAAAAAAAEAAAD5/wUAAAAAAAEAAAD6/wUAAAAAAAEAAAD7/wUAAAAAAAEAAAD8/wUAAAAAAAEAAAD9/wUAAAAAAAEAAAD+/wUAAAAAAAEAAAD//wUAAAAAAAEAAAAAAAUAAAAAAAEAAAABAAUAAAAAAAEAAAACAAUAAAAAAAEAAAADAAUAAAAAAAEAAAAEAAUAAAAAAAEAAAAEAP//AAABAAEAAAADAP//AAABAAEAAAACAP//AAABAAEAAAABAP//AAABAAEAAAAAAP//AAABAAEAAAD/////AAABAAEAAAD+////AAABAAEAAAD9////AAABAAEAAAD8////AAABAAEAAAD7////AAABAAEAAAD6////AAABAAEAAAD5////AAABAAEAAAD4////AAABAAEAAAD4//7/AAABAAEAAAD5//7/AAABAAEAAAD6//7/AAABAAEAAAD7//7/AAABAAEAAAD8//7/AAABAAEAAAD9//7/AAABAAEAAAD+//7/AAABAAEAAAD///7/AAABAAEAAAAAAP7/AAABAAEAAAABAP7/AAABAAEAAAACAP7/AAABAAEAAAADAP7/AAABAAEAAAAEAP7/AAABAAEAAAAEAP3/AAABAAEAAAADAP3/AAABAAEAAAADAPz/AAABAAEAAAACAPz/AAABAAEAAAABAPz/AAABAAEAAAAAAPz/AAABAAEAAAAAAP3/AAABAAEAAAD///3/AAABAAEAAAD+//3/AAABAAEAAAD9//3/AAABAAEAAAD8//3/AAABAAEAAAD7//3/AAABAAEAAAD6//3/AAABAAEAAAD5//3/AAABAAEAAAD4//3/AAABAAEAAAD4//z/AAABAAEAAAD5//z/AAABAAEAAAD6//z/AAABAAEAAAD7//z/AAABAAEAAAD8//z/AAABAAEAAAD9//z/AAABAAEAAAD+//z/AAABAAEAAAD///z/AAABAAEAAAACAP3/AAABAAEAAAABAP3/AAABAAEAAAAEAPz/AAABAAEAAAAEAPv/AAABAAEAAAAEAPr/AAABAAEAAAADAPn/AAABAAEAAAACAPn/AAABAAEAAAABAPn/AAABAAEAAAAAAPn/AAABAAEAAAD///n/AAABAAEAAAD+//n/AAABAAEAAAD9//n/AAABAAEAAAD8//n/AAABAAEAAAD7//n/AAABAAEAAAD6//n/AAABAAEAAAD5//n/AAABAAEAAAD4//n/AAABAAEAAAD4//r/AAABAAEAAAD4//v/AAABAAEAAAD5//v/AAABAAEAAAD5//r/AAABAAEAAAD6//r/AAABAAEAAAD7//r/AAABAAEAAAD8//r/AAABAAEAAAD9//r/AAABAAEAAAD+//r/AAABAAEAAAD///r/AAABAAEAAAAAAPr/AAABAAEAAAACAPr/AAABAAEAAAADAPr/AAABAAEAAAADAPv/AAABAAEAAAACAPv/AAABAAEAAAABAPv/AAABAAEAAAAAAPv/AAABAAEAAAD///v/AAABAAEAAAD9//v/AAABAAEAAAD8//v/AAABAAEAAAD7//v/AAABAAEAAAD6//v/AAABAAEAAAD+//v/AAABAAEAAAABAPr/AAABAAEAAAAFAAEAAAABAAEAAAAFAAAAAAABAAEAAAAFAP//AAABAAEAAAAFAP7/AAABAAEAAAAFAP3/AAABAAEAAAD3/wQAAAABAAEAAAD3/wMAAAABAAEAAAD3/wIAAAABAAEAAAD3/wEAAAABAAEAAAD3/wAAAAABAAEAAAD3////AAABAAEAAAD3//7/AAABAAEAAAD3//3/AAABAAEAAAD3//z/AAABAAEAAAD3//v/AAABAAEAAAD3//r/AAABAAEAAAAFAAIAAAABAAEAAAA=")
+tile_set = SubResource("TileSet_kx01t")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="UtilityRoomTexture/TileMapLayer"]
+tile_map_data = PackedByteArray("AAD3//n/AAAEAAEAAAAEAPn/AAAGAAEAAAAFAPz/AAAGAAEAAAAEAAAAAAAHAAEAAAD4/wAAAAAFAAEAAAAFAAUAAAAFAAEAAAAEAAUAAAAEAAEAAAD3/wUAAAAHAAEAAAA=")
+tile_set = SubResource("TileSet_ib3ew")
+
+[node name="CollisionWall" type="StaticBody2D" parent="UtilityRoomTexture"]
+position = Vector2(12.13873, 17.919075)
+scale = Vector2(0.5780347, 0.5780347)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="UtilityRoomTexture/CollisionWall"]
+position = Vector2(-40, -37)
+build_mode = 1
+polygon = PackedVector2Array(-192, 167, -192, 1, 168, 1, 168, 84, 195, 84, 195, 139, 168, 139, 168, 167)
 
 [node name="SpawnFromCorridors" type="Marker2D" parent="."]
-position = Vector2(163, 129)
+position = Vector2(71, 31)
 
 [node name="PauseMenu" parent="." instance=ExtResource("4_d0j2m")]
 
 [node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("5_l5utp")
-required_direction = 3
 exit_direction = 3
 target_scene = "mihyung_offices/corridors_offices"
 target_spawn_point = "Spawn_on_Utility"
+required_direction = 3
 
 [node name="Label" type="Label" parent="ExitToCorridors"]
-offset_left = 253.0
-offset_top = 91.0
-offset_right = 321.0
-offset_bottom = 114.0
+offset_left = 98.0
+offset_top = -45.0
+offset_right = 166.0
+offset_bottom = -22.0
 text = "Выход"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCorridors"]
-position = Vector2(215.5, 118)
+position = Vector2(75, 29)
 shape = SubResource("RectangleShape2D_0gxbx")
-
-[node name="CollisionWall" type="StaticBody2D" parent="."]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CollisionWall"]
-build_mode = 1
-polygon = PackedVector2Array(-256, 155, -256, 10, 180, 10, 179, 87, 248, 87, 248, 150, 179, 150, 180, 155)
 
 [connection signal="body_entered" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_entered"]
 [connection signal="body_exited" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_exited"]
