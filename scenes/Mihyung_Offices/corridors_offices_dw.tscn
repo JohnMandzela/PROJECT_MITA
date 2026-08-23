@@ -534,7 +534,7 @@ texture = ExtResource("1_va3v0")
 [sub_resource type="TileSet" id="TileSet_4g17v"]
 sources/0 = SubResource("TileSetAtlasSource_nuwg4")
 
-[node name="Corridors_offices_DW" type="Node2D"]
+[node name="Corridors_offices_DW2" type="Node2D"]
 script = ExtResource("1_ossh4")
 player_scene = ExtResource("20_pcam")
 default_spawn_point = "SpawnMarker"
