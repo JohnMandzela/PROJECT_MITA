@@ -23,4 +23,4 @@ func _process(_delta: float) -> void:
 	var player = GameManager.player
 	if player == null:
 		return
-	z_index = int(_collision_top_y) if player.global_position.y > _collision_top_y else int(_collision_top_y) - 1
+	z_index = 2 if player.global_position.y > _collision_top_y else 1

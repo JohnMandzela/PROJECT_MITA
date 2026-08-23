@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=48 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="Script" uid="uid://di2jeftcx0xna" path="res://scripts/2_mike_room/mike_room_main_script.gd" id="1_51aoi"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
@@ -433,8 +433,8 @@ autoplay = "start_screen_fader"
 
 [node name="Bed_Left" type="Area2D" parent="Events"]
 script = ExtResource("23_0i05t")
-required_direction = 3
 dialogue = ExtResource("10_md5sy")
+required_direction = 3
 
 [node name="Label" type="Label" parent="Events/Bed_Left"]
 z_index = 10
