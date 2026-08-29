@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=4 uid="uid://b5x2w0vhg1s3v"]
+[gd_scene load_steps=34 format=4 uid="uid://b5x2w0vhg1s3v"]
 
 [ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="1_6j144"]
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_eqrt2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://ba1xahgoputou" path="res://images/tilesets/scenes/Office/workplace_table_Mike.png" id="6_vgkra"]
 [ext_resource type="Texture2D" uid="uid://boghgd0wtk1gl" path="res://images/tilesets/scenes/Office/wooden_door_front.png" id="7_utv8d"]
 [ext_resource type="Texture2D" uid="uid://484qawrqfw85" path="res://images/tilesets/scenes/Office/Lift.png" id="8_vgkra"]
+[ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_utv8d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eqrt2"]
 texture = ExtResource("1_6j144")
@@ -236,7 +237,7 @@ texture = ExtResource("1_6j144")
 [sub_resource type="TileSet" id="TileSet_m8l5l"]
 sources/0 = SubResource("TileSetAtlasSource_mnldq")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ma65k"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vb37f"]
 texture = ExtResource("1_6j144")
 0:0/0 = 0
 1:0/0 = 0
@@ -257,7 +258,7 @@ texture = ExtResource("1_6j144")
 7:1/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_26ec2"]
-sources/0 = SubResource("TileSetAtlasSource_ma65k")
+sources/0 = SubResource("TileSetAtlasSource_vb37f")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w3gic"]
 texture = ExtResource("1_6j144")
@@ -398,6 +399,7 @@ position = Vector2(86, -67)
 texture = ExtResource("5_n4e47")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="rooms/progr_office/furniture/WorkplaceSam"]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rooms/progr_office/furniture/WorkplaceSam/StaticBody2D"]
 polygon = PackedVector2Array(-46, 16, -45, -28, 43, -28, 43, 45, 21, 45, 21, 16)
@@ -408,6 +410,7 @@ position = Vector2(-95, -8)
 texture = ExtResource("6_vgkra")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="rooms/progr_office/furniture/WorkplaceTableMike"]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rooms/progr_office/furniture/WorkplaceTableMike/StaticBody2D"]
 polygon = PackedVector2Array(-15, 57, -48, 57, -47, -43, 17, -43, 17, -8, -15, -8)
@@ -457,6 +460,7 @@ script = ExtResource("4_mnldq")
 rooms = [NodePath("..")]
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="rooms/corridor/Area2D"]
+visible = false
 polygon = PackedVector2Array(160, 801, 224, 737, 224, 544, 208, 544, 208, 512, 224, 512, 224, 416, 208, 416, 208, 384, 224, 384, 224, 224, 256, 224, 256, 192, 288, 192, 288, 224, 384, 224, 384, 191, 416, 191, 416, 224, 448, 224, 448, 256, 464, 256, 464, 288, 448, 288, 448, 352, 464, 352, 464, 384, 448, 384, 448, 480, 464, 480, 464, 512, 448, 512, 448, 576, 640, 576, 640, 719, 527, 832, 384, 832, 384, 848, 288, 848, 288, 832, 160, 832)
 
 [node name="WoodenDoorFront1" type="Sprite2D" parent="rooms/corridor"]
@@ -507,6 +511,7 @@ position = Vector2(392, 1048)
 texture = ExtResource("8_vgkra")
 
 [node name="Collisions" type="StaticBody2D" parent="."]
+visible = false
 
 [node name="MainPolygon2D" type="CollisionPolygon2D" parent="Collisions"]
 build_mode = 1
@@ -526,3 +531,6 @@ polygon = PackedVector2Array(320, 736, 320, 704, 352, 704, 352, 736)
 [node name="ColumnPolygon2D5" type="CollisionPolygon2D" parent="Collisions"]
 position = Vector2(0, -192)
 polygon = PackedVector2Array(320, 736, 320, 704, 352, 704, 352, 736)
+
+[node name="PauseMenu" parent="." instance=ExtResource("9_utv8d")]
+visible = false

@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3 uid="uid://cymr70d38miih"]
+
+[ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_2au82"]
+[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_8tn2x"]
+[ext_resource type="Texture2D" uid="uid://d1q8ijyjrt8x" path="res://Мужской туалет.png" id="3_aq4fw"]
+[ext_resource type="Texture2D" uid="uid://b876a1gga7exd" path="res://Коридор офисов.png" id="4_c4vo5"]
+[ext_resource type="Texture2D" uid="uid://burlcs8delhg8" path="res://Лестница.png" id="5_vwb7u"]
+[ext_resource type="Texture2D" uid="uid://cahdl5xan55ey" path="res://Кабинет Менеджера.png" id="6_cqdos"]
+[ext_resource type="Texture2D" uid="uid://byp87jqoshebe" path="res://Офис дизайнеров.png" id="7_r6p7k"]
+[ext_resource type="Texture2D" uid="uid://cw6hcmce2o5g1" path="res://Офис программистов.png" id="8_rc7cs"]
+[ext_resource type="Texture2D" uid="uid://dgx4c4er765e6" path="res://Студия саунд-дизайна.png" id="9_d1b21"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_2au82")
+player_scene = ExtResource("2_8tn2x")
+default_spawn_point = "PlayerSpawn"
+
+[node name="МужскойТуалет" type="Sprite2D" parent="."]
+position = Vector2(970, 364)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("3_aq4fw")
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(886, 346)
+
+[node name="КоридорОфисов" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(654, 398.00003)
+scale = Vector2(1.196, 1.145)
+texture = ExtResource("4_c4vo5")
+
+[node name="Лестница" type="Sprite2D" parent="."]
+position = Vector2(889.99994, 123.99999)
+scale = Vector2(0.405, 0.405)
+texture = ExtResource("5_vwb7u")
+
+[node name="КабинетМенеджера" type="Sprite2D" parent="."]
+position = Vector2(461.99997, 225)
+scale = Vector2(0.585, 0.585)
+texture = ExtResource("6_cqdos")
+
+[node name="ОфисДизайнеров" type="Sprite2D" parent="."]
+position = Vector2(836.99994, -130)
+scale = Vector2(0.685, 0.685)
+texture = ExtResource("7_r6p7k")
+
+[node name="ОфисПрограммистов" type="Sprite2D" parent="."]
+position = Vector2(506, -130)
+scale = Vector2(0.505, 0.505)
+texture = ExtResource("8_rc7cs")
+
+[node name="СтудияСаундДизайна" type="Sprite2D" parent="."]
+position = Vector2(346, 629)
+scale = Vector2(0.67, 0.67)
+texture = ExtResource("9_d1b21")
