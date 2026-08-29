@@ -1,5 +1,5 @@
 class_name DialogueEvent
-extends Event
+extends ZoneEvent
 
 # Ресурс диалога, который будет отображаться при взаимодействии с объектом
 @export var dialogue: DialogueResource

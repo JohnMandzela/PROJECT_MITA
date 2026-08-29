@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=46 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="Script" uid="uid://di2jeftcx0xna" path="res://scripts/2_mike_room/mike_room_main_script.gd" id="1_51aoi"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
@@ -8,11 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://cheboonvvuebb" path="res://images/tilesets/scenes/Dorm_Furniture.png" id="3_pl8tl"]
 [ext_resource type="Script" uid="uid://cnldbfyr42jog" path="res://scripts/2_mike_room/furniture/shower.gd" id="5_sw8qw"]
 [ext_resource type="AudioStream" uid="uid://8kdn3iafaa1f" path="res://audio/sounds/things-toilet-1.mp3" id="6_sw8qw"]
+[ext_resource type="Script" uid="uid://chu8455u4phy1" path="res://scripts/system/object_event.gd" id="7_03jpi"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="7_glapv"]
 [ext_resource type="Resource" uid="uid://xfr1x7r1n7s5" path="res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue" id="8_tksu2"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_glapv"]
 [ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scripts/2_mike_room/furniture/laptop.gd" id="10_7co0a"]
-[ext_resource type="Resource" uid="uid://igbqwnik8w8l" path="res://dialogues/2_mike_room/furniture/bed.dialogue" id="10_md5sy"]
 [ext_resource type="AudioStream" uid="uid://b5aub5gi1bcnt" path="res://audio/sounds/shower_wash.mp3" id="10_q4ttt"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="10_qkv8r"]
 [ext_resource type="Resource" uid="uid://d3cll1ve50fou" path="res://dialogues/2_mike_room/furniture/mike_room_bedside_table_day_1.dialogue" id="11_u5pas"]
@@ -202,12 +202,6 @@ _data = {
 &"start_screen_fader": SubResource("Animation_51aoi")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_glapv"]
-size = Vector2(11, 50)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qkv8r"]
-size = Vector2(47, 13)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7co0a"]
 size = Vector2(38, 11)
 
@@ -338,10 +332,21 @@ tile_set = SubResource("TileSet_xuh38")
 [node name="FurnitureCollisions" type="Node2D" parent="Collisions"]
 
 [node name="BedCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
+script = ExtResource("7_03jpi")
+right = false
+up = false
 
 [node name="BedCollisionShape2D" type="CollisionShape2D" parent="Collisions/FurnitureCollisions/BedCollision"]
 position = Vector2(48.1, -60)
 shape = SubResource("RectangleShape2D_pl8tl")
+
+[node name="Label" type="Label" parent="Collisions/FurnitureCollisions/BedCollision"]
+z_index = 10
+offset_left = 83.0
+offset_top = -109.0
+offset_right = 150.0
+offset_bottom = -86.0
+text = "Кровать"
 
 [node name="CommodeCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 
@@ -431,39 +436,6 @@ libraries = {
 }
 autoplay = "start_screen_fader"
 
-[node name="Bed_Left" type="Area2D" parent="Events"]
-script = ExtResource("23_0i05t")
-dialogue = ExtResource("10_md5sy")
-required_direction = 3
-
-[node name="Label" type="Label" parent="Events/Bed_Left"]
-z_index = 10
-offset_left = 83.0
-offset_top = -109.0
-offset_right = 150.0
-offset_bottom = -86.0
-text = "Кровать"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Bed_Left"]
-position = Vector2(17.5, -53)
-shape = SubResource("RectangleShape2D_glapv")
-
-[node name="Bed_Down" type="Area2D" parent="Events"]
-script = ExtResource("23_0i05t")
-dialogue = ExtResource("10_md5sy")
-
-[node name="Label" type="Label" parent="Events/Bed_Down"]
-z_index = 10
-offset_left = 83.0
-offset_top = -109.0
-offset_right = 150.0
-offset_bottom = -86.0
-text = "Кровать"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Bed_Down"]
-position = Vector2(47.5, -17.5)
-shape = SubResource("RectangleShape2D_qkv8r")
-
 [node name="Bedside_Table" type="Area2D" parent="Events"]
 script = ExtResource("23_0i05t")
 dialogue = ExtResource("11_u5pas")
@@ -505,7 +477,6 @@ playback_type = 1
 [node name="Fridge" type="Area2D" parent="Events"]
 script = ExtResource("23_0i05t")
 dialogue = ExtResource("15_nlhcy")
-required_direction = 3
 
 [node name="Label" type="Label" parent="Events/Fridge"]
 z_index = 10
@@ -521,7 +492,6 @@ polygon = PackedVector2Array(0, 111, 0, 144, 15, 144, 16, 102, 10, 103, 4, 107)
 [node name="Sink" type="Area2D" parent="Events"]
 script = ExtResource("23_0i05t")
 dialogue = ExtResource("19_u6sxl")
-required_direction = 3
 
 [node name="Label" type="Label" parent="Events/Sink"]
 z_index = 10
@@ -537,7 +507,6 @@ polygon = PackedVector2Array(14, 62, 6, 67, 5, 81, 5, 93, 16, 97, 18, 76, 22, 62
 [node name="WashingMachine" type="Area2D" parent="Events"]
 script = ExtResource("23_0i05t")
 dialogue = ExtResource("14_citmd")
-required_direction = 2
 
 [node name="Label" type="Label" parent="Events/WashingMachine"]
 z_index = 10
@@ -554,7 +523,6 @@ polygon = PackedVector2Array(3, 24, 8, 42, 11, 54, 26, 54, 26, 21, 11, 21)
 [node name="Hangers" type="Area2D" parent="Events"]
 script = ExtResource("23_0i05t")
 dialogue = ExtResource("24_tksu2")
-required_direction = 1
 
 [node name="Label" type="Label" parent="Events/Hangers"]
 z_index = 10
@@ -645,10 +613,6 @@ autoplay = "start_screen_fader"
 
 [connection signal="body_entered" from="Events/Shower" to="Events/Shower" method="_on_body_entered"]
 [connection signal="body_exited" from="Events/Shower" to="Events/Shower" method="_on_body_exited"]
-[connection signal="body_entered" from="Events/Bed_Left" to="Events/Bed_Left" method="_on_body_entered"]
-[connection signal="body_exited" from="Events/Bed_Left" to="Events/Bed_Left" method="_on_body_exited"]
-[connection signal="body_entered" from="Events/Bed_Down" to="Events/Bed_Down" method="_on_body_entered"]
-[connection signal="body_exited" from="Events/Bed_Down" to="Events/Bed_Down" method="_on_body_exited"]
 [connection signal="body_entered" from="Events/Bedside_Table" to="Events/Bedside_Table" method="_on_body_entered"]
 [connection signal="body_exited" from="Events/Bedside_Table" to="Events/Bedside_Table" method="_on_body_exited"]
 [connection signal="body_entered" from="Events/Laptop" to="Events/Laptop" method="_on_body_entered"]

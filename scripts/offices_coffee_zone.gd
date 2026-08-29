@@ -1,4 +1,4 @@
-extends Event
+extends ZoneEvent
 
 const COFFEE_PICKUP_FLAG := "offices_coffee_picked_up"
 

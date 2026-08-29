@@ -1,4 +1,4 @@
-extends Event
+extends ZoneEvent
 
 @export var dialogue: DialogueResource
 @onready var toilet_sound := $Toilet_Sound
