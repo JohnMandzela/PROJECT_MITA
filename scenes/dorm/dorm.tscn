@@ -1,11 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://bsvxh1s8ha4cv"]
+[gd_scene load_steps=21 format=3 uid="uid://bsvxh1s8ha4cv"]
 
 [ext_resource type="Texture2D" uid="uid://bnjaciec2avpf" path="res://images/scene/corridor.png" id="1_a6q5q"]
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_km4w3"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_1vu13"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="3_cahr0"]
 [ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="6_1vu13"]
-[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="7_1vu13"]
 [ext_resource type="Texture2D" uid="uid://fe0mw8eak7ba" path="res://images/tilesets/scenes/$door.png" id="8_j5r5n"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="8_y5ma7"]
 [ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
@@ -122,7 +121,7 @@ build_mode = 1
 polygon = PackedVector2Array(-647.99646, -9.527039, -647.99646, 24.472961, -599.99646, 24.472961, -599.99646, 38.47296, -551.99646, 38.47296, -551.99646, 24.472961, -407.99646, 24.472961, -407.99646, 38.47296, -359.99646, 38.47296, -359.99646, 24.472961, -215.99646, 24.472961, -215.99646, 38.47296, -167.99646, 38.47296, -167.99646, 24.472961, -23.996466, 24.472961, -23.996466, 38.47296, 24.003534, 38.47296, 24.003534, 24.472961, 168.00354, 24.472961, 168.00354, 38.47296, 216.00354, 38.47296, 216.00354, 24.472961, 360.00354, 24.472961, 360.00354, 38.47296, 408.00354, 38.47296, 408.00354, 24.472961, 552.00354, 24.472961, 552.00354, 38.47296, 600.00354, 38.47296, 600.00354, 24.472961, 648.00354, 24.472961, 648.00354, -9.527039, 600.00354, -9.527039, 600.00354, -23.527039, 552.00354, -23.527039, 552.00354, -9.527039, 408.00354, -9.527039, 408.00354, -23.527039, 360.00354, -23.527039, 360.00354, -9.527039, 216.00354, -9.527039, 216.00354, -23.527039, 168.00354, -23.527039, 168.00354, -9.527039, 72.00353, -9.527039, 72.00353, -263.52704, 24.003534, -263.52704, 24.003534, -19.527039, -23.996466, -19.527039, -23.996466, -164.52704, -71.99647, -164.52704, -71.99647, -9.527039, -167.99646, -9.527039, -167.99646, -23.527039, -215.99646, -23.527039, -215.99646, -9.527039, -359.99646, -9.527039, -359.99646, -23.527039, -407.99646, -23.527039, -407.99646, -9.527039, -551.99646, -9.527039, -551.99646, -23.527039, -599.99646, -23.527039, -599.99646, -9.527039)
 
 [node name="PauseMenu" parent="." instance=ExtResource("3_cahr0")]
-[node name="EnterFloor1" parent="." instance=ExtResource("7_1vu13")]
+[node name="EnterFloor1" type="Area2D" parent="."]
 script = ExtResource("6_1vu13")
 action = SubResource("Resource_action1")
 activate_on_enter = false
@@ -180,3 +179,5 @@ playback_type = 1
 
 [connection signal="body_entered" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_entered"]
 [connection signal="body_exited" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_exited"]
+[connection signal="body_entered" from="EnterFloor1" to="EnterFloor1" method="_on_body_entered"]
+[connection signal="body_exited" from="EnterFloor1" to="EnterFloor1" method="_on_body_exited"]

@@ -1,7 +1,6 @@
-[gd_scene load_steps=41 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=40 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
-[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="5_uym5w"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="5_wby07"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
 [ext_resource type="Texture2D" uid="uid://dgy2scp5bckwj" path="res://images/tilesets/characters/Mike-Necktie.png" id="8_mv7xs"]
@@ -308,7 +307,7 @@ texture = ExtResource("9_mv7xs")
 build_mode = 1
 polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -55.594666, -55.46057, -70, -72, -75, -110, -69, -135, -53, -156, -22, -168, 120, -168, 120, 216, 72, 216, 72, 264, 24, 264)
 
-[node name="Exit_Mom_Home" parent="Sleep_Flashback" instance=ExtResource("5_uym5w")]
+[node name="Exit_Mom_Home" type="Area2D" parent="Sleep_Flashback"]
 visible = false
 
 script = ExtResource("2_zone")
@@ -392,3 +391,5 @@ libraries = {
 }
 
 [connection signal="timeout" from="Sleep_Flashback/MikeNpc/Timer" to="Sleep_Flashback/MikeNpc" method="_on_timer_timeout"]
+[connection signal="body_entered" from="Sleep_Flashback/Exit_Mom_Home" to="Sleep_Flashback/Exit_Mom_Home" method="_on_body_entered"]
+[connection signal="body_exited" from="Sleep_Flashback/Exit_Mom_Home" to="Sleep_Flashback/Exit_Mom_Home" method="_on_body_exited"]

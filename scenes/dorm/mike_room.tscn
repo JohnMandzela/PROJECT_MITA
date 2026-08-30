@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=51 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="Script" uid="uid://di2jeftcx0xna" path="res://scripts/2_mike_room/mike_room_main_script.gd" id="1_51aoi"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://cnldbfyr42jog" path="res://scripts/2_mike_room/furniture/shower.gd" id="5_sw8qw"]
 [ext_resource type="AudioStream" uid="uid://8kdn3iafaa1f" path="res://audio/sounds/things-toilet-1.mp3" id="6_sw8qw"]
 [ext_resource type="Script" uid="uid://chu8455u4phy1" path="res://scripts/system/object_event.gd" id="7_03jpi"]
-[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="7_glapv"]
 [ext_resource type="Resource" uid="uid://xfr1x7r1n7s5" path="res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue" id="8_tksu2"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_glapv"]
 [ext_resource type="Script" uid="uid://1ulkpuweejmy" path="res://scripts/resources/dialogue_event_action.gd" id="9_xnfx7"]
@@ -554,7 +553,7 @@ text = "Одежда"
 position = Vector2(59, -6)
 polygon = PackedVector2Array(-130, 82, -130, 101, -99, 101, -91, 104, -90, 101, -93, 95, -99, 92, -104, 88, -109, 82)
 
-[node name="Exit_Mike_Room" parent="Events" instance=ExtResource("7_glapv")]
+[node name="Exit_Mike_Room" type="Area2D" parent="Events"]
 script = ExtResource("24_uxu6u")
 action = SubResource("Resource_uxu6u")
 activate_on_enter = false
@@ -642,3 +641,5 @@ autoplay = "start_screen_fader"
 [connection signal="body_exited" from="Events/WashingMachine" to="Events/WashingMachine" method="_on_body_exited"]
 [connection signal="body_entered" from="Events/Hangers" to="Events/Hangers" method="_on_body_entered"]
 [connection signal="body_exited" from="Events/Hangers" to="Events/Hangers" method="_on_body_exited"]
+[connection signal="body_entered" from="Events/Exit_Mike_Room" to="Events/Exit_Mike_Room" method="_on_body_entered"]
+[connection signal="body_exited" from="Events/Exit_Mike_Room" to="Events/Exit_Mike_Room" method="_on_body_exited"]
