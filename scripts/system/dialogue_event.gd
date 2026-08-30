@@ -1,6 +1,8 @@
 class_name DialogueEvent
 extends ZoneEvent
 
+# TODO delete
+
 # Ресурс диалога, который будет отображаться при взаимодействии с объектом
 @export var dialogue: DialogueResource
 
@@ -27,7 +29,7 @@ func _ready() -> void:
 
 
 func _can_interact() -> bool:
-	return not is_dialogue_running and dialogue != null
+	return dialogue != null and not is_dialogue_running
 
 
 func _on_interact() -> void:

@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 var speed = 120.0

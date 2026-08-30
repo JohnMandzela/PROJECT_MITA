@@ -1,19 +1,21 @@
 extends ZoneEvent
 
+# TODO deletes
+
 @export var exit_direction: Enums.Direction
 @export var target_scene: String
 @export var target_spawn_point: String
 @export var required_direction := Enums.Direction.UP
-
-@onready var audio: AudioStreamPlayer = get_node_or_null("Audio")
-@onready var animation: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
 
 
 func can_interact() -> bool:
 	return _player != null and _player.last_direction == required_direction
 
 
-func interact() -> void:
+func on_interact() -> void:
+	var audio: AudioStreamPlayer = get_node_or_null("Audio")
+	var animation: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
+
 	if audio and not audio.playing:
 		audio.play()
 

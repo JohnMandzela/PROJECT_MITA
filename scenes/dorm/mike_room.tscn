@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=52 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="Script" uid="uid://di2jeftcx0xna" path="res://scripts/2_mike_room/mike_room_main_script.gd" id="1_51aoi"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
@@ -12,7 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="7_glapv"]
 [ext_resource type="Resource" uid="uid://xfr1x7r1n7s5" path="res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue" id="8_tksu2"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_glapv"]
+[ext_resource type="Script" uid="uid://1ulkpuweejmy" path="res://scripts/resources/dialogue_event_action.gd" id="9_xnfx7"]
 [ext_resource type="Script" uid="uid://bn83h6b2e4urf" path="res://scripts/2_mike_room/furniture/laptop.gd" id="10_7co0a"]
+[ext_resource type="Resource" uid="uid://igbqwnik8w8l" path="res://dialogues/2_mike_room/furniture/bed.dialogue" id="10_md5sy"]
 [ext_resource type="AudioStream" uid="uid://b5aub5gi1bcnt" path="res://audio/sounds/shower_wash.mp3" id="10_q4ttt"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="10_qkv8r"]
 [ext_resource type="Resource" uid="uid://d3cll1ve50fou" path="res://dialogues/2_mike_room/furniture/mike_room_bedside_table_day_1.dialogue" id="11_u5pas"]
@@ -22,7 +24,9 @@
 [ext_resource type="AudioStream" uid="uid://bpqa07dhdcffq" path="res://audio/sounds/item_got.mp3" id="16_1p2te"]
 [ext_resource type="Resource" uid="uid://dx10ur2ojuy7i" path="res://dialogues/2_mike_room/furniture/mike_room_sink_day_1.dialogue" id="19_u6sxl"]
 [ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="23_0i05t"]
+[ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="24_n83c8"]
 [ext_resource type="Resource" uid="uid://b5lgjohkjrc2e" path="res://dialogues/2_mike_room/furniture/mike_room_hangers_day_1.dialogue" id="24_tksu2"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="24_uxu6u"]
 [ext_resource type="AudioStream" uid="uid://df1ev33k2aw70" path="res://audio/sounds/rustle.mp3" id="25_lg8j8"]
 [ext_resource type="Texture2D" uid="uid://dkf4x0afw4j51" path="res://images/tilesets/characters/Mike-Sleep.png" id="27_n83c8"]
 
@@ -77,6 +81,11 @@ texture_region_size = Vector2i(48, 48)
 [sub_resource type="TileSet" id="TileSet_xuh38"]
 tile_size = Vector2i(48, 48)
 sources/0 = SubResource("TileSetAtlasSource_uicif")
+
+[sub_resource type="Resource" id="Resource_n83c8"]
+script = ExtResource("9_xnfx7")
+dialogue = ExtResource("10_md5sy")
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pl8tl"]
 size = Vector2(48, 70)
@@ -204,6 +213,14 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7co0a"]
 size = Vector2(38, 11)
+
+[sub_resource type="Resource" id="Resource_uxu6u"]
+script = ExtResource("24_n83c8")
+exit_direction = 1
+target_scene = "dorm/dorm"
+target_spawn_point = "Spawn_in_Corridor"
+required_direction = 1
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vn4g"]
 size = Vector2(46, 20.5)
@@ -333,6 +350,7 @@ tile_set = SubResource("TileSet_xuh38")
 
 [node name="BedCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
+action = SubResource("Resource_n83c8")
 right = false
 up = false
 
@@ -537,10 +555,9 @@ position = Vector2(59, -6)
 polygon = PackedVector2Array(-130, 82, -130, 101, -99, 101, -91, 104, -90, 101, -93, 95, -99, 92, -104, 88, -109, 82)
 
 [node name="Exit_Mike_Room" parent="Events" instance=ExtResource("7_glapv")]
-exit_direction = 1
-target_scene = "dorm/dorm"
-target_spawn_point = "Spawn_in_Corridor"
-required_direction = 1
+script = ExtResource("24_uxu6u")
+action = SubResource("Resource_uxu6u")
+activate_on_enter = true
 
 [node name="Label" type="Label" parent="Events/Exit_Mike_Room"]
 offset_left = -26.0
