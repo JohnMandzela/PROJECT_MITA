@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=4 uid="uid://bwvq6vds4vsvu"]
+[gd_scene load_steps=12 format=4 uid="uid://bwvq6vds4vsvu"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_4vifw"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_bmkgt"]
 [ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="4_ljb1s"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="4_r6amo"]
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="5_bmkgt"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="5_bmkgt"]
+[ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l8pgc"]
 texture = ExtResource("4_ljb1s")
@@ -41,6 +42,14 @@ sources/0 = SubResource("TileSetAtlasSource_h4yku")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2dgv"]
 size = Vector2(48.25, 22.5)
 
+[sub_resource type="Resource" id="Resource_action"]
+script = ExtResource("3_action")
+exit_direction = 1
+target_scene = "mihyung_offices/corridors_offices"
+target_spawn_point = "Spawn_on_Manager"
+required_direction = 1
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
+
 [node name="Manager\'s_Cabinet" type="Node2D"]
 script = ExtResource("1_4vifw")
 player_scene = ExtResource("2_bmkgt")
@@ -69,14 +78,10 @@ polygon = PackedVector2Array(-21.779663, 205.15254, -21.779663, 173.15254, -69.7
 position = Vector2(1, 239)
 
 [node name="PauseMenu" parent="." instance=ExtResource("4_r6amo")]
-
 [node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("5_bmkgt")
-exit_direction = 1
-target_scene = "mihyung_offices/corridors_offices"
-target_spawn_point = "Spawn_on_Manager"
-required_direction = 1
-
+action = SubResource("Resource_action")
+activate_on_enter = false
 [node name="Label" type="Label" parent="ExitToCorridors"]
 offset_left = -13.0
 offset_top = 270.0

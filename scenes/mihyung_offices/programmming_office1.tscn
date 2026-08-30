@@ -1,12 +1,13 @@
-[gd_scene load_steps=11 format=4 uid="uid://dpyna0v63j2aj"]
+[gd_scene load_steps=12 format=4 uid="uid://dpyna0v63j2aj"]
 
 [ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="1_1oqyi"]
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_cstuk"]
 [ext_resource type="Texture2D" uid="uid://pxjb8hphmii3" path="res://images/tilesets/scenes/Office/workplace_Sam.png" id="2_bn721"]
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="3_bn721"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="3_bn721"]
 [ext_resource type="Texture2D" uid="uid://ba1xahgoputou" path="res://images/tilesets/scenes/Office/workplace_table_Mike.png" id="3_w3gm6"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="5_xpn18"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="6_camra"]
+[ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xpn18"]
 texture = ExtResource("1_1oqyi")
@@ -26,13 +27,20 @@ sources/0 = SubResource("TileSetAtlasSource_xpn18")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mchta"]
 size = Vector2(47.5, 5)
 
+[sub_resource type="Resource" id="Resource_action"]
+script = ExtResource("3_action")
+exit_direction = 1
+target_scene = "mihyung_offices/corridors_offices"
+target_spawn_point = "Spawn_on_Programming"
+required_direction = 1
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
+
 [node name="programming_office" type="Node2D"]
 script = ExtResource("1_cstuk")
 player_scene = ExtResource("6_camra")
 default_spawn_point = "SpawnMarker"
 
 [node name="CollisionWall" type="StaticBody2D" parent="."]
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CollisionWall"]
 build_mode = 1
 polygon = PackedVector2Array(-95, 177, -143, 177, -143, 145, -175, 145, -175, -95, 129, -95, 129, 145, -95, 145)
@@ -43,13 +51,11 @@ tile_map_data = PackedByteArray("AAD1/woAAAABAAEAAAD7/woAAAABAAEAAAD8/woAAAABAAE
 tile_set = SubResource("TileSet_mchta")
 
 [node name="furniture" type="Node2D" parent="."]
-
 [node name="WorkplaceSam" type="Sprite2D" parent="furniture"]
 position = Vector2(86, -67)
 texture = ExtResource("2_bn721")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="furniture/WorkplaceSam"]
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="furniture/WorkplaceSam/StaticBody2D"]
 polygon = PackedVector2Array(-46, 16, -45, -28, 43, -28, 43, 45, 21, 45, 21, 16)
 
@@ -58,24 +64,18 @@ position = Vector2(-95, -8)
 texture = ExtResource("3_w3gm6")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="furniture/WorkplaceTableMike"]
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="furniture/WorkplaceTableMike/StaticBody2D"]
 polygon = PackedVector2Array(-15, 57, -48, 57, -47, -43, 17, -43, 17, -8, -15, -8)
 
 [node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("3_bn721")
-exit_direction = 1
-target_scene = "mihyung_offices/corridors_offices"
-target_spawn_point = "Spawn_on_Programming"
-trigger_on_enter = true
-required_direction = 1
-
+action = SubResource("Resource_action")
+activate_on_enter = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCorridors"]
 position = Vector2(-118.75, 174.5)
 shape = SubResource("RectangleShape2D_mchta")
 
 [node name="Label" type="Label" parent="ExitToCorridors"]
-
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(-117, 151)
 
@@ -83,6 +83,5 @@ position = Vector2(-117, 151)
 position = Vector2(-117, 145)
 
 [node name="Pause_Menu" parent="." instance=ExtResource("5_xpn18")]
-
 [connection signal="body_entered" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_entered"]
 [connection signal="body_exited" from="ExitToCorridors" to="ExitToCorridors" method="_on_body_exited"]

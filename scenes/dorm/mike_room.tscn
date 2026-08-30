@@ -557,7 +557,7 @@ polygon = PackedVector2Array(-130, 82, -130, 101, -99, 101, -91, 104, -90, 101, 
 [node name="Exit_Mike_Room" parent="Events" instance=ExtResource("7_glapv")]
 script = ExtResource("24_uxu6u")
 action = SubResource("Resource_uxu6u")
-activate_on_enter = true
+activate_on_enter = false
 
 [node name="Label" type="Label" parent="Events/Exit_Mike_Room"]
 offset_left = -26.0
