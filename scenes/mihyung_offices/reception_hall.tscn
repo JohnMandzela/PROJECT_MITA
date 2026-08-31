@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://cqaxqdrdd5ye8"]
+[gd_scene load_steps=49 format=4 uid="uid://cqaxqdrdd5ye8"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_fc117"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_bcki3"]
@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="8_pjjs5"]
 [ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="9_qy5m8"]
 [ext_resource type="Resource" uid="uid://c1fhlrkknmd25" path="res://dialogues/stage_4.dialogue" id="11_pjjs5"]
-[ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="12_bcki3"]
+[ext_resource type="Script" uid="uid://1ulkpuweejmy" path="res://scripts/resources/dialogue_event_action.gd" id="4_action"]
 [ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nqvbx"]
@@ -250,6 +250,29 @@ target_scene = "mihyung_offices/elevator_office"
 target_spawn_point = "Marker2D"
 metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
 
+[sub_resource type="Resource" id="Resource_cut1"]
+script = ExtResource("4_action")
+dialogue = ExtResource("11_pjjs5")
+dialogue_start = &"cutscene1"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_drec"]
+script = ExtResource("4_action")
+dialogue = ExtResource("11_pjjs5")
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_cut2"]
+script = ExtResource("4_action")
+dialogue = ExtResource("11_pjjs5")
+dialogue_start = &"cutscene2"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_rgrec"]
+script = ExtResource("4_action")
+dialogue = ExtResource("11_pjjs5")
+dialogue_start = &"dialogue_RG"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
 [node name="Reception_Hall" type="Node2D"]
 script = ExtResource("1_fc117")
 player_scene = ExtResource("2_bcki3")
@@ -378,9 +401,8 @@ position = Vector2(-73, 463)
 position = Vector2(-577, 438)
 
 [node name="Cutscene1_Reception" type="Area2D" parent="AreaEvents"]
-script = ExtResource("12_bcki3")
-dialogue = ExtResource("11_pjjs5")
-dialogue_start = &"cutscene1"
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_cut1")
 
 [node name="Label" type="Label" parent="AreaEvents/Cutscene1_Reception"]
 modulate = Color(0, 0, 0, 1)
@@ -421,8 +443,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="DialogueReception" type="Area2D" parent="AreaEvents"]
 position = Vector2(577, -438)
-script = ExtResource("12_bcki3")
-dialogue = ExtResource("11_pjjs5")
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_drec")
 
 [node name="Label" type="Label" parent="AreaEvents/DialogueReception"]
 offset_left = -100.0
@@ -440,9 +462,8 @@ shape = SubResource("RectangleShape2D_nqvbx")
 
 [node name="Cutscene2_Reception" type="Area2D" parent="AreaEvents"]
 position = Vector2(267, -1)
-script = ExtResource("12_bcki3")
-dialogue = ExtResource("11_pjjs5")
-dialogue_start = &"cutscene2"
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_cut2")
 
 [node name="Label" type="Label" parent="AreaEvents/Cutscene2_Reception"]
 modulate = Color(0, 0, 0, 1)
@@ -461,9 +482,8 @@ shape = SubResource("RectangleShape2D_bcki3")
 
 [node name="DialogueRGReception" type="Area2D" parent="AreaEvents"]
 position = Vector2(125, -15)
-script = ExtResource("12_bcki3")
-dialogue = ExtResource("11_pjjs5")
-dialogue_start = &"dialogue_RG"
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_rgrec")
 
 [node name="Label" type="Label" parent="AreaEvents/DialogueRGReception"]
 modulate = Color(0, 0, 0, 1)
