@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://cqaxqdrdd5ye8"]
+[gd_scene load_steps=49 format=4 uid="uid://cqaxqdrdd5ye8"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_fc117"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_bcki3"]
@@ -13,9 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://bbfowrp2htc74" path="res://images/tilesets/scenes/Office/wall_diag.png" id="7_xyr6m"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="8_42cvc"]
 [ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="8_pjjs5"]
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="9_qy5m8"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="9_qy5m8"]
 [ext_resource type="Resource" uid="uid://c1fhlrkknmd25" path="res://dialogues/stage_4.dialogue" id="11_pjjs5"]
-[ext_resource type="Script" uid="uid://cp6xvkr28wfcp" path="res://scripts/system/dialogue_event.gd" id="12_bcki3"]
+[ext_resource type="Script" uid="uid://1ulkpuweejmy" path="res://scripts/resources/dialogue_event_action.gd" id="4_action"]
+[ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nqvbx"]
 texture = ExtResource("8_pjjs5")
@@ -242,15 +243,43 @@ size = Vector2(80, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1usdv"]
 size = Vector2(80, 48)
 
+[sub_resource type="Resource" id="Resource_action"]
+script = ExtResource("3_action")
+exit_direction = 1
+target_scene = "mihyung_offices/elevator_office"
+target_spawn_point = "Marker2D"
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
+
+[sub_resource type="Resource" id="Resource_cut1"]
+script = ExtResource("4_action")
+dialogue = ExtResource("11_pjjs5")
+dialogue_start = &"cutscene1"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_drec"]
+script = ExtResource("4_action")
+dialogue = ExtResource("11_pjjs5")
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_cut2"]
+script = ExtResource("4_action")
+dialogue = ExtResource("11_pjjs5")
+dialogue_start = &"cutscene2"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_rgrec"]
+script = ExtResource("4_action")
+dialogue = ExtResource("11_pjjs5")
+dialogue_start = &"dialogue_RG"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
 [node name="Reception_Hall" type="Node2D"]
 script = ExtResource("1_fc117")
 player_scene = ExtResource("2_bcki3")
 default_spawn_point = "SpawnInHall"
 
 [node name="Reception_HallTexture" type="Sprite2D" parent="."]
-
 [node name="additional corridor textures" type="Node2D" parent="Reception_HallTexture"]
-
 [node name="Lift" type="Sprite2D" parent="Reception_HallTexture/additional corridor textures"]
 position = Vector2(-431, 228)
 texture = ExtResource("3_1uhl5")
@@ -365,7 +394,6 @@ position = Vector2(-106, 392)
 shape = SubResource("CapsuleShape2D_hxeso")
 
 [node name="PauseMenu" parent="." instance=ExtResource("8_42cvc")]
-
 [node name="SpawnInHall" type="Marker2D" parent="."]
 position = Vector2(-73, 463)
 
@@ -373,9 +401,8 @@ position = Vector2(-73, 463)
 position = Vector2(-577, 438)
 
 [node name="Cutscene1_Reception" type="Area2D" parent="AreaEvents"]
-script = ExtResource("12_bcki3")
-dialogue = ExtResource("11_pjjs5")
-dialogue_start = &"cutscene1"
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_cut1")
 
 [node name="Label" type="Label" parent="AreaEvents/Cutscene1_Reception"]
 modulate = Color(0, 0, 0, 1)
@@ -394,11 +421,10 @@ shape = SubResource("RectangleShape2D_453ih")
 
 [node name="Elevator" type="Area2D" parent="AreaEvents"]
 position = Vector2(577, -438)
-script = ExtResource("9_qy5m8")
-exit_direction = 1
-target_scene = "mihyung_offices/elevator_office"
-target_spawn_point = "Marker2D"
 
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_action")
+activate_on_enter = false
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AreaEvents/Elevator"]
 position = Vector2(212.00002, -160)
 scale = Vector2(1.5376991, 1.7234842)
@@ -417,8 +443,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="DialogueReception" type="Area2D" parent="AreaEvents"]
 position = Vector2(577, -438)
-script = ExtResource("12_bcki3")
-dialogue = ExtResource("11_pjjs5")
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_drec")
 
 [node name="Label" type="Label" parent="AreaEvents/DialogueReception"]
 offset_left = -100.0
@@ -436,9 +462,8 @@ shape = SubResource("RectangleShape2D_nqvbx")
 
 [node name="Cutscene2_Reception" type="Area2D" parent="AreaEvents"]
 position = Vector2(267, -1)
-script = ExtResource("12_bcki3")
-dialogue = ExtResource("11_pjjs5")
-dialogue_start = &"cutscene2"
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_cut2")
 
 [node name="Label" type="Label" parent="AreaEvents/Cutscene2_Reception"]
 modulate = Color(0, 0, 0, 1)
@@ -457,9 +482,8 @@ shape = SubResource("RectangleShape2D_bcki3")
 
 [node name="DialogueRGReception" type="Area2D" parent="AreaEvents"]
 position = Vector2(125, -15)
-script = ExtResource("12_bcki3")
-dialogue = ExtResource("11_pjjs5")
-dialogue_start = &"dialogue_RG"
+script = ExtResource("9_qy5m8")
+action = SubResource("Resource_rgrec")
 
 [node name="Label" type="Label" parent="AreaEvents/DialogueRGReception"]
 modulate = Color(0, 0, 0, 1)

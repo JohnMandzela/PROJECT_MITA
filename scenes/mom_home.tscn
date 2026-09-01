@@ -1,7 +1,6 @@
-[gd_scene load_steps=39 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=40 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
-[ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="5_uym5w"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="5_wby07"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="7_mgikj"]
 [ext_resource type="Texture2D" uid="uid://dgy2scp5bckwj" path="res://images/tilesets/characters/Mike-Necktie.png" id="8_mv7xs"]
@@ -10,6 +9,8 @@
 [ext_resource type="Script" uid="uid://co1xa4psmcdfm" path="res://scripts/1_mom_home/sleep_flashback.gd" id="10_fovv4"]
 [ext_resource type="Resource" uid="uid://but1myuxismw1" path="res://dialogues/1_mom_home/sleep_flashback.dialogue" id="11_sm1ot"]
 [ext_resource type="Script" uid="uid://b2b6nrclmnwb7" path="res://scripts/system/npc.gd" id="13_d8v55"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="2_zone"]
+[ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jacmr"]
 size = Vector2(48, 15)
@@ -277,14 +278,20 @@ _data = {
 &"lighten": SubResource("Animation_sm1ot")
 }
 
-[node name="Mom_Home" type="Node2D"]
+[sub_resource type="Resource" id="Resource_action"]
+script = ExtResource("3_action")
+exit_direction = 1
+target_scene = "Mike_Room"
+target_spawn_point = "Spawn_Mike_Room"
+required_direction = 1
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
 
+[node name="Mom_Home" type="Node2D"]
 [node name="Sleep_Flashback" type="Node2D" parent="."]
 script = ExtResource("10_fovv4")
 dialogue = ExtResource("11_sm1ot")
 
 [node name="Mom_Home_Parallax" type="Parallax2D" parent="Sleep_Flashback"]
-
 [node name="Mom_HomeTexture" type="Sprite2D" parent="Sleep_Flashback/Mom_Home_Parallax"]
 texture = ExtResource("1_jacmr")
 
@@ -295,20 +302,17 @@ shadow_enabled = true
 texture = ExtResource("9_mv7xs")
 
 [node name="Collisions" type="Node2D" parent="Sleep_Flashback"]
-
 [node name="StaticBody2D" type="StaticBody2D" parent="Sleep_Flashback/Collisions"]
-
 [node name="Walls" type="CollisionPolygon2D" parent="Sleep_Flashback/Collisions/StaticBody2D"]
 build_mode = 1
 polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -55.594666, -55.46057, -70, -72, -75, -110, -69, -135, -53, -156, -22, -168, 120, -168, 120, 216, 72, 216, 72, 264, 24, 264)
 
-[node name="Exit_Mom_Home" parent="Sleep_Flashback" instance=ExtResource("5_uym5w")]
+[node name="Exit_Mom_Home" type="Area2D" parent="Sleep_Flashback"]
 visible = false
-exit_direction = 1
-target_scene = "Mike_Room"
-target_spawn_point = "Spawn_Mike_Room"
-required_direction = 1
 
+script = ExtResource("2_zone")
+action = SubResource("Resource_action")
+activate_on_enter = false
 [node name="Exit_Mom_Home" type="CollisionShape2D" parent="Sleep_Flashback/Exit_Mom_Home"]
 position = Vector2(48, 256.5)
 shape = SubResource("RectangleShape2D_jacmr")
@@ -349,7 +353,6 @@ frame_progress = 0.22630148
 centered = false
 
 [node name="Timer" type="Timer" parent="Sleep_Flashback/MikeNpc"]
-
 [node name="MomNpc" type="CharacterBody2D" parent="Sleep_Flashback"]
 position = Vector2(97, -66)
 script = ExtResource("13_d8v55")
@@ -363,9 +366,7 @@ position = Vector2(0, -36)
 sprite_frames = SubResource("SpriteFrames_7tks0")
 
 [node name="PauseMenu" parent="Sleep_Flashback" instance=ExtResource("5_wby07")]
-
 [node name="CanvasLayer" type="CanvasLayer" parent="Sleep_Flashback"]
-
 [node name="ColorRect" type="ColorRect" parent="Sleep_Flashback/CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -390,3 +391,5 @@ libraries = {
 }
 
 [connection signal="timeout" from="Sleep_Flashback/MikeNpc/Timer" to="Sleep_Flashback/MikeNpc" method="_on_timer_timeout"]
+[connection signal="body_entered" from="Sleep_Flashback/Exit_Mom_Home" to="Sleep_Flashback/Exit_Mom_Home" method="_on_body_entered"]
+[connection signal="body_exited" from="Sleep_Flashback/Exit_Mom_Home" to="Sleep_Flashback/Exit_Mom_Home" method="_on_body_exited"]

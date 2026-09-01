@@ -124,8 +124,9 @@ func _on_fade_out_finished() -> void:
 	if SaveSystem.is_loading:
 		SaveSystem.load_game_state()
 
-	get_tree().change_scene_to_file(_pending_scene_path) # смена локации
-	_pending_scene_path = ""
+	if _pending_scene_path:
+		get_tree().change_scene_to_file(_pending_scene_path)
+		_pending_scene_path = ""
 
 
 func play_music(stream: AudioStream) -> void:

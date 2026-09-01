@@ -1,4 +1,4 @@
-extends Event
+extends ZoneEvent
 
 const PUZZLE_COMPLETION_FLAG := "programming_office_samples_puzzle_completed"
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://bp4l7s6fdptfu"]
+[gd_scene load_steps=23 format=4 uid="uid://bp4l7s6fdptfu"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_06xhh"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_sta68"]
@@ -10,8 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://c4h8keyn2pjdi" path="res://images/tilesets/scenes/Office/right_chair.png" id="7_axk3k"]
 [ext_resource type="Texture2D" uid="uid://0tfj2acyps3v" path="res://images/tilesets/scenes/Office/left chair.png" id="8_ms7op"]
 [ext_resource type="Texture2D" uid="uid://m4qvgm0q2fqv" path="res://images/tilesets/scenes/Office/coffee table.png" id="9_ujdaq"]
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="10_wc3ks"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="10_wc3ks"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="11_p1pm5"]
+[ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tu18y"]
 texture = ExtResource("3_gxevg")
@@ -74,15 +75,21 @@ size = Vector2(20, 44)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4u6k0"]
 size = Vector2(23.0625, 30.75)
 
+[sub_resource type="Resource" id="Resource_action"]
+script = ExtResource("3_action")
+exit_direction = 2
+target_scene = "mihyung_offices/corridors_offices"
+target_spawn_point = "Spawn_on_Restroom"
+required_direction = 2
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
+
 [node name="Restroom" type="Node2D"]
 script = ExtResource("1_06xhh")
 player_scene = ExtResource("2_sta68")
 default_spawn_point = "SpawnMarker"
 
 [node name="RestroomFinal" type="Sprite2D" parent="."]
-
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal"]
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RestroomFinal/StaticBody2D"]
 build_mode = 1
 polygon = PackedVector2Array(-257, 36, -257, 68, -225, 68, -225, 148, 95, 148, 95, 96, 36, 96, 36, 14, -1, 14, -1, -28, -65, -28, -65, 20, -81, 20, -81, -28, -225, -28, -225, 36)
@@ -109,7 +116,6 @@ texture = ExtResource("5_ffixf")
 script = ExtResource("6_sta68")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal/furniture/TheDiningTable"]
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RestroomFinal/furniture/TheDiningTable/StaticBody2D"]
 position = Vector2(0, 13)
 shape = SubResource("RectangleShape2D_ho8k7")
@@ -125,7 +131,6 @@ texture = ExtResource("7_axk3k")
 script = ExtResource("6_sta68")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal/furniture/RightChair"]
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RestroomFinal/furniture/RightChair/StaticBody2D"]
 position = Vector2(-3, 20)
 shape = SubResource("RectangleShape2D_4ri8f")
@@ -137,7 +142,6 @@ texture = ExtResource("8_ms7op")
 script = ExtResource("6_sta68")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal/furniture/LeftChair"]
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RestroomFinal/furniture/LeftChair/StaticBody2D"]
 position = Vector2(1.5, 20.5)
 shape = SubResource("RectangleShape2D_4of8d")
@@ -149,19 +153,16 @@ texture = ExtResource("9_ujdaq")
 script = ExtResource("6_sta68")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="RestroomFinal/furniture/CoffeeTable"]
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RestroomFinal/furniture/CoffeeTable/StaticBody2D"]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_xo6jo")
 
 [node name="ExitToCorridors" type="Area2D" parent="RestroomFinal"]
 position = Vector2(-150, -29)
-script = ExtResource("10_wc3ks")
-exit_direction = 2
-target_scene = "mihyung_offices/corridors_offices"
-target_spawn_point = "Spawn_on_Restroom"
-required_direction = 2
 
+script = ExtResource("10_wc3ks")
+action = SubResource("Resource_action")
+activate_on_enter = false
 [node name="Label" type="Label" parent="RestroomFinal/ExitToCorridors"]
 offset_left = -181.0
 offset_top = -23.0
@@ -179,7 +180,6 @@ shape = SubResource("RectangleShape2D_4u6k0")
 position = Vector2(-220, 47)
 
 [node name="PauseMenu" parent="." instance=ExtResource("11_p1pm5")]
-
 [node name="SpawnFromCorridors" type="Marker2D" parent="."]
 position = Vector2(-234, 50)
 

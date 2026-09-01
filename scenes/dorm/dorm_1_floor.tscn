@@ -1,17 +1,33 @@
-[gd_scene load_steps=9 format=3 uid="uid://b7tjfu7r6up7y"]
+[gd_scene load_steps=11 format=3 uid="uid://b7tjfu7r6up7y"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_iwjpk"]
 [ext_resource type="Texture2D" uid="uid://bpuchk46yp222" path="res://images/scene/corridor1floor.png" id="2_tec0y"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_yxuxe"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="4_iqv8y"]
-[ext_resource type="Script" uid="uid://dvu3nrox2b36f" path="res://scripts/system/scene_transition_event.gd" id="5_iqv8y"]
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="6_iqv8y"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="5_iqv8y"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="6_iqv8y"]
+[ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30krv"]
 size = Vector2(46, 43)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_apq6k"]
 size = Vector2(46, 47)
+
+[sub_resource type="Resource" id="Resource_action1"]
+script = ExtResource("3_action")
+exit_direction = 1
+target_scene = "dorm/dorm"
+target_spawn_point = "SpawnOnStairs"
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
+
+[sub_resource type="Resource" id="Resource_action2"]
+script = ExtResource("3_action")
+exit_direction = 0
+target_scene = "mihyung_offices/reception_hall"
+target_spawn_point = "SpawnInHall"
+required_direction = 1
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
 
 [node name="dorm" type="Node2D"]
 script = ExtResource("1_iwjpk")
@@ -22,23 +38,19 @@ default_spawn_point = "SpawnOnStairs"
 texture = ExtResource("2_tec0y")
 
 [node name="WallsCollision" type="StaticBody2D" parent="."]
-
 [node name="WallsCollision" type="CollisionPolygon2D" parent="WallsCollision"]
 position = Vector2(0, -144)
 build_mode = 1
 polygon = PackedVector2Array(-648, 134, -648, 168, -600, 168, -600, 182, -552, 182, -552, 168, -408, 168, -408, 182, -360, 182, -360, 168, -216, 168, -216, 182, -168, 182, -168, 168, -73, 168, -72, 408, -24, 408, -24, 456, 24, 456, 24, 408, 72, 408, 72, 264, 120, 264, 120, 216, 72, 216, 72, 168, 360, 168, 360, 182, 408, 182, 408, 168, 552, 168, 552, 182, 600, 182, 600, 168, 648, 168, 648, 134, 600, 134, 600, 120, 552, 120, 552, 134, 408, 134, 408, 120, 360, 120, 360, 134, 216, 134, 216, 120, 168, 120, 168, 134, 72, 134, 72, -120, 24, -120, 24, 124, -24, 124, -24, -21, -72, -21, -72, 134, -168, 134, -168, 120, -216, 120, -216, 134, -360, 134, -360, 120, -408, 120, -408, 134, -552, 134, -552, 120, -600, 120, -600, 134)
 
 [node name="PauseMenu" parent="." instance=ExtResource("4_iqv8y")]
-
 [node name="SpawnOnStairs" type="Marker2D" parent="."]
 position = Vector2(47, -16)
 
 [node name="EnterFloor2" type="Area2D" parent="."]
 script = ExtResource("5_iqv8y")
-exit_direction = 1
-target_scene = "dorm/dorm"
-target_spawn_point = "SpawnOnStairs"
-
+action = SubResource("Resource_action1")
+activate_on_enter = false
 [node name="Label" type="Label" parent="EnterFloor2"]
 offset_left = 83.0
 offset_top = -290.0
@@ -54,12 +66,9 @@ position = Vector2(48, -241.5)
 shape = SubResource("RectangleShape2D_30krv")
 
 [node name="ExitToStreet" type="Area2D" parent="."]
-script = ExtResource("6_iqv8y")
-required_direction = 1
-exit_direction = 0
-target_scene = "mihyung_offices/reception_hall"
-target_spawn_point = "SpawnInHall"
-
+script = ExtResource("5_iqv8y")
+action = SubResource("Resource_action2")
+activate_on_enter = false
 [node name="Label" type="Label" parent="ExitToStreet"]
 offset_left = -34.0
 offset_top = 313.0

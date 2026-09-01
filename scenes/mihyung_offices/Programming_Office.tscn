@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://ctxnt187plljn"]
+[gd_scene load_steps=15 format=4 uid="uid://ctxnt187plljn"]
 
 [ext_resource type="Script" uid="uid://b00ofgtcie2jx" path="res://scripts/programming_office.gd" id="1_root"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="2_player"]
@@ -8,7 +8,8 @@
 [ext_resource type="Script" uid="uid://bvad7pqaih7dl" path="res://scripts/programming_office_puzzle_zone.gd" id="5_zone"]
 [ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://images/tilesets/scenes/Office/TileSet_Office.png" id="6_2ptss"]
 [ext_resource type="PackedScene" uid="uid://cih1v2kckb6g3" path="res://scenes/samples_puzzle.tscn" id="6_puzzle"]
-[ext_resource type="Script" uid="uid://dwmcnd2e2dtju" path="res://scripts/system/scene_transition_event.gd" id="7_fapqt"]
+[ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="7_fapqt"]
+[ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v3eky"]
 texture = ExtResource("6_2ptss")
@@ -31,6 +32,14 @@ size = Vector2(32, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_td11o"]
 size = Vector2(43, 27)
 
+[sub_resource type="Resource" id="Resource_action"]
+script = ExtResource("3_action")
+exit_direction = 1
+target_scene = "mihyung_offices/corridors_offices"
+target_spawn_point = "Spawn_on_Programming"
+required_direction = 1
+metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
+
 [node name="Programming_Office" type="Node2D"]
 script = ExtResource("1_root")
 puzzle_scene = ExtResource("6_puzzle")
@@ -38,22 +47,18 @@ player_scene = ExtResource("2_player")
 default_spawn_point = "SpawnMarker"
 
 [node name="Programming_OfficeTexture" type="Sprite2D" parent="."]
-
 [node name="CollisionWall" type="StaticBody2D" parent="Programming_OfficeTexture"]
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Programming_OfficeTexture/CollisionWall"]
 build_mode = 1
 polygon = PackedVector2Array(-95, 177, -143, 177, -143, 145, -175, 145, -175, -95, 129, -95, 129, 145, -95, 145)
 
 [node name="furniture" type="Node2D" parent="Programming_OfficeTexture"]
-
 [node name="WorkplaceSam" type="Sprite2D" parent="Programming_OfficeTexture/furniture"]
 z_index = 1
 position = Vector2(86, -67)
 texture = ExtResource("4_etqb0")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Programming_OfficeTexture/furniture/WorkplaceSam"]
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Programming_OfficeTexture/furniture/WorkplaceSam/StaticBody2D"]
 polygon = PackedVector2Array(-46, 16, -45, -28, 43, -28, 43, 45, 21, 45, 21, 16)
 
@@ -63,7 +68,6 @@ position = Vector2(-95, -8)
 texture = ExtResource("5_td30t")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Programming_OfficeTexture/furniture/WorkplaceTableMike"]
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Programming_OfficeTexture/furniture/WorkplaceTableMike/StaticBody2D"]
 polygon = PackedVector2Array(-15, 57, -48, 57, -47, -43, 17, -43, 17, -8, -15, -8)
 
@@ -73,12 +77,10 @@ tile_map_data = PackedByteArray("AAD1/woAAAABAAEAAAD7/woAAAABAAEAAAD8/woAAAABAAE
 tile_set = SubResource("TileSet_gm14s")
 
 [node name="PauseMenu" parent="." instance=ExtResource("4_pause")]
-
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(-35, 45)
 
 [node name="Events" type="Node2D" parent="."]
-
 [node name="Samples_Puzzle_Zone" type="Area2D" parent="Events"]
 script = ExtResource("5_zone")
 
@@ -116,11 +118,8 @@ mouse_filter = 1
 
 [node name="ExitToCorridors" type="Area2D" parent="."]
 script = ExtResource("7_fapqt")
-exit_direction = 1
-target_scene = "mihyung_offices/corridors_offices"
-target_spawn_point = "Spawn_on_Programming"
-required_direction = 1
-
+action = SubResource("Resource_action")
+activate_on_enter = false
 [node name="Label" type="Label" parent="ExitToCorridors"]
 offset_left = -156.0
 offset_top = 191.0

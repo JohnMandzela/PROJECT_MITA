@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 var speed = 120.0
@@ -8,11 +9,13 @@ var last_direction := Enums.Direction.DOWN
 var direction_vector := Vector2.ZERO
 
 @onready var flashlight = $PhoneFlashlight
+@onready var interaction_controller = $InteractionController
 
 var is_flashlight_on := false:
 	set(value):
 		flashlight.enabled = value
 		is_flashlight_on = value
+
 
 func _ready():
 	# Добавляем последнее направление взгляда
@@ -24,7 +27,7 @@ func _ready():
 		is_flashlight_on = GameManager.saved_flashlight_state
 		GameManager.saved_flashlight_state = is_flashlight_on
 		
-	update_flashlight()
+	_update_flashlight()
 
 
 func _input(event: InputEvent) -> void:
@@ -32,6 +35,15 @@ func _input(event: InputEvent) -> void:
 		SaveSystem.save_game(SaveSystem.Mode.QUICK)
 	elif event.is_action_pressed("load"):
 		SaveSystem.load_game(SaveSystem.Mode.QUICK)
+	elif event.is_action_pressed("interact"):
+		interaction_controller.on_interact_pressed()
+	elif event.is_action_pressed("flashlight"):
+		is_flashlight_on = not is_flashlight_on
+
+
+func _process(_delta: float) -> void:
+	interaction_controller.update_focused_event(last_direction)
+
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_pressed("run"):
@@ -63,12 +75,13 @@ func _physics_process(_delta: float) -> void:
 	var direction_key: StringName = Enums.Direction.find_key(last_direction).to_lower()
 	%Player_Tileset.play(anim_prefix + direction_key)
 
-	update_flashlight()
+	_update_flashlight()
 
 	# Передвижение
 	move_and_slide()
 
-func update_flashlight() -> void:	
+
+func _update_flashlight() -> void:	
 	# Поворачиваем фонарик в сторону взгляда
 	match last_direction:
 		Enums.Direction.RIGHT:
@@ -79,7 +92,3 @@ func update_flashlight() -> void:
 			flashlight.rotation = -PI/2      # -90°
 		Enums.Direction.DOWN:
 			flashlight.rotation = PI/2       # 90°
-
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("flashlight"):
-		is_flashlight_on = not is_flashlight_on
