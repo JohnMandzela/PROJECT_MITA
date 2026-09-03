@@ -65,8 +65,7 @@ func sleep_animation():
 
 func wake_up_animation():
 	%Mike_Sleep_Tileset.play("wake_up")
-	if not wake_up_sound.playing:
-		wake_up_sound.play()
+	SoundManager.play_sound(wake_up_sound.stream)
 
 func phone_hand_animation():
 	%Mike_Sleep_Tileset.play("phone_on_hand")

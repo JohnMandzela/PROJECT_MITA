@@ -19,8 +19,8 @@ func on_interact(context: EventAction.InteractionContext) -> void:
 
     # TODO: сделать глобальный аудиоменеджер
     var audio: AudioStreamPlayer = event.get_node_or_null("Audio")
-    if audio and not audio.playing:
-        audio.play()
+    if audio and audio.stream:
+        SoundManager.play_sound(audio.stream)
 
     var animation: AnimatedSprite2D = event.get_node_or_null("AnimatedSprite2D")
     if animation:
