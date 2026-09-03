@@ -17,7 +17,6 @@ func on_interact(context: EventAction.InteractionContext) -> void:
     var event := context.event
     var player := context.player
 
-    # TODO: сделать глобальный аудиоменеджер
     var audio: AudioStreamPlayer = event.get_node_or_null("Audio")
     if audio and audio.stream:
         SoundManager.play_sound(audio.stream)

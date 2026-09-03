@@ -392,6 +392,26 @@ func hide_portrait(character: String) -> void:
 		push_warning("Функция hide_portrait() вызвана с персонажем '%s', который не участвует в диалоге" % [character])
 
 
+# Проиграть звук
+func play_sound(sound_id: String, wait_for_completion := true) -> void:
+	var found_resource_path: String = ""
+	for fmt in ["wav", "ogg", "mp3"]:
+		var path := "res://audio/sounds/%s.%s" % [sound_id, fmt]
+		if ResourceLoader.exists(path, "AudioStream"):
+			found_resource_path = path
+			break
+
+	if not found_resource_path:
+		push_warning("Звук '%s' не найден" % [sound_id])
+		return
+	
+	var sound: AudioStream = load(found_resource_path)
+	var player := SoundManager.play_sound(sound)
+	if wait_for_completion:
+		await player.finished
+
+
+
 func _update_portraits(character: String) -> void:
 	if character.is_empty():
 		left_portrait.set_inactive()

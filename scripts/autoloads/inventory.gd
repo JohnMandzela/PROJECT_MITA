@@ -1,6 +1,7 @@
 extends Node
 
 const ITEMS_PATH := "res://items/"
+const PICKUP_SOUND: AudioStream = preload("res://audio/sounds/item_pickup.wav")
 
 const DATA_PATH := "user://items_data.cfg"
 const FALLBACK_ICON_PATH := "res://images/items/cola.png"
@@ -84,6 +85,8 @@ func give_item(item_id: String, count := 1) -> void:
 	var stack := ItemStack.new(item_id, count)
 	current_inventory.append(stack)
 	inventory_changed.emit(stack.item_id, count)
+
+	SoundManager.play_sound(PICKUP_SOUND)
 
 # Убирает из инвентаря предмет с указанным ID в количестве count (по умолчанию 1)
 # NB: функция НЕ ПРОВЕРЯЕТ, есть ли предмет в инвентаре!
