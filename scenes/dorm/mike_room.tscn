@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=53 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="Script" uid="uid://di2jeftcx0xna" path="res://scripts/2_mike_room/mike_room_main_script.gd" id="1_51aoi"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
@@ -6,19 +6,16 @@
 [ext_resource type="Resource" uid="uid://k24mvkh3bhol" path="res://dialogues/2_mike_room/mike_room_morning.dialogue" id="2_lg8j8"]
 [ext_resource type="Texture2D" uid="uid://bj7gn1t6ff36n" path="res://images/scene/Dorm_Shadow.png" id="2_xuh38"]
 [ext_resource type="Texture2D" uid="uid://cheboonvvuebb" path="res://images/tilesets/scenes/Dorm_Furniture.png" id="3_pl8tl"]
-[ext_resource type="AudioStream" uid="uid://8kdn3iafaa1f" path="res://audio/sounds/things-toilet-1.mp3" id="6_sw8qw"]
 [ext_resource type="Script" uid="uid://chu8455u4phy1" path="res://scripts/system/object_event.gd" id="7_03jpi"]
 [ext_resource type="Resource" uid="uid://xfr1x7r1n7s5" path="res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue" id="8_tksu2"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_glapv"]
 [ext_resource type="Script" uid="uid://1ulkpuweejmy" path="res://scripts/resources/dialogue_event_action.gd" id="9_xnfx7"]
 [ext_resource type="Resource" uid="uid://igbqwnik8w8l" path="res://dialogues/2_mike_room/furniture/bed.dialogue" id="10_md5sy"]
-[ext_resource type="AudioStream" uid="uid://b5aub5gi1bcnt" path="res://audio/sounds/shower_wash.mp3" id="10_q4ttt"]
-[ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/Open1.mp3" id="10_qkv8r"]
+[ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/open.mp3" id="10_qkv8r"]
 [ext_resource type="Resource" uid="uid://d3cll1ve50fou" path="res://dialogues/2_mike_room/furniture/mike_room_bedside_table_day_1.dialogue" id="11_u5pas"]
 [ext_resource type="Resource" uid="uid://bawo48rrdm7cy" path="res://dialogues/2_mike_room/furniture/mike_room_laptop_day_1.dialogue" id="13_ni8v6"]
 [ext_resource type="Resource" uid="uid://cj4habhql37v7" path="res://dialogues/2_mike_room/furniture/mike_room_washing_machine_day_1.dialogue" id="14_citmd"]
 [ext_resource type="Resource" uid="uid://bhjvw8gdubary" path="res://dialogues/2_mike_room/furniture/fridge.dialogue" id="15_nlhcy"]
-[ext_resource type="AudioStream" uid="uid://bpqa07dhdcffq" path="res://audio/sounds/item_got.mp3" id="16_1p2te"]
 [ext_resource type="Resource" uid="uid://dx10ur2ojuy7i" path="res://dialogues/2_mike_room/furniture/mike_room_sink_day_1.dialogue" id="19_u6sxl"]
 [ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="24_n83c8"]
 [ext_resource type="Resource" uid="uid://b5lgjohkjrc2e" path="res://dialogues/2_mike_room/furniture/mike_room_hangers_day_1.dialogue" id="24_tksu2"]
@@ -438,18 +435,6 @@ offset_right = -83.0
 offset_bottom = -119.0
 text = "Душевая"
 
-[node name="Toilet_Sound" type="AudioStreamPlayer" parent="Collisions/FurnitureCollisions/ShowerCollision"]
-stream = ExtResource("6_sw8qw")
-volume_db = -15.0
-bus = &"Sounds"
-playback_type = 1
-
-[node name="Shower_Wash_Sound" type="AudioStreamPlayer" parent="Collisions/FurnitureCollisions/ShowerCollision"]
-stream = ExtResource("10_q4ttt")
-volume_db = -15.0
-bus = &"Sounds"
-playback_type = 1
-
 [node name="TableCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
 action = SubResource("Resource_xnfx7")
@@ -468,12 +453,6 @@ offset_top = -29.0
 offset_right = -78.0
 offset_bottom = -6.0
 text = "Ноутбук"
-
-[node name="ItemGot" type="AudioStreamPlayer" parent="Collisions/FurnitureCollisions/TableCollision"]
-stream = ExtResource("16_1p2te")
-volume_db = -15.0
-bus = &"Sounds"
-playback_type = 1
 
 [node name="WashingMachineCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")

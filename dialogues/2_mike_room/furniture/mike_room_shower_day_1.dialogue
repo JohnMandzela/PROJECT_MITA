@@ -1,6 +1,6 @@
 ~ start
 if GameManager.get_flag("shower_used")
-	# TODO: звук унитаза
+	do play_sound("toilet_flush")
 	=> END
 
 Душевая кабинка, совмещенная с унитазом. Современный санузел, полностью соответствующий популярному архитектурному стилю “оптимизации жилищного пространства”. 
@@ -11,11 +11,9 @@ if GameManager.get_flag("shower_used")
 	Майк: Ладно, всё равно помоюсь. Лучше выйти чистым и опоздать, чем прийти вовремя и… неважно…
 	do fade_out()
 	do wait(0.1)
-	# TODO: восстановить звук душа
-	# do _play_shower_wash_sound()
-	do wait(4.2)
+	do play_sound("shower_wash")
 	do fade_in()
-	Майк: Хорошо! Я даже как то бодрее стал.
+	Майк: Хорошо! Я даже как-то бодрее стал.
 	do GameManager.set_flag("shower_used")
 	=> END
 - Не стоит

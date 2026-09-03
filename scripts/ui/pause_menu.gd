@@ -136,12 +136,12 @@ func _insert_completed_quests_button() -> void:
 	quest_vbox.move_child(button, quest_buttons.get_index())
 
 
-func save_settings() -> void:
-	var config := ConfigFile.new()
-	config.set_value("video", "fullscreen", fullscren_checkbox_path.button_pressed)
-	config.set_value("audio", "music_volume", music_value_path.value)
-	config.set_value("audio", "sounds_volume", sounds_value_path.value)
-	config.save(GameManager.SETTINGS_PATH)
+func _save_settings() -> void:
+	GameManager.save_settings(
+		fullscren_checkbox_path.button_pressed,
+		music_value_path.value,
+		sounds_value_path.value,
+	)
 
 
 func _ready() -> void:
@@ -306,39 +306,24 @@ func _on_quests_pressed() -> void:
 
 
 func _on_sounds_value_changed(value: float) -> void:
-	var db: float
-	if value == 0:
-		db = -80
-	else:
-		db = linear_to_db(value / 100.0)
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), db)
-	if not loading_settings:
-		save_settings()
+	SoundManager.set_sound_volume(value / 100.0)
+	_save_settings()
 
 
 func _on_music_value_changed(value: float) -> void:
-	var db: float
-	if value == 0:
-		db = -80
-	else:
-		db = linear_to_db(value / 100.0)
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), db)
-	if not loading_settings:
-		save_settings()
+	SoundManager.set_music_volume(value / 100.0)
+	_save_settings()
 
 
-func _on_fullscreen_toggled(pressed: bool) -> void:
-	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed else DisplayServer.WINDOW_MODE_WINDOWED,
-	)
-	if not loading_settings:
-		save_settings()
+func _on_fullscreen_toggled(enabled: bool) -> void:
+	GameManager.set_fullscreen(enabled)
+	_save_settings()
 
 
 func _apply_settings() -> void:
-	_on_fullscreen_toggled(fullscren_checkbox_path.button_pressed)
-	_on_music_value_changed(music_value_path.value)
-	_on_sounds_value_changed(sounds_value_path.value)
+	GameManager.set_fullscreen(fullscren_checkbox_path.button_pressed)
+	SoundManager.set_music_volume(music_value_path.value / 100.0)
+	SoundManager.set_sound_volume(sounds_value_path.value / 100.0)
 
 
 func close_pause_menu() -> void:
