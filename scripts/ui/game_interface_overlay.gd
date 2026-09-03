@@ -841,50 +841,35 @@ func _load_settings() -> void:
 
 
 func _save_settings() -> void:
-	var config := ConfigFile.new()
-	config.set_value("video", "fullscreen", fullscreen_checkbox.button_pressed)
-	config.set_value("audio", "music_volume", MusicSlider.value)
-	config.set_value("audio", "sounds_volume", SoundsSlider.value)
-	config.save(GameManager.SETTINGS_PATH)
-
-
-func _apply_settings() -> void:
-	_apply_fullscreen(fullscreen_checkbox.button_pressed)
-	_apply_bus_volume("Music", MusicSlider.value)
-	_apply_bus_volume("Sounds", SoundsSlider.value)
+	GameManager.save_settings(
+		fullscreen_checkbox.button_pressed,
+		MusicSlider.value,
+		SoundsSlider.value,
+	)
 
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
-	_apply_fullscreen(pressed)
+	GameManager.set_fullscreen(pressed)
 	if not loading_settings:
 		_save_settings()
 
 
 func _on_music_value_changed(value: float) -> void:
-	_apply_bus_volume("Music", value)
+	SoundManager.set_music_volume(value / 100.0)
 	if not loading_settings:
 		_save_settings()
 
 
 func _on_sounds_value_changed(value: float) -> void:
-	_apply_bus_volume("Sounds", value)
+	SoundManager.set_sounds_volume(value / 100.0)
 	if not loading_settings:
 		_save_settings()
 
 
-func _apply_fullscreen(enabled: bool) -> void:
-	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED,
-	)
-
-
-func _apply_bus_volume(bus_name: String, value: float) -> void:
-	var bus_index := AudioServer.get_bus_index(bus_name)
-	if bus_index == -1:
-		return
-
-	var db := -80.0 if value <= 0.0 else linear_to_db(value / 100.0)
-	AudioServer.set_bus_volume_db(bus_index, db)
+func _apply_settings() -> void:
+	GameManager.set_fullscreen(fullscreen_checkbox.button_pressed)
+	SoundManager.set_music_volume(MusicSlider.value / 100.0)
+	SoundManager.set_sound_volume(SoundsSlider.value / 100.0)
 
 
 func _on_main_menu_pressed() -> void:

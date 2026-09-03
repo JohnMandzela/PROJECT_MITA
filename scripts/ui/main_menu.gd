@@ -1,5 +1,8 @@
 extends Control
 
+# TODO: отрефакторить код настроек - он много где дублируется
+# TODO: почистить нейрослоп
+
 @onready var title_label: Label = $TitleLabel
 @onready var menu_start: VBoxContainer = $ButtonsVBox
 @onready var menu_options: MarginContainer = $OptionsMenu
@@ -13,9 +16,6 @@ var loading_settings := true
 var save_slots_overlay: Panel
 var save_slots_list: VBoxContainer
 
-# TODO: почистить нейрослоп
-# TODO: проверить корректность сохранения конфига
-
 func _ready() -> void:
 	_ensure_continue_button()
 	_ensure_load_button()
@@ -27,7 +27,7 @@ func _ready() -> void:
 	menu_options.visible = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if menu_theme:
-		GameManager.play_music(menu_theme)
+		SoundManager.play_music(menu_theme)
 
 	var mode := DisplayServer.window_get_mode()
 	var is_full := mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN \
@@ -44,6 +44,7 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 	_apply_settings()
+	
 	loading_settings = false
 
 
@@ -169,14 +170,14 @@ func _update_save_buttons_visibility() -> void:
 
 
 func _on_new_game_button_pressed() -> void:
-	GameManager.stop_music()
+	SoundManager.stop_music()
 	GameManager.reset_game_state()
 	var mom_home_scene := load("res://scenes/mom_home.tscn")
 	get_tree().change_scene_to_packed(mom_home_scene)
 
 
 func _on_continue_button_pressed() -> void:
-	GameManager.stop_music()
+	SoundManager.stop_music()
 	SaveSystem.load_latest_save()
 
 
@@ -189,7 +190,7 @@ func _on_load_button_pressed() -> void:
 
 
 func _on_save_slot_pressed(path: String) -> void:
-	GameManager.stop_music()
+	SoundManager.stop_music()
 	SaveSystem.load_game_from_file(path)
 
 
@@ -212,52 +213,40 @@ func _on_exit_pressed() -> void:
 
 
 func _play_interact_sound() -> void:
-	if menu_theme and not GameManager.music_player.playing:
-		GameManager.play_music(menu_theme)
+	if menu_theme and not SoundManager.is_music_playing():
+		SoundManager.play_music(menu_theme)
 
 
-func save_settings() -> void:
-	var config := ConfigFile.new()
-	config.set_value("video", "fullscreen", fullscren_checkbox_path.button_pressed)
-	config.set_value("audio", "music_volume", music_value_path.value)
-	config.set_value("audio", "sounds_volume", sounds_value_path.value)
-	config.save(GameManager.SETTINGS_PATH)
+func _save_settings() -> void:
+	GameManager.save_settings(
+		fullscren_checkbox_path.button_pressed,
+		music_value_path.value,
+		sounds_value_path.value,
+	)
 
 
 func _on_sounds_value_changed(value: float) -> void:
-	var db: float
-	if value == 0:
-		db = -80
-	else:
-		db = linear_to_db(value / 100.0)
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), db)
+	SoundManager.set_sound_volume(value / 100.0)
 	if not loading_settings:
-		save_settings()
+		_save_settings()
 
 
 func _on_music_value_changed(value: float) -> void:
-	var db: float
-	if value == 0:
-		db = -80
-	else:
-		db = linear_to_db(value / 100.0)
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), db)
+	SoundManager.set_music_volume(value / 100.0)
 	if not loading_settings:
-		save_settings()
+		_save_settings()
 
 
-func _on_fullscreen_toggled(pressed: bool) -> void:
-	DisplayServer.window_set_mode(
-		DisplayServer.WINDOW_MODE_FULLSCREEN if pressed else DisplayServer.WINDOW_MODE_WINDOWED,
-	)
+func _on_fullscreen_toggled(enabled: bool) -> void:
+	GameManager.set_fullscreen(enabled)
 	if not loading_settings:
-		save_settings()
+		_save_settings()
 
 
 func _apply_settings() -> void:
-	_on_fullscreen_toggled(fullscren_checkbox_path.button_pressed)
-	_on_music_value_changed(music_value_path.value)
-	_on_sounds_value_changed(sounds_value_path.value)
+	GameManager.set_fullscreen(fullscren_checkbox_path.button_pressed)
+	SoundManager.set_music_volume(music_value_path.value / 100.0)
+	SoundManager.set_sound_volume(sounds_value_path.value / 100.0)
 
 
 func _on_back_pressed() -> void:
