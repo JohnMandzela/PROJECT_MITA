@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=56 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
 [ext_resource type="PackedScene" uid="uid://5uikow1evl7d" path="res://scenes/system/scene_transition_event.tscn" id="5_uym5w"]
@@ -10,6 +10,12 @@
 [ext_resource type="Script" uid="uid://co1xa4psmcdfm" path="res://scripts/1_mom_home/sleep_flashback.gd" id="10_fovv4"]
 [ext_resource type="Resource" uid="uid://but1myuxismw1" path="res://dialogues/1_mom_home/sleep_flashback.dialogue" id="11_sm1ot"]
 [ext_resource type="Script" uid="uid://b2b6nrclmnwb7" path="res://scripts/system/npc.gd" id="13_d8v55"]
+[ext_resource type="Script" uid="uid://j2p52npk78ku" path="res://scripts/system/waypoint_route.gd" id="14_wayr"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_momhome"]
+vertices = PackedVector2Array(101, -154, 101, 210, 53, 210, 25, 162, 25, 134, 53, 339, 25, 339, -23, 162, -23, 134, 25, -30, -41.71875, -135.49219, -5.59375, -154, -26.109375, -30, -60, -73.4375, -60, -102.421875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(2, 5, 6, 3), PackedInt32Array(3, 7, 8, 4), PackedInt32Array(0, 4, 9), PackedInt32Array(10, 11, 0, 9, 12, 13, 14)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(111, 220, 63, 220, 63, 263, 63, 349, 15, 349, 15, 263, 15, 172, -33, 172, -33, 124, 15, 124, 15, -20, -31, -20, -70, -70, -70, -105, -49, -143, -8, -164, 111, -164)])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jacmr"]
 size = Vector2(48, 15)
@@ -193,6 +199,66 @@ height = 24.0
 atlas = ExtResource("9_01ivo")
 region = Rect2(48, 0, 48, 96)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_01ivo"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vy5hr"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44nh8"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7i5uo"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0j8e4"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(48, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8tfc3"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(96, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wshy3"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(0, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqhuu"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(48, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dx7jo"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(96, 192, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh1d5"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(0, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0gjn"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(48, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ghpi"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(96, 96, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7pog"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(0, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_261lj"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(48, 288, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gn2mx"]
+atlas = ExtResource("9_01ivo")
+region = Rect2(96, 288, 48, 96)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_7tks0"]
 animations = [{
 "frames": [{
@@ -200,7 +266,99 @@ animations = [{
 "texture": SubResource("AtlasTexture_15ql4")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_01ivo")
+}],
+"loop": true,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vy5hr")
+}],
+"loop": true,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44nh8")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7i5uo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j8e4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8tfc3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j8e4")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wshy3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqhuu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dx7jo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqhuu")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh1d5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0gjn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ghpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0gjn")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7pog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_261lj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gn2mx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_261lj")
+}],
+"loop": true,
+"name": &"walk_up",
 "speed": 5.0
 }]
 
@@ -283,12 +441,17 @@ _data = {
 script = ExtResource("10_fovv4")
 dialogue = ExtResource("11_sm1ot")
 
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Sleep_Flashback"]
+position = Vector2(9, -4)
+navigation_polygon = SubResource("NavigationPolygon_momhome")
+
 [node name="Mom_Home_Parallax" type="Parallax2D" parent="Sleep_Flashback"]
 
 [node name="Mom_HomeTexture" type="Sprite2D" parent="Sleep_Flashback/Mom_Home_Parallax"]
 texture = ExtResource("1_jacmr")
 
 [node name="Shadow" type="PointLight2D" parent="Sleep_Flashback/Mom_Home_Parallax"]
+visible = false
 blend_mode = 2
 range_z_max = 3
 shadow_enabled = true
@@ -300,7 +463,7 @@ texture = ExtResource("9_mv7xs")
 
 [node name="Walls" type="CollisionPolygon2D" parent="Sleep_Flashback/Collisions/StaticBody2D"]
 build_mode = 1
-polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -55.594666, -55.46057, -70, -72, -75, -110, -69, -135, -53, -156, -22, -168, 120, -168, 120, 216, 72, 216, 72, 264, 24, 264)
+polygon = PackedVector2Array(24, 168, 24, 120, 24, -24, -8, -26, -43, -41, -55.594666, -55.46057, -70, -72, -75, -110, -69, -135, -53, -156, -22, -168, 120, -168, 120, 216, 72, 216, 72, 264, 72, 345, 24, 345, 24, 264)
 
 [node name="Exit_Mom_Home" parent="Sleep_Flashback" instance=ExtResource("5_uym5w")]
 visible = false
@@ -331,9 +494,21 @@ playback_type = 1
 position = Vector2(69, 101)
 zoom = Vector2(2, 2)
 
-[node name="MikeNpc" type="CharacterBody2D" parent="Sleep_Flashback"]
+[node name="MikeNpc" type="CharacterBody2D" parent="Sleep_Flashback" node_paths=PackedStringArray("tileset", "navigation_agent", "route")]
 position = Vector2(69.047035, 110.66194)
+collision_mask = 0
 script = ExtResource("13_d8v55")
+tileset = NodePath("Mike_Tileset")
+rotation_mode = 1
+navigation_agent = NodePath("NavigationAgent2D")
+route = NodePath("Waypoints")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Sleep_Flashback/MikeNpc"]
+path_desired_distance = 4.0
+path_max_distance = 18.0
+avoidance_enabled = true
+radius = 7.0
+max_speed = 120.0
 
 [node name="MikeCollision" type="CollisionShape2D" parent="Sleep_Flashback/MikeNpc"]
 rotation = 1.5707964
@@ -349,10 +524,28 @@ frame_progress = 0.22630148
 centered = false
 
 [node name="Timer" type="Timer" parent="Sleep_Flashback/MikeNpc"]
+wait_time = 1.5
 
-[node name="MomNpc" type="CharacterBody2D" parent="Sleep_Flashback"]
+[node name="Waypoints" type="Node2D" parent="Sleep_Flashback/MikeNpc"]
+script = ExtResource("14_wayr")
+
+[node name="WaypointMike" type="Node2D" parent="Sleep_Flashback/MikeNpc/Waypoints"]
+position = Vector2(-21.047035, 213.33806)
+
+[node name="MomNpc" type="CharacterBody2D" parent="Sleep_Flashback" node_paths=PackedStringArray("tileset", "navigation_agent", "route")]
 position = Vector2(97, -66)
+collision_mask = 0
 script = ExtResource("13_d8v55")
+tileset = NodePath("Mom_Tileset")
+navigation_agent = NodePath("NavigationAgent2D")
+route = NodePath("Waypoints")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Sleep_Flashback/MomNpc"]
+path_desired_distance = 4.0
+path_max_distance = 18.0
+avoidance_enabled = true
+radius = 7.0
+max_speed = 120.0
 
 [node name="MomCollision" type="CollisionShape2D" parent="Sleep_Flashback/MomNpc"]
 rotation = 1.5707964
@@ -361,6 +554,14 @@ shape = SubResource("CapsuleShape2D_n7hji")
 [node name="Mom_Tileset" type="AnimatedSprite2D" parent="Sleep_Flashback/MomNpc"]
 position = Vector2(0, -36)
 sprite_frames = SubResource("SpriteFrames_7tks0")
+animation = &"walk_right"
+frame_progress = 0.5653056
+
+[node name="Waypoints" type="Node2D" parent="Sleep_Flashback/MomNpc"]
+script = ExtResource("14_wayr")
+
+[node name="WaypointMom" type="Node2D" parent="Sleep_Flashback/MomNpc/Waypoints"]
+position = Vector2(-107, 209)
 
 [node name="PauseMenu" parent="Sleep_Flashback" instance=ExtResource("5_wby07")]
 

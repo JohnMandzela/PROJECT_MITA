@@ -1,23 +1,23 @@
 extends Node2D
 
 @export var dialogue: DialogueResource
-@onready var mike: CharacterBody2D = $MikeNpc
-@onready var mom: CharacterBody2D = $MomNpc
+@onready var mike: Npc = $MikeNpc
+@onready var mom: Npc = $MomNpc
 @onready var animation_darken: AnimationPlayer = $CanvasLayer/AnimationDarken
 @onready var animation_lighten: AnimationPlayer = $CanvasLayer/AnimationLighten
-
-var speed := 120.0
-var target_y := 0.0
-var mom_moving := false
 
 
 func _ready() -> void:
 	DialogueManager.show_dialogue_balloon(dialogue, "start", [self])
 
 
-func mom_move(distance: float):
-	target_y = mom.position.y + distance
-	mom_moving = true
+func mom_move() -> void:
+	if mom.route != null:
+		mom.follow_route(false)
+
+func mike_move() -> void:
+	if mike.route != null:
+		mike.follow_route(false)
 
 
 func darken_screen() -> void:
@@ -38,15 +38,6 @@ func lighten_screen() -> void:
 func lighten_screen_backwards() -> void:
 	animation_lighten.play_backwards("lighten")
 	await get_tree().create_timer(1.0).timeout
-
-
-func _process(delta):
-	if mom_moving:
-		mom.position.y += speed * delta
-
-		if mom.position.y >= target_y:
-			mom.position.y = target_y
-			mom_moving = false
 
 
 func dialogue_end():
