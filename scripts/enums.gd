@@ -20,4 +20,6 @@ enum Emote {
 	SAD,
 	ANGRY,
 	SHAME,
+	# Сбрасывает эмоцию персонажа на «по умолчанию»
+	DEFAULT,
 }

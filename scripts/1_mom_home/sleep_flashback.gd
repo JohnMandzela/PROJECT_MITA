@@ -40,6 +40,36 @@ func lighten_screen_backwards() -> void:
 	await get_tree().create_timer(1.0).timeout
 
 
+## Переключает визуальный режим текущего пузыря диалога прямо во время диалога.
+## Использование в диалоге: do switch_balloon("simple")
+func switch_balloon(balloon_name: String) -> void:
+	if balloon_name != "simple":
+		return
+
+	var active_balloon := _find_active_balloon()
+	if not active_balloon:
+		push_warning("switch_balloon: не найден активный balloon в сцене")
+		return
+
+	if active_balloon.has_method("switch_to_simple_mode"):
+		active_balloon.switch_to_simple_mode()
+
+
+## Ищет активный balloon среди дочерних узлов текущей сцены.
+func _find_active_balloon() -> Node:
+	var current_scene := get_tree().current_scene
+	if current_scene:
+		for child in current_scene.get_children():
+			if child is CanvasLayer and child.has_method("switch_to_simple_mode"):
+				return child
+
+	for child in get_tree().root.get_children():
+		if child is CanvasLayer and child.has_method("switch_to_simple_mode"):
+			return child
+
+	return null
+
+
 func _process(delta):
 	if mom_moving:
 		mom.position.y += speed * delta

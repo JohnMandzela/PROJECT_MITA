@@ -1,13 +1,15 @@
-[gd_scene load_steps=22 format=3 uid="uid://bsvxh1s8ha4cv"]
+[gd_scene load_steps=30 format=3 uid="uid://bsvxh1s8ha4cv"]
 
 [ext_resource type="Texture2D" uid="uid://bnjaciec2avpf" path="res://images/scene/corridor.png" id="1_a6q5q"]
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_km4w3"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_1vu13"]
 [ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="3_action"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="3_cahr0"]
+[ext_resource type="Script" uid="uid://1ulkpuweejmy" path="res://scripts/resources/dialogue_event_action.gd" id="4_dialogue_action"]
 [ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="6_1vu13"]
 [ext_resource type="Texture2D" uid="uid://fe0mw8eak7ba" path="res://images/tilesets/scenes/$door.png" id="8_j5r5n"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/open.mp3" id="8_y5ma7"]
+[ext_resource type="Resource" uid="uid://chj85jqy72sxr" path="res://dialogues/stage_2.dialogue" id="9_stage2"]
 
 [sub_resource type="Resource" id="Resource_action1"]
 script = ExtResource("3_action")
@@ -24,6 +26,39 @@ script = ExtResource("3_action")
 target_scene = "dorm/mike_room"
 target_spawn_point = "Spawn_from_Corridor"
 metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_inspect"]
+size = Vector2(44, 24.5625)
+
+[sub_resource type="Resource" id="Resource_inspect1"]
+script = ExtResource("4_dialogue_action")
+dialogue = ExtResource("9_stage2")
+dialogue_start = &"inspect_door1"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_inspect2"]
+script = ExtResource("4_dialogue_action")
+dialogue = ExtResource("9_stage2")
+dialogue_start = &"inspect_door2"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_inspect3"]
+script = ExtResource("4_dialogue_action")
+dialogue = ExtResource("9_stage2")
+dialogue_start = &"inspect_door3"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_inspect4"]
+script = ExtResource("4_dialogue_action")
+dialogue = ExtResource("9_stage2")
+dialogue_start = &"inspect_door4"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
+
+[sub_resource type="Resource" id="Resource_inspect5"]
+script = ExtResource("4_dialogue_action")
+dialogue = ExtResource("9_stage2")
+dialogue_start = &"inspect_door5"
+metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y5ma7"]
 atlas = ExtResource("8_j5r5n")
@@ -180,7 +215,114 @@ volume_db = -15.0
 bus = &"Sounds"
 playback_type = 1
 
+[node name="DoorInspectEvents" type="Node2D" parent="."]
+
+[node name="InspectDoor1" type="Area2D" parent="DoorInspectEvents"]
+position = Vector2(-385, 110)
+script = ExtResource("6_1vu13")
+action = SubResource("Resource_inspect1")
+
+[node name="Label" type="Label" parent="DoorInspectEvents/InspectDoor1"]
+offset_left = -43.0
+offset_top = -168.0
+offset_right = 46.0
+offset_bottom = -145.0
+text = "Осмотреть"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorInspectEvents/InspectDoor1"]
+position = Vector2(1, 1.0625)
+shape = SubResource("RectangleShape2D_inspect")
+
+[node name="InspectDoor2" type="Area2D" parent="DoorInspectEvents"]
+position = Vector2(384, 118)
+script = ExtResource("6_1vu13")
+action = SubResource("Resource_inspect2")
+
+[node name="Label" type="Label" parent="DoorInspectEvents/InspectDoor2"]
+offset_left = -44.0
+offset_top = -172.0
+offset_right = 45.0
+offset_bottom = -149.0
+text = "Осмотреть"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorInspectEvents/InspectDoor2"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_inspect")
+
+[node name="InspectDoor3" type="Area2D" parent="DoorInspectEvents"]
+position = Vector2(-192, 111.25)
+script = ExtResource("6_1vu13")
+action = SubResource("Resource_inspect3")
+
+[node name="Label" type="Label" parent="DoorInspectEvents/InspectDoor3"]
+offset_left = -40.0
+offset_top = -167.25
+offset_right = 49.0
+offset_bottom = -144.25
+text = "Осмотреть"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorInspectEvents/InspectDoor3"]
+position = Vector2(0, -0.25)
+shape = SubResource("RectangleShape2D_inspect")
+
+[node name="InspectDoor4" type="Area2D" parent="DoorInspectEvents"]
+position = Vector2(192, 111.25)
+script = ExtResource("6_1vu13")
+action = SubResource("Resource_inspect4")
+
+[node name="Label" type="Label" parent="DoorInspectEvents/InspectDoor4"]
+offset_left = -45.0
+offset_top = -169.25
+offset_right = 44.0
+offset_bottom = -146.25
+text = "Осмотреть"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorInspectEvents/InspectDoor4"]
+position = Vector2(0, -1.25)
+shape = SubResource("RectangleShape2D_inspect")
+
+[node name="InspectDoor5" type="Area2D" parent="DoorInspectEvents"]
+position = Vector2(529, 111)
+script = ExtResource("6_1vu13")
+action = SubResource("Resource_inspect5")
+
+[node name="Label" type="Label" parent="DoorInspectEvents/InspectDoor5"]
+offset_left = 2.0
+offset_top = -168.0
+offset_right = 91.0
+offset_bottom = -145.0
+text = "Осмотреть"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorInspectEvents/InspectDoor5"]
+position = Vector2(48, -0.25)
+shape = SubResource("RectangleShape2D_inspect")
+
 [connection signal="body_entered" from="EnterFloor1" to="EnterFloor1" method="_on_body_entered"]
 [connection signal="body_exited" from="EnterFloor1" to="EnterFloor1" method="_on_body_exited"]
 [connection signal="body_entered" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_entered"]
 [connection signal="body_exited" from="Door_Mike_Room/Enter_Mike_Room" to="Door_Mike_Room/Enter_Mike_Room" method="_on_body_exited"]
+[connection signal="body_entered" from="DoorInspectEvents/InspectDoor1" to="DoorInspectEvents/InspectDoor1" method="_on_body_entered"]
+[connection signal="body_exited" from="DoorInspectEvents/InspectDoor1" to="DoorInspectEvents/InspectDoor1" method="_on_body_exited"]
+[connection signal="body_entered" from="DoorInspectEvents/InspectDoor2" to="DoorInspectEvents/InspectDoor2" method="_on_body_entered"]
+[connection signal="body_exited" from="DoorInspectEvents/InspectDoor2" to="DoorInspectEvents/InspectDoor2" method="_on_body_exited"]
+[connection signal="body_entered" from="DoorInspectEvents/InspectDoor3" to="DoorInspectEvents/InspectDoor3" method="_on_body_entered"]
+[connection signal="body_exited" from="DoorInspectEvents/InspectDoor3" to="DoorInspectEvents/InspectDoor3" method="_on_body_exited"]
+[connection signal="body_entered" from="DoorInspectEvents/InspectDoor4" to="DoorInspectEvents/InspectDoor4" method="_on_body_entered"]
+[connection signal="body_exited" from="DoorInspectEvents/InspectDoor4" to="DoorInspectEvents/InspectDoor4" method="_on_body_exited"]
+[connection signal="body_entered" from="DoorInspectEvents/InspectDoor5" to="DoorInspectEvents/InspectDoor5" method="_on_body_entered"]
+[connection signal="body_exited" from="DoorInspectEvents/InspectDoor5" to="DoorInspectEvents/InspectDoor5" method="_on_body_exited"]

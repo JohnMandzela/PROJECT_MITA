@@ -46,6 +46,15 @@ var will_hide_balloon: bool = false
 ## A dictionary to store any ephemeral variables
 var locals: Dictionary = { }
 
+## Тег, который сбрасывает эмоцию персонажа на «по умолчанию».
+const DEFAULT_EMOTION := "default"
+
+## Последняя применённая эмоция per персонажа. Очищается в start().
+## Позволяет эмоции, заявленной в реплике, сохраняться во всех
+## последующих репликах этого персонажа, пока не будет объявлена новая.
+## Значение — имя эмоции либо пустая строка (эмоция не задана).
+var _character_emotion: Dictionary = {}
+
 var _locale: String = TranslationServer.get_locale()
 var _skip_advance_cooldown := 0.0
 var _is_advancing := false
@@ -177,6 +186,7 @@ func start(with_dialogue_resource: DialogueResource = null, title: String = "", 
 	is_waiting_for_input = false
 	GameManager.disable_movement = true
 	_enter_dialogue_mouse_mode()
+	_character_emotion.clear()
 	_reset_simple_lines()
 
 	if is_instance_valid(with_dialogue_resource):
@@ -424,7 +434,7 @@ func _update_portraits(character: String) -> void:
 		right_portrait.set_inactive()
 		return
 
-	var emotion := _get_line_emotion()
+	var emotion := _get_effective_emotion(character)
 
 	var current_portrait: CharacterPortrait
 	var other_portrait: CharacterPortrait
@@ -446,6 +456,20 @@ func _update_portraits(character: String) -> void:
 		other_portrait.set_inactive()
 	else:
 		other_portrait.visible = false
+
+
+func _get_effective_emotion(character: String) -> String:
+	var line_emotion := _get_line_emotion()
+
+	if line_emotion == DEFAULT_EMOTION:
+		_character_emotion[character] = ""
+		return ""
+
+	if not line_emotion.is_empty():
+		_character_emotion[character] = line_emotion
+		return line_emotion
+
+	return str(_character_emotion.get(character, ""))
 
 
 func _get_line_emotion() -> String:
