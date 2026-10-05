@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cymr70d38miih"]
+[gd_scene load_steps=16 format=4 uid="uid://cymr70d38miih"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/autoloads/player_spawn_scene.gd" id="1_2au82"]
 [ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/player_with_camera.tscn" id="2_8tn2x"]
@@ -6,11 +6,23 @@
 [ext_resource type="Texture2D" uid="uid://b876a1gga7exd" path="res://Коридор офисов.png" id="4_c4vo5"]
 [ext_resource type="Texture2D" uid="uid://burlcs8delhg8" path="res://Лестница.png" id="5_vwb7u"]
 [ext_resource type="Texture2D" uid="uid://cahdl5xan55ey" path="res://Кабинет Менеджера.png" id="6_cqdos"]
-[ext_resource type="Texture2D" uid="uid://byp87jqoshebe" path="res://Офис дизайнеров.png" id="7_r6p7k"]
-[ext_resource type="Texture2D" uid="uid://cw6hcmce2o5g1" path="res://Офис программистов.png" id="8_rc7cs"]
 [ext_resource type="Texture2D" uid="uid://dgx4c4er765e6" path="res://Студия саунд-дизайна.png" id="9_d1b21"]
+[ext_resource type="PackedScene" uid="uid://cdf0nd03h8oew" path="res://manager.tscn" id="10_r6p7k"]
+[ext_resource type="Texture2D" uid="uid://dhiqqorgylhy8" path="res://Тайлсеты_Менеджер.png" id="11_rc7cs"]
+[ext_resource type="Texture2D" uid="uid://bhtl7vnnwfr5m" path="res://Manager_table.aseprite" id="12_d1b21"]
+[ext_resource type="Texture2D" uid="uid://csu5ilnncdddh" path="res://Комната программистов.png" id="13_d1b21"]
+[ext_resource type="Texture2D" uid="uid://cgarnnfji7akc" path="res://Manager_Sofa.png" id="13_rc7cs"]
+[ext_resource type="Texture2D" uid="uid://bxin3cgt41mm0" path="res://Комната дизайнеров.png" id="14_d1b21"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ilduj"]
+texture = ExtResource("11_rc7cs")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_s2xbw"]
+sources/0 = SubResource("TileSetAtlasSource_ilduj")
 
 [node name="Node2D" type="Node2D"]
+position = Vector2(-1, 0)
 script = ExtResource("1_2au82")
 player_scene = ExtResource("2_8tn2x")
 default_spawn_point = "PlayerSpawn"
@@ -39,17 +51,31 @@ position = Vector2(461.99997, 225)
 scale = Vector2(0.585, 0.585)
 texture = ExtResource("6_cqdos")
 
-[node name="ОфисДизайнеров" type="Sprite2D" parent="."]
-position = Vector2(836.99994, -130)
-scale = Vector2(0.685, 0.685)
-texture = ExtResource("7_r6p7k")
-
-[node name="ОфисПрограммистов" type="Sprite2D" parent="."]
-position = Vector2(506, -130)
-scale = Vector2(0.505, 0.505)
-texture = ExtResource("8_rc7cs")
-
 [node name="СтудияСаундДизайна" type="Sprite2D" parent="."]
 position = Vector2(346, 629)
 scale = Vector2(0.67, 0.67)
 texture = ExtResource("9_d1b21")
+
+[node name="Manager" parent="." instance=ExtResource("10_r6p7k")]
+position = Vector2(483, 296)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(-13, -46)
+tile_map_data = PackedByteArray("AAALAAoAAAAAAAAAAAALAAsAAAAAAAAAAAALAAwAAAAAAAAAAAALAA0AAAAAAAAAAAALAA4AAAAAAAAAAAALAA8AAAAAAAAAAAALABAAAAAAAAAAAAALABEAAAAAAAAAAAALABIAAAAAAAAAAAALABMAAAAAAAAAAAALABQAAAAAAAAAAAALABUAAAAAAAAAAAALABYAAAAAAAAAAAALABcAAAAAAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAAMAAwAAAAAAAAAAAAMAA0AAAAAAAAAAAAMAA4AAAAAAAAAAAAMAA8AAAAAAAAAAAAMABAAAAAAAAAAAAAMABEAAAAAAAAAAAAMABIAAAAAAAAAAAAMABMAAAAAAAAAAAAMABQAAAAAAAAAAAAMABUAAAAAAAAAAAAMABYAAAAAAAAAAAAMABcAAAAAAAAAAAANAAoAAAAAAAAAAAANAAsAAAAAAAAAAAANAAwAAAAAAAAAAAANAA0AAAAAAAAAAAANAA4AAAAAAAAAAAANAA8AAAAAAAAAAAANABAAAAAAAAAAAAANABEAAAAAAAAAAAANABIAAAAAAAAAAAANABMAAAAAAAAAAAANABQAAAAAAAAAAAANABUAAAAAAAAAAAANABYAAAAAAAAAAAANABcAAAAAAAAAAAAOAAoAAAAAAAAAAAAOAAsAAAAAAAAAAAAOAAwAAAAAAAAAAAAOAA0AAAAAAAAAAAAOAA4AAAAAAAAAAAAOAA8AAAAAAAAAAAAOABAAAAAAAAAAAAAOABEAAAAAAAAAAAAOABIAAAAAAAAAAAAOABMAAAAAAAAAAAAOABQAAAAAAAAAAAAOABUAAAAAAAAAAAAOABYAAAAAAAAAAAAOABcAAAAAAAAAAAAPAAoAAAAAAAAAAAAPAAsAAAAAAAAAAAAPAAwAAAAAAAAAAAAPAA0AAAAAAAAAAAAPAA4AAAAAAAAAAAAPAA8AAAAAAAAAAAAPABAAAAAAAAAAAAAPABEAAAAAAAAAAAAPABIAAAAAAAAAAAAPABMAAAAAAAAAAAAPABQAAAAAAAAAAAAPABUAAAAAAAAAAAAPABYAAAAAAAAAAAAPABcAAAAAAAAAAAAQAAoAAAAAAAAAAAAQAAsAAAAAAAAAAAAQAAwAAAAAAAAAAAAQAA0AAAAAAAAAAAAQAA4AAAAAAAAAAAAQAA8AAAAAAAAAAAAQABAAAAAAAAAAAAAQABEAAAAAAAAAAAAQABIAAAAAAAAAAAAQABMAAAAAAAAAAAAQABQAAAAAAAAAAAAQABUAAAAAAAAAAAAQABYAAAAAAAAAAAAQABcAAAAAAAAAAAARAAoAAAAAAAAAAAARAAsAAAAAAAAAAAARAAwAAAAAAAAAAAARAA0AAAAAAAAAAAARAA4AAAAAAAAAAAARAA8AAAAAAAAAAAARABAAAAAAAAAAAAARABEAAAAAAAAAAAARABIAAAAAAAAAAAARABMAAAAAAAAAAAARABQAAAAAAAAAAAARABUAAAAAAAAAAAARABYAAAAAAAAAAAARABcAAAAAAAAAAAASAAoAAAAAAAAAAAASAAsAAAAAAAAAAAASAAwAAAAAAAAAAAASAA0AAAAAAAAAAAASAA4AAAAAAAAAAAASAA8AAAAAAAAAAAASABAAAAAAAAAAAAASABEAAAAAAAAAAAASABIAAAAAAAAAAAASABMAAAAAAAAAAAASABQAAAAAAAAAAAASABUAAAAAAAAAAAASABYAAAAAAAAAAAASABcAAAAAAAAAAAATAAoAAAAAAAAAAAATAAsAAAAAAAAAAAATAAwAAAAAAAAAAAATAA0AAAAAAAAAAAATAA4AAAAAAAAAAAATAA8AAAAAAAAAAAATABAAAAAAAAAAAAATABEAAAAAAAAAAAATABIAAAAAAAAAAAATABMAAAAAAAAAAAATABQAAAAAAAAAAAATABUAAAAAAAAAAAATABYAAAAAAAAAAAATABcAAAAAAAAAAAAUAAoAAAAAAAAAAAAUAAsAAAAAAAAAAAAUAAwAAAAAAAAAAAAUAA0AAAAAAAAAAAAUAA4AAAAAAAAAAAAUAA8AAAAAAAAAAAAUABAAAAAAAAAAAAAUABEAAAAAAAAAAAAUABIAAAAAAAAAAAAUABMAAAAAAAAAAAAUABQAAAAAAAAAAAAUABUAAAAAAAAAAAAUABYAAAAAAAAAAAAUABcAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_s2xbw")
+
+[node name="СтолМенеджера" type="Sprite2D" parent="."]
+position = Vector2(248, 234)
+texture = ExtResource("12_d1b21")
+
+[node name="ДиванМенеджера" type="Sprite2D" parent="."]
+position = Vector2(281, 363)
+texture = ExtResource("13_rc7cs")
+
+[node name="КомнатаДизайнеров" type="Sprite2D" parent="."]
+position = Vector2(843, -132)
+texture = ExtResource("14_d1b21")
+
+[node name="КомнатаПрограммистов" type="Sprite2D" parent="."]
+position = Vector2(503, -130)
+texture = ExtResource("13_d1b21")

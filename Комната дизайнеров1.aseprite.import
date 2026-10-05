@@ -1,0 +1,21 @@
+[remap]
+
+importer="aseprite_wizard.plugin.static-texture"
+type="PortableCompressedTexture2D"
+uid="uid://mulv5p3o205a"
+path="res://.godot/imported/Комната дизайнеров1.aseprite-2062983eda773229bf75b24b5d06ce20.res"
+
+[deps]
+
+source_file="res://Комната дизайнеров1.aseprite"
+dest_files=["res://.godot/imported/Комната дизайнеров1.aseprite-2062983eda773229bf75b24b5d06ce20.res"]
+
+[params]
+
+layer/exclude_layers_pattern=""
+layer/only_visible_layers=false
+layer/split_layers=false
+first_frame_only=true
+sheet/sheet_type="packed"
+sheet/sheet_columns=12
+sheet/scale=1

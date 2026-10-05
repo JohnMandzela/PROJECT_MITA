@@ -44,7 +44,7 @@ mouse_cursor/custom_image="uid://y5l7xcplapsp"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/glitch_intro/plugin.cfg", "res://addons/godot_ai/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/glitch_intro/plugin.cfg", "res://addons/godot_ai/plugin.cfg")
 
 [input]
 
