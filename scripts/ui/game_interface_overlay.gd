@@ -18,7 +18,7 @@ const SETTINGS_OPEN_HEIGHT := 178.0
 const SETTINGS_CLOSED_HEIGHT := 0.0
 const INVENTORY_COLUMNS := 4
 const INVENTORY_ROWS := 3
-const WEBCAM_TEXTURE_PATH := "res://images/characters/Mike_webcam.png"
+const WEBCAM_TEXTURE_PATH := "res://images/characters/mike_webcam.png"
 const MAIN_MENU_PATH := "res://scenes/ui/main_menu.tscn"
 
 @export_range(0.0, 100.0, 1.0) var vigor := 72.0:

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1tfs4ji6v8lo"
-path="res://.godot/imported/mike_webcam.png-d6235149f5a8b9914e1db9f19cb80c4b.ctex"
+uid="uid://ivb850kwdocg"
+path="res://.godot/imported/mike_webcam.png-b095d36adf11f5051db88770d5cb47b7.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://images/characters/mike_webcam.png"
-dest_files=["res://.godot/imported/mike_webcam.png-d6235149f5a8b9914e1db9f19cb80c4b.ctex"]
+dest_files=["res://.godot/imported/mike_webcam.png-b095d36adf11f5051db88770d5cb47b7.ctex"]
 
 [params]
 
