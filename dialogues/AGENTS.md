@@ -6,7 +6,7 @@
 
 ## 0. Коротко
 
-- Формат — **Dialogue Manager 3.10.0** (`addons/dialogue_manager`), файлы `*.dialogue` импортируются в `DialogueResource`.
+- Формат — **Dialogue Manager 3.10.5** (`addons/dialogue_manager`) — последняя версия ветки `3.x` (глобальный mainline сейчас на 4.x); файлы `*.dialogue` импортируются в `DialogueResource`.
 - Отступы — **только табы**. Пробелы вложенность не создают (компилятор ищет `^\t+`).
 - Функциональные теги — только `[#...]` **внутри** реплики. Строка, начинающаяся с `#`, — комментарий и на игру не влияет.
 - Эмоции и сторона портрета — наши расширения: `[#happy]`, `[#side=right]` (см. §4).
@@ -51,7 +51,7 @@ dialogues/
 
 ---
 
-## 3. Синтаксис Dialogue Manager 3.10
+## 3. Синтаксис Dialogue Manager 3.10.5
 
 Полная документация плагина: <https://github.com/nathanhoad/godot_dialogue_manager/tree/main/docs>
 (`Basic_Dialogue.md`, `Conditions_Mutations.md`, `State.md`, `Translations.md`).
@@ -239,6 +239,15 @@ import "res://dialogues/snippets.dialogue" as snippets
 `import` позволяет прыгать в чужой файл: `=>< snippets/banter`.
 `using` сокращает `GameManager.get_flag(...)` до `get_flag(...)`.
 В проекте пока не используется — предпочитайте полные имена автолоадов.
+
+### 3.12 Изменения в 3.10.4–3.10.5 (важно для проекта)
+
+- `ERR_LONELY_STATIC_ID` (144): `[ID:X]` должен идти в составе реплики/ответа, а не быть единственной строкой.
+- Новая runtime-настройка `runtime/advanced/ignore_missing_state_values` → `DialogueManager.ignore_missing_state_values`.
+- `got_dialogue` теперь эмитится через `call_deferred`.
+- `DMTranslationUtilities`: `generate_static_line_ids_for_project()`, `generate_static_line_ids_for_text()`, `export_all_translations_to_csv()`; поправлен ключ CSV-настройки (`delimier` → `delimiter`).
+- Индент: поддержка токена (`\t`, 4 пробела, 2 пробела) через `strip_indent()` / `get_line_indent_token()`; текст реплик очищается через `strip_indent()`.
+- Fallback переводов: при отсутствии ключа берётся `en`.
 
 ---
 
@@ -430,10 +439,7 @@ if GameManager.DEBUG_SKIP_INTRO
 
 ## 7. Известные ловушки
 
-1. **`has_tag()` в 3.10.0 неполон — но это не наша правка, а поведение апстрима.** В `addons/dialogue_manager/dialogue_line.gd` (ровно как в теге `v3.10.0` репозитория плагина) проверяется только форма `tag=value`, без `tags.has(tag_name)`. В вышедших позже `v3.10.4`/`v3.10.5` и в ветке `v3.x` это уже исправлено добавлением `if tags.has(tag_name): return true`. Пока проект сидит на 3.10.0:
-   - `[#voice=res://…]` работает (`has_tag("voice")` → true);
-   - `line.has_tag("happy")` для `[#happy]` вернёт **false**.
-   В своём коде проверяйте простые теги через `"happy" in line.tags` — так код останется рабочим и после обновления плагина до ≥3.10.4; `has_tag()`/`get_tag_value()` оставляйте для `key=value`-тегов.
+1. **`has_tag()` — исправлено в апстриме начиная с `v3.10.4`; проект переведён на **3.10.5** и фикс включён.** В `addons/dialogue_manager/dialogue_line.gd` (3.10.0) проверялся только `tag=value`; с `v3.10.4` добавлен прямой `tags.has(tag_name)`. В 3.10.5 это уже есть. Теперь `[#happy]`, `[#sad]`, `[#angry]`, `[#shame]`, `[#default]` и `[#voice=…]`/`[#side=…]` резолвятся корректно — `line.has_tag("happy")` и `"happy" in line.tags` дают одинаковый результат, `get_tag_value()` работает для `key=value`.
 2. **`[#emotion=happy]` не работает** — активный путь балуна читает только теги-имена из `Enums.Emote`.
 3. **`[#default]`** ищет `<prefix>_default.png`, которого нет. Сброс эмоции — отсутствие тега.
 4. **Эмоция не запоминается между репликами** (см. §4.1, мёртвый `_update_portraits`).
@@ -451,7 +457,7 @@ if GameManager.DEBUG_SKIP_INTRO
 ## 8. Ссылки
 
 - Документация плагина: <https://github.com/nathanhoad/godot_dialogue_manager/tree/main/docs>
-- Локальная копия: `addons/dialogue_manager/` (версия 3.10.0, `plugin.cfg`; от тега `v3.10.0` отличается только `test_scene.gd`, в игре не используется)
+- Локальная копия: `addons/dialogue_manager/` (версия 3.10.5, `plugin.cfg`; синхронна с тарболом тега `v3.10.5` репозитория плагина — отличия от старой локальной копии устранены, в т.ч. `test_scene.gd`)
 - Теги-`has_tag()` исправлены в апстриме начиная с `v3.10.4`: <https://github.com/nathanhoad/godot_dialogue_manager/blob/v3.10.4/addons/dialogue_manager/dialogue_line.gd>
 - Реализация балуна: `scripts/ui/balloon.gd`
 - Портреты: `scripts/ui/character_portrait.gd`, `DialogueGlobals.PORTRAIT_PREFIXES`
