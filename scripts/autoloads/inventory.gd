@@ -18,7 +18,9 @@ class ItemStack:
 
 	func _init(id: String, n: int = 1) -> void:
 		self.item_id = id
-		self.item = Inventory._items[id]
+		self.item = Inventory._items.get(id)
+		if self.item == null:
+			push_warning("Предмет '%s' не найден в %s" % [id, Inventory.ITEMS_PATH])
 		self.count = n
 
 var real_world_inventory: Array[ItemStack] = []
@@ -110,7 +112,7 @@ func remove_all(item_id: String) -> void:
 	for stack in current_inventory:
 		if stack.item_id == item_id:
 			current_inventory.erase(stack)
-			inventory_changed.emit(stack.item_id, stack.count)
+			inventory_changed.emit(stack.item_id, -stack.count)
 			return
 
 
@@ -119,9 +121,59 @@ func is_empty() -> bool:
 	return current_inventory.size() == 0
 
 
-# Сбрасывает инвентарь к дефолтному состоянию
+# Сбрасывает инвентарь к дефолтному состоянию (оба мира)
 func reset() -> void:
-	current_inventory.clear()
+	real_world_inventory.clear()
+	virtual_world_inventory.clear()
+
+
+# Сериализует оба инвентаря в простые данные ({ item_id, count }).
+# ItemStack — не Resource, поэтому store_var сохраняет его как EncodedObjectAsID,
+# и при загрузке такой массив молча отбрасывается. Склады в сейв писать нельзя.
+func to_dict() -> Dictionary:
+	return {
+		"real_world_inventory": _stacks_to_data(real_world_inventory),
+		"virtual_world_inventory": _stacks_to_data(virtual_world_inventory),
+	}
+
+
+# Восстанавливает оба инвентаря из данных сохранения
+func from_dict(data: Dictionary) -> void:
+	real_world_inventory = _data_to_stacks(data.get("real_world_inventory", []))
+	virtual_world_inventory = _data_to_stacks(data.get("virtual_world_inventory", []))
+
+
+func _stacks_to_data(stacks: Array[ItemStack]) -> Array[Dictionary]:
+	var data: Array[Dictionary] = []
+
+	for stack in stacks:
+		data.append({ "item_id": stack.item_id, "count": stack.count })
+
+	return data
+
+
+func _data_to_stacks(data) -> Array[ItemStack]:
+	var stacks: Array[ItemStack] = []
+	if not (data is Array):
+		return stacks
+
+	for entry in data:
+		if not (entry is Dictionary):
+			continue
+
+		var item_id := str(entry.get("item_id", ""))
+		var count := int(entry.get("count", 0))
+		if item_id.is_empty() or count <= 0:
+			continue
+
+		# Предмет мог быть удалён из проекта уже после сохранения
+		if not _items.has(item_id):
+			push_warning("В сохранении есть неизвестный предмет '%s' — пропускаем" % item_id)
+			continue
+
+		stacks.append(ItemStack.new(item_id, count))
+
+	return stacks
 
 
 # TODO: отрефакторить UI, где используется эта функция

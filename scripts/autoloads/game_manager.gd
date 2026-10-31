@@ -124,6 +124,18 @@ func start_scene_transition(scene_reference: String, spawn_point: String) -> voi
 	screen_fader.fade_out(0.5) # затемняем экран
 
 
+# Назначает сцену, в которую нужно перейти после затемнения экрана.
+# Используется загрузкой сохранения: сразу после этого приходит fade_out_finished.
+# Возвращает false, если сцены не существует.
+func schedule_scene_change(scene_path: String) -> bool:
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		push_error("Сцена для перехода не существует: %s" % scene_path)
+		return false
+
+	_pending_scene_path = scene_path
+	return true
+
+
 # Меняем локацию после затемнения экрана
 func _on_fade_out_finished() -> void:
 	if SaveSystem.is_loading:

@@ -7,7 +7,9 @@ enum Mode {
 }
 
 const SLOT_COUNT := 3
-const LEGACY_SAVE_PATH := "user://save.bin"
+
+# Версия формата сохранения. Поднимай при несовместимом изменении структуры.
+const SAVE_VERSION := 3
 
 
 const QUESTS_PROPERTIES_TO_SAVE: PackedStringArray = [
@@ -16,11 +18,6 @@ const QUESTS_PROPERTIES_TO_SAVE: PackedStringArray = [
 
 const GAME_PROPERTIES_TO_SAVE: PackedStringArray = [
 	"game_flags",
-]
-
-const INVENTORY_PROPERTIES_TO_SAVE: PackedStringArray = [
-	"real_world_inventory",
-	"virtual_world_inventory"
 ]
 
 const PLAYER_PROPERTIES_TO_SAVE: PackedStringArray = [
@@ -60,9 +57,6 @@ func get_all_save_files() -> Array[String]:
 		var path := get_save_file_path(Mode.MANUAL, slot)
 		if FileAccess.file_exists(path):
 			save_files.append(path)
-
-	if FileAccess.file_exists(LEGACY_SAVE_PATH) and not save_files.has(LEGACY_SAVE_PATH):
-		save_files.append(LEGACY_SAVE_PATH)
 
 	return save_files
 
@@ -107,7 +101,7 @@ func save_game(mode: Mode = Mode.QUICK, slot := 0) -> void:
 		return
 
 	var save_data := {
-		"save_version": 2,
+		"save_version": SAVE_VERSION,
 		"scene_file_path": current_scene.scene_file_path,
 	}
 
@@ -120,8 +114,8 @@ func save_game(mode: Mode = Mode.QUICK, slot := 0) -> void:
 	for property in PLAYER_PROPERTIES_TO_SAVE:
 		save_data[property] = player.get(property)
 
-	for property in INVENTORY_PROPERTIES_TO_SAVE:
-		save_data[property] = Inventory.get(property)
+	# Инвентарь пишется в виде простых данных, а не объектов ItemStack
+	save_data["inventory"] = Inventory.to_dict()
 
 	file.store_var(save_data)
 	file.close()
@@ -193,6 +187,13 @@ func load_game_from_file(path: String) -> void:
 		push_error("Файл сохранения %s не содержит пути к сцене" % path)
 		return
 
+	var version := int(loaded_data.get("save_version", 0))
+	if version < SAVE_VERSION:
+		push_warning(
+			"Сохранение %s имеет версию %d, ожидается %d — загружаем как есть"
+			% [path, version, SAVE_VERSION]
+		)
+
 	_save_data = loaded_data
 	is_loading = true
 	GameManager.screen_fader.fade_out()
@@ -216,16 +217,19 @@ func load_game_state() -> void:
 		if _save_data.get(property) is Dictionary:
 			GameManager.set(property, _save_data[property])
 
-	for property in INVENTORY_PROPERTIES_TO_SAVE:
-		if _save_data.has(property):
-			Inventory.set(property, _save_data[property])
+	var inventory_data = _save_data.get("inventory")
+	if inventory_data is Dictionary:
+		Inventory.from_dict(inventory_data)
+	else:
+		Inventory.from_dict({ })
+		push_warning("В сохранении нет данных инвентаря — инвентарь пуст")
 
-	# Обратная совместимость со старыми сохранениями
-	if _save_data.has("contents"):
-		Inventory.set("real_world_inventory", _save_data["contents"])
-
-	# TODO
-	GameManager._pending_scene_path = str(_save_data["scene_file_path"])
+	var scene_path := str(_save_data["scene_file_path"])
+	if not GameManager.schedule_scene_change(scene_path):
+		# Сцены из сохранения больше нет — иначе is_loading остался бы true
+		# и игра застряла бы в режиме загрузки без возможности сохраниться.
+		cancel_loading()
+		GameManager.screen_fader.fade_in()
 
 	print("Загружены данные GameManager")
 
