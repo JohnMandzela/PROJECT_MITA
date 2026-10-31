@@ -43,6 +43,9 @@ var use_item_button: Button
 var active_dialogue_resource: DialogueResource
 var active_dialogue_line = null
 var active_dialogue_states: Array = []
+## Локальные переменные диалога — для мутаций вида `set locals.имя = значение`.
+## Живут только в рамках диалога и не сохраняются.
+var locals: Dictionary = {}
 var active_dialogue_next_id := ""
 var is_dialogue_waiting_for_input := false
 var vigor_fill: ColorRect

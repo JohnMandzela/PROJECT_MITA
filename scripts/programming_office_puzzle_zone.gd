@@ -1,14 +1,12 @@
 extends ZoneEvent
 
-const PUZZLE_COMPLETION_FLAG := "programming_office_samples_puzzle_completed"
-
 
 func _can_interact() -> bool:
-	return not GameManager.get_flag(PUZZLE_COMPLETION_FLAG) and not _is_puzzle_busy()
+	return not GameManager.get_flag(Flags.PUZZLE_COMPLETED) and not _is_puzzle_busy()
 
 
 func _on_interact() -> void:
-	if GameManager.get_flag(PUZZLE_COMPLETION_FLAG):
+	if GameManager.get_flag(Flags.PUZZLE_COMPLETED):
 		return
 	var interaction_root := _find_interaction_root()
 	if interaction_root == null:

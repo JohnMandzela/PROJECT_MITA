@@ -1,14 +1,12 @@
 extends ZoneEvent
 
-const COFFEE_PICKUP_FLAG := "offices_coffee_picked_up"
-
 @export var dialogue: DialogueResource
 
 var dialogue_open := false
 
 
 func _can_interact() -> bool:
-	return not dialogue_open and not GameManager.get_flag(COFFEE_PICKUP_FLAG)
+	return not dialogue_open and not GameManager.get_flag(Flags.COFFEE_PICKED_UP)
 
 
 func _on_interact() -> void:

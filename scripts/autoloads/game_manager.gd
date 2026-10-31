@@ -5,15 +5,10 @@ const SCENE_ROOT := "res://scenes/"
 
 const SCREEN_FADER_PATH := "res://scenes/ui/screen_fader.tscn"
 
-const DEFAULT_GAME_FLAGS: Dictionary[String, bool] = {
-	"bed_interacted": false,
-	"shower_used": false,
-	"offices_coffee_picked_up": false,
-	"programming_office_samples_puzzle_completed": false,
-}
-
 signal flag_updated(flag_name: String, value: bool)
 
+## Установленные флаги. Отсутствие ключа означает, что флаг не установлен,
+## поэтому значение false в словаре не хранится. Имена флагов — в Flags.
 var game_flags: Dictionary[String, bool] = {}
 
 var player_scene: PackedScene = preload("res://scenes/player.tscn")
@@ -36,27 +31,35 @@ const DEBUG_SKIP_INTRO := true
 
 
 func reset_game_state() -> void:
-	game_flags = DEFAULT_GAME_FLAGS.duplicate()
+	game_flags.clear()
 	Quests.reset()
 	Inventory.reset()
 
 
 # Возвращает значение флага
 func get_flag(flag_id: String) -> bool:
-	if not game_flags.has(flag_id):
-		push_error("Флаг '%s' не найден." % flag_id)
+	if not Flags.is_valid(flag_id):
+		push_error("Флаг '%s' не объявлен в Flags." % flag_id)
 		return false
 
-	return game_flags[flag_id]
+	return game_flags.has(flag_id)
 
 
 # Устанавливает значение флага на параметр value (по умолчанию true)
 func set_flag(flag_id: String, value := true) -> void:
-	if not game_flags.has(flag_id):
-		push_error("Флаг '%s' не найден." % flag_id)
-	elif game_flags[flag_id] != value:
-		game_flags[flag_id] = value
-		flag_updated.emit(flag_id, value)
+	if not Flags.is_valid(flag_id):
+		push_error("Флаг '%s' не объявлен в Flags." % flag_id)
+		return
+
+	if game_flags.has(flag_id) == value:
+		return
+
+	if value:
+		game_flags[flag_id] = true
+	else:
+		game_flags.erase(flag_id)
+
+	flag_updated.emit(flag_id, value)
 
 
 func load_settings() -> void:

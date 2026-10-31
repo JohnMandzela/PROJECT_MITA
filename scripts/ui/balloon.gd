@@ -14,7 +14,6 @@ enum BalloonMode {
 const SKIP_REPEAT_DELAY := 0.12
 const SIMPLE_LINE_COUNT := 4
 const SIMPLE_BLOCK_MARGIN := 100.0
-const SIMPLE_BALLOON_PATH := "res://scenes/ui/simple_balloon.tscn"
 
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource

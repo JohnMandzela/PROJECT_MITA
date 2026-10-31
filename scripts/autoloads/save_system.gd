@@ -12,6 +12,9 @@ const LEGACY_SAVE_PATH := "user://save.bin"
 
 const QUESTS_PROPERTIES_TO_SAVE: PackedStringArray = [
 	"quest_data",
+]
+
+const GAME_PROPERTIES_TO_SAVE: PackedStringArray = [
 	"game_flags",
 ]
 
@@ -111,6 +114,9 @@ func save_game(mode: Mode = Mode.QUICK, slot := 0) -> void:
 	for property in QUESTS_PROPERTIES_TO_SAVE:
 		save_data[property] = Quests.get(property)
 
+	for property in GAME_PROPERTIES_TO_SAVE:
+		save_data[property] = GameManager.get(property)
+
 	for property in PLAYER_PROPERTIES_TO_SAVE:
 		save_data[property] = player.get(property)
 
@@ -203,6 +209,12 @@ func load_game_state() -> void:
 	for property in QUESTS_PROPERTIES_TO_SAVE:
 		if _save_data.has(property):
 			Quests.set(property, _save_data[property])
+
+	for property in GAME_PROPERTIES_TO_SAVE:
+		# is Dictionary — защита от старых сейвов, куда вместо флагов
+		# записывался null.
+		if _save_data.get(property) is Dictionary:
+			GameManager.set(property, _save_data[property])
 
 	for property in INVENTORY_PROPERTIES_TO_SAVE:
 		if _save_data.has(property):

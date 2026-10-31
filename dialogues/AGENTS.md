@@ -119,7 +119,7 @@ do Inventory.remove_item("cola")
 ### 3.4 Условия и циклы
 
 ```
-if GameManager.get_flag("shower_used"):
+if GameManager.get_flag(Flags.SHOWER_USED):
 	Майк: Уже помылся.
 elif Quests.is_active("find_cola"):
 	Майк: Сначала кола.
@@ -149,8 +149,8 @@ match Quests.get_quest_state("find_cola")
 
 ```
 do Inventory.give_item("coffee_cup")
-do GameManager.set_flag("offices_coffee_picked_up")
-set some_local = 1
+do GameManager.set_flag(Flags.COFFEE_PICKED_UP)
+set locals.some_flag = true
 ```
 
 | Форма | Поведение |
@@ -167,7 +167,12 @@ set some_local = 1
 Майк: Я не уверен, что мы знакомы [do wave()], я Майк.
 ```
 
-`wait(сек)` и `debug(...)` — встроенные мутации. Переменные, объявленные через `set`, живут в `locals`.
+`wait(сек)` и `debug(...)` — встроенные мутации.
+
+Переменные бывают двух видов:
+
+- `set locals.имя = значение` — локальная переменная диалога. **Обязателен префикс `locals.`**, иначе DM ищет свойство на узле-состоянии и падает с `property not found`. Живёт только в рамках диалога и не сохраняется (`locals` есть у балуна и у `GameInterfaceOverlay`).
+- `GameManager.set_flag(Flags.… )` — постоянное состояние, переживает переходы между сценами и попадает в сохранение.
 
 ### 3.6 Случайные варианты
 
@@ -344,14 +349,18 @@ do irritated()
 `GameManager` (`scripts/autoloads/game_manager.gd`):
 
 ```
-if GameManager.get_flag("bed_interacted"):
+if GameManager.get_flag(Flags.BED_INTERACTED):
 	…
-do GameManager.set_flag("shower_used")
+do GameManager.set_flag(Flags.SHOWER_USED)
 ```
 
-- Флаг **обязан** быть объявлен в `DEFAULT_GAME_FLAGS`, иначе `get_flag`/`set_flag` пишут `push_error` и возвращают `false`.
-- Сейчас объявлены: `bed_interacted`, `shower_used`, `offices_coffee_picked_up`, `programming_office_samples_puzzle_completed`.
-- Прямое обращение `GameManager.game_flags["id"]` допустимо только для существующего ключа.
+- Имена флагов объявлены в `scripts/flags.gd` (`class_name Flags`). **Литералы вида `"shower_used"` в коде и диалогах не пишем** — только константы `Flags.…`.
+- Флаг **обязан** быть объявлен в `Flags` (константа + запись в `Flags.ALL`), иначе `get_flag`/`set_flag` пишут `push_error` и возвращают `false`.
+- Сейчас объявлены: `Flags.BED_INTERACTED`, `Flags.SHOWER_USED`, `Flags.COFFEE_PICKED_UP`, `Flags.PUZZLE_COMPLETED`.
+- `false` не хранится: флаг установлен ⇔ его ключ есть в `GameManager.game_flags`. Обращаться к `game_flags` напрямую не нужно — только через `get_flag()`.
+- Новый флаг: константа в `Flags`, запись в `Flags.ALL`, строка-значение должна быть уникальной (иначе `assert` в dev-сборке).
+
+Локальное состояние диалога — `set locals.имя = …` (только с префиксом `locals.`). Не сохраняется, живёт в пределах одного диалога.
 
 `Quests` (`scripts/autoloads/quests.gd`):
 
@@ -430,7 +439,7 @@ if GameManager.DEBUG_SKIP_INTRO
 - [ ] Каждая ветка заканчивается `=> END`.
 - [ ] Все говорящие есть в `PORTRAIT_PREFIXES` (если диалог идёт через балун).
 - [ ] Эмо-теги имеют соответствующие PNG, в реплике не больше одного эмо-тега.
-- [ ] Все `do`-вызовы существуют: методы балуна, узла-источника или автолоадов; флаги объявлены в `DEFAULT_GAME_FLAGS`; id предметов/квестов/звуков корректны.
+- [ ] Все `do`-вызовы существуют: методы балуна, узла-источника или автолоадов; флаги объявлены в `Flags` (`scripts/flags.gd`); id предметов/квестов/звуков корректны.
 - [ ] Диалог не использует портреты и функции балуна, если он открывается через HUD.
 - [ ] Новый файл добавлен в `locale/translations_pot_files` в `project.godot`.
 - [ ] Файл открывается в редакторе без ошибок на вкладке Dialogue.
@@ -446,11 +455,12 @@ if GameManager.DEBUG_SKIP_INTRO
 5. **`#стандарт` и подобные строки — комментарии**, а не теги. Это самая частая причина «почему портрет не меняется».
 6. **Пробелы вместо табов** — самая частая причина «диалог скомпилировался, но ветки не работают».
 7. **Ответ без `- `** (например `— Да` с длинным тире) — это обычная реплика, а не выбор.
-8. **`GameManager.game_flags["4_shower_use"]`** в `stage_4.dialogue` обращается к ключу, которого нет в `DEFAULT_GAME_FLAGS` → ошибка выполнения. Правильно: объявить флаг и использовать `get_flag("…")`.
-9. **Неизвестный говорящий** (например `Билл:`, `Уборщик:`, `Мр.Джекобсон:` — их нет в `PORTRAIT_PREFIXES`) при запуске через балун даёт ошибку доступа к словарю. Добавьте запись и картинку либо ведите такие сцены через HUD.
-10. **Переименование `.dialogue`** без правки `uid://`/путей в `.tscn` ломает сцены.
-11. **`while`** без изменения условия — бесконечный цикл внутри диалога.
-12. **`do` без скобок** (`do some_flag = true`) — это мутация-присваивание, а не вызов метода; для методов нужны скобки.
+8. **`GameManager.game_flags["4_shower_use"]`** в `stage_4.dialogue` обращается к ключу, которого нет среди объявленных (`Flags.ALL`) → ошибка выполнения. Правильно: объявить флаг в `Flags` и использовать `GameManager.get_flag(Flags.…)`.
+9. **`set x = 1` без `locals.`** — DM ищет свойство `x` на узлах-состояниях и выдаёт `property not found`; значение не сохраняется. Локальные переменные диалога пишутся как `set locals.x = 1`.
+10. **Неизвестный говорящий** (например `Билл:`, `Уборщик:`, `Мр.Джекобсон:` — их нет в `PORTRAIT_PREFIXES`) при запуске через балун даёт ошибку доступа к словарю. Добавьте запись и картинку либо ведите такие сцены через HUD.
+11. **Переименование `.dialogue`** без правки `uid://`/путей в `.tscn` ломает сцены.
+12. **`while`** без изменения условия — бесконечный цикл внутри диалога.
+13. **`do` без скобок** (`do some_flag = true`) — это мутация-присваивание, а не вызов метода; для методов нужны скобки.
 
 ---
 
@@ -460,5 +470,6 @@ if GameManager.DEBUG_SKIP_INTRO
 - Локальная копия: `addons/dialogue_manager/` (версия 3.10.5, `plugin.cfg`; синхронна с тарболом тега `v3.10.5` репозитория плагина — отличия от старой локальной копии устранены, в т.ч. `test_scene.gd`)
 - Теги-`has_tag()` исправлены в апстриме начиная с `v3.10.4`: <https://github.com/nathanhoad/godot_dialogue_manager/blob/v3.10.4/addons/dialogue_manager/dialogue_line.gd>
 - Реализация балуна: `scripts/ui/balloon.gd`
+- Флаги игры: `scripts/flags.gd` (`class_name Flags`) — имена флагов только через константы
 - Портреты: `scripts/ui/character_portrait.gd`, `DialogueGlobals.PORTRAIT_PREFIXES`
 - Эмоции: `scripts/enums.gd` (`Enums.Emote`)

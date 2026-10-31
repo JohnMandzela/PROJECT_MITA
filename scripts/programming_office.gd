@@ -1,7 +1,5 @@
 extends PlayerSpawnScene
 
-const PUZZLE_COMPLETION_FLAG := "programming_office_samples_puzzle_completed"
-
 @export var puzzle_scene: PackedScene
 
 @onready var camera: Camera2D = $Camera2D
@@ -23,7 +21,7 @@ func open_samples_puzzle() -> void:
 	# Повторно не открываем пазл, если он уже активен, завершен или если сцена мини-игры не назначена.
 	if is_samples_puzzle_open():
 		return
-	if GameManager.get_flag(PUZZLE_COMPLETION_FLAG):
+	if GameManager.get_flag(Flags.PUZZLE_COMPLETED):
 		return
 	if puzzle_scene == null:
 		push_warning("Puzzle scene is not assigned for Programming Office.")
@@ -97,4 +95,4 @@ func _on_puzzle_exit_requested() -> void:
 
 func _on_puzzle_completed() -> void:
 	# Успешное завершение пазла фиксируем во флагах GameManager, чтобы его нельзя было запускать повторно.
-	GameManager.set_flag(PUZZLE_COMPLETION_FLAG)
+	GameManager.set_flag(Flags.PUZZLE_COMPLETED)
