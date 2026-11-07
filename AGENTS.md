@@ -67,6 +67,10 @@ tests/           — GUT tests
 - Interactive scene nodes extend `Interactable` (`scripts/system/`) and override
   `_can_interact()` / `_on_interact()`; the template methods `can_interact()` /
   `on_interact()` stay in the base class.
+- The player has a single scene (`scenes/characters/player.tscn`) with a
+  `PhantomCamera2D` + `Camera2D` + `PhantomCameraHost`. Locations that need a fixed
+  frame add their own `PhantomCamera2D` with a higher `priority`; no second
+  `Camera2D` and no `player_with_camera` scene.
 - Saves are plain dictionaries written by `SaveSystem` with `SAVE_VERSION`. Only
   `Resource` objects may be stored as-is; other classes (inventory stacks) must be
   converted to plain data first (`Inventory.to_dict()` / `Inventory.from_dict()`).

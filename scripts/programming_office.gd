@@ -2,7 +2,6 @@ extends PlayerSpawnScene
 
 @export var puzzle_scene: PackedScene
 
-@onready var camera: Camera2D = $Camera2D
 @onready var pause_menu: Node = $PauseMenu
 @onready var puzzle_container: Control = $PuzzleLayer/PuzzleContainer
 
@@ -10,9 +9,9 @@ var active_puzzle: Control = null
 
 
 func _ready() -> void:
-	# Сначала создаем игрока в точке спавна, а затем подготавливаем статичную камеру и слой мини-игры.
+	# Сначала создаем игрока в точке спавна, а затем подготавливаем слой мини-игры.
+	# Камера со статичным кадром — PhantomCamera2D сцены с приоритетом выше камеры игрока.
 	super._ready()
-	camera.enabled = true
 	puzzle_container.visible = false
 	puzzle_container.mouse_filter = Control.MOUSE_FILTER_STOP
 

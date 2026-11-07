@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=4 uid="uid://dbkot31f2yowr"]
 
 [ext_resource type="Script" uid="uid://dvmrncloqgokk" path="res://scripts/system/player_spawn_scene.gd" id="1_egil8"]
-[ext_resource type="PackedScene" uid="uid://ckrm4qu32khu7" path="res://scenes/characters/player_with_camera.tscn" id="2_w8sq4"]
+[ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/characters/player.tscn" id="2_w8sq4"]
 [ext_resource type="Texture2D" uid="uid://walpsq0s7qxn" path="res://assets/images/tilesets/scenes/office/tileset_office.png" id="3_h1d2d"]
 [ext_resource type="Texture2D" uid="uid://boghgd0wtk1gl" path="res://assets/images/tilesets/scenes/office/wooden_door_front.png" id="4_lndqs"]
 [ext_resource type="Texture2D" uid="uid://dsml067cy8i4y" path="res://assets/images/tilesets/scenes/office/side_wall_offices.png" id="5_i1o0u"]

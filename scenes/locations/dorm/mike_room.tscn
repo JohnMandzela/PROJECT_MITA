@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=47 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="Script" uid="uid://di2jeftcx0xna" path="res://scripts/scenes/mike_room/mike_room_main_script.gd" id="1_51aoi"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/characters/player.tscn" id="1_pd4ny"]
@@ -15,6 +15,8 @@
 [ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="24_uxu6u"]
 [ext_resource type="AudioStream" uid="uid://df1ev33k2aw70" path="res://assets/audio/sounds/rustle.mp3" id="25_lg8j8"]
 [ext_resource type="Texture2D" uid="uid://dkf4x0afw4j51" path="res://assets/images/tilesets/characters/mike_sleep.png" id="27_n83c8"]
+
+[ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="9_pcam"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uicif"]
 texture = ExtResource("3_pl8tl")
@@ -559,7 +561,9 @@ volume_db = -15.0
 bus = &"Sounds"
 playback_type = 1
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="PhantomCamera2D" type="Node2D" parent="."]
+script = ExtResource("9_pcam")
+priority = 10
 zoom = Vector2(1.4, 1.4)
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_glapv")]

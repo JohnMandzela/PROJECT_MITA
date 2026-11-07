@@ -45,3 +45,4 @@ $godot = "C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\godot.windo
 | `test_dialogue_controller.gd` | контроллер и контекст создаются балуном, ожидание ввода на обычной реплике, ответы блокируют авто-переход |
 | `test_dialogue_context.gd` | `locals` пустой и пишется, `wait()` соблюдает время, предупреждение о ненайденном звуке |
 | `test_ids.gd` | `ItemIds`/`QuestIds`/`InputActions` существуют в проекте, нет дубликатов, все константы добавлены в `ALL` |
+| `test_player_scene.gd` | в `player.tscn` есть камера Phantom Camera, `player_with_camera` удалена и на неё нет ссылок |
