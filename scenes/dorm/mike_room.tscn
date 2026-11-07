@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=46 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="Script" uid="uid://di2jeftcx0xna" path="res://scripts/2_mike_room/mike_room_main_script.gd" id="1_51aoi"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/player.tscn" id="1_pd4ny"]
@@ -7,18 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://bj7gn1t6ff36n" path="res://images/scene/Dorm_Shadow.png" id="2_xuh38"]
 [ext_resource type="Texture2D" uid="uid://cheboonvvuebb" path="res://images/tilesets/scenes/Dorm_Furniture.png" id="3_pl8tl"]
 [ext_resource type="Script" uid="uid://chu8455u4phy1" path="res://scripts/system/object_event.gd" id="7_03jpi"]
-[ext_resource type="Resource" uid="uid://xfr1x7r1n7s5" path="res://dialogues/2_mike_room/furniture/mike_room_shower_day_1.dialogue" id="8_tksu2"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_glapv"]
 [ext_resource type="Script" uid="uid://1ulkpuweejmy" path="res://scripts/resources/dialogue_event_action.gd" id="9_xnfx7"]
-[ext_resource type="Resource" uid="uid://igbqwnik8w8l" path="res://dialogues/2_mike_room/furniture/bed.dialogue" id="10_md5sy"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://audio/sounds/open.mp3" id="10_qkv8r"]
-[ext_resource type="Resource" uid="uid://d3cll1ve50fou" path="res://dialogues/2_mike_room/furniture/mike_room_bedside_table_day_1.dialogue" id="11_u5pas"]
-[ext_resource type="Resource" uid="uid://bawo48rrdm7cy" path="res://dialogues/2_mike_room/furniture/mike_room_laptop_day_1.dialogue" id="13_ni8v6"]
-[ext_resource type="Resource" uid="uid://cj4habhql37v7" path="res://dialogues/2_mike_room/furniture/mike_room_washing_machine_day_1.dialogue" id="14_citmd"]
-[ext_resource type="Resource" uid="uid://bhjvw8gdubary" path="res://dialogues/2_mike_room/furniture/fridge.dialogue" id="15_nlhcy"]
-[ext_resource type="Resource" uid="uid://dx10ur2ojuy7i" path="res://dialogues/2_mike_room/furniture/mike_room_sink_day_1.dialogue" id="19_u6sxl"]
+[ext_resource type="Resource" uid="uid://0n0n2b77mnuy" path="res://dialogues/mike_room.dialogue" id="17_n4hc8"]
 [ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="24_n83c8"]
-[ext_resource type="Resource" uid="uid://b5lgjohkjrc2e" path="res://dialogues/2_mike_room/furniture/mike_room_hangers_day_1.dialogue" id="24_tksu2"]
 [ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="24_uxu6u"]
 [ext_resource type="AudioStream" uid="uid://df1ev33k2aw70" path="res://audio/sounds/rustle.mp3" id="25_lg8j8"]
 [ext_resource type="Texture2D" uid="uid://dkf4x0afw4j51" path="res://images/tilesets/characters/Mike-Sleep.png" id="27_n83c8"]
@@ -77,7 +70,8 @@ sources/0 = SubResource("TileSetAtlasSource_uicif")
 
 [sub_resource type="Resource" id="Resource_n83c8"]
 script = ExtResource("9_xnfx7")
-dialogue = ExtResource("10_md5sy")
+dialogue = ExtResource("17_n4hc8")
+dialogue_start = "bed"
 metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pl8tl"]
@@ -85,7 +79,8 @@ size = Vector2(48, 70)
 
 [sub_resource type="Resource" id="Resource_kyxlb"]
 script = ExtResource("9_xnfx7")
-dialogue = ExtResource("11_u5pas")
+dialogue = ExtResource("17_n4hc8")
+dialogue_start = "bedside_table"
 metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uicif"]
@@ -93,17 +88,20 @@ size = Vector2(48, 17)
 
 [sub_resource type="Resource" id="Resource_cw0qj"]
 script = ExtResource("9_xnfx7")
-dialogue = ExtResource("8_tksu2")
+dialogue = ExtResource("17_n4hc8")
+dialogue_start = "shower"
 metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="Resource" id="Resource_xnfx7"]
 script = ExtResource("9_xnfx7")
-dialogue = ExtResource("13_ni8v6")
+dialogue = ExtResource("17_n4hc8")
+dialogue_start = "table"
 metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="Resource" id="Resource_03jpi"]
 script = ExtResource("9_xnfx7")
-dialogue = ExtResource("14_citmd")
+dialogue = ExtResource("17_n4hc8")
+dialogue_start = "washing_machine"
 metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gxka2"]
@@ -111,12 +109,14 @@ size = Vector2(42, 45)
 
 [sub_resource type="Resource" id="Resource_1go8k"]
 script = ExtResource("9_xnfx7")
-dialogue = ExtResource("15_nlhcy")
+dialogue = ExtResource("17_n4hc8")
+dialogue_start = "fridge"
 metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="Resource" id="Resource_6pisp"]
 script = ExtResource("9_xnfx7")
-dialogue = ExtResource("19_u6sxl")
+dialogue = ExtResource("17_n4hc8")
+dialogue_start = "sink"
 metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_efa60"]
@@ -124,7 +124,8 @@ size = Vector2(43, 43)
 
 [sub_resource type="Resource" id="Resource_mvy3v"]
 script = ExtResource("9_xnfx7")
-dialogue = ExtResource("24_tksu2")
+dialogue = ExtResource("17_n4hc8")
+dialogue_start = "hangers"
 metadata/_custom_type_script = "uid://1ulkpuweejmy"
 
 [sub_resource type="Resource" id="Resource_uxu6u"]
