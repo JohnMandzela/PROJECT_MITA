@@ -34,14 +34,14 @@ func test_summary_reads_scene_path() -> void:
 	var file := FileAccess.open(TEMP_SAVE_PATH, FileAccess.WRITE)
 	file.store_var({
 		"save_version": SaveSystem.SAVE_VERSION,
-		"scene_file_path": "res://scenes/dorm/mike_room.tscn",
+		"scene_file_path": "res://scenes/locations/dorm/mike_room.tscn",
 	})
 	file.close()
 
 	var info := SaveSystem.get_save_summary(TEMP_SAVE_PATH)
 
 	assert_true(info["is_valid"])
-	assert_eq(info["scene_file_path"], "res://scenes/dorm/mike_room.tscn")
+	assert_eq(info["scene_file_path"], "res://scenes/locations/dorm/mike_room.tscn")
 	assert_eq(info["scene_name"], "Mike Room")
 
 

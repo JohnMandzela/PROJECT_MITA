@@ -1,8 +1,8 @@
 class_name Item
 extends Resource
 
-## Шаблон пути к иконке: res://images/items/<id>.png
-const ICON_PATH_TEMPLATE := "res://images/items/%s.png"
+## Шаблон пути к иконке: res://assets/images/items/<id>.png
+const ICON_PATH_TEMPLATE := "res://assets/images/items/%s.png"
 
 # Название предмета
 @export var display_name: String

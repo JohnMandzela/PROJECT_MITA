@@ -1,6 +1,6 @@
 extends Node
 
-const QUESTS_PATH := "res://quests/"
+const QUESTS_PATH := "res://content/quests/"
 
 # Состояние квеста
 enum QuestState {

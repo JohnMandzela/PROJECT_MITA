@@ -2,7 +2,7 @@ class_name QuestIds
 
 # Единственный источник id квестов.
 #
-# Значение = имя файла в res://quests/<id>.tres. Меняешь файл — меняй константу
+# Значение = имя файла в res://content/quests/<id>.tres. Меняешь файл — меняй константу
 # и запись в ALL (тест tests/unit/test_ids.gd поймает расхождение).
 
 const FIND_COLA := "find_cola"

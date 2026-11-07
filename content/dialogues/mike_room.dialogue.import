@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://0n0n2b77mnuy"
+path="res://.godot/imported/mike_room.dialogue-6c9132ea57ba92eb9d8c4b8daf60c72f.tres"
+
+[deps]
+
+source_file="res://content/dialogues/mike_room.dialogue"
+dest_files=["res://.godot/imported/mike_room.dialogue-6c9132ea57ba92eb9d8c4b8daf60c72f.tres"]
+
+[params]
+
+defaults=true

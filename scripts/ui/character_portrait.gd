@@ -1,10 +1,10 @@
-@icon("res://images/editor/character_portrait.svg")
+@icon("res://assets/images/editor/character_portrait.svg")
 class_name CharacterPortrait
 extends Node2D
 
 # Портрет персонажа для диалога
 
-const PORTRAIT_DIRECTORY := "res://images/characters/"
+const PORTRAIT_DIRECTORY := "res://assets/images/characters/"
 const PORTRAIT_EXTENSION := ".png"
 
 const ACTIVE_COLOR := Color.WHITE

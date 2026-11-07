@@ -16,12 +16,12 @@ func wait(seconds: float) -> void:
 	await get_tree().create_timer(seconds).timeout
 
 
-## Проигрывает звук по id из res://audio/sounds/<id>.{wav,ogg,mp3}.
+## Проигрывает звук по id из res://assets/audio/sounds/<id>.{wav,ogg,mp3}.
 ## С wait_for_completion = true диалог ждёт конца звука.
 func play_sound(sound_id: String, wait_for_completion := true) -> void:
 	var found_resource_path := ""
 	for fmt in ["wav", "ogg", "mp3"]:
-		var path := "res://audio/sounds/%s.%s" % [sound_id, fmt]
+		var path := "res://assets/audio/sounds/%s.%s" % [sound_id, fmt]
 		if ResourceLoader.exists(path, "AudioStream"):
 			found_resource_path = path
 			break

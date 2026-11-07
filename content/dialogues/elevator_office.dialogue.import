@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://srmsufeg2ur"
+path="res://.godot/imported/elevator_office.dialogue-8e412ef47d2a5f3464a7c5b8d4de4802.tres"
+
+[deps]
+
+source_file="res://content/dialogues/elevator_office.dialogue"
+dest_files=["res://.godot/imported/elevator_office.dialogue-8e412ef47d2a5f3464a7c5b8d4de4802.tres"]
+
+[params]
+
+defaults=true

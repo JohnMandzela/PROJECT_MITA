@@ -5,4 +5,4 @@ class_name ScenePaths
 # путь, прописанный строкой в скрипте, ломается при переносе сцены молча.
 
 const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
-const MOM_HOME := "res://scenes/mom_home.tscn"
+const MOM_HOME := "res://scenes/locations/mom_home.tscn"

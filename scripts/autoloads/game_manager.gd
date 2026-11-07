@@ -1,7 +1,7 @@
 extends Node
 
 const SETTINGS_PATH := "user://settings.cfg"
-const SCENE_ROOT := "res://scenes/"
+const SCENE_ROOT := "res://scenes/locations/"
 const SCENE_FADE_DURATION := 0.5
 const DEFAULT_VOLUME := 100.0
 
@@ -13,7 +13,7 @@ signal flag_updated(flag_name: String, value: bool)
 ## поэтому значение false в словаре не хранится. Имена флагов — в Flags.
 var game_flags: Dictionary[String, bool] = {}
 
-var player_scene: PackedScene = preload("res://scenes/player.tscn")
+var player_scene: PackedScene = preload("res://scenes/characters/player.tscn")
 var player: CharacterBody2D
 var pending_spawn_point: String = ""
 

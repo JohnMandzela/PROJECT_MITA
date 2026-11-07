@@ -82,9 +82,9 @@ const ROUND_PALETTES := [
 	[TILE_GREEN, TILE_RED, TILE_GREEN, TILE_YELLOW, TILE_GREEN, TILE_RED],
 ]
 
-const IMPACT_FONT := preload("res://fonts/Impact.otf")
-const VIRUS_TEXTURE := preload("res://images/virus.png")
-const BOMB_TEXTURE := preload("res://images/bomb.png")
+const IMPACT_FONT := preload("res://assets/fonts/Impact.otf")
+const VIRUS_TEXTURE := preload("res://assets/images/virus.png")
+const BOMB_TEXTURE := preload("res://assets/images/bomb.png")
 
 @onready var background: ColorRect = $Background
 @onready var board_grid: GridContainer = $CenterContainer/ContentMargin/MainRow/BoardColumn/BoardFrame/BoardMargin/BoardGrid

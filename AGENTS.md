@@ -10,23 +10,32 @@ A Godot 4 visual novel / adventure game (PROJECT_MITA). Uses a tile-based top-do
 
 ```
 addons/          — Godot addons (DialogueManager, etc.)
-audio/           — Sound files
-dialogues/       — Dialogue resources (conventions: dialogues/AGENTS.md)
-fonts/           — Font assets
-images/          — Sprites and textures
-lang/            — Translations
-materials/       — Shader materials
-scenes/          — .tscn scenes (gameplay locations, NPCs, UI)
+assets/          — Runtime assets
+   audio/        — Music, sounds, default_bus_layout.tres
+   fonts/        — Font assets
+   images/       — Sprites and textures (characters, items, phone, scenes,
+                   tilesets, ui, editor)
+   lang/         — Translations source (chars.csv) and compiled translation
+   materials/    — Shader materials
+   shaders/      — GLSL shaders
+content/         — Game content data
+   dialogues/    — Dialogue resources (conventions: content/dialogues/AGENTS.md)
+   items/        — Item resources
+   quests/       — Quest resources
+scenes/          — .tscn scenes
+   locations/    — Playable locations (mom_home, dorm, mihyung_offices)
+   characters/   — Player and NPC scenes
+   ui/           — Menus, balloon, HUD
+   experimental/ — Unfinished experiments; leave untouched
 scripts/         — All GDScript source
    *.gd          — Shared registries (Enums, Flags) plus gameplay scripts tied
                    to a specific scene or object (player, interaction controller,
                    scene roots, puzzle, individual zones)
    autoloads/    — Singletons: GameManager, SaveSystem, Quests, Inventory,
-                   DialogueGlobals, SoundManager, plus PlayerSpawnScene
-                   (base class for location roots that spawn the player)
+                   DialogueGlobals, SoundManager
    system/       — Reusable building blocks for scenes: interaction
                    (Interactable and its ZoneEvent/ObjectEvent subclasses),
-                   Npc marker, Y-sort helper
+                   Npc marker, Y-sort helper, PlayerSpawnScene base class
    constants/    — Registries of ids and paths: ItemIds, QuestIds,
                    InputActions, ScenePaths
    resources/    — Custom Resource classes (EventAction and its subtypes,
@@ -34,11 +43,19 @@ scripts/         — All GDScript source
    ui/           — HUD, pause/options menus, dialogue balloon (UI в
                    DialogueBalloon, поток в DialogueController, переменные
                    диалога в DialogueContext), portraits
-   1_mom_home/   — Scene-specific cutscene scripts, chapter 1
-   2_mike_room/  — Scene-specific cutscene scripts, chapter 2
+   scenes/       — Location-specific scripts (mom_home, mike_room)
    experimental/ — Unfinished experiments; leave untouched
-shaders/         — GLSL shaders
+tests/           — GUT tests
 ```
+
+## Naming
+
+- Only `lower_snake_case` for files and folders: no spaces, Cyrillic, apostrophes,
+  `$`, dashes or camelCase (`programming_office.tscn`, `moms_home.png`).
+- Files are grouped by role: runtime assets under `assets/`, data resources under
+  `content/`, scenes under `scenes/<kind>/`, code under `scripts/<kind>/`.
+- Every moved or renamed file keeps its `.import`/`.uid` sidecar; references are
+  by `uid://`, so update both the file and the sidecar together.
 
 ## Conventions worth knowing
 

@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://cih1v2kckb6g3"]
 
 [ext_resource type="Script" uid="uid://brs0kgbyi8r7v" path="res://scripts/samples_puzzle.gd" id="1_1si1q"]
-[ext_resource type="FontFile" uid="uid://6erdyfofurd1" path="res://fonts/Impact.otf" id="2_7t8m7"]
+[ext_resource type="FontFile" uid="uid://6erdyfofurd1" path="res://assets/fonts/Impact.otf" id="2_7t8m7"]
 [ext_resource type="Script" uid="uid://du6kcgyvoaw0x" path="res://scripts/samples_puzzle_zone_overlay.gd" id="3_0al4b"]
-[ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://images/shaders/pause_menu.gdshader" id="4_blur"]
+[ext_resource type="Shader" uid="uid://b4jk7clyyig4i" path="res://assets/shaders/pause_menu.gdshader" id="4_blur"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board_frame"]
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 1)

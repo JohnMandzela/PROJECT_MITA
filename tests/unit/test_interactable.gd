@@ -73,5 +73,5 @@ func _make_zone(action: EventAction = null) -> Node:
 
 func _make_dialogue_action() -> EventAction:
 	var action := DialogueEventAction.new()
-	action.dialogue = load("res://dialogues/1_mom_home/sleep_flashback.dialogue")
+	action.dialogue = load("res://content/dialogues/mom_home/sleep_flashback.dialogue")
 	return action

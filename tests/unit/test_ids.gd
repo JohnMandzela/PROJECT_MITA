@@ -7,7 +7,7 @@ func test_item_ids_exist_in_inventory() -> void:
 	for item_id in ItemIds.ALL:
 		assert_true(
 			Inventory.item_registry.has(item_id),
-			"ItemIds.%s: нет res://items/%s.tres" % [item_id.to_upper(), item_id]
+			"ItemIds.%s: нет res://content/items/%s.tres" % [item_id.to_upper(), item_id]
 		)
 
 
@@ -15,7 +15,7 @@ func test_quest_ids_exist_in_quests() -> void:
 	for quest_id in QuestIds.ALL:
 		assert_true(
 			Quests.quest_exists(quest_id),
-			"QuestIds.%s: нет res://quests/%s.tres" % [quest_id.to_upper(), quest_id]
+			"QuestIds.%s: нет res://content/quests/%s.tres" % [quest_id.to_upper(), quest_id]
 		)
 
 

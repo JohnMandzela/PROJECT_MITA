@@ -1,9 +1,9 @@
 extends Node
 
-const ITEMS_PATH := "res://items/"
-const PICKUP_SOUND: AudioStream = preload("res://audio/sounds/item_pickup.wav")
+const ITEMS_PATH := "res://content/items/"
+const PICKUP_SOUND: AudioStream = preload("res://assets/audio/sounds/item_pickup.wav")
 
-const FALLBACK_ICON_PATH := "res://images/items/cola.png"
+const FALLBACK_ICON_PATH := "res://assets/images/items/cola.png"
 
 signal inventory_changed(item_id: String, change: int)
 

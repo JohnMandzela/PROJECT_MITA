@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://cxdlrtcux770d"
+path="res://.godot/imported/teddy_bear.dialogue-43dfc88164203219e5b202c04183ead3.tres"
+
+[deps]
+
+source_file="res://content/dialogues/teddy_bear.dialogue"
+dest_files=["res://.godot/imported/teddy_bear.dialogue-43dfc88164203219e5b202c04183ead3.tres"]
+
+[params]
+
+defaults=true

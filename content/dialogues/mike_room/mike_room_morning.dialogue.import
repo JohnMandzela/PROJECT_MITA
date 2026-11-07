@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://k24mvkh3bhol"
+path="res://.godot/imported/mike_room_morning.dialogue-1fbe2502cecaa2cd2161776394dce17b.tres"
+
+[deps]
+
+source_file="res://content/dialogues/mike_room/mike_room_morning.dialogue"
+dest_files=["res://.godot/imported/mike_room_morning.dialogue-1fbe2502cecaa2cd2161776394dce17b.tres"]
+
+[params]
+
+defaults=true
