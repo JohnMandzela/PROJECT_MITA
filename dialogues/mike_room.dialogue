@@ -79,13 +79,13 @@ if GameManager.get_flag(Flags.SHOWER_USED)
 - Коробки из-под доширака
 	Коробки, в которых раньше была любимая всеми студентами лапша быстрого приготовления. 
 	Занимает почётное первое место в списке любимых блюд жителей общежития.=
-- Бутылка колы [if not Quests.is_started("find_cola")]
+- Бутылка колы [if not Quests.is_started(QuestIds.FIND_COLA)]
 	Закрытая бутылка всеми известного напитка. 
 	За ночь она успела стать теплой, пока стояла на рабочем столе.
 	Майк: Блин, я забыл положить колу в холодильник.
 	- Взять
-		do Inventory.give_item("cola")
-		do Quests.start_quest("find_cola")
+		do Inventory.give_item(ItemIds.COLA)
+		do Quests.start_quest(QuestIds.FIND_COLA)
 		
 		Получена БУТЫЛКА КОЛЫ
 		
@@ -124,11 +124,11 @@ if GameManager.get_flag(Flags.SHOWER_USED)
 
 # Холодильник
 ~ fridge
-if not Quests.is_completed("find_cola"):
+if not Quests.is_completed(QuestIds.FIND_COLA):
 	В холодильнике ничего, кроме пары дошираков, не осталось.
 	Да и в микроволновке сверху ничего нет.
 	
-	if Inventory.has_item("cola"):
+	if Inventory.has_item(ItemIds.COLA):
 		Ты держишь в руках бутылку колы.
 		- Положить в холодильник => cola_quest_end
 		- Положить в микроволновку
@@ -145,8 +145,8 @@ else:
 => END
 	
 ~ cola_quest_end
-do Inventory.remove_item("cola")
-do Quests.complete_quest("find_cola")
+do Inventory.remove_item(ItemIds.COLA)
+do Quests.complete_quest(QuestIds.FIND_COLA)
 
 Ты положил БУТЫЛКУ КОЛЫ в холодильник.
 

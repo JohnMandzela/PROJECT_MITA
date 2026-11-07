@@ -21,10 +21,10 @@ enum PortraitSide {
 @export var auto_start: bool = false
 
 ## The action to use for advancing the dialogue
-@export var next_action: StringName = &"ui_accept"
+@export var next_action: StringName = InputActions.NEXT
 
 ## The action to use while fast-forwarding dialogue.
-@export var skip_action: StringName = &"skip_dialogue"
+@export var skip_action: StringName = InputActions.SKIP
 
 ## Строка, которая сейчас на экране (нужна портретам, индикатору и тегам)
 var current_line: DialogueLine

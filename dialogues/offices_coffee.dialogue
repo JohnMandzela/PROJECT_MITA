@@ -3,7 +3,7 @@
 Крышка еще теплая, будто кто-то оставил его совсем недавно.
 Майк: Кажется, его никто не допил. Не лучшая идея, но бодрость сейчас лишней не будет.
 - Поднять кофе
-	do Inventory.give_item("coffee_cup")
+	do Inventory.give_item(ItemIds.COFFEE_CUP)
 	do GameManager.set_flag(Flags.COFFEE_PICKED_UP)
 	Майк: Заберу. В офисе кофе считается почти валютой.
 	=> END

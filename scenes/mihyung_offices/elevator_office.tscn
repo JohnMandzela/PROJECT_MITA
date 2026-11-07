@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://c8iry8brseioi"]
+[gd_scene load_steps=45 format=3 uid="uid://c8iry8brseioi"]
 
 [ext_resource type="Texture2D" uid="uid://dtrhkafrucdn1" path="res://images/scene/Elevator.png" id="1_7flr6"]
 [ext_resource type="Script" uid="uid://bkomvnarjx0pp" path="res://scripts/elevator_office.gd" id="1_voyuo"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dc0mt4x4i7ait" path="res://images/tilesets/characters/$Emily.png" id="4_ijbvk"]
 [ext_resource type="Script" uid="uid://b2b6nrclmnwb7" path="res://scripts/system/npc.gd" id="5_ijbvk"]
 [ext_resource type="Texture2D" uid="uid://ydnxud7l4db1" path="res://images/tilesets/characters/Mike.png" id="5_v30bt"]
+[ext_resource type="PackedScene" uid="uid://dbkot31f2yowr" path="res://scenes/mihyung_offices/corridors_offices.tscn" id="6_target"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fovv4"]
 radius = 6.0
@@ -352,7 +353,7 @@ animations = [{
 
 [node name="Elevator_Office" type="Node2D"]
 script = ExtResource("1_voyuo")
-target_scene = "mihyung_offices/corridors_offices"
+target_scene = ExtResource("6_target")
 target_spawn_point = "Spawn_on_Left_Elevator"
 dialogue = ExtResource("2_pnnwi")
 

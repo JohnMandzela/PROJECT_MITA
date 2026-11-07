@@ -11,6 +11,10 @@ extends Node
 ## DialogueController, и типизация в обе стороны дала бы циклическую зависимость.
 
 const SKIP_REPEAT_DELAY := 0.12
+## Задержка, после которой балун прячется, если мутация длинная
+const MUTATION_HIDE_DELAY := 0.1
+## Сколько секунд на символ при переходе по времени "auto"
+const AUTO_ADVANCE_SECONDS_PER_CHAR := 0.02
 
 ## Балун, которым управляет контроллер (DialogueBalloon)
 var balloon
@@ -215,7 +219,7 @@ func _apply_dialogue_line() -> void:
 
 	if dialogue_line.time != "":
 		_skip_advance_after_typing = false
-		var line_time: float = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
+		var line_time: float = dialogue_line.text.length() * AUTO_ADVANCE_SECONDS_PER_CHAR if dialogue_line.time == "auto" else dialogue_line.time.to_float()
 		await get_tree().create_timer(line_time).timeout
 		next(dialogue_line.next_id)
 		return
@@ -299,7 +303,7 @@ func _on_mutated(mutation: Dictionary) -> void:
 	if not mutation.is_inline:
 		is_waiting_for_input = false
 		will_hide_balloon = true
-		mutation_cooldown.start(0.1)
+		mutation_cooldown.start(MUTATION_HIDE_DELAY)
 
 
 func _enter_dialogue_mouse_mode() -> void:

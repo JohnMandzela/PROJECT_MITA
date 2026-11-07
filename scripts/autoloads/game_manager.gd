@@ -2,6 +2,8 @@ extends Node
 
 const SETTINGS_PATH := "user://settings.cfg"
 const SCENE_ROOT := "res://scenes/"
+const SCENE_FADE_DURATION := 0.5
+const DEFAULT_VOLUME := 100.0
 
 const SCREEN_FADER_PATH := "res://scenes/ui/screen_fader.tscn"
 
@@ -66,22 +68,22 @@ func load_settings() -> void:
 	var config := ConfigFile.new()
 	var err := config.load(SETTINGS_PATH)
 	if err != OK:
-		config.set_value("audio", "music_volume", 100.0)
-		config.set_value("audio", "sounds_volume", 100.0)
+		config.set_value("audio", "music_volume", DEFAULT_VOLUME)
+		config.set_value("audio", "sounds_volume", DEFAULT_VOLUME)
 		config.set_value("video", "fullscreen", false)
 		config.save(SETTINGS_PATH)
 		return
 
 	var fullscreen: bool = config.get_value("video", "fullscreen", false)
-	var music_vol: float = config.get_value("audio", "music_volume", 100.0)
-	var sounds_vol: float = config.get_value("audio", "sounds_volume", 100.0)
+	var music_vol: float = config.get_value("audio", "music_volume", DEFAULT_VOLUME)
+	var sounds_vol: float = config.get_value("audio", "sounds_volume", DEFAULT_VOLUME)
 
 	DisplayServer.window_set_mode(
 		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED,
 	)
 
-	SoundManager.set_music_volume(music_vol / 100.0)
-	SoundManager.set_sound_volume(sounds_vol / 100.0)
+	SoundManager.set_music_volume(music_vol / DEFAULT_VOLUME)
+	SoundManager.set_sound_volume(sounds_vol / DEFAULT_VOLUME)
 
 
 
@@ -110,24 +112,40 @@ func _ready() -> void:
 
 
 func resolve_scene_path(scene_reference: String) -> String:
-	return "res://scenes/" + scene_reference + ".tscn"
+	return SCENE_ROOT + scene_reference + ".tscn"
 
 
-# Начинаем перемещение в другую локацию.
+# Переход в локацию, заданную сценой из инспектора (@export PackedScene).
 # Состояние игрока, которое должно пережить смену сцены (фонарик),
 # сохраняется здесь, а не в каждом отдельном событии-переходе.
-func start_scene_transition(scene_reference: String, spawn_point: String) -> void:
-	_pending_scene_path = resolve_scene_path(scene_reference)
-	if _pending_scene_path.is_empty() or not ResourceLoader.exists(_pending_scene_path):
-		push_error("Scene transition target does not exist: %s" % scene_reference)
+func start_scene_transition(scene: PackedScene, spawn_point: String) -> void:
+	if scene == null or scene.resource_path.is_empty():
+		push_error("Сцена для перехода не задана")
 		return
+
+	_begin_scene_transition(scene.resource_path, spawn_point)
+
+
+# Переход по ссылке вида "mihyung_offices/corridors_offices" (SceneTransitionEventAction).
+# Здесь строка, а не PackedScene: локации ссылаются друг на друга, а циклические
+# PackedScene Godot не грузит — второй ресурс приходит null (проверено).
+func start_scene_transition_by_reference(scene_reference: String, spawn_point: String) -> void:
+	_begin_scene_transition(resolve_scene_path(scene_reference), spawn_point)
+
+
+func _begin_scene_transition(scene_path: String, spawn_point: String) -> void:
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		push_error("Сцена для перехода не существует: %s" % scene_path)
+		return
+
+	_pending_scene_path = scene_path
 
 	var current_player := player as Player
 	if current_player:
 		saved_flashlight_state = current_player.is_flashlight_on
 
 	pending_spawn_point = spawn_point
-	screen_fader.fade_out(0.5) # затемняем экран
+	screen_fader.fade_out(SCENE_FADE_DURATION) # затемняем экран
 
 
 # Назначает сцену, в которую нужно перейти после затемнения экрана.

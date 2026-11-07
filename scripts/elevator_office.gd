@@ -7,7 +7,7 @@ extends Node2D
 
 # Вводим в инспекторе:
 @export var exit_direction: Enums.Direction # направление взгляда (на выходе)
-@export var target_scene: String # предыдущую сцену
+@export var target_scene: PackedScene # сцена, куда ведет выход
 @export var target_spawn_point: String # точку спавна в сцене
 @export var dialogue: DialogueResource
 @onready var Mike: CharacterBody2D = $MikeNpc

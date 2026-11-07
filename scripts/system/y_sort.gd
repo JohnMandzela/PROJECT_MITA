@@ -1,5 +1,10 @@
 extends Sprite2D
 
+## Слой, когда игрок стоит за объектом (объект перекрывает его)
+const Z_FRONT := 2
+## Слой, когда игрок перед объектом
+const Z_BACK := 1
+
 var _collision_top_y: float = 0.0
 
 
@@ -23,4 +28,4 @@ func _process(_delta: float) -> void:
 	var player = GameManager.player
 	if player == null:
 		return
-	z_index = 2 if player.global_position.y > _collision_top_y else 1
+	z_index = Z_FRONT if player.global_position.y > _collision_top_y else Z_BACK

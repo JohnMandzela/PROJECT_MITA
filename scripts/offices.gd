@@ -1,13 +1,15 @@
 extends PlayerSpawnScene
 
 const OVERLAY_CENTER_RECT := Rect2(18.0, 22.0, 862.0, 478.0)
+## Игрок рисуется поверх тайлов сцены
+const PLAYER_Z_INDEX := 5
 
 
 func _ready() -> void:
 	super._ready()
 
 	if GameManager.player:
-		GameManager.player.z_index = 5
+		GameManager.player.z_index = PLAYER_Z_INDEX
 
 	call_deferred("_center_scene_camera_on_overlay_window")
 

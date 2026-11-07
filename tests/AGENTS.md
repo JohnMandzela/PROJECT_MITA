@@ -44,3 +44,4 @@ $godot = "C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\godot.windo
 | `test_balloon.gd` | простой режим балуна: панель скрыта, `DialogueLabel` переезжает в `SimpleArea`, повторное переключение безопасно; реплика рассказчика гасит активный портрет |
 | `test_dialogue_controller.gd` | контроллер и контекст создаются балуном, ожидание ввода на обычной реплике, ответы блокируют авто-переход |
 | `test_dialogue_context.gd` | `locals` пустой и пишется, `wait()` соблюдает время, предупреждение о ненайденном звуке |
+| `test_ids.gd` | `ItemIds`/`QuestIds`/`InputActions` существуют в проекте, нет дубликатов, все константы добавлены в `ALL` |

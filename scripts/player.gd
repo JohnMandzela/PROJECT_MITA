@@ -1,10 +1,16 @@
 class_name Player
 extends CharacterBody2D
 
-var speed = 120.0
-var run_speed = 240.0
-var steals_speed = 70.0
-var current_speed = speed
+## Базовая скорость ходьбы
+@export var speed := 120.0
+
+## Скорость бега
+@export var run_speed := 240.0
+
+## Скорость скрытного передвижения
+@export var stealth_speed := 70.0
+
+var current_speed := speed
 var last_direction := Enums.Direction.DOWN
 var direction_vector := Vector2.ZERO
 
@@ -31,13 +37,13 @@ func _ready():
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("save"):
+	if event.is_action_pressed(InputActions.SAVE):
 		SaveSystem.save_game(SaveSystem.Mode.QUICK)
-	elif event.is_action_pressed("load"):
+	elif event.is_action_pressed(InputActions.LOAD):
 		SaveSystem.load_game(SaveSystem.Mode.QUICK)
-	elif event.is_action_pressed("interact"):
+	elif event.is_action_pressed(InputActions.INTERACT):
 		interaction_controller.on_interact_pressed()
-	elif event.is_action_pressed("flashlight"):
+	elif event.is_action_pressed(InputActions.FLASHLIGHT):
 		is_flashlight_on = not is_flashlight_on
 
 
@@ -46,10 +52,10 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_pressed("run"):
+	if Input.is_action_pressed(InputActions.RUN):
 		current_speed = run_speed
-	elif Input.is_action_pressed("steals"):
-		current_speed = steals_speed
+	elif Input.is_action_pressed(InputActions.STEALTH):
+		current_speed = stealth_speed
 	else:
 		current_speed = speed
 

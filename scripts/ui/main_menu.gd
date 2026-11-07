@@ -3,6 +3,9 @@ extends Control
 # TODO: отрефакторить код настроек - он много где дублируется
 # TODO: почистить нейрослоп
 
+## Слой оверлея со слотами сохранений
+const SAVE_SLOTS_Z_INDEX := 20
+
 @onready var title_label: Label = $TitleLabel
 @onready var menu_start: VBoxContainer = $ButtonsVBox
 @onready var menu_options: MarginContainer = $OptionsMenu
@@ -37,8 +40,8 @@ func _ready() -> void:
 	var config := ConfigFile.new()
 	var err := config.load(GameManager.SETTINGS_PATH)
 	if err == OK:
-		var music: float = config.get_value("audio", "music_volume", 100.0)
-		var sound: float = config.get_value("audio", "sounds_volume", 100.0)
+		var music: float = config.get_value("audio", "music_volume", GameManager.DEFAULT_VOLUME)
+		var sound: float = config.get_value("audio", "sounds_volume", GameManager.DEFAULT_VOLUME)
 		music_value_path.value = music
 		sounds_value_path.value = sound
 
@@ -92,7 +95,7 @@ func _build_save_slots_overlay() -> void:
 	save_slots_overlay = Panel.new()
 	save_slots_overlay.name = "SaveSlotsOverlay"
 	save_slots_overlay.visible = false
-	save_slots_overlay.z_index = 20
+	save_slots_overlay.z_index = SAVE_SLOTS_Z_INDEX
 	save_slots_overlay.process_mode = Node.PROCESS_MODE_ALWAYS
 	save_slots_overlay.set_anchors_preset(Control.PRESET_CENTER)
 	save_slots_overlay.custom_minimum_size = Vector2(430, 360)
@@ -172,8 +175,7 @@ func _update_save_buttons_visibility() -> void:
 func _on_new_game_button_pressed() -> void:
 	SoundManager.stop_music()
 	GameManager.reset_game_state()
-	var mom_home_scene := load("res://scenes/mom_home.tscn")
-	get_tree().change_scene_to_packed(mom_home_scene)
+	get_tree().change_scene_to_file(ScenePaths.MOM_HOME)
 
 
 func _on_continue_button_pressed() -> void:
@@ -226,13 +228,13 @@ func _save_settings() -> void:
 
 
 func _on_sounds_value_changed(value: float) -> void:
-	SoundManager.set_sound_volume(value / 100.0)
+	SoundManager.set_sound_volume(value / GameManager.DEFAULT_VOLUME)
 	if not loading_settings:
 		_save_settings()
 
 
 func _on_music_value_changed(value: float) -> void:
-	SoundManager.set_music_volume(value / 100.0)
+	SoundManager.set_music_volume(value / GameManager.DEFAULT_VOLUME)
 	if not loading_settings:
 		_save_settings()
 
@@ -245,8 +247,8 @@ func _on_fullscreen_toggled(enabled: bool) -> void:
 
 func _apply_settings() -> void:
 	GameManager.set_fullscreen(fullscren_checkbox_path.button_pressed)
-	SoundManager.set_music_volume(music_value_path.value / 100.0)
-	SoundManager.set_sound_volume(sounds_value_path.value / 100.0)
+	SoundManager.set_music_volume(music_value_path.value / GameManager.DEFAULT_VOLUME)
+	SoundManager.set_sound_volume(sounds_value_path.value / GameManager.DEFAULT_VOLUME)
 
 
 func _on_back_pressed() -> void:

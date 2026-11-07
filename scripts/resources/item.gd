@@ -1,6 +1,9 @@
 class_name Item
 extends Resource
 
+## Шаблон пути к иконке: res://images/items/<id>.png
+const ICON_PATH_TEMPLATE := "res://images/items/%s.png"
+
 # Название предмета
 @export var display_name: String
 
@@ -25,7 +28,7 @@ var icon: Resource = null
 
 # Инициализирует иконку предмета. Должна вызываться сразу после загрузки ресурса
 func init_icon(id: String) -> void:
-    icon_path = "res://images/items/%s.png" % id
+    icon_path = ICON_PATH_TEMPLATE % id
     
     if ResourceLoader.exists(icon_path):
         icon = ResourceLoader.load(icon_path)

@@ -148,7 +148,7 @@ match Quests.get_quest_state("find_cola")
 ### 3.5 Мутации (изменение состояния)
 
 ```
-do Inventory.give_item("coffee_cup")
+do Inventory.give_item(ItemIds.COFFEE_CUP)
 do GameManager.set_flag(Flags.COFFEE_PICKED_UP)
 set locals.some_flag = true
 ```
@@ -173,6 +173,8 @@ set locals.some_flag = true
 
 - `set locals.имя = значение` — локальная переменная диалога. **Обязателен префикс `locals.`**, иначе DM ищет свойство на узле-состоянии и падает с `property not found`. Живёт только в рамках диалога и не сохраняется (`locals` есть у `DialogueContext` и у `GameInterfaceOverlay`).
 - `GameManager.set_flag(Flags.… )` — постоянное состояние, переживает переходы между сценами и попадает в сохранение.
+
+**Id предметов и квестов — только константы.** Литералы `"cola"`, `"find_cola"` не пишем: в коде это `ItemIds.COLA` / `QuestIds.FIND_COLA` из `scripts/constants/`, в диалогах — то же самое (`Inventory.give_item(ItemIds.COLA)`), DM резолвит глобальные классы.
 
 ### 3.6 Случайные варианты
 
@@ -367,20 +369,20 @@ do GameManager.set_flag(Flags.SHOWER_USED)
 `Quests` (`scripts/autoloads/quests.gd`):
 
 ```
-if Quests.is_completed("find_cola"):
-Quests.is_started("find_cola") / is_active(…) / is_completed(…)
-do Quests.start_quest("find_cola")
-do Quests.complete_quest("find_cola")
+if Quests.is_completed(QuestIds.FIND_COLA):
+Quests.is_started(QuestIds.FIND_COLA) / is_active(…) / is_completed(…)
+do Quests.start_quest(QuestIds.FIND_COLA)
+do Quests.complete_quest(QuestIds.FIND_COLA)
 Quests.get_quest_flag(quest_id, flag_id) / set_quest_flag(…)
 ```
 
 `Inventory` (`scripts/autoloads/inventory.gd`):
 
 ```
-if Inventory.has_item("cola"):
-do Inventory.give_item("coffee_cup")
-do Inventory.remove_item("cola")
-Inventory.get_item_count("cola")
+if Inventory.has_item(ItemIds.COLA):
+do Inventory.give_item(ItemIds.COFFEE_CUP)
+do Inventory.remove_item(ItemIds.COLA)
+Inventory.get_item_count(ItemIds.COLA)
 ```
 
 ### 4.5 Переводы
@@ -433,7 +435,7 @@ if GameManager.DEBUG_SKIP_INTRO
 - [ ] Каждая ветка заканчивается `=> END`.
 - [ ] Все говорящие есть в `PORTRAIT_PREFIXES` (если диалог идёт через балун).
 - [ ] Эмо-теги имеют соответствующие PNG, в реплике не больше одного эмо-тега.
-- [ ] Все `do`-вызовы существуют: методы `DialogueContext`/балуна, узла-источника или автолоадов; флаги объявлены в `Flags` (`scripts/flags.gd`); id предметов/квестов/звуков корректны.
+- [ ] Все `do`-вызовы существуют: методы `DialogueContext`/балуна, узла-источника или автолоадов; флаги объявлены в `Flags` (`scripts/flags.gd`); предметы/квесты — из `ItemIds`/`QuestIds` (`scripts/constants/`), а не литералами.
 - [ ] Диалог не использует портреты и функции балуна, если он открывается через HUD.
 - [ ] Новый файл добавлен в `locale/translations_pot_files` в `project.godot`.
 - [ ] Файл открывается в редакторе без ошибок на вкладке Dialogue.
@@ -455,7 +457,7 @@ if GameManager.DEBUG_SKIP_INTRO
 11. **Переименование `.dialogue`** без правки `uid://`/путей в `.tscn` ломает сцены.
 12. **`while`** без изменения условия — бесконечный цикл внутри диалога.
 13. **`do` без скобок** (`do some_flag = true`) — это мутация-присваивание, а не вызов метода; для методов нужны скобки.
-14. **Голый `Flags.ИМЯ` в условии — это строка, а не проверка флага.** `if Flags.SHOWER_USED:` всегда истинно, потому что константа равна `"shower_used"` (непустая строка). Всегда через метод: `if GameManager.get_flag(Flags.SHOWER_USED):`. В `set_flag(Flags.…)` константа подходит как есть.
+14. **Голый `Flags.ИМЯ` в условии — это строка, а не проверка флага.** `if Flags.SHOWER_USED:` всегда истинно, потому что константа равна `"shower_used"` (непустая строка). Всегда через метод: `if GameManager.get_flag(Flags.SHOWER_USED):`. В `set_flag(Flags.…)` константа подходит как есть. То же с `ItemIds`/`QuestIds`: это строки, годится только как аргумент (`Inventory.give_item(ItemIds.COLA)`), а не как условие.
 
 ---
 

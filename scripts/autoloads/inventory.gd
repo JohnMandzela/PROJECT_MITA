@@ -3,7 +3,6 @@ extends Node
 const ITEMS_PATH := "res://items/"
 const PICKUP_SOUND: AudioStream = preload("res://audio/sounds/item_pickup.wav")
 
-const DATA_PATH := "user://items_data.cfg"
 const FALLBACK_ICON_PATH := "res://images/items/cola.png"
 
 signal inventory_changed(item_id: String, change: int)

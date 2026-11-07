@@ -53,6 +53,15 @@ const VISUAL_PRESSED := Color(0.82, 0.82, 0.82, 1)
 const WALLPAPER_DIM := Color(0.35, 0.35, 0.35, 1)
 const WALLPAPER_TRANSITION := 0.2
 
+## Неактивный текст настроек
+const OPTIONS_TEXT_MUTED := Color(0.2784314, 0.2784314, 0.2784314, 1)
+
+## Слой оверлея с выполненными квестами
+const COMPLETED_OVERLAY_Z_INDEX := 22
+## Пауза перед закрытием меню и перед выходом в главное меню, секунды
+const MENU_CLOSE_WAIT := 0.2
+const EXIT_TO_MENU_TIME := 0.7
+
 const SCROLL_INVENTORY := "inventory"
 const SCROLL_ACTIVE_QUESTS := "active_quests"
 const SCROLL_COMPLETED_QUESTS := "completed_quests"
@@ -73,7 +82,7 @@ func _build_completed_quests_overlay() -> void:
 	completed_quests_overlay = Panel.new()
 	completed_quests_overlay.name = "CompletedQuestsOverlay"
 	completed_quests_overlay.visible = false
-	completed_quests_overlay.z_index = 22
+	completed_quests_overlay.z_index = COMPLETED_OVERLAY_Z_INDEX
 	completed_quests_overlay.offset_right = 255.0
 	completed_quests_overlay.offset_bottom = 469.0
 	quest_view.add_child(completed_quests_overlay)
@@ -199,7 +208,7 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed(InputActions.CANCEL):
 		if GameManager.is_minigame_active:
 			if GameManager.minigame_pause_target and GameManager.minigame_pause_target.has_method("toggle_pause_overlay_from_pause_menu"):
 				GameManager.minigame_pause_target.call("toggle_pause_overlay_from_pause_menu")
@@ -254,7 +263,7 @@ func _dim_wallpaper() -> void:
 func _undim_wallpaper() -> void:
 	var tw := create_tween()
 	tw.tween_property(wallpaper, "modulate", VISUAL_NORMAL, WALLPAPER_TRANSITION)
-	_set_options_text_color(Color(0.2784314, 0.2784314, 0.2784314, 1))
+	_set_options_text_color(OPTIONS_TEXT_MUTED)
 
 
 func _set_options_text_color(color: Color) -> void:
@@ -331,7 +340,7 @@ func close_pause_menu() -> void:
 	anim_blur.play("blur_off")
 	anim_phone.play("off_phone")
 	anim_on_off.play("close_pause_menu")
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(MENU_CLOSE_WAIT).timeout
 
 	get_tree().paused = false
 	visible = false
@@ -350,9 +359,9 @@ func close_pause_menu() -> void:
 
 func _on_exit_to_main_menu_pressed() -> void:
 	anim_exit.play("exit_to_main_menu")
-	await get_tree().create_timer(0.7).timeout
+	await get_tree().create_timer(EXIT_TO_MENU_TIME).timeout
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
+	get_tree().change_scene_to_file(ScenePaths.MAIN_MENU)
 
 
 func _on_inventory_pressed() -> void:

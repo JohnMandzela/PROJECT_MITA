@@ -1,7 +1,8 @@
-[gd_scene load_steps=36 format=3 uid="uid://d2ue4khhqq6ys"]
+[gd_scene load_steps=37 format=3 uid="uid://d2ue4khhqq6ys"]
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://images/scene/Mom's_Home.png" id="1_jacmr"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="5_wby07"]
+[ext_resource type="PackedScene" uid="uid://bgjc0imd2365r" path="res://scenes/dorm/mike_room.tscn" id="14_target"]
 [ext_resource type="Texture2D" uid="uid://dgy2scp5bckwj" path="res://images/tilesets/characters/Mike-Necktie.png" id="8_mv7xs"]
 [ext_resource type="Texture2D" uid="uid://buarkom5rcr6n" path="res://images/tilesets/characters/Mom.png" id="9_01ivo"]
 [ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://images/scene/Mom's_Home_Shadow.png" id="9_mv7xs"]
@@ -277,6 +278,8 @@ _data = {
 [node name="Sleep_Flashback" type="Node2D" parent="."]
 script = ExtResource("10_fovv4")
 dialogue = ExtResource("11_sm1ot")
+target_scene = ExtResource("14_target")
+target_spawn_point = "Spawn_Mike_Room"
 
 [node name="Mom_Home_Parallax" type="Parallax2D" parent="Sleep_Flashback"]
 

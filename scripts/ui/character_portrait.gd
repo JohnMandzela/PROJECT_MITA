@@ -13,6 +13,11 @@ const ACTIVE_SCALE := Vector2(1, 1)
 const INACTIVE_COLOR := Color(0.33, 0.33, 0.33, 1)
 const INACTIVE_SCALE := Vector2(0.9, 0.9)
 
+const ANIM_ENTER_LEFT := &"enter_left"
+const ANIM_ENTER_RIGHT := &"enter_right"
+const ANIM_LEAVE_LEFT := &"leave_left"
+const ANIM_LEAVE_RIGHT := &"leave_right"
+
 @onready var texture_rect: TextureRect = $TextureRect
 @onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
 
@@ -66,9 +71,13 @@ func set_character(char: String, emotion := &"") -> void:
 	self.texture_rect.flip_h = flipped
 
 	if char_changed:
-		anim_player.play("enter_right" if flipped else "enter_left")
+		anim_player.play(ANIM_ENTER_RIGHT if flipped else ANIM_ENTER_LEFT)
 
-	self.texture_rect.texture = ResourceLoader.load("res://images/characters/%s.png" % [portrait_name], "Texture2D", ResourceLoader.CACHE_MODE_REUSE)
+	self.texture_rect.texture = ResourceLoader.load(
+		PORTRAIT_DIRECTORY + portrait_name + PORTRAIT_EXTENSION,
+		"Texture2D",
+		ResourceLoader.CACHE_MODE_REUSE,
+	)
 
 	if char_changed:
 		await anim_player.animation_finished
@@ -78,7 +87,7 @@ func hide_character() -> void:
 	if not self.character:
 		return
 
-	anim_player.play("leave_right" if flipped else "leave_left")
+	anim_player.play(ANIM_LEAVE_RIGHT if flipped else ANIM_LEAVE_LEFT)
 	await anim_player.animation_finished
 
 	self.character = ""
