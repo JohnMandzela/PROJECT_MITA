@@ -49,17 +49,18 @@ func test_unknown_mode_keeps_default_layout() -> void:
 
 
 func test_narrator_line_deactivates_active_portrait() -> void:
+	var controller: DialogueController = balloon.get("controller")
 	var left_portrait: CharacterPortrait = balloon.get("left_portrait")
 	left_portrait.transition_duration = 0.05
 
-	balloon.set("dialogue_line", _make_line("Майк"))
+	controller.dialogue_line = _make_line("Майк")
 	await wait_seconds(0.1)
 
 	assert_eq(left_portrait.character, &"Майк")
 	assert_eq(left_portrait.texture_rect.modulate, CharacterPortrait.ACTIVE_COLOR)
 	assert_eq(left_portrait.scale, CharacterPortrait.ACTIVE_SCALE)
 
-	balloon.set("dialogue_line", _make_line(""))
+	controller.dialogue_line = _make_line("")
 	# Переход плавный: сразу после смены реплики портрет ещё не погас
 	assert_ne(left_portrait.texture_rect.modulate, CharacterPortrait.INACTIVE_COLOR)
 

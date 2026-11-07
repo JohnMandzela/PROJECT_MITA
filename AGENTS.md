@@ -29,7 +29,9 @@ scripts/         — All GDScript source
                    Npc marker, Y-sort helper
    resources/    — Custom Resource classes (EventAction and its subtypes,
                    Item, Quest)
-   ui/           — HUD, pause/options menus, dialogue balloon, portraits
+   ui/           — HUD, pause/options menus, dialogue balloon (UI в
+                   DialogueBalloon, поток в DialogueController, переменные
+                   диалога в DialogueContext), portraits
    1_mom_home/   — Scene-specific cutscene scripts, chapter 1
    2_mike_room/  — Scene-specific cutscene scripts, chapter 2
    experimental/ — Unfinished experiments; leave untouched

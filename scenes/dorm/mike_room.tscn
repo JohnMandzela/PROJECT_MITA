@@ -381,9 +381,9 @@ tile_set = SubResource("TileSet_xuh38")
 
 [node name="BedCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
-action = SubResource("Resource_n83c8")
 right = false
 up = false
+action = SubResource("Resource_n83c8")
 
 [node name="BedCollisionShape2D" type="CollisionShape2D" parent="Collisions/FurnitureCollisions/BedCollision"]
 position = Vector2(48.1, -60)
@@ -399,10 +399,10 @@ text = "Кровать"
 
 [node name="CommodeCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
-action = SubResource("Resource_kyxlb")
 left = false
 right = false
 up = false
+action = SubResource("Resource_kyxlb")
 
 [node name="CommodeCollisionShape2D" type="CollisionShape2D" parent="Collisions/FurnitureCollisions/CommodeCollision"]
 position = Vector2(0.099998474, -87.5)
@@ -418,10 +418,10 @@ text = "Тумбочка"
 
 [node name="ShowerCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
-action = SubResource("Resource_cw0qj")
 left = false
 right = false
 up = false
+action = SubResource("Resource_cw0qj")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions/FurnitureCollisions/ShowerCollision"]
 position = Vector2(-119.9, -240)
@@ -437,10 +437,10 @@ text = "Душевая"
 
 [node name="TableCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
-action = SubResource("Resource_xnfx7")
 left = false
 up = false
 down = false
+action = SubResource("Resource_xnfx7")
 
 [node name="TableCollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions/FurnitureCollisions/TableCollision"]
 position = Vector2(-119.9, -240)
@@ -456,10 +456,10 @@ text = "Ноутбук"
 
 [node name="WashingMachineCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
-action = SubResource("Resource_03jpi")
 left = false
 up = false
 down = false
+action = SubResource("Resource_03jpi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/FurnitureCollisions/WashingMachineCollision"]
 position = Vector2(-50, 122.5)
@@ -475,10 +475,10 @@ text = "Стиралка"
 
 [node name="FridgeCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
-action = SubResource("Resource_1go8k")
 right = false
 up = false
 down = false
+action = SubResource("Resource_1go8k")
 
 [node name="FridgeCollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions/FurnitureCollisions/FridgeCollision"]
 position = Vector2(-113.9, -240)
@@ -494,10 +494,10 @@ text = "Холодильник"
 
 [node name="SinkCollision" type="StaticBody2D" parent="Collisions/FurnitureCollisions"]
 script = ExtResource("7_03jpi")
-action = SubResource("Resource_6pisp")
 right = false
 up = false
 down = false
+action = SubResource("Resource_6pisp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/FurnitureCollisions/SinkCollision"]
 position = Vector2(49.5, 47.5)

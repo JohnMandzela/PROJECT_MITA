@@ -171,7 +171,7 @@ set locals.some_flag = true
 
 Переменные бывают двух видов:
 
-- `set locals.имя = значение` — локальная переменная диалога. **Обязателен префикс `locals.`**, иначе DM ищет свойство на узле-состоянии и падает с `property not found`. Живёт только в рамках диалога и не сохраняется (`locals` есть у балуна и у `GameInterfaceOverlay`).
+- `set locals.имя = значение` — локальная переменная диалога. **Обязателен префикс `locals.`**, иначе DM ищет свойство на узле-состоянии и падает с `property not found`. Живёт только в рамках диалога и не сохраняется (`locals` есть у `DialogueContext` и у `GameInterfaceOverlay`).
 - `GameManager.set_flag(Flags.… )` — постоянное состояние, переживает переходы между сценами и попадает в сохранение.
 
 ### 3.6 Случайные варианты
@@ -290,19 +290,22 @@ import "res://dialogues/snippets.dialogue" as snippets
 
 > Добавили персонажа? Нужны: запись в `PORTRAIT_PREFIXES`, картинки `images/characters/<prefix>.png` (+ варианты эмоций) и, если имя должно переводиться, ключ в `lang/chars.csv`.
 
-### 4.2 Функции балуна (`scripts/ui/balloon.gd`)
+### 4.2 Функции диалога
 
-Доступны через `do`, потому что первый элемент `temporary_game_states` — сам балун.
+Доступны через `do`. Диалог видит два объекта:
 
-| Вызов | Назначение |
-|---|---|
-| `do fade_out()` / `do fade_out(0.5)` | Затемнение; с аргументом диалог ждёт завершения |
-| `do fade_in()` | Плавное появление |
-| `do hide_portrait("Имя")` | Убрать портрет персонажа |
-| `do play_sound("id")` | Звук из `res://audio/sounds/<id>.{wav,ogg,mp3}`; ждёт окончания |
-| `do play_sound("id", false)` | То же без ожидания |
-| `do switch_balloon("simple")` | Простой режим: без портретов, имени и панели, чёрный центрированный текст. Переключение одностороннее — вернуться в обычный режим в рамках диалога нельзя |
-| `do wait(0.3)` | Пауза (обёртка над `Timer`) |
+- `DialogueContext` (`scripts/ui/dialogue_context.gd`) — первый элемент `temporary_game_states`, здесь же живут `locals`;
+- `DialogueBalloon` (`scripts/ui/balloon.gd`) — сам балун, второй элемент списка.
+
+| Вызов | Где | Назначение |
+|---|---|---|
+| `do fade_out()` / `do fade_out(0.5)` | Context | Затемнение; с аргументом диалог ждёт завершения |
+| `do fade_in()` | Context | Плавное появление |
+| `do play_sound("id")` | Context | Звук из `res://audio/sounds/<id>.{wav,ogg,mp3}`; ждёт окончания |
+| `do play_sound("id", false)` | Context | То же без ожидания |
+| `do wait(0.3)` | Context | Пауза (обёртка над `Timer`) |
+| `do hide_portrait("Имя")` | Balloon | Убрать портрет персонажа |
+| `do switch_balloon("simple")` | Balloon | Простой режим: без портретов, имени и панели, чёрный центрированный текст. Переключение одностороннее — вернуться в обычный режим в рамках диалога нельзя |
 
 Существующие `id` звуков: `rustle`, `open`, `item_pickup`, `shower_wash`, `toilet_flush`. Неизвестный `id` → warning «Звук '…' не найден» и продолжение диалога.
 
@@ -430,7 +433,7 @@ if GameManager.DEBUG_SKIP_INTRO
 - [ ] Каждая ветка заканчивается `=> END`.
 - [ ] Все говорящие есть в `PORTRAIT_PREFIXES` (если диалог идёт через балун).
 - [ ] Эмо-теги имеют соответствующие PNG, в реплике не больше одного эмо-тега.
-- [ ] Все `do`-вызовы существуют: методы балуна, узла-источника или автолоадов; флаги объявлены в `Flags` (`scripts/flags.gd`); id предметов/квестов/звуков корректны.
+- [ ] Все `do`-вызовы существуют: методы `DialogueContext`/балуна, узла-источника или автолоадов; флаги объявлены в `Flags` (`scripts/flags.gd`); id предметов/квестов/звуков корректны.
 - [ ] Диалог не использует портреты и функции балуна, если он открывается через HUD.
 - [ ] Новый файл добавлен в `locale/translations_pot_files` в `project.godot`.
 - [ ] Файл открывается в редакторе без ошибок на вкладке Dialogue.
@@ -460,7 +463,7 @@ if GameManager.DEBUG_SKIP_INTRO
 - Документация плагина: <https://github.com/nathanhoad/godot_dialogue_manager/tree/main/docs>
 - Локальная копия: `addons/dialogue_manager/` (версия 3.10.5, `plugin.cfg`; синхронна с тарболом тега `v3.10.5` репозитория плагина — отличия от старой локальной копии устранены, в т.ч. `test_scene.gd`)
 - Теги-`has_tag()` исправлены в апстриме начиная с `v3.10.4`: <https://github.com/nathanhoad/godot_dialogue_manager/blob/v3.10.4/addons/dialogue_manager/dialogue_line.gd>
-- Реализация балуна: `scripts/ui/balloon.gd`
+- Реализация балуна: `scripts/ui/balloon.gd` (UI), `scripts/ui/dialogue_controller.gd` (поток), `scripts/ui/dialogue_context.gd` (переменные и хелперы диалога)
 - Флаги игры: `scripts/flags.gd` (`class_name Flags`) — имена флагов только через константы
 - Портреты: `scripts/ui/character_portrait.gd`, `DialogueGlobals.PORTRAIT_PREFIXES`
 - Эмоции: `scripts/enums.gd` (`Enums.Emote`)

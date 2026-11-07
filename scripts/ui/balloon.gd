@@ -1,12 +1,15 @@
+class_name DialogueBalloon
 extends CanvasLayer
 ## A basic dialogue balloon for use with Dialogue Manager.
+##
+## Здесь только UI: вёрстка, портреты, простой режим и методы, которые зовут
+## из .dialogue-файлов. Поток диалога — в DialogueController, переменные и
+## утилитарные вызовы — в DialogueContext.
 
 enum PortraitSide {
 	LEFT,
 	RIGHT,
 }
-
-const SKIP_REPEAT_DELAY := 0.12
 
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource
@@ -23,46 +26,15 @@ const SKIP_REPEAT_DELAY := 0.12
 ## The action to use while fast-forwarding dialogue.
 @export var skip_action: StringName = &"skip_dialogue"
 
-## Temporary game states
-var temporary_game_states: Array = []
+## Строка, которая сейчас на экране (нужна портретам, индикатору и тегам)
+var current_line: DialogueLine
 
-## See if we are waiting for the player
-var is_waiting_for_input: bool = false
+## Контекст диалога и контроллер потока создаются в _ready()
+var context: DialogueContext
+var controller: DialogueController
 
-## See if we are running a long mutation and should hide the balloon
-var will_hide_balloon: bool = false
-
-## A dictionary to store any ephemeral variables
-var locals: Dictionary = { }
-
-var _locale: String = TranslationServer.get_locale()
-var _skip_advance_cooldown := 0.0
-var _is_advancing := false
-var _is_skip_button_held := false
-var _skip_advance_after_typing := false
-var _previous_mouse_mode := Input.MOUSE_MODE_VISIBLE
-var _has_dialogue_mouse_mode := false
 ## Режим простого текста: без портретов, панели и имени персонажа (для катсцен).
 var _is_simple_mode := false
-
-## The current line
-var dialogue_line: DialogueLine:
-	set(value):
-		if value:
-			dialogue_line = value
-			apply_dialogue_line()
-		else:
-			_restore_dialogue_mouse_mode()
-			if owner == null:
-				GameManager.disable_movement = false
-				queue_free()
-			else:
-				hide()
-	get:
-		return dialogue_line
-
-## A cooldown timer for delaying the balloon hide when encountering a mutation.
-var mutation_cooldown: Timer = Timer.new()
 
 ## The base balloon anchor
 @onready var balloon: Control = %Balloon
@@ -96,7 +68,15 @@ var mutation_cooldown: Timer = Timer.new()
 func _ready() -> void:
 	balloon.hide()
 	simple_area.hide()
-	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
+
+	context = DialogueContext.new()
+	context.name = "DialogueContext"
+	add_child(context)
+
+	controller = DialogueController.new()
+	controller.name = "DialogueController"
+	controller.setup(self, context)
+	add_child(controller)
 
 	if responses_menu.next_action.is_empty():
 		responses_menu.next_action = next_action
@@ -106,80 +86,91 @@ func _ready() -> void:
 	skip_button.button_down.connect(_on_skip_button_button_down)
 	skip_button.button_up.connect(_on_skip_button_button_up)
 
-	mutation_cooldown.timeout.connect(_on_mutation_cooldown_timeout)
-	add_child(mutation_cooldown)
-
 	if auto_start:
 		if not is_instance_valid(dialogue_resource):
 			assert(false, DMConstants.get_error_message(DMConstants.ERR_MISSING_RESOURCE_FOR_AUTOSTART))
 		start()
 
 
-func _process(delta: float) -> void:
-	if is_instance_valid(dialogue_line):
-		_enter_dialogue_mouse_mode()
-		progress.visible = (
-			not _is_simple_mode
-			and not dialogue_label.is_typing
-			and dialogue_line.responses.is_empty()
-		)
-		skip_button.disabled = _should_disable_skip_button()
-		if skip_button.disabled:
-			_is_skip_button_held = false
-		_handle_skip_held(delta)
-
-
-func _input(event: InputEvent) -> void:
-	if not _is_skip_button_held:
+func _process(_delta: float) -> void:
+	if not is_instance_valid(current_line):
 		return
 
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
-		_set_skip_button_held(false)
-	elif event is InputEventScreenTouch and not event.pressed:
-		_set_skip_button_held(false)
+	progress.visible = (
+		not _is_simple_mode
+		and not dialogue_label.is_typing
+		and current_line.responses.is_empty()
+	)
+	skip_button.disabled = is_skip_disabled()
 
 
-func _unhandled_input(_event: InputEvent) -> void:
-	if is_instance_valid(dialogue_line):
-		if dialogue_label.is_typing and (_event.is_action_pressed(next_action) or _event_is_skip(_event)):
-			dialogue_label.skip_typing()
-			_mark_input_handled()
-			return
-
-		if is_waiting_for_input and dialogue_line.responses.is_empty() and _event.is_action_pressed(next_action):
-			next(dialogue_line.next_id)
-			_mark_input_handled()
-			return
-
-	_mark_input_handled()
-
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSLATION_CHANGED and _locale != TranslationServer.get_locale() and is_instance_valid(dialogue_label):
-		_locale = TranslationServer.get_locale()
-		var visible_ratio: float = dialogue_label.visible_ratio
-		dialogue_line = await dialogue_resource.get_next_dialogue_line(dialogue_line.id)
-		if visible_ratio < 1:
-			dialogue_label.skip_typing()
-
-
-func _exit_tree() -> void:
-	_restore_dialogue_mouse_mode()
-
-
-## Start some dialogue
+## Start some dialogue. Вызывается DialogueManager и сценами (auto_start).
+## Логика потока — в контроллере, здесь только фасад.
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
-	temporary_game_states = [self] + extra_game_states
-	is_waiting_for_input = false
-	GameManager.disable_movement = true
-	_enter_dialogue_mouse_mode()
+	await controller.start(with_dialogue_resource, title, extra_game_states)
 
-	if is_instance_valid(with_dialogue_resource):
-		dialogue_resource = with_dialogue_resource
-	if not title.is_empty():
-		start_from_title = title
-	dialogue_line = await dialogue_resource.get_next_dialogue_line(start_from_title, temporary_game_states)
-	show()
+
+## Показывает новую строку: имя, портреты, ответы и печать текста
+func present_line(line: DialogueLine) -> void:
+	current_line = line
+	progress.hide()
+
+	if not _is_simple_mode:
+		_apply_character_and_portraits()
+
+	dialogue_label.hide()
+	dialogue_label.dialogue_line = line
+	responses_menu.hide()
+	responses_menu.responses = line.responses
+
+	balloon.show()
+	dialogue_label.show()
+
+	if not line.text.is_empty():
+		dialogue_label.type_out()
+		if dialogue_label.is_typing:
+			await dialogue_label.finished_typing
+
+	if line.responses:
+		clear_balloon_focus()
+		responses_menu.show()
+
+	skip_button.disabled = is_skip_disabled()
+
+
+func focus_balloon() -> void:
+	balloon.focus_mode = Control.FOCUS_ALL
+	balloon.grab_focus()
+
+
+func clear_balloon_focus() -> void:
+	balloon.focus_mode = Control.FOCUS_NONE
+
+
+func has_focus() -> bool:
+	var viewport := get_viewport()
+	return viewport != null and viewport.gui_get_focus_owner() == balloon
+
+
+func is_typing() -> bool:
+	return dialogue_label.is_typing
+
+
+func skip_typing() -> void:
+	dialogue_label.skip_typing()
+
+
+func typed_ratio() -> float:
+	return dialogue_label.visible_ratio
+
+
+func hide_balloon() -> void:
+	balloon.hide()
+
+
+## Кнопка «Пропустить» недоступна, пока игрок выбирает ответ
+func is_skip_disabled() -> bool:
+	return is_instance_valid(current_line) and not current_line.responses.is_empty() and not dialogue_label.is_typing
 
 
 ## Переключает балун в простой режим по имени. Используется в диалогах: do switch_balloon("simple")
@@ -216,10 +207,6 @@ func switch_to_simple_mode() -> void:
 	dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 
-func wait(seconds: float) -> void:
-	await get_tree().create_timer(seconds).timeout
-
-
 func get_portrait_side(character: String) -> PortraitSide:
 	assert(character, "get_portrait_side() вызвана для строки диалога без персонажа")
 
@@ -229,9 +216,9 @@ func get_portrait_side(character: String) -> PortraitSide:
 	elif right_portrait.character == character:
 		current_side = PortraitSide.RIGHT
 
-	var side := dialogue_line.get_tag_value("side")
+	var side := current_line.get_tag_value("side")
 	if current_side != null and side:
-		push_warning("Персонаж '%s' уже отображается с стороны '%s', но в строке диалога '%s' присутствует тег со стороной '%s'" % [character, current_side, dialogue_line.id, side])
+		push_warning("Персонаж '%s' уже отображается с стороны '%s', но в строке диалога '%s' присутствует тег со стороной '%s'" % [character, current_side, current_line.id, side])
 
 	if current_side != null:
 		return current_side
@@ -241,97 +228,18 @@ func get_portrait_side(character: String) -> PortraitSide:
 	elif side == "right":
 		return PortraitSide.RIGHT
 	elif side:
-		push_warning("Некорректная сторона '%s' для персонажа '%s' в строке диалога '%s'" % [side, character, dialogue_line.id])
+		push_warning("Некорректная сторона '%s' для персонажа '%s' в строке диалога '%s'" % [side, character, current_line.id])
 
 	if not left_portrait.character:
 		return PortraitSide.LEFT
 	elif not right_portrait.character:
 		return PortraitSide.RIGHT
 
-	push_warning("Оба портрета уже заняты, но в строке диалога '%s' нет тега со стороной для персонажа '%s'" % [dialogue_line.id, character])
+	push_warning("Оба портрета уже заняты, но в строке диалога '%s' нет тега со стороной для персонажа '%s'" % [current_line.id, character])
 	return PortraitSide.LEFT
 
 
-## Apply any changes to the balloon given a new [DialogueLine].
-func apply_dialogue_line() -> void:
-	mutation_cooldown.stop()
-	_enter_dialogue_mouse_mode()
-
-	progress.hide()
-	is_waiting_for_input = false
-	balloon.focus_mode = Control.FOCUS_ALL
-	balloon.grab_focus()
-
-	if not _is_simple_mode:
-		_apply_character_and_portraits()
-
-	dialogue_label.hide()
-	dialogue_label.dialogue_line = dialogue_line
-	responses_menu.hide()
-	responses_menu.responses = dialogue_line.responses
-	skip_button.disabled = _should_disable_skip_button()
-
-	balloon.show()
-	will_hide_balloon = false
-	dialogue_label.show()
-
-	if not dialogue_line.text.is_empty():
-		dialogue_label.type_out()
-		if dialogue_label.is_typing:
-			await dialogue_label.finished_typing
-
-	if dialogue_line.responses:
-		_skip_advance_after_typing = false
-		skip_button.disabled = true
-		_is_skip_button_held = false
-		balloon.focus_mode = Control.FOCUS_NONE
-		responses_menu.show()
-		return
-
-	if dialogue_line.time != "":
-		_skip_advance_after_typing = false
-		var line_time: float = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
-		await get_tree().create_timer(line_time).timeout
-		next(dialogue_line.next_id)
-		return
-
-	is_waiting_for_input = true
-	balloon.focus_mode = Control.FOCUS_ALL
-	balloon.grab_focus()
-	if _skip_advance_after_typing and _advance_from_skip_request():
-		return
-
-
-## Go to the next line
-func next(next_id: String) -> void:
-	if _is_advancing:
-		return
-	_is_advancing = true
-	var next_dialogue_line: DialogueLine = await dialogue_resource.get_next_dialogue_line(next_id, temporary_game_states)
-	_is_advancing = false
-	dialogue_line = next_dialogue_line
-
-#region Dialogue Functions
-
-# Затухание
-func fade_out(seconds: Variant = null) -> void:
-	GameManager.screen_fader.fade_out(seconds)
-
-	# Если передана длительность, ставим диалог на паузу до конца плавного появления
-	# Если не передана, то продолжаем после конца затенения
-	if seconds != null:
-		await GameManager.screen_fader.fade_in_finished
-	else:
-		await GameManager.screen_fader.fade_out_finished
-
-
-# Плавное появление
-func fade_in() -> void:
-	GameManager.screen_fader.fade_in()
-	await GameManager.screen_fader.fade_in_finished
-
-
-# Скрыть портрет персонажа по имени
+## Скрыть портрет персонажа по имени
 func hide_portrait(character: String) -> void:
 	if left_portrait.character == character:
 		await left_portrait.hide_character()
@@ -341,27 +249,8 @@ func hide_portrait(character: String) -> void:
 		push_warning("Функция hide_portrait() вызвана с персонажем '%s', который не участвует в диалоге" % [character])
 
 
-# Проиграть звук
-func play_sound(sound_id: String, wait_for_completion := true) -> void:
-	var found_resource_path: String = ""
-	for fmt in ["wav", "ogg", "mp3"]:
-		var path := "res://audio/sounds/%s.%s" % [sound_id, fmt]
-		if ResourceLoader.exists(path, "AudioStream"):
-			found_resource_path = path
-			break
-
-	if not found_resource_path:
-		push_warning("Звук '%s' не найден" % [sound_id])
-		return
-
-	var sound: AudioStream = load(found_resource_path)
-	var player := SoundManager.play_sound(sound)
-	if wait_for_completion:
-		await player.finished
-
-
 func _apply_character_and_portraits() -> void:
-	var character := dialogue_line.character
+	var character := current_line.character
 	character_label.visible = not character.is_empty()
 	character_label.text = tr(character, "dialogue")
 
@@ -392,7 +281,7 @@ func _apply_character_and_portraits() -> void:
 func _get_line_emotion() -> String:
 	for emotion_name in Enums.Emote.keys():
 		var tag_name := str(emotion_name).to_lower()
-		if dialogue_line.has_tag(tag_name):
+		if current_line.has_tag(tag_name):
 			return tag_name
 
 	return ""
@@ -416,114 +305,22 @@ func _move_dialogue_label(target: Control) -> void:
 	dialogue_label.offset_bottom = 0.0
 
 
-func _on_mutation_cooldown_timeout() -> void:
-	if will_hide_balloon:
-		will_hide_balloon = false
-		balloon.hide()
-
-
-func _on_mutated(mutation: Dictionary) -> void:
-	if not mutation.is_inline:
-		is_waiting_for_input = false
-		will_hide_balloon = true
-		mutation_cooldown.start(0.1)
-
-
 func _on_balloon_gui_input(event: InputEvent) -> void:
-	if dialogue_label.is_typing:
-		var mouse_was_clicked: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed()
-		var skip_button_was_pressed: bool = _event_is_skip(event)
-		if mouse_was_clicked or skip_button_was_pressed:
-			_mark_input_handled()
-			dialogue_label.skip_typing()
-			return
-
-	if not is_waiting_for_input:
-		return
-	if dialogue_line.responses.size() > 0:
-		return
-
-	_mark_input_handled()
-
-	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
-		next(dialogue_line.next_id)
-	elif event.is_action_pressed(next_action) and _balloon_has_focus():
-		next(dialogue_line.next_id)
+	controller.handle_gui_input(event)
 
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
-	next(response.next_id)
-
-
-func _handle_skip_held(delta: float) -> void:
-	if not _is_skip_held():
-		_skip_advance_cooldown = 0.0
-		return
-
-	_skip_advance_cooldown -= delta
-	if _skip_advance_cooldown <= 0.0:
-		_skip_advance_cooldown = SKIP_REPEAT_DELAY
-		_skip_current_line()
-
-
-func _skip_current_line() -> bool:
-	if not is_instance_valid(dialogue_line):
-		return false
-	if _is_advancing:
-		return false
-
-	if dialogue_label.is_typing:
-		_skip_advance_after_typing = true
-		dialogue_label.skip_typing()
-		return true
-
-	if dialogue_line.responses.size() > 0:
-		return false
-
-	if is_waiting_for_input:
-		return _advance_from_skip_request()
-
-	return false
-
-
-func _advance_from_skip_request() -> bool:
-	if not is_waiting_for_input:
-		return false
-	if dialogue_label.is_typing:
-		return false
-	if not is_instance_valid(dialogue_line):
-		return false
-	if _is_advancing:
-		return false
-	if dialogue_line.responses.size() > 0:
-		return false
-
-	is_waiting_for_input = false
-	_skip_advance_after_typing = false
-	next(dialogue_line.next_id)
-	return true
-
-
-func _is_skip_held() -> bool:
-	if _is_skip_button_held:
-		return true
-	if InputMap.has_action(skip_action) and Input.is_action_pressed(skip_action):
-		return true
-	return Input.is_physical_key_pressed(KEY_TAB)
-
-
-func _event_is_skip(event: InputEvent) -> bool:
-	if InputMap.has_action(skip_action) and event.is_action_pressed(skip_action):
-		return true
-	return event is InputEventKey and event.physical_keycode == KEY_TAB and event.pressed
+	controller.handle_response_selected(response)
 
 
 func _on_skip_button_button_down() -> void:
-	_set_skip_button_held(true)
+	if skip_button.disabled:
+		return
+	controller.set_skip_held(true)
 
 
 func _on_skip_button_button_up() -> void:
-	_set_skip_button_held(false)
+	controller.set_skip_held(false)
 
 
 func _on_skip_button_gui_input(event: InputEvent) -> void:
@@ -531,57 +328,8 @@ func _on_skip_button_gui_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		_mark_input_handled()
-		_set_skip_button_held(event.pressed)
+		controller.mark_input_handled()
+		controller.set_skip_held(event.pressed)
 	elif event is InputEventScreenTouch:
-		_mark_input_handled()
-		_set_skip_button_held(event.pressed)
-
-
-func _set_skip_button_held(held: bool) -> void:
-	if held and skip_button.disabled:
-		return
-	if held == _is_skip_button_held:
-		return
-
-	_is_skip_button_held = held
-	if not held:
-		return
-
-	_enter_dialogue_mouse_mode()
-	_skip_advance_cooldown = SKIP_REPEAT_DELAY
-	_skip_current_line()
-
-
-func _should_disable_skip_button() -> bool:
-	return is_instance_valid(dialogue_line) and not dialogue_line.responses.is_empty() and not dialogue_label.is_typing
-
-
-func _mark_input_handled() -> void:
-	var viewport := get_viewport()
-	if viewport != null:
-		viewport.set_input_as_handled()
-
-
-func _balloon_has_focus() -> bool:
-	var viewport := get_viewport()
-	return viewport != null and viewport.gui_get_focus_owner() == balloon
-
-
-func _enter_dialogue_mouse_mode() -> void:
-	if not _has_dialogue_mouse_mode:
-		_previous_mouse_mode = Input.get_mouse_mode()
-		_has_dialogue_mouse_mode = true
-
-	if Input.get_mouse_mode() != Input.MOUSE_MODE_VISIBLE:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-
-func _restore_dialogue_mouse_mode() -> void:
-	_is_skip_button_held = false
-	_skip_advance_after_typing = false
-	if not _has_dialogue_mouse_mode:
-		return
-
-	Input.set_mouse_mode(_previous_mouse_mode)
-	_has_dialogue_mouse_mode = false
+		controller.mark_input_handled()
+		controller.set_skip_held(event.pressed)
