@@ -1,5 +1,5 @@
 ~ start
-if GameManager.get_flag("shower_used")
+if GameManager.get_flag(Flags.SHOWER_USED)
 	do play_sound("toilet_flush")
 	=> END
 
@@ -14,7 +14,7 @@ if GameManager.get_flag("shower_used")
 	do play_sound("shower_wash")
 	do fade_in()
 	Майк: Хорошо! Я даже как-то бодрее стал.
-	do GameManager.set_flag("shower_used")
+	do GameManager.set_flag(Flags.SHOWER_USED)
 	=> END
 - Не стоит
 	Майк: Мне нужно на работу спешить. Как я там выгляжу - это дело десятое.
