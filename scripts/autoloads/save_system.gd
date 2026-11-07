@@ -320,4 +320,10 @@ func _humanize_scene_name(scene_path: String) -> String:
 	if file_name.is_empty():
 		return scene_path
 
-	return file_name.replace("_", " ").capitalize()
+	# capitalize() в Godot приводит остаток строки к нижнему регистру,
+	# поэтому поднимаем первую букву у каждого слова вручную: mike_room -> Mike Room
+	var words: PackedStringArray = []
+	for word in file_name.replace("_", " ").split(" ", false):
+		words.append(word.substr(0, 1).to_upper() + word.substr(1))
+
+	return " ".join(words)
