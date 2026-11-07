@@ -80,5 +80,4 @@ func _process(delta):
 
 
 func dialogue_end():
-	var mike_room_scene = load("res://scenes/dorm/mike_room.tscn")
-	get_tree().change_scene_to_packed(mike_room_scene)
+	GameManager.start_scene_transition("dorm/mike_room", "Spawn_Mike_Room")

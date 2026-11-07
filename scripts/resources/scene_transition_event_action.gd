@@ -29,7 +29,5 @@ func on_interact(context: EventAction.InteractionContext) -> void:
         if not player.interaction_controller.is_in_zone_event(event):
             animation.play("closing")
 
-    # TODO: перенести в отдельную функцию в GameManager
     GameManager.saved_direction = exit_direction
-    GameManager.saved_flashlight_state = player.is_flashlight_on
     GameManager.start_scene_transition(target_scene, target_spawn_point)

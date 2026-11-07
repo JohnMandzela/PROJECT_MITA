@@ -39,7 +39,7 @@ func _process(_delta: float) -> void:
 func take_teddy_bear() -> void:
 	if GameManager.is_done(TEDDY_BEAR_PICKUP_FLAG):
 		return
-	Items.item_was_took(TEDDY_BEAR_ITEM_ID)
+	#Items.item_was_took(TEDDY_BEAR_ITEM_ID)
 	GameManager.set_done(TEDDY_BEAR_PICKUP_FLAG)
 	label.visible = false
 

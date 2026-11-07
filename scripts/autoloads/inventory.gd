@@ -8,7 +8,7 @@ const FALLBACK_ICON_PATH := "res://images/items/cola.png"
 
 signal inventory_changed(item_id: String, change: int)
 
-var _items: Dictionary[String, Item] = {}
+var item_registry: Dictionary[String, Item] = {}
 
 # Стек предметов в инвентаре
 class ItemStack:
@@ -18,7 +18,7 @@ class ItemStack:
 
 	func _init(id: String, n: int = 1) -> void:
 		self.item_id = id
-		self.item = Inventory._items.get(id)
+		self.item = Inventory.item_registry.get(id)
 		if self.item == null:
 			push_warning("Предмет '%s' не найден в %s" % [id, Inventory.ITEMS_PATH])
 		self.count = n
@@ -51,7 +51,7 @@ func _init_items() -> void:
 			var item: Item = ResourceLoader.load(ITEMS_PATH + file_name, "Item")
 			item.init_icon(item_id)
 
-			_items[item_id] = item
+			item_registry[item_id] = item
 		
 		file_name = dir.get_next()
 
@@ -167,7 +167,7 @@ func _data_to_stacks(data) -> Array[ItemStack]:
 			continue
 
 		# Предмет мог быть удалён из проекта уже после сохранения
-		if not _items.has(item_id):
+		if not item_registry.has(item_id):
 			push_warning("В сохранении есть неизвестный предмет '%s' — пропускаем" % item_id)
 			continue
 
@@ -187,7 +187,7 @@ func get_item_info(item_name: String) -> Dictionary:
 		"icon_path": FALLBACK_ICON_PATH,
 	}
 
-	return _items[item_name].to_dictionary() if _items.has(item_name) else fallback
+	return item_registry[item_name].to_dictionary() if item_registry.has(item_name) else fallback
 
 
 func _humanize_item_name(item_name: String) -> String:

@@ -27,7 +27,7 @@ var is_minigame_active := false
 var minigame_pause_target: Node = null
 
 # Константы для отладки
-const DEBUG_SKIP_INTRO := true
+const DEBUG_SKIP_INTRO := false
 
 
 func reset_game_state() -> void:
@@ -113,12 +113,18 @@ func resolve_scene_path(scene_reference: String) -> String:
 	return "res://scenes/" + scene_reference + ".tscn"
 
 
-# Начинаем перемещение в другую локацию
+# Начинаем перемещение в другую локацию.
+# Состояние игрока, которое должно пережить смену сцены (фонарик),
+# сохраняется здесь, а не в каждом отдельном событии-переходе.
 func start_scene_transition(scene_reference: String, spawn_point: String) -> void:
 	_pending_scene_path = resolve_scene_path(scene_reference)
 	if _pending_scene_path.is_empty() or not ResourceLoader.exists(_pending_scene_path):
 		push_error("Scene transition target does not exist: %s" % scene_reference)
 		return
+
+	var current_player := player as Player
+	if current_player:
+		saved_flashlight_state = current_player.is_flashlight_on
 
 	pending_spawn_point = spawn_point
 	screen_fader.fade_out(0.5) # затемняем экран
