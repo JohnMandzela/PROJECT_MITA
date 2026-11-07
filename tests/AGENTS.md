@@ -41,3 +41,4 @@ $godot = "C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\godot.windo
 | `test_quests.gd` | состояния квестов и их восстановление из сохранения |
 | `test_save_system.gd` | пути слотов, чтение сводки сохранения, битые файлы |
 | `test_interactable.gd` | `Interactable.can_interact()`/`_is_running`, `Label` у зон, слои коллизий `ObjectEvent` |
+| `test_balloon.gd` | простой режим балуна: панель скрыта, `DialogueLabel` переезжает в `SimpleArea`, повторное переключение безопасно; реплика рассказчика гасит активный портрет |

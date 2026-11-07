@@ -34,8 +34,7 @@ func _ready():
 
 
 
-# TODO: не используется. Удалить или реализовать
-func _on_mouse_sensitivity_value_changed(value):
+func _on_mouse_sensitivity_value_changed(_value: float):
 	_save_settings()
 
 

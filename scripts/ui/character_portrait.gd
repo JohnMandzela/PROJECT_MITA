@@ -18,18 +18,33 @@ const INACTIVE_SCALE := Vector2(0.9, 0.9)
 
 @export var flipped := false
 
+## Длительность плавного перехода между активным и неактивным состоянием (секунды)
+@export_range(0.0, 1.0, 0.01) var transition_duration := 0.2
+
 var character := &""
 var _emotion := &""
 
+var _transition_tween: Tween
+
 
 func set_active() -> void:
-	self.texture_rect.modulate = ACTIVE_COLOR
-	self.scale = ACTIVE_SCALE
+	_transition_to(ACTIVE_COLOR, ACTIVE_SCALE)
 
 
 func set_inactive() -> void:
-	self.texture_rect.modulate = INACTIVE_COLOR
-	self.scale = INACTIVE_SCALE
+	_transition_to(INACTIVE_COLOR, INACTIVE_SCALE)
+
+
+func _transition_to(target_color: Color, target_scale: Vector2) -> void:
+	if _transition_tween and _transition_tween.is_valid():
+		_transition_tween.kill()
+
+	_transition_tween = create_tween()
+	_transition_tween.set_parallel(true)
+	_transition_tween.set_trans(Tween.TRANS_QUAD)
+	_transition_tween.set_ease(Tween.EASE_OUT)
+	_transition_tween.tween_property(texture_rect, "modulate", target_color, transition_duration)
+	_transition_tween.tween_property(self, "scale", target_scale, transition_duration)
 
 
 func set_character(char: String, emotion := &"") -> void:
