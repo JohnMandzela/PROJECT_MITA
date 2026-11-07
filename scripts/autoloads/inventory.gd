@@ -78,16 +78,19 @@ func give_item(item_id: String, count := 1) -> void:
 		push_warning("Функция give_item вызвана с count <= 0")
 		return
 
+	var found_existing_stack := false
+
 	for stack in current_inventory:
 		if stack.item_id == item_id:
 			stack.count += count
-			inventory_changed.emit(stack.item_id, count)
-			return
+			found_existing_stack = true
+			break
 
-	var stack := ItemStack.new(item_id, count)
-	current_inventory.append(stack)
-	inventory_changed.emit(stack.item_id, count)
+	if not found_existing_stack:
+		var stack := ItemStack.new(item_id, count)
+		current_inventory.append(stack)
 
+	inventory_changed.emit(item_id, count)
 	SoundManager.play_sound(PICKUP_SOUND)
 
 # Убирает из инвентаря предмет с указанным ID в количестве count (по умолчанию 1)
