@@ -419,12 +419,12 @@ Inventory.get_item_count(ItemIds.COLA)
 
 ```
 ~ start
-if GameManager.DEBUG_SKIP_INTRO
+if DebugConfig.skip_intro
 	do dialogue_end()
 	=> END
 ```
 
-`DEBUG_SKIP_INTRO` сейчас `true` — не копируйте этот блок в новый файл без необходимости, и не забудьте вернуть `false` перед релизом.
+`skip_intro` берётся из локального `.env` (`SKIP_INTRO=true`, файл в `.gitignore`, шаблон — `.env.example`). По умолчанию `false`, в release всегда `false`. Не копируйте блок в новый файл без необходимости.
 - **Стиль вызовов** единый: `do`/`set`, полные имена автолоадов, двойные кавычки, без `$>`.
 
 ---

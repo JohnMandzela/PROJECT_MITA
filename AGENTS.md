@@ -74,3 +74,16 @@ tests/           — GUT tests
 - Saves are plain dictionaries written by `SaveSystem` with `SAVE_VERSION`. Only
   `Resource` objects may be stored as-is; other classes (inventory stacks) must be
   converted to plain data first (`Inventory.to_dict()` / `Inventory.from_dict()`).
+
+## Debug variables
+
+- Debug switches live in `DebugConfig` (`scripts/autoloads/debug_config.gd`), not in
+  `GameManager`.
+- Values come from `res://.env`, which is gitignored. Copy `.env.example` to `.env`
+  and set keys such as `SKIP_INTRO=true`. The dotenv plugin (`DotEnv` autoload)
+  loads the file at startup.
+- Missing `.env` is fine: every switch falls back to its default. Release builds
+  ignore `.env` entirely (`OS.is_debug_build()` check in `DebugConfig`).
+- Adding a new debug switch: field + default in `DebugConfig`, read it via
+  `_bool("KEY", default)` (or add a typed helper) and document the key in
+  `.env.example`.

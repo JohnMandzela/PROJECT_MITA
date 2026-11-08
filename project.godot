@@ -28,6 +28,8 @@ buses/default_bus_layout="res://assets/audio/default_bus_layout.tres"
 
 [autoload]
 
+DotEnv="*res://addons/dotenv/env.gd"
+DebugConfig="*res://scripts/autoloads/debug_config.gd"
 Inventory="*res://scripts/autoloads/inventory.gd"
 Quests="*res://scripts/autoloads/quests.gd"
 GameManager="*res://scripts/autoloads/game_manager.gd"
@@ -51,7 +53,7 @@ mouse_cursor/custom_image="uid://y5l7xcplapsp"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/glitch_intro/plugin.cfg", "res://addons/godot_ai/plugin.cfg", "res://addons/sound_manager/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/glitch_intro/plugin.cfg", "res://addons/godot_ai/plugin.cfg", "res://addons/sound_manager/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/dotenv/plugin.cfg")
 
 [input]
 

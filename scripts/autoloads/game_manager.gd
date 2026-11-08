@@ -28,9 +28,6 @@ var disable_movement := false
 var is_minigame_active := false
 var minigame_pause_target: Node = null
 
-# Константы для отладки
-const DEBUG_SKIP_INTRO := false
-
 
 func reset_game_state() -> void:
 	game_flags.clear()

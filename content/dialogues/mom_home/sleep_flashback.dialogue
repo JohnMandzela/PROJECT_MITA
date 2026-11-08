@@ -1,6 +1,6 @@
 ~ start
 
-if GameManager.DEBUG_SKIP_INTRO
+if DebugConfig.skip_intro
 	do dialogue_end()
 	=> END
 
