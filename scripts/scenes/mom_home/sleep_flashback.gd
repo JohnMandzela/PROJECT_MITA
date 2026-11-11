@@ -1,14 +1,7 @@
 extends Node2D
 
-## Сколько ждать после запуска анимации затемнения/засветления, секунды
-const DARKEN_TIME := 0.5
-const LIGHTEN_TIME := 1.0
-
 ## Скорость, с которой мама подходит к Майку
 const MOM_MOVE_SPEED := 120.0
-
-const ANIM_DARKEN := &"darken"
-const ANIM_LIGHTEN := &"lighten"
 
 @export var dialogue: DialogueResource
 
@@ -18,11 +11,18 @@ const ANIM_LIGHTEN := &"lighten"
 
 @onready var mike: CharacterBody2D = $MikeNpc
 @onready var mom: CharacterBody2D = $MomNpc
-@onready var animation_darken: AnimationPlayer = $CanvasLayer/AnimationDarken
-@onready var animation_lighten: AnimationPlayer = $CanvasLayer/AnimationLighten
 
 var target_y := 0.0
 var mom_moving := false
+
+
+func _enter_tree() -> void:
+	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
+
+
+func _exit_tree() -> void:
+	if DialogueManager.dialogue_ended.is_connected(_on_dialogue_ended):
+		DialogueManager.dialogue_ended.disconnect(_on_dialogue_ended)
 
 
 func _ready() -> void:
@@ -34,26 +34,6 @@ func mom_move(distance: float):
 	mom_moving = true
 
 
-func darken_screen() -> void:
-	animation_darken.play(ANIM_DARKEN)
-	await get_tree().create_timer(DARKEN_TIME).timeout
-
-
-func darken_screen_backwards() -> void:
-	animation_darken.play_backwards(ANIM_DARKEN)
-	await get_tree().create_timer(DARKEN_TIME).timeout
-
-
-func lighten_screen() -> void:
-	animation_lighten.play(ANIM_LIGHTEN)
-	await get_tree().create_timer(LIGHTEN_TIME).timeout
-
-
-func lighten_screen_backwards() -> void:
-	animation_lighten.play_backwards(ANIM_LIGHTEN)
-	await get_tree().create_timer(LIGHTEN_TIME).timeout
-
-
 func _process(delta):
 	if mom_moving:
 		mom.position.y += MOM_MOVE_SPEED * delta
@@ -63,5 +43,9 @@ func _process(delta):
 			mom_moving = false
 
 
-func dialogue_end():
+# Катсцена закончилась — переходим в следующую сцену
+func _on_dialogue_ended(resource: DialogueResource) -> void:
+	if resource != dialogue:
+		return
+
 	GameManager.start_scene_transition(target_scene, target_spawn_point)

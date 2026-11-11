@@ -4,41 +4,62 @@ extends CanvasLayer
 signal fade_out_finished
 signal fade_in_finished
 
-@onready var anim: AnimationPlayer = $AnimationPlayer
+## Длительность перехода по умолчанию, секунды
+const DEFAULT_DURATION := 0.3
+
+@onready var overlay: ColorRect = $ColorRect
 @onready var timer: Timer = $Timer
 
-# Длительность затухания. Если null, затухание длится до ручного вызова fade_in()
-var _fade_seconds = null
+## Сколько ждать между затемнением и появлением. null — ждать ручного fade_in().
+var _hold_seconds = null
+var _tween: Tween
 
 
-# Затухание
-func fade_out(seconds = null):
-	_fade_seconds = seconds
-	anim.play("fade_out")
-
-
-# Плавное появление
-func fade_in():
-	_fade_seconds = null
-	anim.play("fade_in")
-	timer.stop()
-
-
-func _ready():
-	anim.animation_finished.connect(_on_animation_finished)
+func _ready() -> void:
 	timer.timeout.connect(fade_in)
 
 
-func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "fade_out":
-		fade_out_finished.emit()
+## Затемнение экрана в заданный цвет (по умолчанию чёрный).
+## seconds — сколько держать цвет перед автоматическим fade_in (null — не убирать).
+## duration — длительность самого перехода.
+func fade_out(seconds = null, color := Color.BLACK, duration := DEFAULT_DURATION) -> void:
+	_hold_seconds = seconds
+	timer.stop()
 
-		match _fade_seconds:
-			null:
-				return
-			0:
-				fade_in()
-			_:
-				timer.start(_fade_seconds)
-	else:
-		fade_in_finished.emit()
+	_start_tween(Color(color.r, color.g, color.b, 1.0), duration)
+	_tween.finished.connect(_on_fade_out_finished, CONNECT_ONE_SHOT)
+
+
+## Плавное появление (цвет уходит в прозрачность)
+func fade_in(duration := DEFAULT_DURATION) -> void:
+	_hold_seconds = null
+	timer.stop()
+
+	_start_tween(Color(overlay.color.r, overlay.color.g, overlay.color.b, 0.0), duration)
+	_tween.finished.connect(_on_fade_in_finished, CONNECT_ONE_SHOT)
+
+
+func _start_tween(target: Color, duration: float) -> void:
+	if _tween and _tween.is_valid():
+		_tween.kill()
+
+	_tween = create_tween()
+	_tween.set_trans(Tween.TRANS_QUAD)
+	_tween.set_ease(Tween.EASE_IN_OUT)
+	_tween.tween_property(overlay, "color", target, maxf(duration, 0.01))
+
+
+func _on_fade_out_finished() -> void:
+	fade_out_finished.emit()
+
+	match _hold_seconds:
+		null:
+			return
+		0:
+			fade_in()
+		_:
+			timer.start(_hold_seconds)
+
+
+func _on_fade_in_finished() -> void:
+	fade_in_finished.emit()

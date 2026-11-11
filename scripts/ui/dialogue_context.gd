@@ -36,18 +36,23 @@ func play_sound(sound_id: String, wait_for_completion := true) -> void:
 		await player.finished
 
 
-## Затемнение экрана. Если передана длительность, диалог ждёт плавного
-## появления обратно; если нет — только конца затемнения.
-func fade_out(seconds: Variant = null) -> void:
-	GameManager.screen_fader.fade_out(seconds)
-
-	if seconds != null:
-		await GameManager.screen_fader.fade_in_finished
+## Затемнение экрана в заданный цвет (по умолчанию чёрный).
+## duration = 0 — длительность по умолчанию (0.3 с), иначе явная.
+## Диалог ждёт завершения затемнения.
+func fade_out(color := Color.BLACK, duration := 0.0) -> void:
+	if duration > 0.0:
+		GameManager.screen_fader.fade_out(null, color, duration)
 	else:
-		await GameManager.screen_fader.fade_out_finished
+		GameManager.screen_fader.fade_out(null, color)
+
+	await GameManager.screen_fader.fade_out_finished
 
 
-## Плавное появление
-func fade_in() -> void:
-	GameManager.screen_fader.fade_in()
+## Плавное появление. duration = 0 — длительность по умолчанию
+func fade_in(duration := 0.0) -> void:
+	if duration > 0.0:
+		GameManager.screen_fader.fade_in(duration)
+	else:
+		GameManager.screen_fader.fade_in()
+
 	await GameManager.screen_fader.fade_in_finished

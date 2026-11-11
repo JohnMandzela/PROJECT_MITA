@@ -1,7 +1,6 @@
 ~ start
 
 if DebugConfig.skip_intro
-	do dialogue_end()
 	=> END
 
 Майк: Так, зубная щетка, полотенце, мыло. 
@@ -30,9 +29,9 @@ do mom_move(100)
 do hide_portrait("Майк")
 
 # Кадр ненадолго затемняется.
-do darken_screen()
+do fade_out(Color.BLACK, 0.5)
 Закончив с вещами, ты наконец приводишь свои сумки в порядок.
-do darken_screen_backwards()
+do fade_in(0.5)
 
 Майк: [#happy] Ну все, я готов!
 Мама: Хорошо. Иди я обниму тебя.
@@ -56,7 +55,7 @@ do hide_portrait("Майк")
 # Майк поворачивается и уходит с вещами.
 # кадр затемняется/засветляется
 
-do lighten_screen()
+do fade_out(Color.WHITE, 1.0)
 do switch_balloon("simple")
 do wait(0.3)
 
@@ -65,5 +64,4 @@ do wait(0.3)
 Оправдались ли твои ожидания от нового места работы, о котором ты так мечтал?
 Какие бы вопросы не возникали, ответ для тебя вполне очевиден.
 
-do dialogue_end()
 => END

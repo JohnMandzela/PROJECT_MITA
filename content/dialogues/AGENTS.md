@@ -302,8 +302,8 @@ import "res://content/dialogues/snippets.dialogue" as snippets
 
 | Вызов | Где | Назначение |
 |---|---|---|
-| `do fade_out()` / `do fade_out(0.5)` | Context | Затемнение; с аргументом диалог ждёт завершения |
-| `do fade_in()` | Context | Плавное появление |
+| `do fade_out()` / `do fade_out(Color.WHITE, 1.0)` | Context | Затемнение в заданный цвет (по умолчанию чёрный); первый аргумент — цвет, второй — длительность (0 — по умолчанию 0.3 с). Диалог ждёт завершения |
+| `do fade_in()` / `do fade_in(0.5)` | Context | Плавное появление; аргумент — длительность (0 — по умолчанию 0.3 с) |
 | `do play_sound("id")` | Context | Звук из `res://assets/audio/sounds/<id>.{wav,ogg,mp3}`; ждёт окончания |
 | `do play_sound("id", false)` | Context | То же без ожидания |
 | `do wait(0.3)` | Context | Пауза (обёртка над `Timer`) |
@@ -320,21 +320,15 @@ import "res://content/dialogues/snippets.dialogue" as snippets
 
 ```
 do mom_move(100)
-do darken_screen()
-do darken_screen_backwards()
-do lighten_screen()
-do lighten_screen_backwards()
-do dialogue_end()
 ```
+
+Завершение катсцены не вызывается из диалога: сцена подписана на `DialogueManager.dialogue_ended` и сама запускает переход.
 
 `scripts/scenes/mike_room/mike_room_main_script.gd`:
 
 ```
 do mike_visible_true()
 do mike_visible_false()
-do start_screen_fader()
-do on_screen_fader()
-do off_screen_fader()
 do _wait_time(1.0)
 do sleep_animation()
 do wake_up_animation()
@@ -420,7 +414,6 @@ Inventory.get_item_count(ItemIds.COLA)
 ```
 ~ start
 if DebugConfig.skip_intro
-	do dialogue_end()
 	=> END
 ```
 
