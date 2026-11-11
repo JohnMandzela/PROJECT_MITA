@@ -1,29 +1,29 @@
 ~ start
 
 if DebugConfig.skip_intro
-	do wake_up_animation()
+	do play_animation("wake_up", true)
 	do mike_visible_true()
 	=> END
 
-do sleep_animation()
-do _wait_time(1.0)
-do wake_up_animation()
+do play_animation("sleep")
+do wait(1.0)
+do play_animation("wake_up", true)
 #уставший 
 Майк: Ах… сколько я спал?..
 Пробуждаясь ото сна, ты через силу открываешь глаза.
 #Переворачивается на другой бок.
 
 #стандарт
-do phone_hand_animation()
+do play_animation("phone_on_hand")
 Майк: Боже, скажи, что я не проспал будильник…
 
 #Майк берет и смотрит телефон - показывает время 7:38.
 
 #стандарт
-do _wait_time(0.8)
-do shock()
+do wait(0.8)
+do play_animation("shock")
 Майк: Почти 7:40?!
-do irritated()
+do play_animation("irritated")
 Майк: Арххх… Почему ни один день не может начаться как надо?
 #Майк встает с кровати.
 

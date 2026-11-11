@@ -5,7 +5,7 @@ signal fade_out_finished
 signal fade_in_finished
 
 ## Длительность перехода по умолчанию, секунды
-const DEFAULT_DURATION := 0.3
+const DEFAULT_DURATION := 0.5
 
 @onready var overlay: ColorRect = $ColorRect
 @onready var timer: Timer = $Timer

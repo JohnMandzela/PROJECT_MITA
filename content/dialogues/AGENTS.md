@@ -302,8 +302,8 @@ import "res://content/dialogues/snippets.dialogue" as snippets
 
 | Вызов | Где | Назначение |
 |---|---|---|
-| `do fade_out()` / `do fade_out(Color.WHITE, 1.0)` | Context | Затемнение в заданный цвет (по умолчанию чёрный); первый аргумент — цвет, второй — длительность (0 — по умолчанию 0.3 с). Диалог ждёт завершения |
-| `do fade_in()` / `do fade_in(0.5)` | Context | Плавное появление; аргумент — длительность (0 — по умолчанию 0.3 с) |
+| `do fade_out()` / `do fade_out(Color.WHITE, 1.0)` | Context | Затемнение в заданный цвет (по умолчанию чёрный); первый аргумент — цвет, второй — длительность (0 — по умолчанию 0.5 с). Диалог ждёт завершения |
+| `do fade_in()` / `do fade_in(1.0)` | Context | Плавное появление; аргумент — длительность (0 — по умолчанию 0.5 с) |
 | `do play_sound("id")` | Context | Звук из `res://assets/audio/sounds/<id>.{wav,ogg,mp3}`; ждёт окончания |
 | `do play_sound("id", false)` | Context | То же без ожидания |
 | `do wait(0.3)` | Context | Пауза (обёртка над `Timer`) |
@@ -329,13 +329,14 @@ do mom_move(100)
 ```
 do mike_visible_true()
 do mike_visible_false()
-do _wait_time(1.0)
-do sleep_animation()
-do wake_up_animation()
-do phone_hand_animation()
-do shock()
-do irritated()
+do play_animation("sleep")
+do play_animation("wake_up", true)
+do play_animation("phone_on_hand")
+do play_animation("shock")
+do play_animation("irritated")
 ```
+
+`play_animation` принимает имя анимации `Mike_Sleep_Tileset`; второй аргумент `true` — проиграть звук пробуждения. Метод стартует анимацию и возвращается сразу, пауза — отдельным `do wait(...)`.
 
 Также `do take_teddy_bear()` из `scripts/experimental/teddy_bear_zone.gd`.
 

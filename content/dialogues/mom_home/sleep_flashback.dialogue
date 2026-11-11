@@ -29,9 +29,9 @@ do mom_move(100)
 do hide_portrait("Майк")
 
 # Кадр ненадолго затемняется.
-do fade_out(Color.BLACK, 0.5)
+do fade_out(Color.BLACK)
 Закончив с вещами, ты наконец приводишь свои сумки в порядок.
-do fade_in(0.5)
+do fade_in()
 
 Майк: [#happy] Ну все, я готов!
 Мама: Хорошо. Иди я обниму тебя.

@@ -3,12 +3,6 @@ extends PlayerSpawnScene
 ## Сколько длится плавное появление в начале катсцены, секунды
 const START_FADER_TIME := 1.0
 
-const ANIM_SLEEP := &"sleep"
-const ANIM_WAKE_UP := &"wake_up"
-const ANIM_PHONE_ON_HAND := &"phone_on_hand"
-const ANIM_SHOCK := &"shock"
-const ANIM_IRRITATED := &"irritated"
-
 const DIALOGUE_START := "start"
 
 @export var dialogue: DialogueResource
@@ -47,26 +41,8 @@ func mike_visible_true():
 	mike_sleep.visible = false
 
 
-func _wait_time(wait_time: float):
-	await get_tree().create_timer(wait_time).timeout
-
-
-func sleep_animation():
-	%Mike_Sleep_Tileset.play(ANIM_SLEEP)
-
-
-func wake_up_animation():
-	%Mike_Sleep_Tileset.play(ANIM_WAKE_UP)
-	SoundManager.play_sound(wake_up_sound.stream)
-
-
-func phone_hand_animation():
-	%Mike_Sleep_Tileset.play(ANIM_PHONE_ON_HAND)
-
-
-func shock():
-	%Mike_Sleep_Tileset.play(ANIM_SHOCK)
-
-
-func irritated():
-	%Mike_Sleep_Tileset.play(ANIM_IRRITATED)
+# Проигрывает анимацию Майка на кровати. with_sound — добавить звук пробуждения.
+func play_animation(animation: StringName, with_sound := false) -> void:
+	%Mike_Sleep_Tileset.play(animation)
+	if with_sound:
+		SoundManager.play_sound(wake_up_sound.stream)
