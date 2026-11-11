@@ -35,6 +35,8 @@ var controller: DialogueController
 
 ## Режим простого текста: без портретов, панели и имени персонажа (для катсцен).
 var _is_simple_mode := false
+## id последней показанной строки — чтобы не дублировать её при переприменении
+var _presented_line_id := ""
 
 ## The base balloon anchor
 @onready var balloon: Control = %Balloon
@@ -42,8 +44,11 @@ var _is_simple_mode := false
 ## Панель с фоном, именем персонажа и обычным текстом
 @onready var dialogue_panel: PanelContainer = %DialoguePanel
 
-## Контейнер для простого режима: тот же [DialogueLabel], но по центру экрана
+## Контейнер для простого режима: лог из 4 строк по центру экрана
 @onready var simple_area: MarginContainer = %SimpleArea
+
+## Лог простого режима
+@onready var simple_log: SimpleLog = %SimpleLog
 
 ## The label showing the name of the currently speaking character
 @onready var character_label: RichTextLabel = %CharacterLabel
@@ -98,7 +103,7 @@ func _process(_delta: float) -> void:
 
 	progress.visible = (
 		not _is_simple_mode
-		and not dialogue_label.is_typing
+		and not is_typing()
 		and current_line.responses.is_empty()
 	)
 	skip_button.disabled = is_skip_disabled()
@@ -107,6 +112,7 @@ func _process(_delta: float) -> void:
 ## Start some dialogue. Вызывается DialogueManager и сценами (auto_start).
 ## Логика потока — в контроллере, здесь только фасад.
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
+	_presented_line_id = ""
 	await controller.start(with_dialogue_resource, title, extra_game_states)
 
 
@@ -119,17 +125,26 @@ func present_line(line: DialogueLine) -> void:
 		_apply_character_and_portraits()
 
 	dialogue_label.hide()
-	dialogue_label.dialogue_line = line
 	responses_menu.hide()
 	responses_menu.responses = line.responses
 
 	balloon.show()
-	dialogue_label.show()
 
-	if not line.text.is_empty():
-		dialogue_label.type_out()
-		if dialogue_label.is_typing:
-			await dialogue_label.finished_typing
+	if _is_simple_mode:
+		if line.id == _presented_line_id:
+			simple_log.replace_active_line(line)
+		else:
+			await simple_log.show_line(line)
+	else:
+		dialogue_label.dialogue_line = line
+		dialogue_label.show()
+
+		if not line.text.is_empty():
+			dialogue_label.type_out()
+			if dialogue_label.is_typing:
+				await dialogue_label.finished_typing
+
+	_presented_line_id = line.id
 
 	if line.responses:
 		clear_balloon_focus()
@@ -153,15 +168,18 @@ func has_focus() -> bool:
 
 
 func is_typing() -> bool:
-	return dialogue_label.is_typing
+	return simple_log.is_typing() if _is_simple_mode else dialogue_label.is_typing
 
 
 func skip_typing() -> void:
-	dialogue_label.skip_typing()
+	if _is_simple_mode:
+		simple_log.skip_typing()
+	else:
+		dialogue_label.skip_typing()
 
 
 func typed_ratio() -> float:
-	return dialogue_label.visible_ratio
+	return simple_log.typed_ratio() if _is_simple_mode else dialogue_label.visible_ratio
 
 
 func hide_balloon() -> void:
@@ -170,7 +188,7 @@ func hide_balloon() -> void:
 
 ## Кнопка «Пропустить» недоступна, пока игрок выбирает ответ
 func is_skip_disabled() -> bool:
-	return is_instance_valid(current_line) and not current_line.responses.is_empty() and not dialogue_label.is_typing
+	return is_instance_valid(current_line) and not current_line.responses.is_empty() and not is_typing()
 
 
 ## Переключает балун в простой режим по имени. Используется в диалогах: do switch_balloon("simple")
@@ -182,12 +200,13 @@ func switch_balloon(balloon_name: String) -> void:
 	switch_to_simple_mode()
 
 
-## Простой режим: тот же текст, но по центру экрана — без портретов, панели и имени персонажа.
+## Простой режим: лог из 4 строк по центру экрана — без портретов, панели и имени персонажа.
 func switch_to_simple_mode() -> void:
 	if _is_simple_mode:
 		return
 
 	_is_simple_mode = true
+	_presented_line_id = ""
 
 	left_portrait.hide()
 	right_portrait.hide()
@@ -195,16 +214,9 @@ func switch_to_simple_mode() -> void:
 	progress.hide()
 	responses_menu.hide()
 	dialogue_panel.hide()
+	dialogue_label.hide()
 	simple_area.show()
-
-	_move_dialogue_label(simple_area)
-
-	dialogue_label.add_theme_color_override("default_color", Color.BLACK)
-	dialogue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	dialogue_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	dialogue_label.fit_content = false
-	dialogue_label.scroll_active = false
-	dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	simple_log.reset()
 
 
 func get_portrait_side(character: String) -> PortraitSide:
@@ -285,24 +297,6 @@ func _get_line_emotion() -> String:
 			return tag_name
 
 	return ""
-
-
-func _move_dialogue_label(target: Control) -> void:
-	var current_parent := dialogue_label.get_parent()
-	if current_parent == target:
-		return
-
-	if current_parent:
-		current_parent.remove_child(dialogue_label)
-	target.add_child(dialogue_label)
-
-	dialogue_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	dialogue_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	dialogue_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dialogue_label.offset_left = 0.0
-	dialogue_label.offset_top = 0.0
-	dialogue_label.offset_right = 0.0
-	dialogue_label.offset_bottom = 0.0
 
 
 func _on_balloon_gui_input(event: InputEvent) -> void:

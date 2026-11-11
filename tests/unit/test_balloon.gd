@@ -23,13 +23,13 @@ func test_default_mode_shows_panel() -> void:
 	assert_eq(_label().get_parent().name, "DialogueArea")
 
 
-func test_simple_mode_hides_panel_and_moves_label() -> void:
+func test_simple_mode_hides_panel() -> void:
 	balloon.call("switch_balloon", "simple")
 	await wait_process_frames(1)
 
 	assert_false(_panel().visible)
 	assert_true(_simple_area().visible)
-	assert_eq(_label().get_parent(), _simple_area())
+	assert_false(_label().visible)
 
 
 func test_simple_mode_is_idempotent() -> void:
@@ -37,7 +37,8 @@ func test_simple_mode_is_idempotent() -> void:
 	balloon.call("switch_to_simple_mode")
 	await wait_process_frames(1)
 
-	assert_eq(_label().get_parent(), _simple_area())
+	assert_false(_panel().visible)
+	assert_true(_simple_area().visible)
 
 
 func test_unknown_mode_keeps_default_layout() -> void:
