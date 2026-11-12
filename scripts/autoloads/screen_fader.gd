@@ -39,14 +39,31 @@ func fade_in(duration := DEFAULT_DURATION) -> void:
 	_tween.finished.connect(_on_fade_in_finished, CONNECT_ONE_SHOT)
 
 
+## Мгновенно заливает экран цветом — без анимации. Нужно при пропуске катсцены.
+func set_color(color: Color) -> void:
+	_stop_tween()
+	timer.stop()
+	_hold_seconds = null
+	overlay.color = color
+
+
+## Мгновенно убирает затемнение, сохраняя текущий цвет
+func clear_screen() -> void:
+	set_color(Color(overlay.color.r, overlay.color.g, overlay.color.b, 0.0))
+
+
 func _start_tween(target: Color, duration: float) -> void:
-	if _tween and _tween.is_valid():
-		_tween.kill()
+	_stop_tween()
 
 	_tween = create_tween()
 	_tween.set_trans(Tween.TRANS_QUAD)
 	_tween.set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_property(overlay, "color", target, maxf(duration, 0.01))
+
+
+func _stop_tween() -> void:
+	if _tween and _tween.is_valid():
+		_tween.kill()
 
 
 func _on_fade_out_finished() -> void:

@@ -74,6 +74,12 @@ tests/           — GUT tests
 - Saves are plain dictionaries written by `SaveSystem` with `SAVE_VERSION`. Only
   `Resource` objects may be stored as-is; other classes (inventory stacks) must be
   converted to plain data first (`Inventory.to_dict()` / `Inventory.from_dict()`).
+- Cutscenes are `.dialogue` files with a `skip` title. Esc (`ui_cancel`) fast-forwards
+  the current dialogue through `DialogueController.skip_cutscene()`; while it runs,
+  `GameManager.is_skipping_cutscene` is set and dialogue-facing functions (fades,
+  waits, sounds, animations, `mom_move`, portraits) check it to skip animations and
+  waiting. Details: `content/dialogues/AGENTS.md` §4.7.
+- Pause menu never opens while a dialogue balloon is active (`dialogue_balloons` group).
 
 ## Debug variables
 

@@ -43,6 +43,9 @@ func mike_visible_true():
 
 # Проигрывает анимацию Майка на кровати. with_sound — добавить звук пробуждения.
 func play_animation(animation: StringName, with_sound := false) -> void:
+	if GameManager.is_skipping_cutscene:
+		return
+
 	%Mike_Sleep_Tileset.play(animation)
 	if with_sound:
 		SoundManager.play_sound(wake_up_sound.stream)

@@ -11,6 +11,13 @@ enum PortraitSide {
 	RIGHT,
 }
 
+## Группа активных балунов: по ней пауза понимает, что открывать меню нельзя
+const GROUP := &"dialogue_balloons"
+
+## Сколько держится подсказка о пропуске и сколько длится её появление/исчезновение
+const SKIP_PROMPT_VISIBLE_TIME := 3.0
+const SKIP_PROMPT_FADE_TIME := 0.25
+
 ## The dialogue resource
 @export var dialogue_resource: DialogueResource
 
@@ -37,6 +44,9 @@ var controller: DialogueController
 var _is_simple_mode := false
 ## id последней показанной строки — чтобы не дублировать её при переприменении
 var _presented_line_id := ""
+## Подсказку о пропуске показываем один раз за катсцену
+var _skip_prompt_shown := false
+var _skip_prompt_tween: Tween
 
 ## The base balloon anchor
 @onready var balloon: Control = %Balloon
@@ -69,10 +79,15 @@ var _presented_line_id := ""
 ## Button held by mouse/touch to fast-forward dialogue.
 @onready var skip_button: Button = %SkipButton
 
+## Подсказка «Пропустить катсцену» в правом верхнем углу
+@onready var skip_prompt: PanelContainer = %SkipPrompt
+
 
 func _ready() -> void:
 	balloon.hide()
 	simple_area.hide()
+	skip_prompt.hide()
+	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 	context = DialogueContext.new()
 	context.name = "DialogueContext"
@@ -113,6 +128,9 @@ func _process(_delta: float) -> void:
 ## Логика потока — в контроллере, здесь только фасад.
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
 	_presented_line_id = ""
+	_skip_prompt_shown = false
+	hide_skip_prompt()
+	add_to_group(GROUP)
 	await controller.start(with_dialogue_resource, title, extra_game_states)
 
 
@@ -129,6 +147,7 @@ func present_line(line: DialogueLine) -> void:
 	responses_menu.responses = line.responses
 
 	balloon.show()
+	_refresh_skip_prompt()
 
 	if _is_simple_mode:
 		if line.id == _presented_line_id:
@@ -217,6 +236,62 @@ func switch_to_simple_mode() -> void:
 	dialogue_label.hide()
 	simple_area.show()
 	simple_log.reset()
+	hide_skip_prompt()
+
+
+## Простой режим включён? В нём катсцену не пропускают — это уже эпилог.
+func is_simple_mode() -> bool:
+	return _is_simple_mode
+
+
+## Прячет подсказку о пропуске (анимацию и таймер тоже)
+func hide_skip_prompt() -> void:
+	_stop_skip_prompt_tween()
+	skip_prompt.modulate.a = 0.0
+	skip_prompt.hide()
+
+
+## Прячет подсказку и больше её не показывает — например, после пропуска
+func dismiss_skip_prompt() -> void:
+	_skip_prompt_shown = true
+	hide_skip_prompt()
+
+
+## Подсказка видна только там, где катсцену реально можно пропустить
+func _refresh_skip_prompt() -> void:
+	if _is_simple_mode or not controller.can_skip_cutscene():
+		hide_skip_prompt()
+		return
+
+	if _skip_prompt_shown:
+		return
+
+	_show_skip_prompt()
+
+
+func _show_skip_prompt() -> void:
+	_skip_prompt_shown = true
+	skip_prompt.modulate.a = 0.0
+	skip_prompt.show()
+
+	_skip_prompt_tween = create_tween()
+	_skip_prompt_tween.tween_property(skip_prompt, "modulate:a", 1.0, SKIP_PROMPT_FADE_TIME)
+	_skip_prompt_tween.tween_interval(SKIP_PROMPT_VISIBLE_TIME)
+	_skip_prompt_tween.tween_property(skip_prompt, "modulate:a", 0.0, SKIP_PROMPT_FADE_TIME)
+	_skip_prompt_tween.tween_callback(skip_prompt.hide)
+
+
+func _stop_skip_prompt_tween() -> void:
+	if _skip_prompt_tween and _skip_prompt_tween.is_valid():
+		_skip_prompt_tween.kill()
+
+
+func _on_dialogue_ended(resource: DialogueResource) -> void:
+	if controller == null or controller.dialogue_resource != resource:
+		return
+
+	remove_from_group(GROUP)
+	hide_skip_prompt()
 
 
 func get_portrait_side(character: String) -> PortraitSide:
@@ -253,12 +328,27 @@ func get_portrait_side(character: String) -> PortraitSide:
 
 ## Скрыть портрет персонажа по имени
 func hide_portrait(character: String) -> void:
+	var portrait := _find_portrait(character)
+	if portrait == null:
+		# Портрет уже скрыт после предыдущего вызова — это нормально.
+		# Предупреждаем только о неизвестном имени.
+		if not DialogueGlobals.PORTRAIT_PREFIXES.has(character):
+			push_warning("Функция hide_portrait() вызвана с персонажем '%s', который не участвует в диалоге" % [character])
+		return
+
+	if GameManager.is_skipping_cutscene:
+		portrait.hide_character_instant()
+		return
+
+	await portrait.hide_character()
+
+
+func _find_portrait(character: String) -> CharacterPortrait:
 	if left_portrait.character == character:
-		await left_portrait.hide_character()
-	elif right_portrait.character == character:
-		await right_portrait.hide_character()
-	else:
-		push_warning("Функция hide_portrait() вызвана с персонажем '%s', который не участвует в диалоге" % [character])
+		return left_portrait
+	if right_portrait.character == character:
+		return right_portrait
+	return null
 
 
 func _apply_character_and_portraits() -> void:

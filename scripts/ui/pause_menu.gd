@@ -214,12 +214,19 @@ func _input(event: InputEvent) -> void:
 				GameManager.minigame_pause_target.call("toggle_pause_overlay_from_pause_menu")
 				get_viewport().set_input_as_handled()
 			return
+		if menu_open == 0 and _dialogue_is_active():
+			return
 		if menu_open == 0:
 			menu_open += 1
 			toggle()
 		else:
 			menu_open -= 1
 			close_pause_menu()
+
+
+## Пока идёт диалог, Esc принадлежит диалогу (пропуск катсцены), а не паузе
+func _dialogue_is_active() -> bool:
+	return not get_tree().get_nodes_in_group(DialogueBalloon.GROUP).is_empty()
 
 
 func _unhandled_input(event: InputEvent) -> void:

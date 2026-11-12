@@ -16,6 +16,11 @@ const MUTATION_HIDE_DELAY := 0.1
 ## Сколько секунд на символ при переходе по времени "auto"
 const AUTO_ADVANCE_SECONDS_PER_CHAR := 0.02
 
+## Тайтл, наличие которого делает диалог пропускаемой катсценой
+const CUTSCENE_SKIP_TITLE := "skip"
+## Предохранитель от бесконечного прохода по циклам
+const MAX_SKIP_STEPS := 500
+
 ## Балун, которым управляет контроллер (DialogueBalloon)
 var balloon
 
@@ -41,6 +46,13 @@ var _is_skip_button_held := false
 var _skip_advance_after_typing := false
 var _previous_mouse_mode := Input.MOUSE_MODE_VISIBLE
 var _has_dialogue_mouse_mode := false
+
+## Идёт быстрый проход по катсцене (мутации без ожидания)
+var _is_skipping_cutscene := false
+## Катсцену уже пропустили — второй раз не предлагаем
+var _cutscene_skipped := false
+## Во время прохода встретили тайтл skip
+var _passed_skip_title := false
 
 ## The current line
 var dialogue_line: DialogueLine:
@@ -69,6 +81,7 @@ func setup(balloon_ref, context_ref: DialogueContext) -> void:
 
 func _ready() -> void:
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
+	Engine.get_singleton("DialogueManager").passed_title.connect(_on_passed_title)
 
 	mutation_cooldown.timeout.connect(_on_mutation_cooldown_timeout)
 	add_child(mutation_cooldown)
@@ -95,6 +108,11 @@ func _input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(InputActions.CANCEL) and can_skip_cutscene():
+		skip_cutscene()
+		mark_input_handled()
+		return
+
 	if is_instance_valid(dialogue_line):
 		if balloon.is_typing() and (event.is_action_pressed(balloon.next_action) or _event_is_skip(event)):
 			balloon.skip_typing()
@@ -132,6 +150,8 @@ func _exit_tree() -> void:
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
 	temporary_game_states = [context, balloon] + extra_game_states
 	is_waiting_for_input = false
+	_cutscene_skipped = false
+	_passed_skip_title = false
 	GameManager.disable_movement = true
 	_enter_dialogue_mouse_mode()
 
@@ -180,6 +200,128 @@ func handle_gui_input(event: InputEvent) -> void:
 ## Выбор ответа в меню балуна
 func handle_response_selected(response: DialogueResponse) -> void:
 	next(response.next_id)
+
+
+## Катсцену можно пропустить: в диалоге есть тайтл skip, сейчас не выбор,
+## катсцена ещё не пропущена и балун не в простом режиме.
+func can_skip_cutscene() -> bool:
+	if _cutscene_skipped or _is_skipping_cutscene:
+		return false
+	if not is_instance_valid(dialogue_line) or not is_instance_valid(dialogue_resource):
+		return false
+	if not dialogue_line.responses.is_empty():
+		return false
+	if balloon.is_simple_mode():
+		return false
+	return dialogue_resource.titles.has(CUTSCENE_SKIP_TITLE)
+
+
+## Пропуск катсцены: быстро проходим строки, выполняя мутации без ожидания,
+## и останавливаемся на первой реплике с ответами или на тайтле skip.
+func skip_cutscene() -> void:
+	if not can_skip_cutscene():
+		return
+
+	var skip_id: String = dialogue_resource.titles.get(CUTSCENE_SKIP_TITLE, "")
+	var target: DialogueLine = null
+	var reached_skip := false
+	# Тайтл встретился, но DM обрабатывает его внутри того же вызова
+	var stopped_before_skip := false
+
+	_is_skipping_cutscene = true
+	_passed_skip_title = false
+	GameManager.is_skipping_cutscene = true
+	is_waiting_for_input = false
+	_skip_advance_after_typing = false
+	_is_skip_button_held = false
+	balloon.skip_typing()
+	balloon.dismiss_skip_prompt()
+
+	var next_id: String = dialogue_line.next_id
+	for _step in MAX_SKIP_STEPS:
+		if _is_end_id(next_id) or _is_skip_id(next_id, skip_id) or _is_goto_to_skip(next_id, skip_id):
+			break
+
+		var line: DialogueLine = await _get_line_without_waiting(next_id)
+
+		if _passed_skip_title:
+			reached_skip = true
+			stopped_before_skip = is_instance_valid(line) and _is_skip_id(line.next_id, skip_id)
+			if is_instance_valid(line) and not stopped_before_skip:
+				target = line
+			break
+
+		if not is_instance_valid(line):
+			break
+
+		if not line.responses.is_empty():
+			target = line
+			break
+
+		next_id = line.next_id
+
+	_is_skipping_cutscene = false
+	GameManager.is_skipping_cutscene = false
+
+	if is_instance_valid(target):
+		_cutscene_skipped = reached_skip
+		dialogue_line = target
+		return
+
+	if reached_skip and not stopped_before_skip:
+		_cutscene_skipped = true
+		_finish_dialogue()
+		return
+
+	# До skip не дошли (ветка закончилась или сработал предохранитель) —
+	# переходим на тайтл напрямую, чтобы его блок отработал как обычно.
+	_cutscene_skipped = true
+	await next(CUTSCENE_SKIP_TITLE)
+
+
+## Проход строк для пропуска. Используем внутренний метод DialogueManager:
+## публичный эмитит dialogue_ended при достижении конца, а проход может
+## закончиться уже внутри блока skip.
+func _get_line_without_waiting(next_id: String) -> DialogueLine:
+	return await Engine.get_singleton("DialogueManager")._get_next_dialogue_line(
+		dialogue_resource,
+		next_id,
+		temporary_game_states,
+		DMConstants.MutationBehaviour.DoNotWait,
+	)
+
+
+func _finish_dialogue() -> void:
+	dialogue_line = null
+	Engine.get_singleton("DialogueManager").dialogue_ended.emit(dialogue_resource)
+
+
+func _is_end_id(id: String) -> bool:
+	return _base_id(id) in [DMConstants.ID_END, DMConstants.ID_END_CONVERSATION, DMConstants.ID_NULL]
+
+
+func _is_skip_id(id: String, skip_id: String) -> bool:
+	return not skip_id.is_empty() and _base_id(id) == _base_id(skip_id)
+
+
+## Строка — это переход => skip? Тогда останавливаемся до него, чтобы блок skip
+## отработал обычным образом (с ожиданием фейдов и пауз).
+func _is_goto_to_skip(id: String, skip_id: String) -> bool:
+	var data: Dictionary = dialogue_resource.lines.get(_base_id(id), {})
+	if data.is_empty() or data.get("type", "") != DMConstants.TYPE_GOTO:
+		return false
+
+	var target: String = data.get("next_id", "")
+	var target_id: String = dialogue_resource.titles.get(target, target)
+	return _is_skip_id(target_id, skip_id)
+
+
+## id строки может быть "12", "12|трейл" или "uid@12"
+func _base_id(id: String) -> String:
+	var base := id.split("|")[0]
+	if "@" in base:
+		base = base.split("@")[1]
+	return base
 
 
 ## Кнопку «Пропустить» зажали/отпустили (кнопка гасится в самом балуне)
@@ -300,10 +442,22 @@ func _on_mutation_cooldown_timeout() -> void:
 
 
 func _on_mutated(mutation: Dictionary) -> void:
+	if _is_skipping_cutscene:
+		return
+
 	if not mutation.is_inline:
 		is_waiting_for_input = false
 		will_hide_balloon = true
 		mutation_cooldown.start(MUTATION_HIDE_DELAY)
+
+
+func _on_passed_title(title: String) -> void:
+	if not _is_skipping_cutscene or title != CUTSCENE_SKIP_TITLE:
+		return
+
+	_passed_skip_title = true
+	# Внутри блока skip мутации должны отработать как обычно (фейды, паузы)
+	GameManager.is_skipping_cutscene = false
 
 
 func _enter_dialogue_mouse_mode() -> void:

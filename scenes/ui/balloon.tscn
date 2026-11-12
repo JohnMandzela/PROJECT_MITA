@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://crgoc60wxu88c"]
+[gd_scene load_steps=16 format=3 uid="uid://crgoc60wxu88c"]
 
 [ext_resource type="Script" uid="uid://dqnq8gjhv2iet" path="res://scripts/ui/balloon.gd" id="1_36de5"]
 [ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="2_a8ve6"]
 [ext_resource type="PackedScene" uid="uid://dvhw5m37qmxyq" path="res://scenes/ui/character_portrait.tscn" id="2_ujumt"]
 [ext_resource type="Script" uid="uid://bb52rsfwhkxbn" path="res://addons/dialogue_manager/dialogue_responses_menu.gd" id="3_72ixx"]
 [ext_resource type="Script" path="res://scripts/ui/simple_log.gd" id="5_simple_log"]
+[ext_resource type="Script" uid="uid://w56f1fjehjvo" path="res://addons/ActionIcon/ActionIcon.gd" id="6_actionicon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_spyqn"]
 bg_color = Color(0, 0, 0, 1)
@@ -48,6 +49,17 @@ border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skip_prompt"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0.6)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -264,6 +276,42 @@ hide_failed_responses = true
 [node name="ResponseExample" type="Button" parent="Balloon/ResponsesMenu"]
 layout_mode = 2
 text = "Response example"
+
+[node name="SkipPrompt" type="PanelContainer" parent="Balloon"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 76.0
+grow_horizontal = 0
+grow_vertical = 1
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_skip_prompt")
+
+[node name="HBox" type="HBoxContainer" parent="Balloon/SkipPrompt"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="PromptIcon" type="TextureRect" parent="Balloon/SkipPrompt/HBox"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("6_actionicon")
+action_name = &"ui_cancel"
+
+[node name="PromptLabel" type="Label" parent="Balloon/SkipPrompt/HBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+text = "Пропустить катсцену"
+vertical_alignment = 1
 
 [connection signal="gui_input" from="Balloon" to="." method="_on_balloon_gui_input"]
 [connection signal="response_selected" from="Balloon/ResponsesMenu" to="." method="_on_responses_menu_response_selected"]

@@ -90,6 +90,19 @@ func hide_character() -> void:
 	anim_player.play(ANIM_LEAVE_RIGHT if flipped else ANIM_LEAVE_LEFT)
 	await anim_player.animation_finished
 
+	_clear()
+
+
+## Мгновенно убрать портрет, без анимации ухода (пропуск катсцены)
+func hide_character_instant() -> void:
+	if not self.character:
+		return
+
+	anim_player.stop()
+	_clear()
+
+
+func _clear() -> void:
 	self.character = ""
 	self._emotion = ""
 	self.texture_rect.texture = null

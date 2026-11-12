@@ -28,6 +28,10 @@ var disable_movement := false
 var is_minigame_active := false
 var minigame_pause_target: Node = null
 
+## Идёт пропуск катсцены: диалоговые функции работают без анимаций и ожиданий.
+## Не сохраняется.
+var is_skipping_cutscene := false
+
 
 func reset_game_state() -> void:
 	game_flags.clear()

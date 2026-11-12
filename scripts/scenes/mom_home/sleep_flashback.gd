@@ -31,6 +31,12 @@ func _ready() -> void:
 
 func mom_move(distance: float):
 	target_y = mom.position.y + distance
+
+	if GameManager.is_skipping_cutscene:
+		mom.position.y = target_y
+		mom_moving = false
+		return
+
 	mom_moving = true
 
 
