@@ -304,13 +304,13 @@ import "res://content/dialogues/snippets.dialogue" as snippets
 |---|---|---|
 | `do fade_out()` / `do fade_out(Color.WHITE, 1.0)` | Context | Затемнение в заданный цвет (по умолчанию чёрный); первый аргумент — цвет, второй — длительность (0 — по умолчанию 0.5 с). Диалог ждёт завершения |
 | `do fade_in()` / `do fade_in(1.0)` | Context | Плавное появление; аргумент — длительность (0 — по умолчанию 0.5 с) |
-| `do play_sound("id")` | Context | Звук из `res://assets/audio/sounds/<id>.{wav,ogg,mp3}`; ждёт окончания |
-| `do play_sound("id", false)` | Context | То же без ожидания |
+| `do play_sound(Sounds.X)` | Context | Звук из реестра `Sounds` (`scripts/constants/sounds.gd`); ждёт окончания |
+| `do play_sound(Sounds.X, false)` | Context | То же без ожидания |
 | `do wait(0.3)` | Context | Пауза (обёртка над `Timer`) |
 | `do hide_portrait("Имя")` | Balloon | Убрать портрет персонажа |
 | `do switch_balloon("simple")` | Balloon | Простой режим: без портретов, имени и панели — лог из 4 строк по центру. Новые реплики дописываются снизу, старые плавно сереют и уходят вверх. Лог очищается при переключении; вернуться в обычный режим в рамках диалога нельзя |
 
-Существующие `id` звуков: `rustle`, `open`, `item_pickup`, `shower_wash`, `toilet_flush`. Неизвестный `id` → warning «Звук '…' не найден» и продолжение диалога.
+Звуки — только константы `Sounds` (`scripts/constants/sounds.gd`), литералы вида `"shower_wash"` не пишем. Сейчас объявлены: `Sounds.RUSTLE`, `Sounds.OPEN`, `Sounds.ITEM_PICKUP`, `Sounds.SHOWER_WASH`, `Sounds.TOILET_FLUSH`. Новый звук: файл в `assets/audio/sounds/`, константа в `Sounds` и запись в `Sounds.ALL`.
 
 ### 4.3 Методы сцены
 
@@ -468,7 +468,7 @@ if DebugConfig.skip_intro
 - [ ] Каждая ветка заканчивается `=> END`.
 - [ ] Все говорящие есть в `PORTRAIT_PREFIXES` (если диалог идёт через балун).
 - [ ] Эмо-теги имеют соответствующие PNG, в реплике не больше одного эмо-тега.
-- [ ] Все `do`-вызовы существуют: методы `DialogueContext`/балуна, узла-источника или автолоадов; флаги объявлены в `Flags` (`scripts/flags.gd`); предметы/квесты — из `ItemIds`/`QuestIds` (`scripts/constants/`), а не литералами.
+- [ ] Все `do`-вызовы существуют: методы `DialogueContext`/балуна, узла-источника или автолоадов; флаги объявлены в `Flags` (`scripts/flags.gd`); предметы/квесты — из `ItemIds`/`QuestIds`, звуки — из `Sounds` (`scripts/constants/`), а не литералами.
 - [ ] Диалог не использует портреты и функции балуна, если он открывается через HUD.
 - [ ] Если диалог — катсцена: есть тайтл `~ skip`, и `=> skip` стоит после реплики, а не после `do`-мутации.
 - [ ] Новый файл добавлен в `locale/translations_pot_files` в `project.godot`.

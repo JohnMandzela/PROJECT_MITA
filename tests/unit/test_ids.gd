@@ -1,6 +1,6 @@
 extends GutTest
 
-# Проверки реестров id: константы должны совпадать с реальными ресурсами
+# Проверки реестров id и ресурсов: константы должны совпадать с реальными файлами
 
 
 func test_item_ids_exist_in_inventory() -> void:
@@ -27,6 +27,14 @@ func test_input_actions_exist_in_input_map() -> void:
 		)
 
 
+func test_sound_files_exist() -> void:
+	for sound in Sounds.ALL:
+		assert_true(
+			ResourceLoader.exists(sound.resource_path, "AudioStream"),
+			"Sounds: нет AudioStream по пути %s" % sound.resource_path
+		)
+
+
 func test_item_ids_are_unique() -> void:
 	assert_eq(ItemIds.ALL.size(), _unique_count(ItemIds.ALL))
 
@@ -37,6 +45,14 @@ func test_quest_ids_are_unique() -> void:
 
 func test_input_actions_are_unique() -> void:
 	assert_eq(InputActions.ALL.size(), _unique_count(InputActions.ALL))
+
+
+func test_sound_ids_are_unique() -> void:
+	var paths := PackedStringArray()
+	for sound in Sounds.ALL:
+		paths.append(sound.resource_path)
+
+	assert_eq(paths.size(), _unique_count(paths))
 
 
 func test_every_item_constant_is_listed() -> void:
@@ -57,6 +73,19 @@ func test_every_input_action_constant_is_listed() -> void:
 		assert_true(
 			InputActions.ALL.has(constants[constant_name]),
 			"%s не добавлен в InputActions.ALL" % constant_name
+		)
+
+
+func test_every_sound_constant_is_listed() -> void:
+	var script: GDScript = load("res://scripts/constants/sounds.gd")
+	var constants: Dictionary = script.get_script_constant_map()
+
+	for constant_name in constants.keys():
+		if constant_name == "ALL":
+			continue
+		assert_true(
+			Sounds.ALL.has(constants[constant_name]),
+			"%s не добавлен в Sounds.ALL" % constant_name
 		)
 
 

@@ -36,8 +36,8 @@ scripts/         — All GDScript source
    system/       — Reusable building blocks for scenes: interaction
                    (Interactable and its ZoneEvent/ObjectEvent subclasses),
                    Npc marker, Y-sort helper, PlayerSpawnScene base class
-   constants/    — Registries of ids and paths: ItemIds, QuestIds,
-                   InputActions, ScenePaths
+   constants/    — Registries of ids, paths and resources: ItemIds, QuestIds,
+                   InputActions, ScenePaths, Sounds
    resources/    — Custom Resource classes (EventAction and its subtypes,
                    Item, Quest)
    ui/           — HUD, pause/options menus, dialogue balloon (UI в

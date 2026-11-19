@@ -46,7 +46,7 @@
 # Душ
 ~ shower
 if GameManager.get_flag(Flags.SHOWER_USED)
-	do play_sound("toilet_flush")
+	do play_sound(Sounds.TOILET_FLUSH)
 	=> END
 
 Душевая кабинка, совмещенная с унитазом. Современный санузел, полностью соответствующий популярному архитектурному стилю “оптимизации жилищного пространства”. 
@@ -57,7 +57,7 @@ if GameManager.get_flag(Flags.SHOWER_USED)
 
 	do fade_out()
 	do wait(0.1)
-	do play_sound("shower_wash")
+	do play_sound(Sounds.SHOWER_WASH)
 	do fade_in()
 
 	Майк: [#happy] Хорошо! Я даже как-то бодрее стал.

@@ -10,6 +10,10 @@ func before_each() -> void:
 	add_child_autofree(context)
 
 
+func after_each() -> void:
+	GameManager.is_skipping_cutscene = false
+
+
 func test_locals_is_empty_by_default() -> void:
 	assert_eq(context.locals, {})
 
@@ -29,7 +33,13 @@ func test_wait_respects_the_given_time() -> void:
 	assert_true(elapsed >= 40, "wait(0.05) вернулся слишком рано: %d мс" % elapsed)
 
 
-func test_play_sound_warns_on_unknown_id() -> void:
-	context.play_sound("definitely_missing_sound", false)
+func test_play_sound_returns_immediately_when_skipping_cutscene() -> void:
+	GameManager.is_skipping_cutscene = true
+	var started := Time.get_ticks_msec()
 
-	assert_engine_error("не найден")
+	await context.play_sound(Sounds.ITEM_PICKUP)
+
+	assert_true(
+		Time.get_ticks_msec() - started < 100,
+		"play_sound не должен ждать звук при пропуске катсцены"
+	)
