@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://bgjc0imd2365r"]
+[gd_scene load_steps=44 format=4 uid="uid://bgjc0imd2365r"]
 
 [ext_resource type="Script" uid="uid://di2jeftcx0xna" path="res://scripts/scenes/mike_room/mike_room_main_script.gd" id="1_51aoi"]
 [ext_resource type="PackedScene" uid="uid://ca3jte36vrtpx" path="res://scenes/characters/player.tscn" id="1_pd4ny"]
@@ -8,15 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://cheboonvvuebb" path="res://assets/images/tilesets/scenes/dorm_furniture.png" id="3_pl8tl"]
 [ext_resource type="Script" uid="uid://chu8455u4phy1" path="res://scripts/system/object_event.gd" id="7_03jpi"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="9_glapv"]
+[ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="9_pcam"]
 [ext_resource type="Script" uid="uid://1ulkpuweejmy" path="res://scripts/resources/dialogue_event_action.gd" id="9_xnfx7"]
 [ext_resource type="AudioStream" uid="uid://vp70ayeux03" path="res://assets/audio/sounds/open.mp3" id="10_qkv8r"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="14_nt3fx"]
 [ext_resource type="Resource" uid="uid://0n0n2b77mnuy" path="res://content/dialogues/mike_room.dialogue" id="17_n4hc8"]
 [ext_resource type="Script" uid="uid://dkpbpjpj03q2w" path="res://scripts/resources/scene_transition_event_action.gd" id="24_n83c8"]
 [ext_resource type="Script" uid="uid://bo370hourqpol" path="res://scripts/system/zone_event.gd" id="24_uxu6u"]
 [ext_resource type="AudioStream" uid="uid://df1ev33k2aw70" path="res://assets/audio/sounds/rustle.mp3" id="25_lg8j8"]
 [ext_resource type="Texture2D" uid="uid://dkf4x0afw4j51" path="res://assets/images/tilesets/characters/mike_sleep.png" id="27_n83c8"]
-
-[ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="9_pcam"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uicif"]
 texture = ExtResource("3_pl8tl")
@@ -140,6 +140,9 @@ metadata/_custom_type_script = "uid://dkpbpjpj03q2w"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vn4g"]
 size = Vector2(46, 20.5)
+
+[sub_resource type="Resource" id="Resource_ttq7f"]
+script = ExtResource("14_nt3fx")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1p2te"]
 radius = 6.0
@@ -447,6 +450,8 @@ playback_type = 1
 script = ExtResource("9_pcam")
 priority = 10
 zoom = Vector2(1.4, 1.4)
+tween_resource = SubResource("Resource_ttq7f")
+tween_on_load = false
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_glapv")]
 

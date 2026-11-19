@@ -11,7 +11,7 @@ const SLIDE_OFFSET := 24.0
 ## Цвет активной (печатающейся) строки
 @export var line_color := Color.BLACK
 ## Цвет уже прочитанных строк
-@export var old_line_color := Color(0.45, 0.45, 0.45, 1.0)
+@export var old_line_color := Color(0.75, 0.75, 0.75, 1.0)
 ## Длительность сдвига/появления/перекраски
 @export var animation_duration := 0.25
 @export var animation_transition := Tween.TRANS_CUBIC

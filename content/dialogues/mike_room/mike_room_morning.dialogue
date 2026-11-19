@@ -1,10 +1,5 @@
 ~ start
 
-if DebugConfig.skip_intro
-	do play_animation("wake_up", true)
-	do mike_visible_true()
-	=> END
-
 do play_animation("sleep")
 do wait(1.0)
 do play_animation("wake_up", true)
@@ -33,7 +28,7 @@ do play_animation("irritated")
 Сейчас ты не только выглядишь, как мятый фантик - но, видимо, таковым и являешься в самом деле.
 Запах пота успел впитаться в твою рубашку за ночь.
 
-do fade_out(Color.BLACK, 0.5)
+do fade_out(Color.BLACK)
 do mike_visible_true()
 do fade_in(0.5)
 

@@ -2,13 +2,13 @@
 
 [ext_resource type="Texture2D" uid="uid://dpeiq00nllrh7" path="res://assets/images/scenes/moms_home.png" id="1_jacmr"]
 [ext_resource type="PackedScene" uid="uid://ct4wb5bpg8y5t" path="res://scenes/ui/pause_menu.tscn" id="5_wby07"]
-[ext_resource type="PackedScene" uid="uid://bgjc0imd2365r" path="res://scenes/locations/dorm/mike_room.tscn" id="14_target"]
 [ext_resource type="Texture2D" uid="uid://dgy2scp5bckwj" path="res://assets/images/tilesets/characters/mike_necktie.png" id="8_mv7xs"]
 [ext_resource type="Texture2D" uid="uid://buarkom5rcr6n" path="res://assets/images/tilesets/characters/mom.png" id="9_01ivo"]
 [ext_resource type="Texture2D" uid="uid://cxf5cfpicf1oa" path="res://assets/images/scenes/moms_home_shadow.png" id="9_mv7xs"]
 [ext_resource type="Script" uid="uid://co1xa4psmcdfm" path="res://scripts/scenes/mom_home/sleep_flashback.gd" id="10_fovv4"]
 [ext_resource type="Resource" uid="uid://but1myuxismw1" path="res://content/dialogues/mom_home/sleep_flashback.dialogue" id="11_sm1ot"]
 [ext_resource type="Script" uid="uid://b2b6nrclmnwb7" path="res://scripts/system/npc.gd" id="13_d8v55"]
+[ext_resource type="PackedScene" uid="uid://bgjc0imd2365r" path="res://scenes/locations/dorm/mike_room.tscn" id="14_target"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fovv4"]
 radius = 6.0
