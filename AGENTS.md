@@ -32,7 +32,7 @@ scripts/         — All GDScript source
                    to a specific scene or object (player, interaction controller,
                    scene roots, puzzle, individual zones)
    autoloads/    — Singletons: GameManager, SaveSystem, Quests, Inventory,
-                   DialogueGlobals, SoundManager
+                   ItemNotifications, DialogueGlobals, SoundManager
    system/       — Reusable building blocks for scenes: interaction
                    (Interactable and its ZoneEvent/ObjectEvent subclasses),
                    Npc marker, Y-sort helper, PlayerSpawnScene base class
@@ -42,7 +42,7 @@ scripts/         — All GDScript source
                    Item, Quest)
    ui/           — HUD, pause/options menus, dialogue balloon (UI в
                    DialogueBalloon, поток в DialogueController, переменные
-                   диалога в DialogueContext), portraits
+                   диалога в DialogueContext), portraits, item toast
    scenes/       — Location-specific scripts (mom_home, mike_room)
    experimental/ — Unfinished experiments; leave untouched
 tests/           — GUT tests

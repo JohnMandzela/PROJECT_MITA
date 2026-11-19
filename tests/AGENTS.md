@@ -45,5 +45,6 @@ $godot = "C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\godot.windo
 | `test_dialogue_controller.gd` | контроллер и контекст создаются балуном, ожидание ввода на обычной реплике, ответы блокируют авто-переход |
 | `test_dialogue_context.gd` | `locals` пустой и пишется, `wait()` соблюдает время, `play_sound` не ждёт звук при пропуске катсцены |
 | `test_ids.gd` | `ItemIds`/`QuestIds`/`InputActions`/`Sounds` существуют в проекте, нет дубликатов, все константы добавлены в `ALL` |
+| `test_notifications.gd` | тосты о получении/потере предмета: текст, количество, очередь, отсутствие при загрузке и пропуске катсцены |
 | `test_player_scene.gd` | в `player.tscn` есть камера Phantom Camera, `player_with_camera` удалена и на неё нет ссылок |
 | `test_debug_config.gd` | `DebugConfig.parse_bool` и чтение `SKIP_INTRO` из окружения |

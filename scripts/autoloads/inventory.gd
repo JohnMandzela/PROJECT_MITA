@@ -105,6 +105,7 @@ func remove_item(item_id: String, count := 1) -> void:
 			if stack.count <= 0:
 				current_inventory.erase(stack)
 			inventory_changed.emit(stack.item_id, -change)
+			SoundManager.play_sound(Sounds.RUSTLE)
 			return
 
 
@@ -114,6 +115,7 @@ func remove_all(item_id: String) -> void:
 		if stack.item_id == item_id:
 			current_inventory.erase(stack)
 			inventory_changed.emit(stack.item_id, -stack.count)
+			SoundManager.play_sound(Sounds.RUSTLE)
 			return
 
 
